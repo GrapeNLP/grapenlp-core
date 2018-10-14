@@ -1,0 +1,10 @@
+#!/bin/bash
+cd `dirname $0`
+. paths
+
+if [ $# -gt 0 ]
+then
+$RELEASE_NLP -nsxcw -pearley -r$1 $TID_GRAMMAR $COMPRESSED_DICO $CORPUS_NO_OUTPUT $OUTPUT
+else
+$RELEASE_NLP -nsxcw -pearley $TID_GRAMMAR $COMPRESSED_DICO $CORPUS_NO_OUTPUT $OUTPUT
+fi

@@ -1,0 +1,5 @@
+#!/bin/bash
+cd `dirname $0`
+. paths
+
+$DEBUG_NLP -xw -pto-fprtn-and-breadth-first-expand $TEST_GRAMMAR $TEXT_DICO $TEST_INPUT $OUTPUT

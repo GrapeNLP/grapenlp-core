@@ -1,0 +1,4 @@
+#!/bin/bash
+
+. cmakeandroid x86_64 $1
+

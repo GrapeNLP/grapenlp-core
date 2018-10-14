@@ -1,0 +1,10 @@
+#!/bin/bash
+cd `dirname $0`
+. paths
+
+if [ "$1" = "m" ]
+then
+$MTRACE_NLP -xwt -pdepth-first $TID_GRAMMAR $COMPRESSED_DICO $TEST_INPUT $OUTPUT
+else
+$DEBUG_NLP -xwt -pdepth-first $TID_GRAMMAR $COMPRESSED_DICO $TEST_INPUT $OUTPUT
+fi

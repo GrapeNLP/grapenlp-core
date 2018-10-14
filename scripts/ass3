@@ -1,0 +1,35 @@
+#!/bin/bash
+cd `dirname $0`
+. paths
+
+. ass 0 15 "-t -pearley -elrb-tree-3w -blrb-tree-3w" ass.txt
+
+. ass 0 15 "-pto-fprtn -estd" ass.txt
+. ass 0 15 "-pto-fprtn -elrb-tree" ass.txt
+. ass 0 15 "-pto-fprtn -elrb-tree-3w" ass.txt
+
+. ass 0 15 "-pto-fprtn-and-breadth-first-expand -estd -bstd" ass.txt
+. ass 0 15 "-pto-fprtn-and-breadth-first-expand -estd -blrb-tree" ass.txt
+. ass 0 15 "-pto-fprtn-and-breadth-first-expand -estd -blrb-tree-3w" ass.txt
+. ass 0 15 "-pto-fprtn-and-breadth-first-expand -elrb-tree -bstd" ass.txt
+. ass 0 15 "-pto-fprtn-and-breadth-first-expand -elrb-tree -blrb-tree" ass.txt
+. ass 0 15 "-pto-fprtn-and-breadth-first-expand -elrb-tree -blrb-tree-3w" ass.txt
+. ass 0 15 "-pto-fprtn-and-breadth-first-expand -elrb-tree-3w -bstd" ass.txt
+. ass 0 15 "-pto-fprtn-and-breadth-first-expand -elrb-tree-3w -blrb-tree" ass.txt
+. ass 0 15 "-pto-fprtn-and-breadth-first-expand -elrb-tree-3w -blrb-tree-3w" ass.txt
+
+. ass 0 15 "-t -pto-fprtn-and-breadth-first-expand -estd -bstd" ass.txt
+. ass 0 15 "-t -pto-fprtn-and-breadth-first-expand -estd -blrb-tree" ass.txt
+. ass 0 15 "-t -pto-fprtn-and-breadth-first-expand -estd -blrb-tree-3w" ass.txt
+. ass 0 15 "-t -pto-fprtn-and-breadth-first-expand -elrb-tree -bstd" ass.txt
+. ass 0 15 "-t -pto-fprtn-and-breadth-first-expand -elrb-tree -blrb-tree" ass.txt
+. ass 0 15 "-t -pto-fprtn-and-breadth-first-expand -elrb-tree -blrb-tree-3w" ass.txt
+. ass 0 15 "-t -pto-fprtn-and-breadth-first-expand -elrb-tree-3w -bstd" ass.txt
+. ass 0 15 "-t -pto-fprtn-and-breadth-first-expand -elrb-tree-3w -blrb-tree" ass.txt
+. ass 0 15 "-t -pto-fprtn-and-breadth-first-expand -elrb-tree-3w -blrb-tree-3w" ass.txt
+
+. ass 0 15 "-pto-fprtn-zpps -estd" ass.txt
+. ass 0 15 "-pto-fprtn-zpps -elrb-tree" ass.txt
+. ass 0 15 "-pto-fprtn-zpps -elrb-tree-3w" ass.txt
+
+. ass 0 15 "-pto-fprtn-and-blackboard-set-expand -estd -bstd" ass.txt

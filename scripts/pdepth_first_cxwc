@@ -1,0 +1,16 @@
+#!/bin/bash
+cd `dirname $0`
+. paths
+
+if [ $# -gt 0 ]
+then
+$PROFILE_NLP -sxcw -pdepth-first -r$1 $TID_GRAMMAR $COMPRESSED_DICO $CORPUS $OUTPUT
+else
+$PROFILE_NLP -sxcw -pdepth-first $TID_GRAMMAR $COMPRESSED_DICO $CORPUS $OUTPUT
+fi
+echo \#\#\#\#\#\#\#\#\#\#\#\# > $TOP_DOWN_PROFILE_TRACE
+echo \# Top-Down \# >> $TOP_DOWN_PROFILE_TRACE
+echo \#\#\#\#\#\#\#\#\#\#\#\# >> $TOP_DOWN_PROFILE_TRACE
+echo >> $TOP_DOWN_PROFILE_TRACE
+gprof $PROFILE_NLP | $SIMPLIFY_TEMPLATES >> $TOP_DOWN_PROFILE_TRACE
+vi $TOP_DOWN_PROFILE_TRACE

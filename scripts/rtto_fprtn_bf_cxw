@@ -1,0 +1,10 @@
+#!/bin/bash
+cd `dirname $0`
+. paths
+
+if [ $# -gt 0 ]
+then
+$RELEASE_NLP -sxwt --fprtn-stats -r$1 -pto-fprtn-and-breadth-first-expand $TID_GRAMMAR $COMPRESSED_DICO $TEST_INPUT $OUTPUT
+else
+$RELEASE_NLP -sxwt --fprtn-stats -pto-fprtn-and-breadth-first-expand $TID_GRAMMAR $COMPRESSED_DICO $TEST_INPUT $OUTPUT
+fi

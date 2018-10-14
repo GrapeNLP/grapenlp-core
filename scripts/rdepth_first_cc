@@ -1,0 +1,10 @@
+#!/bin/bash
+cd `dirname $0`
+. paths
+
+if [ $# -gt 0 ]
+then
+$RELEASE_NLP -sc -pdepth-first -r$1 $TID_GRAMMAR $COMPRESSED_DICO $CORPUS $OUTPUT
+else
+$RELEASE_NLP -sc -pdepth-first $TID_GRAMMAR $COMPRESSED_DICO $CORPUS $OUTPUT
+fi

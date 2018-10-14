@@ -1,0 +1,4 @@
+#!/bin/bash
+
+. cmakeandroid armeabi-v7a $1
+

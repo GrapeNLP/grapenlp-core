@@ -1,0 +1,4 @@
+#!/bin/bash
+cd `dirname $0`
+. paths
+. ss_half1 $CORPUS $CORPUS_NO_OUTPUT $TID_GRAMMAR $STATS_TXT

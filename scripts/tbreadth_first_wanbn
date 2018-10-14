@@ -1,0 +1,10 @@
+#!/bin/bash
+cd `dirname $0`
+. paths
+
+if [ $# -gt 1 ]
+then
+$DEBUG_NLP -tws -a$1 -pbreadth-first -r$2 -o$OUTPUT $WANBN_GRAMMAR $COMPRESSED_DICO
+else
+$DEBUG_NLP -tws -a$1 -pbreadth-first -o$OUTPUT $WANBN_GRAMMAR $COMPRESSED_DICO
+fi

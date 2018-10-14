@@ -1,0 +1,36 @@
+# GRAPENLP licensing
+
+These are the license details, copyright notice, and disclaimer for GRAPENLP.
+GRAPENLP is an open-source engine for the application of local grammars that
+can be used as a sentence classifier and entity extractor for chatbots, among
+other applications.
+
+## Copyright notice
+
+> Copyright (C) 2004-2018 Javier Miguel Sastre Martínez <javier.sastre@telefonica.net>  
+> All rights reserved.
+> 
+> This library is free software; you can redistribute it and/or modify it
+> under the terms of the GNU Lesser General Public License as published by
+> the Free Software Foundation; either version 2.1 of the License, or (at
+> your option) any later version.
+> 
+> This library is distributed in the hope that it will be useful, but WITHOUT
+> ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS
+> FOR A PARTICULAR PURPOSE. See the GNU Lesser General Public License for more
+> details.
+> 
+> You should have received a copy of the GNU Lesser General Public License
+> along with this library; if not, write to the Free Software Foundation, 
+> Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA.
+
+## Third-party libraries
+
+This library borrows a few source code files from the Unitex project, for the
+management of Unicode characters. These files can be distinguished by their
+headers, and are also licensed under the terms of the GNU Lesser General Public
+License v2.1
+
+---
+
+[LGPLv2.1]:       http://opensource.org/licenses/lgpl-2.1

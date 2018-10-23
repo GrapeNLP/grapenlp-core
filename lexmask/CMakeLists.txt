@@ -1,4 +1,4 @@
-project(lexmask VERSION 0.1 LANGUAGES CXX)
+project(lexmask VERSION ${GRAPENLP_VERSION_MAJOR}.${GRAPENLP_VERSION_MINOR}.${GRAPENLP_VERSION_PATCH} LANGUAGES CXX)
 
 add_library(lexmask STATIC
         src/meta_code_dico.cpp
@@ -19,11 +19,9 @@ target_link_libraries(lexmask
         )
 
 install(TARGETS lexmask EXPORT lexmaskConfig
-        ARCHIVE DESTINATION ${CMAKE_INSTALL_LIBDIR}
-        LIBRARY DESTINATION ${CMAKE_INSTALL_LIBDIR}
-        RUNTIME DESTINATION ${CMAKE_INSTALL_BINDIR})
-install(DIRECTORY include/ DESTINATION ${CMAKE_INSTALL_INCLUDEDIR})
-install(EXPORT lexmaskConfig DESTINATION share/lexmask/cmake)
+        ARCHIVE DESTINATION ${CMAKE_INSTALL_LIBDIR} COMPONENT libgrapenlpdev)
+install(DIRECTORY include/ DESTINATION ${CMAKE_INSTALL_INCLUDEDIR} COMPONENT libgrapenlpdev)
+install(EXPORT lexmaskConfig DESTINATION share/grapenlp/lexmask/cmake COMPONENT libgrapenlpdev)
 export(TARGETS lexmask FILE lexmaskConfig.cmake)
 
 #Test files

@@ -1,4 +1,4 @@
-project(pcfgla VERSION 0.1 LANGUAGES CXX)
+project(pcfgla VERSION ${GRAPENLP_VERSION_MAJOR}.${GRAPENLP_VERSION_MINOR}.${GRAPENLP_VERSION_PATCH} LANGUAGES CXX)
 
 add_library(pcfgla STATIC
         src/pcfgla.cpp
@@ -15,11 +15,9 @@ target_link_libraries(pcfgla
         )
 
 install(TARGETS pcfgla EXPORT pcfglaConfig
-        ARCHIVE DESTINATION ${CMAKE_INSTALL_LIBDIR}
-        LIBRARY DESTINATION ${CMAKE_INSTALL_LIBDIR}
-        RUNTIME DESTINATION ${CMAKE_INSTALL_BINDIR})
-install(DIRECTORY include/ DESTINATION ${CMAKE_INSTALL_INCLUDEDIR})
-install(EXPORT pcfglaConfig DESTINATION share/pcfgla/cmake)
+        ARCHIVE DESTINATION ${CMAKE_INSTALL_LIBDIR} COMPONENT libgrapenlpdev)
+install(DIRECTORY include/ DESTINATION ${CMAKE_INSTALL_INCLUDEDIR} COMPONENT libgrapenlpdev)
+install(EXPORT pcfglaConfig DESTINATION share/grapenlp/pcfgla/cmake COMPONENT libgrapenlpdev)
 export(TARGETS pcfgla FILE pcfglaConfig.cmake)
 
 # Test files

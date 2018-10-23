@@ -1,3 +1,6 @@
+# v2.0.1
+* Added version number management in CMakefiles
+
 # v2.0.0
 * Renamed all grape "stuff" (libraries, namespaces, include folders, etc.) to grapenlp to avoid collisions with other open-source projects (sorry folks, grapes are popular among the open-source community)
 

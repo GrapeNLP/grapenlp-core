@@ -1,4 +1,4 @@
-project(breadth_first_parsing VERSION 0.1 LANGUAGES CXX)
+project(breadth_first_parsing VERSION ${GRAPENLP_VERSION_MAJOR}.${GRAPENLP_VERSION_MINOR}.${GRAPENLP_VERSION_PATCH} LANGUAGES CXX)
 
 add_library(breadth_first_parsing STATIC
         src/breadth_first_parser.cpp
@@ -22,9 +22,7 @@ target_link_libraries(breadth_first_parsing
         )
 
 install(TARGETS breadth_first_parsing EXPORT breadth_first_parsingConfig
-        ARCHIVE DESTINATION ${CMAKE_INSTALL_LIBDIR}
-        LIBRARY DESTINATION ${CMAKE_INSTALL_LIBDIR}
-        RUNTIME DESTINATION ${CMAKE_INSTALL_BINDIR})
-install(DIRECTORY include/ DESTINATION ${CMAKE_INSTALL_INCLUDEDIR})
-install(EXPORT breadth_first_parsingConfig DESTINATION share/breadth_first_parsing/cmake)
+        ARCHIVE DESTINATION ${CMAKE_INSTALL_LIBDIR} COMPONENT libgrapenlpdev)
+install(DIRECTORY include/ DESTINATION ${CMAKE_INSTALL_INCLUDEDIR} COMPONENT libgrapenlpdev)
+install(EXPORT breadth_first_parsingConfig DESTINATION share/grapenlp/breadth_first_parsing/cmake COMPONENT libgrapenlpdev)
 export(TARGETS breadth_first_parsing FILE breadth_first_parsingConfig.cmake)

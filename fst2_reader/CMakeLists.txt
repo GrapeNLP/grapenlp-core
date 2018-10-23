@@ -1,4 +1,4 @@
-project(fst2_reader VERSION 0.1 LANGUAGES CXX)
+project(fst2_reader VERSION ${GRAPENLP_VERSION_MAJOR}.${GRAPENLP_VERSION_MINOR}.${GRAPENLP_VERSION_PATCH} LANGUAGES CXX)
 
 add_library(fst2_reader STATIC
         src/ul_fst2_reader.cpp
@@ -30,11 +30,9 @@ target_link_libraries(fst2_reader
         )
 
 install(TARGETS fst2_reader EXPORT fst2_readerConfig
-        ARCHIVE DESTINATION ${CMAKE_INSTALL_LIBDIR}
-        LIBRARY DESTINATION ${CMAKE_INSTALL_LIBDIR}
-        RUNTIME DESTINATION ${CMAKE_INSTALL_BINDIR})
-install(DIRECTORY include/ DESTINATION ${CMAKE_INSTALL_INCLUDEDIR})
-install(EXPORT fst2_readerConfig DESTINATION share/fst2_reader/cmake)
+        ARCHIVE DESTINATION ${CMAKE_INSTALL_LIBDIR} COMPONENT libgrapenlpdev)
+install(DIRECTORY include/ DESTINATION ${CMAKE_INSTALL_INCLUDEDIR} COMPONENT libgrapenlpdev)
+install(EXPORT fst2_readerConfig DESTINATION share/grapenlp/fst2_reader/cmake COMPONENT libgrapenlpdev)
 export(TARGETS fst2_reader FILE fst2_readerConfig.cmake)
 
 #Test files

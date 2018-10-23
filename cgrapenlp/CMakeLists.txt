@@ -1,14 +1,12 @@
-project(cgrapenlp VERSION 0.1 LANGUAGES CXX)
+project(cgrapenlp VERSION ${GRAPENLP_VERSION_MAJOR}.${GRAPENLP_VERSION_MINOR}.${GRAPENLP_VERSION_PATCH} LANGUAGES CXX)
 
-add_executable(nlp src/nlp.cpp)
-target_link_libraries(nlp
+add_executable(cgrapenlp src/grapenlp.cpp)
+SET_TARGET_PROPERTIES(cgrapenlp PROPERTIES OUTPUT_NAME grapenlp)
+target_link_libraries(cgrapenlp
         grapenlp
         ${Boost_PROGRAM_OPTIONS_LIBRARY})
 
-install(TARGETS nlp EXPORT nlpConfig
-        ARCHIVE DESTINATION ${CMAKE_INSTALL_LIBDIR}
-        LIBRARY DESTINATION ${CMAKE_INSTALL_LIBDIR}
-        RUNTIME DESTINATION ${CMAKE_INSTALL_BINDIR})
-#install(DIRECTORY include/ DESTINATION ${CMAKE_INSTALL_INCLUDEDIR})
-install(EXPORT nlpConfig DESTINATION share/nlp/cmake)
-export(TARGETS nlp FILE nlpConfig.cmake)
+install(TARGETS cgrapenlp EXPORT cgrapenlpConfig
+        RUNTIME DESTINATION ${CMAKE_INSTALL_BINDIR} COMPONENT cgrapenlp)
+install(EXPORT cgrapenlpConfig DESTINATION share/grapenlp/cgrapenlp/cmake COMPONENT libgrapenlpdev)
+export(TARGETS cgrapenlp FILE cgrapenlpConfig.cmake)

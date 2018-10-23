@@ -1,4 +1,4 @@
-project(earley_parsing VERSION 0.1 LANGUAGES CXX)
+project(earley_parsing VERSION ${GRAPENLP_VERSION_MAJOR}.${GRAPENLP_VERSION_MINOR}.${GRAPENLP_VERSION_PATCH} LANGUAGES CXX)
 
 add_library(earley_parsing STATIC
         src/earley_parser.cpp
@@ -22,9 +22,7 @@ target_link_libraries(earley_parsing
         )
 
 install(TARGETS earley_parsing EXPORT earley_parsingConfig
-        ARCHIVE DESTINATION ${CMAKE_INSTALL_LIBDIR}
-        LIBRARY DESTINATION ${CMAKE_INSTALL_LIBDIR}
-        RUNTIME DESTINATION ${CMAKE_INSTALL_BINDIR})
-install(DIRECTORY include/ DESTINATION ${CMAKE_INSTALL_INCLUDEDIR})
-install(EXPORT earley_parsingConfig DESTINATION share/earley_parsing/cmake)
+        ARCHIVE DESTINATION ${CMAKE_INSTALL_LIBDIR} COMPONENT libgrapenlpdev)
+install(DIRECTORY include/ DESTINATION ${CMAKE_INSTALL_INCLUDEDIR} COMPONENT libgrapenlpdev)
+install(EXPORT earley_parsingConfig DESTINATION share/grapenlp/earley_parsing/cmake COMPONENT libgrapenlpdev)
 export(TARGETS earley_parsing FILE earley_parsingConfig.cmake)

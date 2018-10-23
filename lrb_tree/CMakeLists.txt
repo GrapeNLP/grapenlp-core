@@ -1,4 +1,4 @@
-project(lrb_tree VERSION 0.1 LANGUAGES CXX)
+project(lrb_tree VERSION ${GRAPENLP_VERSION_MAJOR}.${GRAPENLP_VERSION_MINOR}.${GRAPENLP_VERSION_PATCH} LANGUAGES CXX)
 
 add_library(lrb_tree STATIC
         src/lrb_tree.cpp
@@ -18,11 +18,9 @@ target_include_directories(lrb_tree PUBLIC
 target_link_libraries(lrb_tree util)
 
 install(TARGETS lrb_tree EXPORT lrb_treeConfig
-        ARCHIVE DESTINATION ${CMAKE_INSTALL_LIBDIR}
-        LIBRARY DESTINATION ${CMAKE_INSTALL_LIBDIR}
-        RUNTIME DESTINATION ${CMAKE_INSTALL_BINDIR})
-install(DIRECTORY include/ DESTINATION ${CMAKE_INSTALL_INCLUDEDIR})
-install(EXPORT lrb_treeConfig DESTINATION share/lrb_tree/cmake)
+        ARCHIVE DESTINATION ${CMAKE_INSTALL_LIBDIR} COMPONENT libgrapenlpdev)
+install(DIRECTORY include/ DESTINATION ${CMAKE_INSTALL_INCLUDEDIR} COMPONENT libgrapenlpdev)
+install(EXPORT lrb_treeConfig DESTINATION share/grapenlp/lrb_tree/cmake COMPONENT libgrapenlpdev)
 export(TARGETS lrb_tree FILE lrb_treeConfig.cmake)
 
 # Test files

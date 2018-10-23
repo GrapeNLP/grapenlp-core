@@ -1,5 +1,5 @@
 /*
- * GRAPE
+ * GRAPENLP
  *
  * Copyright (C) 2004-2018 Javier Miguel Sastre Martínez <javier.sastre@telefonica.net>
  *
@@ -23,9 +23,9 @@
  *  @author Javier Sastre
  */
 
-#include <grape/u_text_delaf_reader.h>
+#include <grapenlp/u_text_delaf_reader.h>
 
-using namespace grape;
+using namespace grapenlp;
 
 void u_read_dico(tolower_u_text_delaf &d)
 {

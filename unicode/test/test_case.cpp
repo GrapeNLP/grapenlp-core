@@ -1,5 +1,5 @@
 /*
- * GRAPE
+ * GRAPENLP
  *
  * Copyright (C) 2004-2018 Javier Miguel Sastre Martínez <javier.sastre@telefonica.net>
  *
@@ -23,10 +23,10 @@
  *  @author Javier Sastre
  */
 
-#include <grape/error.h>
-#include <grape/u_array.h>
+#include <grapenlp/error.h>
+#include <grapenlp/u_array.h>
 
-using namespace grape;
+using namespace grapenlp;
 
 std::pair<unichar *, std::size_t> read_unichars(u_array &input)
 {

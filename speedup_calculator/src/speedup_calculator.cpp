@@ -1,5 +1,5 @@
 /*
- * GRAPE
+ * GRAPENLP
  *
  * Copyright (C) 2004-2018 Javier Miguel Sastre Martínez <javier.sastre@telefonica.net>
  *
@@ -29,7 +29,7 @@
 #include <boost/program_options.hpp>
 #include <boost/lexical_cast.hpp>
 
-#include <grape/stats.h>
+#include <grapenlp/stats.h>
 
 using namespace boost;
 using namespace boost::program_options;
@@ -49,16 +49,16 @@ void help(const std::string &program_name, const options_description &desc)
 	std::cout << "Output to standard output" << std::endl;
 }
 
-typedef std::list<grape::alg_trie::string::ref> alg_ptr_list;
+typedef std::list<grapenlp::alg_trie::string::ref> alg_ptr_list;
 
-inline void inc_until_ref_parser(grape::stat_list::const_iterator &i, grape::stat_list::const_iterator end, char speedup_param)
+inline void inc_until_ref_parser(grapenlp::stat_list::const_iterator &i, grapenlp::stat_list::const_iterator end, char speedup_param)
 {
 	while (i != end && i->pitvm.find(speedup_param) == i->pitvm.end())
 		++i;
 	if (i != end)
 	{
 		std::cout << "*******";
-		grape::serialize_parser_name_and_parameters(std::cout, *i) << "*******" << std::endl;
+		grapenlp::serialize_parser_name_and_parameters(std::cout, *i) << "*******" << std::endl;
 	}
 }
 
@@ -66,23 +66,23 @@ template<typename CharT, typename Traits>
 void doit(
 		std::basic_istream<CharT, Traits> &in,
 		std::basic_ostream<CharT, Traits> &out,
-		const grape::alg_trie &algorithms,
-		const grape::char_list &params,
-		const grape::char_list &key_list,
-		const grape::char_set &mandatory,
-		const grape::char_set &forbidden,
+		const grapenlp::alg_trie &algorithms,
+		const grapenlp::char_list &params,
+		const grapenlp::char_list &key_list,
+		const grapenlp::char_set &mandatory,
+		const grapenlp::char_set &forbidden,
 		const char speedup_param
 		)
 {
-	grape::stat_list sl;
-	grape::read_stat_list(in, algorithms, key_list, mandatory, forbidden, sl);
-	sl.sort(grape::desc_algorithm_names_and_parameters_comparator(params));
+	grapenlp::stat_list sl;
+	grapenlp::read_stat_list(in, algorithms, key_list, mandatory, forbidden, sl);
+	sl.sort(grapenlp::desc_algorithm_names_and_parameters_comparator(params));
 
-	grape::stat_list::const_iterator i(sl.begin());
+	grapenlp::stat_list::const_iterator i(sl.begin());
 	inc_until_ref_parser(i, sl.end(), speedup_param);
-	grape::stat_list::const_iterator j(i);
+	grapenlp::stat_list::const_iterator j(i);
 	++j;
-	grape::param_id_to_value_map::const_iterator pit1, pit2;
+	grapenlp::param_id_to_value_map::const_iterator pit1, pit2;
 	bool comparable;
 	long double min_speedup(std::numeric_limits<long double>::max());
 	long double max_speedup(std::numeric_limits<long double>::min());
@@ -135,7 +135,7 @@ void doit(
 				max_speedup = speedup;
 			if (speedup < min_speedup)
 				min_speedup = speedup;
-			grape::serialize_parser_name_and_parameters(std::cout, *j) << " " << speedup << '%' << std::endl;
+			grapenlp::serialize_parser_name_and_parameters(std::cout, *j) << " " << speedup << '%' << std::endl;
 		}
 		else
 		{
@@ -204,7 +204,7 @@ int main(int argc, char **argv)
 	if (vm.count("help"))
 	{ help(program_name, desc); return 0; }
 
-	grape::alg_trie algorithms;
+	grapenlp::alg_trie algorithms;
 	alg_ptr_list alg_ptrs;
 	if (vm.count("algorithms"))
 	{
@@ -214,7 +214,7 @@ int main(int argc, char **argv)
 		{
 			if (i == algs.end() || *i == ',')
 				fatal_error("Empty algorithm name specified\n");
-			grape::alg_trie::string::ref s(&algorithms.epsilon());
+			grapenlp::alg_trie::string::ref s(&algorithms.epsilon());
 			while (i != algs.end() && *i != ',')
 			{
 				s = &s->concat(*i);
@@ -235,10 +235,10 @@ int main(int argc, char **argv)
 		fatal_error("The speedup parameter has not been specified\n");
 	char speedup_param(vm["speedup-param"].as<char>());
 
-	grape::char_list params;
-	grape::char_set key;
-	grape::char_list key_list;
-	grape::char_set mandatory;
+	grapenlp::char_list params;
+	grapenlp::char_set key;
+	grapenlp::char_list key_list;
+	grapenlp::char_set mandatory;
 	bool speedup_param_found(false);
 
 	if (!vm.count("params"))
@@ -274,7 +274,7 @@ int main(int argc, char **argv)
 			mandatory.insert(*i);
 	}
 
-	grape::char_set forbidden;
+	grapenlp::char_set forbidden;
 	if (vm.count("forbidden"))
 	{
 		std::string fs(vm["forbidden"].as<std::string>());

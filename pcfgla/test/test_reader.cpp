@@ -1,5 +1,5 @@
 /*
- * GRAPE
+ * GRAPENLP
  *
  * Copyright (C) 2011-2012 Universidad de Alicante <javier.sastre@telefonica.net>
  *
@@ -23,9 +23,9 @@
  *  @author Javier Sastre
  */
 
-#include <grape/pcfgla_reader.h>
+#include <grapenlp/pcfgla_reader.h>
 
-using namespace grape;
+using namespace grapenlp;
 using namespace std;
 
 typedef long double probability;

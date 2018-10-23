@@ -1,5 +1,5 @@
 /*
- * GRAPE
+ * GRAPENLP
  *
  * Copyright (C) 2004-2018 Javier Miguel Sastre Martínez <javier.sastre@telefonica.net>
  *
@@ -29,7 +29,7 @@
 #include <boost/program_options.hpp>
 #include <boost/lexical_cast.hpp>
 
-#include <grape/stats.h>
+#include <grapenlp/stats.h>
 
 using namespace boost;
 using namespace boost::program_options;
@@ -61,15 +61,15 @@ struct first_x_color
 	{}
 };
 
-typedef std::list<grape::alg_trie::string::ref> alg_ptr_list;
+typedef std::list<grapenlp::alg_trie::string::ref> alg_ptr_list;
 
-first_x_color& get_first_x_color(const grape::alg_trie &algorithms, const grape::char_list &key_list, const grape::stats &s)
+first_x_color& get_first_x_color(const grapenlp::alg_trie &algorithms, const grapenlp::char_list &key_list, const grapenlp::stats &s)
 {
-	grape::alg_trie::string::const_ref s2(algorithms.get(s.parser_name.begin(), s.parser_name.end())->get('$'));
+	grapenlp::alg_trie::string::const_ref s2(algorithms.get(s.parser_name.begin(), s.parser_name.end())->get('$'));
 
-	for (grape::char_list::const_iterator i(key_list.begin()); i != key_list.end(); ++i)
+	for (grapenlp::char_list::const_iterator i(key_list.begin()); i != key_list.end(); ++i)
 	{
-		grape::param_id_to_value_map::const_iterator j(s.pitvm.find(*i));
+		grapenlp::param_id_to_value_map::const_iterator j(s.pitvm.find(*i));
 		if (j != s.pitvm.end())
 			s2 = s2->get(j->second.begin(), j->second.end());
 		s2 = s2->get('$');
@@ -80,10 +80,10 @@ first_x_color& get_first_x_color(const grape::alg_trie &algorithms, const grape:
 template<typename CharT, typename Traits>
 std::basic_ostream<CharT, Traits>& write_chart(
 		std::basic_ostream<CharT, Traits> &out,
-		const grape::alg_trie &algorithms,
-		const grape::char_list &params,
-		const grape::char_list &key_list,
-		const grape::stat_list &sl,
+		const grapenlp::alg_trie &algorithms,
+		const grapenlp::char_list &params,
+		const grapenlp::char_list &key_list,
+		const grapenlp::stat_list &sl,
 		const std::string &height,
 		const std::vector<std::string> &widths,
 		long double max_bar_value,
@@ -100,7 +100,7 @@ std::basic_ostream<CharT, Traits>& write_chart(
 
 	std::size_t row_count(0);
 	std::size_t ranking(1);
-	grape::stat_list::const_iterator s(sl.begin());
+	grapenlp::stat_list::const_iterator s(sl.begin());
 	std::size_t rows;
 
 	out << "\\footnotesize" << std::endl;
@@ -179,7 +179,7 @@ std::basic_ostream<CharT, Traits>& write_chart(
 		//Coordinate for top right
 		out << "\\path (tl) +(\\textwidth-1.45ex" << ",0) coordinate (tr);" << std::endl;
 
-		grape::stat_list::const_iterator s2(s);
+		grapenlp::stat_list::const_iterator s2(s);
 		//For each row
 		for (r = 0; r != rows; ++r, ++s, ++row_count, ++ranking)
 		{
@@ -196,9 +196,9 @@ std::basic_ostream<CharT, Traits>& write_chart(
 			out << "\\path (r" << r << "c1) node[right] {" << s->parser_name << "};" << std::endl;
 			c = 2;
 			//Draw params
-			for (grape::char_list::const_iterator p(params.begin()); p != params.end(); ++p, ++c)
+			for (grapenlp::char_list::const_iterator p(params.begin()); p != params.end(); ++p, ++c)
 			{
-				grape::param_id_to_value_map::const_iterator p2(s->pitvm.find(*p));
+				grapenlp::param_id_to_value_map::const_iterator p2(s->pitvm.find(*p));
 				if (p2 != s->pitvm.end())
 					out << "\\path (r" << r << 'c' << c << ") node[right] {" << p2->second << "};" << std::endl;
 			}
@@ -306,11 +306,11 @@ template<typename CharT, typename Traits>
 void doit(
 		std::basic_istream<CharT, Traits> &in,
 		std::basic_ostream<CharT, Traits> &out,
-		const grape::alg_trie &algorithms,
-		const grape::char_list &params,
-		const grape::char_list &key_list,
-		const grape::char_set &mandatory,
-		const grape::char_set &forbidden,
+		const grapenlp::alg_trie &algorithms,
+		const grapenlp::char_list &params,
+		const grapenlp::char_list &key_list,
+		const grapenlp::char_set &mandatory,
+		const grapenlp::char_set &forbidden,
 		const std::string &height,
 		const std::vector<std::string> &widths,
 		long double max_bar_value,
@@ -322,9 +322,9 @@ void doit(
 		std::string label
 		)
 {
-	grape::stat_list sl;
-	grape::read_stat_list(in, algorithms, key_list, mandatory, forbidden, sl);
-	sl.sort(grape::average_sentences_per_second_stat_comparator());
+	grapenlp::stat_list sl;
+	grapenlp::read_stat_list(in, algorithms, key_list, mandatory, forbidden, sl);
+	sl.sort(grapenlp::average_sentences_per_second_stat_comparator());
 	write_chart(out, algorithms, params, key_list, sl, height, widths, max_bar_value, max_rows, units, tics, figure_position, title, label);
 }
 
@@ -382,7 +382,7 @@ int main(int argc, char **argv)
 	if (vm.count("help"))
 	{ help(program_name, desc); return 0; }
 
-	grape::alg_trie algorithms;
+	grapenlp::alg_trie algorithms;
 	alg_ptr_list alg_ptrs;
 	if (vm.count("algorithms"))
 	{
@@ -392,7 +392,7 @@ int main(int argc, char **argv)
 		{
 			if (i == algs.end() || *i == ',')
 				fatal_error("Empty algorithm name specified\n");
-			grape::alg_trie::string::ref s(&algorithms.epsilon());
+			grapenlp::alg_trie::string::ref s(&algorithms.epsilon());
 			while (i != algs.end() && *i != ',')
 			{
 				s = &s->concat(*i);
@@ -409,10 +409,10 @@ int main(int argc, char **argv)
 	}
 	else fatal_error("Algorithm names not specified\n");
 
-	grape::char_list params;
-	grape::char_set key;
-	grape::char_list key_list;
-	grape::char_set mandatory;
+	grapenlp::char_list params;
+	grapenlp::char_set key;
+	grapenlp::char_list key_list;
+	grapenlp::char_set mandatory;
 	if (vm.count("params"))
 	{
 		std::string ps(vm["params"].as<std::string>());
@@ -442,7 +442,7 @@ int main(int argc, char **argv)
 			mandatory.insert(*i);
 	}
 
-	grape::char_set forbidden;
+	grapenlp::char_set forbidden;
 	if (vm.count("forbidden"))
 	{
 		std::string fs(vm["forbidden"].as<std::string>());
@@ -459,16 +459,16 @@ int main(int argc, char **argv)
 		//For each algorithm name
 		while (true)
 		{
-			grape::alg_trie::string::ref s(*j);
+			grapenlp::alg_trie::string::ref s(*j);
 			//While there are key value/color combinations for this algorithm
 			if (i == colors.end() || *i == ':')
 				fatal_error("Empty color list for algorithm\n");
 			//For each combination of key param values
 			while (true)
 			{
-				grape::alg_trie::string::ref s2(s);
+				grapenlp::alg_trie::string::ref s2(s);
 				//For each key param value
-				for (grape::char_list::const_iterator k(key_list.begin()); k != key_list.end(); ++k)
+				for (grapenlp::char_list::const_iterator k(key_list.begin()); k != key_list.end(); ++k)
 				{
 					//Append param value to algorithm trie string
 					while (i != colors.end() && *i != ',' && *i != '.' && *i != ':')

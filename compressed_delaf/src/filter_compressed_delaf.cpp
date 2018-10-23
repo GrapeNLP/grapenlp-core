@@ -1,5 +1,5 @@
 /*
- * GRAPE
+ * GRAPENLP
  *
  * Copyright (C) 2004-2018 Javier Miguel Sastre Martínez <javier.sastre@telefonica.net>
  *
@@ -23,11 +23,11 @@
  *  @author Javier Sastre
  */
 
-#include <grape/compressed_delaf_reader.h>
-#include <grape/decompress_delaf_writer.h>
-#include <grape/compressed_delaf_entry_filter_factory.h>
+#include <grapenlp/compressed_delaf_reader.h>
+#include <grapenlp/decompress_delaf_writer.h>
+#include <grapenlp/compressed_delaf_entry_filter_factory.h>
 
-using namespace grape;
+using namespace grapenlp;
 
 typedef union_compressed_delaf_entry_filter<compressed_delaf::word::u_const_iterator> a_union_compressed_delaf_entry_filter;
 

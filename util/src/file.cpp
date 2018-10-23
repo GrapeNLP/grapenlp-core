@@ -1,5 +1,5 @@
 /*
- * GRAPE
+ * GRAPENLP
  *
  * Copyright (C) 2004-2018 Javier Miguel Sastre Martínez <javier.sastre@telefonica.net>
  *
@@ -23,9 +23,9 @@
  *  @author Javier Sastre
  */
 
-#include <grape/file.h>
+#include <grapenlp/file.h>
 
-namespace grape
+namespace grapenlp
 {
 	std::size_t fsize(FILE * f)
 	{
@@ -39,4 +39,4 @@ namespace grape
 		fseek(f, current, 0);
 		return end;
 	}
-} //namespace grape
+} //namespace grapenlp

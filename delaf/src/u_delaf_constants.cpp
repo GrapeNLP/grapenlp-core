@@ -1,5 +1,5 @@
 /*
- * GRAPE
+ * GRAPENLP
  *
  * Copyright (C) 2004-2008 Université de Marne-la-Vallée <javier.sastre@univ-mlv.fr>
  *
@@ -23,10 +23,10 @@
  *  @author Javier Sastre
  */
 
-#include <grape/u_delaf_constants.h>
+#include <grapenlp/u_delaf_constants.h>
 
-namespace grape
+namespace grapenlp
 {
 	//Up to now, everything declared inline: all definitions in the corresponding header file
-} //namespace grape
+} //namespace grapenlp
 

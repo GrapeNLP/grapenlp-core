@@ -1,5 +1,5 @@
 /*
- * GRAPE
+ * GRAPENLP
  *
  * Copyright (C) 2011-2012 Universidad de Alicante <javier.sastre@telefonica.net>
  *
@@ -24,22 +24,22 @@
  */
 
 #ifdef MTRACE
-#include <grape/mtrace.h>
+#include <grapenlp/mtrace.h>
 #endif
 
 #include <iostream>
 #include <fstream>
 #include <locale>
 
-#include <grape/u_array.h>
-#include <grape/pcfgla_reader.h>
-#include <grape/compressed_delaf.h>
-#include <grape/pcfgla_to_rtno.h>
+#include <grapenlp/u_array.h>
+#include <grapenlp/pcfgla_reader.h>
+#include <grapenlp/compressed_delaf.h>
+#include <grapenlp/pcfgla_to_rtno.h>
 #ifdef TRACE
-#include <grape/rtno_to_dot_serializer.h>
+#include <grapenlp/rtno_to_dot_serializer.h>
 #endif
 
-using namespace grape;
+using namespace grapenlp;
 using namespace std;
 
 typedef u_array::const_iterator ua_input_iterator;

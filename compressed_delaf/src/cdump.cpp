@@ -1,5 +1,5 @@
 /*
- * GRAPE
+ * GRAPENLP
  *
  * Copyright (C) 2004-2018 Javier Miguel Sastre Martínez <javier.sastre@telefonica.net>
  *
@@ -23,11 +23,11 @@
  *  @author Javier Sastre
  */
 
-#include <grape/mtrace.h>
-#include <grape/compressed_delaf_reader.h>
-#include <grape/decompress_delaf_writer.h>
+#include <grapenlp/mtrace.h>
+#include <grapenlp/compressed_delaf_reader.h>
+#include <grapenlp/decompress_delaf_writer.h>
 
-using namespace grape;
+using namespace grapenlp;
 
 void open_dico_file_error(const std::string &file_type, const std::string &file_path_name, const std::string &purpose)
 {

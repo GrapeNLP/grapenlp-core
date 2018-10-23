@@ -1,5 +1,5 @@
 /*
- * GRAPE
+ * GRAPENLP
  *
  * Copyright (C) 2004-2018 Javier Miguel Sastre Martínez <javier.sastre@telefonica.net>
  *
@@ -23,9 +23,9 @@
  *  @author Javier Sastre
  */
 
-#include <grape/fprtn.h>
+#include <grapenlp/fprtn.h>
 
-using namespace grape;
+using namespace grapenlp;
 
 int main(int argc, char **argv)
 {

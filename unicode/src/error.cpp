@@ -19,8 +19,8 @@
  *
  */
 
-#include <grape/unicode.h>
-#include <grape/error.h>
+#include <grapenlp/unicode.h>
+#include <grapenlp/error.h>
 
 #define DEFAULT_ERROR_CODE 1
 

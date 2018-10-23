@@ -1,5 +1,5 @@
 /*
- * GRAPE
+ * GRAPENLP
  *
  * Copyright (C) 2004-2018 Javier Miguel Sastre Martínez <javier.sastre@telefonica.net>
  *
@@ -34,11 +34,11 @@
 #include <boost/program_options.hpp>
 #include <boost/lexical_cast.hpp>
 
-#include <grape/algorithm.h>
-#include <grape/set_trie.h>
+#include <grapenlp/algorithm.h>
+#include <grapenlp/set_trie.h>
 #include <array>
-#include <grape/iostream.h>
-#include <grape/ansi_text_attribute_codes.h>
+#include <grapenlp/iostream.h>
+#include <grapenlp/ansi_text_attribute_codes.h>
 
 using namespace boost;
 using namespace boost::program_options;
@@ -81,32 +81,32 @@ const std::array<char, 28> average_seconds_per_sentence_label = { {'A', 'v', 'e'
 const std::array<char, 21> asps_sd_cv_p_min_max_label = { {'S', 'D', ',', ' ', 'C', 'V', '%', ',', ' ', 'P', '%', ',', ' ', 'm', 'i', 'n', ',', ' ', 'm', 'a', 'x'} };
 const std::array<char, 28> average_sentences_per_second_label = { {'A', 'v', 'e', 'r', 'a', 'g', 'e', ' ', 's', 'e', 'n', 't', 'e', 'n', 'c', 'e', 's', ' ', 'p', 'e', 'r', ' ', 's', 'e', 'c', 'o', 'n', 'd'} };
 
-grape::set_trie<char> the_stats_label_set_trie;
+grapenlp::set_trie<char> the_stats_label_set_trie;
 
 class stats_label_dico
 {
 public:
-	grape::set_trie<char>::string::const_ref parser_header;
-	grape::set_trie<char>::string::const_ref grammar_states;
-	grape::set_trie<char>::string::const_ref grammar_transitions;
-	grape::set_trie<char>::string::const_ref input_chars;
-	grape::set_trie<char>::string::const_ref input_tokens;
-	grape::set_trie<char>::string::const_ref input_sentences;
-	grape::set_trie<char>::string::const_ref input_parses;
-	grape::set_trie<char>::string::const_ref average_chars_per_token;
-	grape::set_trie<char>::string::const_ref average_tokens_per_sentence;
-	grape::set_trie<char>::string::const_ref average_chars_per_sentence;
-	grape::set_trie<char>::string::const_ref average_parses_per_sentence;
-	grape::set_trie<char>::string::const_ref total_chars;
-	grape::set_trie<char>::string::const_ref total_tokens;
-	grape::set_trie<char>::string::const_ref total_sentences;
-	grape::set_trie<char>::string::const_ref total_parses;
-	grape::set_trie<char>::string::const_ref total_elapsed_seconds;
-	grape::set_trie<char>::string::const_ref average_seconds_per_sentence;
-	grape::set_trie<char>::string::const_ref asps_sd_cv_p_min_max;
-	grape::set_trie<char>::string::const_ref average_sentences_per_second;
+	grapenlp::set_trie<char>::string::const_ref parser_header;
+	grapenlp::set_trie<char>::string::const_ref grammar_states;
+	grapenlp::set_trie<char>::string::const_ref grammar_transitions;
+	grapenlp::set_trie<char>::string::const_ref input_chars;
+	grapenlp::set_trie<char>::string::const_ref input_tokens;
+	grapenlp::set_trie<char>::string::const_ref input_sentences;
+	grapenlp::set_trie<char>::string::const_ref input_parses;
+	grapenlp::set_trie<char>::string::const_ref average_chars_per_token;
+	grapenlp::set_trie<char>::string::const_ref average_tokens_per_sentence;
+	grapenlp::set_trie<char>::string::const_ref average_chars_per_sentence;
+	grapenlp::set_trie<char>::string::const_ref average_parses_per_sentence;
+	grapenlp::set_trie<char>::string::const_ref total_chars;
+	grapenlp::set_trie<char>::string::const_ref total_tokens;
+	grapenlp::set_trie<char>::string::const_ref total_sentences;
+	grapenlp::set_trie<char>::string::const_ref total_parses;
+	grapenlp::set_trie<char>::string::const_ref total_elapsed_seconds;
+	grapenlp::set_trie<char>::string::const_ref average_seconds_per_sentence;
+	grapenlp::set_trie<char>::string::const_ref asps_sd_cv_p_min_max;
+	grapenlp::set_trie<char>::string::const_ref average_sentences_per_second;
 
-	stats_label_dico(grape::set_trie<char> &stats_label_trie):
+	stats_label_dico(grapenlp::set_trie<char> &stats_label_trie):
 		parser_header(&(stats_label_trie.add(parser_header_label.begin(), parser_header_label.end()))),
 		grammar_states(&(stats_label_trie.add(grammar_states_label.begin(), grammar_states_label.end()))),
 		grammar_transitions(&(stats_label_trie.add(grammar_transitions_label.begin(), grammar_transitions_label.end()))),
@@ -202,9 +202,9 @@ struct stats
 
 int fill_style(const std::string &parser_name)
 {
-	if (grape::includes(parser_name, "-o"))
+	if (grapenlp::includes(parser_name, "-o"))
 		return 1;
-	if (grape::includes(parser_name, "fprtn "))
+	if (grapenlp::includes(parser_name, "fprtn "))
 		return 2;
 	return 0;
 }
@@ -266,7 +266,7 @@ std::basic_istream<CharT, Traits>& operator>> (std::basic_istream<CharT, Traits>
 	s.parser_name = s.parser_name.substr(0, s.parser_name.size() - 1);
 	skip_line(in);
 	skip_line(in);
-	grape::set_trie<char>::string::ref stsr;
+	grapenlp::set_trie<char>::string::ref stsr;
 	std::string line;
 	bool asps_sd_cv_p_min_max_read(false);
 	while(!in.eof())
@@ -315,7 +315,7 @@ std::basic_ostream<CharT, Traits>& operator<< (std::basic_ostream<CharT, Traits>
 		out << "empty";
 		return out;
 	}
-	grape::serialize_starbox(out, s.parser_name.begin(), s.parser_name.end(), std::string(ANSI_BRIGHT_CYAN_FG) + std::string(ANSI_BLACK_BG), std::string(ANSI_DEFAULT));
+	grapenlp::serialize_starbox(out, s.parser_name.begin(), s.parser_name.end(), std::string(ANSI_BRIGHT_CYAN_FG) + std::string(ANSI_BLACK_BG), std::string(ANSI_DEFAULT));
 	if (!s.grammar_states.empty())
 		the_stats_label_dico.grammar_states->serialize(out) << ": " << s.grammar_states << std::endl;
 	if (!s.grammar_transitions.empty())

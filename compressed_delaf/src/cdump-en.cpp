@@ -1,5 +1,5 @@
 /*
- * GRAPE
+ * GRAPENLP
  *
  * Copyright (C) 2004-2018 Javier Miguel Sastre Martínez <javier.sastre@telefonica.net>
  *
@@ -23,10 +23,10 @@
  *  @author Javier Sastre
  */
 
-#include <grape/compressed_delaf_reader.h>
-#include <grape/decompress_delaf_writer.h>
+#include <grapenlp/compressed_delaf_reader.h>
+#include <grapenlp/decompress_delaf_writer.h>
 
-using namespace grape;
+using namespace grapenlp;
 
 void u_read_compressed_dico(compressed_delaf &dico)
 {

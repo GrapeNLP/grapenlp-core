@@ -1,5 +1,5 @@
 /*
- * GRAPE
+ * GRAPENLP
  *
  * Copyright (C) 2004-2018 Javier Miguel Sastre Martínez <javier.sastre@telefonica.net>
  *
@@ -23,10 +23,10 @@
  *  @author Javier Sastre
  */
 
-#include <grape/bin_delaf_reader.h>
-#include <grape/file.h>
+#include <grapenlp/bin_delaf_reader.h>
+#include <grapenlp/file.h>
 
-namespace grape
+namespace grapenlp
 {
 	std::size_t u_read(FILE *f, bin_delaf &bin_dico)
 	{
@@ -37,5 +37,5 @@ namespace grape
 		bin_dico.reset_buffer(buffer.release());
         return read_byte_count;
 	}
-} //namespace grape
+} //namespace grapenlp
 

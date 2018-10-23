@@ -1,5 +1,5 @@
 /*
- * GRAPE
+ * GRAPENLP
  *
  * Copyright (C) 2004-2018 Javier Miguel Sastre Martínez <javier.sastre@telefonica.net>
  *
@@ -23,7 +23,7 @@
  *  @author Javier Sastre
  */
 
-#include <grape/mtrace.h>
+#include <grapenlp/mtrace.h>
 #include <cstdlib>
 #include <ctime>
 #include <fstream>
@@ -31,10 +31,10 @@
 
 #include <boost/program_options.hpp>
 
-#include <grape/string.h>
-#include <grape/functional.h>
-#include <grape/rb_tree_set.h>
-#include <grape/rb_tree_to_dot_serializer.h>
+#include <grapenlp/string.h>
+#include <grapenlp/functional.h>
+#include <grapenlp/rb_tree_set.h>
+#include <grapenlp/rb_tree_to_dot_serializer.h>
 
 #define CEIL_INT 100
 #define INTS_TO_INSERT 10
@@ -44,7 +44,7 @@
 using namespace std;
 using namespace boost;
 using namespace boost::program_options;
-using namespace grape;
+using namespace grapenlp;
 
 typedef rb_tree_set<int> set_type;
 
@@ -109,13 +109,13 @@ int main(int argc, char **argv)
 	set_type s;
 
 	//Retrieve program name from program path-name
-	grape::string program_name(argv[0]);
+	grapenlp::string program_name(argv[0]);
 #ifdef WIN32
 	std::size_t last_slash_pos(program_name.find_last_of('\\'));
 #else
 	std::size_t last_slash_pos(program_name.find_last_of('/'));
 #endif
-	if (last_slash_pos != grape::string::npos)
+	if (last_slash_pos != grapenlp::string::npos)
 		program_name = program_name.substr(last_slash_pos + 1, program_name.length());
 	// Declare the possible command line arguments
 	options_description desc("Options");

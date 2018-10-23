@@ -1,5 +1,5 @@
 /*
- * GRAPE
+ * GRAPENLP
  *
  * Copyright (C) 2004-2018 Javier Miguel Sastre Martínez <javier.sastre@telefonica.net>
  *
@@ -23,13 +23,13 @@
  *  @author Javier Sastre
  */
 
-#include <grape/u_text_delaf_reader.h>
-#include <grape/lexmask.h>
-#include <grape/u_array.h>
-#include <grape/u_text_delaf_entry_filter.h>
+#include <grapenlp/u_text_delaf_reader.h>
+#include <grapenlp/lexmask.h>
+#include <grapenlp/u_array.h>
+#include <grapenlp/u_text_delaf_entry_filter.h>
 
 using namespace std;
-using namespace grape;
+using namespace grapenlp;
 
 typedef u_array::const_iterator ua_input_iterator;
 

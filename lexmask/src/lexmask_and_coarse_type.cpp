@@ -1,5 +1,5 @@
 /*
- * GRAPE
+ * GRAPENLP
  *
  * Copyright (C) 2004-2018 Javier Miguel Sastre Martínez <javier.sastre@telefonica.net>
  *
@@ -23,9 +23,9 @@
  *  @author Javier Sastre
  */
 
-#include <grape/lexmask_and_coarse_type.h>
+#include <grapenlp/lexmask_and_coarse_type.h>
 
-namespace grape
+namespace grapenlp
 {
 	//Up to now, everything declared inline: all definitions in the corresponding header file
-}//namespace grape
+}//namespace grapenlp

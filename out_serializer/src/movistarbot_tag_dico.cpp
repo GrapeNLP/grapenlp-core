@@ -1,6 +1,6 @@
-#include <grape/movistarbot_tag_dico.h>
+#include <grapenlp/movistarbot_tag_dico.h>
 
-namespace grape
+namespace grapenlp
 {
 	//Up to now, everything declared inline: all definitions in the corresponding header file
-} //namespace grape
+} //namespace grapenlp

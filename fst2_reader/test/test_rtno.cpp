@@ -1,5 +1,5 @@
 /*
- * GRAPE
+ * GRAPENLP
  *
  * Copyright (C) 2004-2018 Javier Miguel Sastre Martínez <javier.sastre@telefonica.net>
  *
@@ -25,15 +25,15 @@
 
 #include <array>
 
-#include <grape/error.h>
-#include <grape/u_trie.h>
-#include <grape/u_array.h>
-#include <grape/tokenization.h>
-#include <grape/u_lexmask.h>
-#include <grape/ul_rtno.h>
+#include <grapenlp/error.h>
+#include <grapenlp/u_trie.h>
+#include <grapenlp/u_array.h>
+#include <grapenlp/tokenization.h>
+#include <grapenlp/u_lexmask.h>
+#include <grapenlp/ul_rtno.h>
 
 using namespace std;
-using namespace grape;
+using namespace grapenlp;
 
 typedef u_array::const_iterator ua_input_iterator;
 typedef token<ua_input_iterator> ua_token;

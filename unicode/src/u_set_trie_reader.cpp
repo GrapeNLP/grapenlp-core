@@ -1,5 +1,5 @@
 /*
- * GRAPE
+ * GRAPENLP
  *
  * Copyright (C) 2004-2018 Javier Miguel Sastre Martínez <javier.sastre@telefonica.net>
  *
@@ -23,9 +23,9 @@
  *  @author Javier Sastre
  */
 
-#include <grape/u_set_trie_reader.h>
+#include <grapenlp/u_set_trie_reader.h>
 
-namespace grape
+namespace grapenlp
 {
 	unichar u_read(FILE *f, ust_string::ref &s_ref, unichar end_mark)
 	{
@@ -38,4 +38,4 @@ namespace grape
 		s_ref->data = true;
 		return next_char;
 	}
-} //namespace grape
+} //namespace grapenlp

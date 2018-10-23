@@ -1,5 +1,5 @@
 /*
- * GRAPE
+ * GRAPENLP
  *
  * Copyright (C) 2004-2008 Université de Marne-la-Vallée <javier.sastre@univ-mlv.fr>
  *
@@ -23,9 +23,9 @@
  *  @author Javier Sastre
  */
 
-#include <grape/lx_breadth_first_parser.h>
+#include <grapenlp/lx_breadth_first_parser.h>
 
-namespace grape
+namespace grapenlp
 {
 	//Up to now, everything declared inline: all definitions in the corresponding header file
-} //namespace grape
+} //namespace grapenlp

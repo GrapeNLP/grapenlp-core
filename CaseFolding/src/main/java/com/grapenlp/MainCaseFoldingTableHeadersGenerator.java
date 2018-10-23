@@ -1,5 +1,5 @@
 /*
- * GRAPE
+ * GRAPENLP
  *
  * Copyright (C) 2004-2008 Université de Marne-la-Vallée <javier.sastre@univ-mlv.fr>
  *

@@ -1,5 +1,5 @@
 /*
- * GRAPE
+ * GRAPENLP
  *
  * Copyright (C) 2004-2018 Javier Miguel Sastre Martínez <javier.sastre@telefonica.net>
  *
@@ -23,9 +23,9 @@
  *  @author Javier Sastre
  */
 
-#include <grape/unsigned_int_char_traits.h>
+#include <grapenlp/unsigned_int_char_traits.h>
 
-namespace grape
+namespace grapenlp
 {
 	//Up to now, everything declared inline: all definitions in the corresponding header file
 }

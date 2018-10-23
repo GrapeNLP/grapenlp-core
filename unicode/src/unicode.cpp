@@ -19,7 +19,7 @@
  *
  */
 
-#include <grape/unicode.h>
+#include <grapenlp/unicode.h>
 
 /* This array is a bit array used to define characters that are letters */
 char tab_is_letter[8192];

@@ -1,5 +1,5 @@
 /*
- * GRAPE
+ * GRAPENLP
  *
  * Copyright (C) 2004-2018 Javier Miguel Sastre Martínez <javier.sastre@telefonica.net>
  *
@@ -23,21 +23,21 @@
  *  @author Javier Sastre
  */
 
-#include <grape/mtrace.h>
+#include <grapenlp/mtrace.h>
 #include <iostream>
 #include <fstream>
 
-#include <grape/u_out_bound_const_ref_x_weight.h>
-#include <grape/lxw_rtno.h>
-#include <grape/tokenization.h>
-#include <grape/trie.h>
-#include <grape/ulxw_fst2_reader.h>
-#include <grape/u_text_delaf_reader.h>
-#include <grape/lw_rtno_weight_tagger.h>
-#include <grape/rtno_to_dot_serializer.h>
+#include <grapenlp/u_out_bound_const_ref_x_weight.h>
+#include <grapenlp/lxw_rtno.h>
+#include <grapenlp/tokenization.h>
+#include <grapenlp/trie.h>
+#include <grapenlp/ulxw_fst2_reader.h>
+#include <grapenlp/u_text_delaf_reader.h>
+#include <grapenlp/lw_rtno_weight_tagger.h>
+#include <grapenlp/rtno_to_dot_serializer.h>
 
 using namespace std;
-using namespace grape;
+using namespace grapenlp;
 
 typedef u_array::const_iterator ua_input_iterator;
 typedef token<ua_input_iterator> ua_token;

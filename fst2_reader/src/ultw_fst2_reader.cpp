@@ -1,5 +1,5 @@
 /*
- * GRAPE
+ * GRAPENLP
  *
  * Copyright (C) 2011-2012 Universidad de Alicante <javier.sastre@telefonica.net>
  *
@@ -23,10 +23,10 @@
  *  @author Javier Sastre
  */
 
-#include <grape/ultw_fst2_reader.h>
+#include <grapenlp/ultw_fst2_reader.h>
 
-namespace grape
+namespace grapenlp
 {
 	//Up to now, everything declared inline: all definitions in the corresponding header file
-} //namespace grape
+} //namespace grapenlp
 

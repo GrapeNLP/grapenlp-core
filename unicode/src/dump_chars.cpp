@@ -1,5 +1,5 @@
 /*
- * GRAPE
+ * GRAPENLP
  *
  * Copyright (C) 2004-2018 Javier Miguel Sastre Martínez <javier.sastre@telefonica.net>
  *
@@ -23,11 +23,11 @@
  *  @author Javier Sastre
  */
 
-#include <grape/unicode.h>
+#include <grapenlp/unicode.h>
 
 #define MAX_LETTERS 0x10000
 
-using namespace grape;
+using namespace grapenlp;
 
 int main(int argc, char **argv)
 {

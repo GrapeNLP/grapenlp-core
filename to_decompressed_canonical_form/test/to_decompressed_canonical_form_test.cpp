@@ -1,5 +1,5 @@
 /*
- * GRAPE
+ * GRAPENLP
  *
  * Copyright (C) 2004-2018 Javier Miguel Sastre Martínez <javier.sastre@telefonica.net>
  *
@@ -23,15 +23,15 @@
  *  @author Javier Sastre
  */
 
-#include <grape/error.h>
-#include <grape/u_array.h>
-#include <grape/compressed_delaf_reader.h>
-#include <grape/compressed_delaf_entry_filter.h>
-#include <grape/tokenization.h>
-#include <grape/to_decompressed_canonical_form.h>
+#include <grapenlp/error.h>
+#include <grapenlp/u_array.h>
+#include <grapenlp/compressed_delaf_reader.h>
+#include <grapenlp/compressed_delaf_entry_filter.h>
+#include <grapenlp/tokenization.h>
+#include <grapenlp/to_decompressed_canonical_form.h>
 
 using namespace std;
-using namespace grape;
+using namespace grapenlp;
 
 typedef u_array::const_iterator ua_input_iterator;
 typedef token<ua_input_iterator> ua_token;

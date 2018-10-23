@@ -1,5 +1,5 @@
 /*
- * GRAPE
+ * GRAPENLP
  *
  * Copyright (C) 2004-2018 Javier Miguel Sastre Martínez <javier.sastre@telefonica.net>
  *
@@ -23,11 +23,11 @@
  *  @author Javier Sastre
  */
 
-#include <grape/mtrace.h>
-#include <grape/u_text_delaf_reader.h>
-#include <grape/u_text_delaf_writer.h>
+#include <grapenlp/mtrace.h>
+#include <grapenlp/u_text_delaf_reader.h>
+#include <grapenlp/u_text_delaf_writer.h>
 
-using namespace grape;
+using namespace grapenlp;
 
 typedef u_text_delaf<u_identity> uid_text_delaf;
 

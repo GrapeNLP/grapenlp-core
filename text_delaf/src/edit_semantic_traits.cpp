@@ -1,5 +1,5 @@
 /*
- * GRAPE
+ * GRAPENLP
  *
  * Copyright (C) 2004-2018 Javier Miguel Sastre Martínez <javier.sastre@telefonica.net>
  *
@@ -23,15 +23,15 @@
  *  @author Javier Sastre
  */
 
-#include <grape/algorithm.h>
-#include <grape/u_text_delaf_reader.h>
-#include <grape/u_text_delaf_writer.h>
-#include <grape/u_text_delaf_entry_filter_factory.h>
+#include <grapenlp/algorithm.h>
+#include <grapenlp/u_text_delaf_reader.h>
+#include <grapenlp/u_text_delaf_writer.h>
+#include <grapenlp/u_text_delaf_entry_filter_factory.h>
 
 #define SRC_DICO "../Data/Unitex/Spanish/Dela/delaf.dic"
 #define BAK_DICO "../Data/Unitex/Spanish/Dela/delaf.bak"
 
-using namespace grape;
+using namespace grapenlp;
 
 typedef u_union_text_delaf_entry_filter<u_identity> uid_union_text_delaf_entry_filter;
 typedef u_text_delaf<u_identity> uid_text_delaf;

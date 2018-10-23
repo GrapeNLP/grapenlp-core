@@ -1,5 +1,5 @@
 /*
- * GRAPE
+ * GRAPENLP
  *
  * Copyright (C) 2004-2018 Javier Miguel Sastre Martínez <javier.sastre@telefonica.net>
  *
@@ -25,7 +25,7 @@
 
 #include <gtest/gtest.h>
 #include <iostream>
-#include <grape/ansi_text_attribute_codes.h>
+#include <grapenlp/ansi_text_attribute_codes.h>
 
 void print_fg(const char* special_attrib_code, const char* special_attrib_name, const char* bg_color_code, const char* bg_color_name)
 {

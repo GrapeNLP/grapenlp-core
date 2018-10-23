@@ -1,5 +1,5 @@
 /*
- * GRAPE
+ * GRAPENLP
  *
  * Copyright (C) 2004-2008 Universidad de Alicante <javier.sastre@telefonica.net>
  *
@@ -23,10 +23,10 @@
  *  @author Javier Sastre
  */
 
-#include <grape/pcfgla_reader.h>
+#include <grapenlp/pcfgla_reader.h>
 
-namespace grape
+namespace grapenlp
 {
 	//Up to now, everything declared inline: all definitions in the corresponding header file
-} //namespace grape
+} //namespace grapenlp
 

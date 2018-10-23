@@ -1,5 +1,5 @@
 /*
- * GRAPE
+ * GRAPENLP
  *
  * Copyright (C) 2004-2018 Javier Miguel Sastre Martínez <javier.sastre@telefonica.net>
  *
@@ -23,13 +23,13 @@
  *  @author Javier Sastre
  */
 
-#include <grape/mtrace.h>
-#include <grape/u_array.h>
-#include <grape/u_trie.h>
-#include <grape/u_set_trie.h>
+#include <grapenlp/mtrace.h>
+#include <grapenlp/u_array.h>
+#include <grapenlp/u_trie.h>
+#include <grapenlp/u_set_trie.h>
 
 using namespace std;
-using namespace grape;
+using namespace grapenlp;
 
 int main(int argc, char **argv)
 {

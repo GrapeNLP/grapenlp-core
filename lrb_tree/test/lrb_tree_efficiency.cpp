@@ -1,5 +1,5 @@
 /*
- * GRAPE
+ * GRAPENLP
  *
  * Copyright (C) 2004-2018 Javier Miguel Sastre Martínez <javier.sastre@telefonica.net>
  *
@@ -23,15 +23,15 @@
  *  @author Javier Sastre
  */
 
-#include <grape/mtrace.h>
+#include <grapenlp/mtrace.h>
 
 #include <set>
-#include <grape/lrb_tree_set.h>
-#include <grape/lrb_tree_set_3w.h>
-#include <grape/map_impl_selector.h>
+#include <grapenlp/lrb_tree_set.h>
+#include <grapenlp/lrb_tree_set_3w.h>
+#include <grapenlp/map_impl_selector.h>
 #include <list>
 #include <boost/timer.hpp>
-#include <grape/string.h>
+#include <grapenlp/string.h>
 
 #ifdef TRACE
 #define COUNT 2
@@ -225,25 +225,25 @@ struct set_elem
 void syntax_error(char *pn)
 {
 	//Retrieve program name from program path-name
-	grape::string program_name(pn);
+	grapenlp::string program_name(pn);
 #ifdef WIN32
 	std::size_t last_slash_pos(program_name.find_last_of('\\'));
 #else
 	std::size_t last_slash_pos(program_name.find_last_of('/'));
 #endif
-	if (last_slash_pos != grape::string::npos)
+	if (last_slash_pos != grapenlp::string::npos)
 		program_name = program_name.substr(last_slash_pos + 1, program_name.length());
 
 	std::cout << "Syntax: " << program_name << " [123456], where" << std::endl;
 	std::cout << "1 chooses std::set" << std::endl;
-	std::cout << "2 chooses grape::lrb_tree_set" << std::endl;
-	std::cout << "3 chooses grape::lrb_tree_set_3w" << std::endl;
+	std::cout << "2 chooses grapenlp::lrb_tree_set" << std::endl;
+	std::cout << "3 chooses grapenlp::lrb_tree_set_3w" << std::endl;
 	std::cout << "4 chooses std::map" << std::endl;
-	std::cout << "5 chooses grape::lrb_tree_map" << std::endl;
-	std::cout << "6 chooses grape::lrb_tree_map_3w" << std::endl;
+	std::cout << "5 chooses grapenlp::lrb_tree_map" << std::endl;
+	std::cout << "6 chooses grapenlp::lrb_tree_map_3w" << std::endl;
 	std::cout << "7 chooses std::map with def mapped value" << std::endl;
-	std::cout << "8 chooses grape::lrb_tree_map with def mapped value" << std::endl;
-	std::cout << "9 chooses grape::lrb_tree_map_3w with def mapped value" << std::endl;
+	std::cout << "8 chooses grapenlp::lrb_tree_map with def mapped value" << std::endl;
+	std::cout << "9 chooses grapenlp::lrb_tree_map_3w with def mapped value" << std::endl;
 	exit(1);
 }
 
@@ -267,11 +267,11 @@ int main(int argc, char **argv)
 	boost::timer t;
 
 	std::set<set_elem> *m1;
-	grape::lrb_tree_set<set_elem> *m2;
-	grape::lrb_tree_set_3w<set_elem> *m3;
+	grapenlp::lrb_tree_set<set_elem> *m2;
+	grapenlp::lrb_tree_set_3w<set_elem> *m3;
 	std::map<key, mapped> *m4;
-	grape::lrb_tree_map<key, mapped> *m5;
-	grape::lrb_tree_map_3w<key, mapped> *m6;
+	grapenlp::lrb_tree_map<key, mapped> *m5;
+	grapenlp::lrb_tree_map_3w<key, mapped> *m6;
 
 	switch (c)
 	{
@@ -284,7 +284,7 @@ int main(int argc, char **argv)
 		std::cout << "std::set: " << t.elapsed() << std::endl;
 		break;
 	case '2':
-		m2 = new grape::lrb_tree_set<set_elem>();
+		m2 = new grapenlp::lrb_tree_set<set_elem>();
 		t.restart();
 		for (std::size_t i(0); i < COUNT; ++i)
 			m2->insert(set_elem(i, i, i, i));
@@ -292,7 +292,7 @@ int main(int argc, char **argv)
 		std::cout << "lrb_tree_set: " << t.elapsed() << std::endl;
 		break;
 	case '3':
-		m3 = new grape::lrb_tree_set_3w<set_elem>();
+		m3 = new grapenlp::lrb_tree_set_3w<set_elem>();
 		t.restart();
 		for (std::size_t i(0); i < COUNT; ++i)
 			m3->insert(set_elem(i, i, i, i));
@@ -308,7 +308,7 @@ int main(int argc, char **argv)
 		std::cout << "std::map: " << t.elapsed() << std::endl;
 		break;
 	case '5':
-		m5 = new grape::lrb_tree_map<key, mapped>();
+		m5 = new grapenlp::lrb_tree_map<key, mapped>();
 		t.restart();
 		for (std::size_t i(0); i < COUNT; ++i)
 			m5->insert(map_elem(i, i, i, i));
@@ -316,7 +316,7 @@ int main(int argc, char **argv)
 		std::cout << "lrb_tree_map: " << t.elapsed() << std::endl;
 		break;
 	case '6':
-		m6 = new grape::lrb_tree_map_3w<key, mapped>();
+		m6 = new grapenlp::lrb_tree_map_3w<key, mapped>();
 		t.restart();
 		for (std::size_t i(0); i < COUNT; ++i)
 			m6->insert(map_elem(i, i, i, i));
@@ -335,22 +335,22 @@ int main(int argc, char **argv)
 		std::cout << "std::map def: " << t.elapsed() << std::endl;
 		break;
 */	case '8':
-		m5 = new grape::lrb_tree_map<key, mapped>();
+		m5 = new grapenlp::lrb_tree_map<key, mapped>();
 		t.restart();
 		for (std::size_t i(0); i < COUNT; ++i)
 		{
-			std::pair<grape::lrb_tree_map<key, mapped>::iterator, bool> result(insert_with_default_mapped_value(*m5, key(i, i)));
+			std::pair<grapenlp::lrb_tree_map<key, mapped>::iterator, bool> result(insert_with_default_mapped_value(*m5, key(i, i)));
 			static_cast<map_elem&>(*result.first).set_mapped(i, i);
 		}
 		delete m5;
 		std::cout << "lrb_tree_map def: " << t.elapsed() << std::endl;
 		break;
 	case '9':
-		m6 = new grape::lrb_tree_map_3w<key, mapped>();
+		m6 = new grapenlp::lrb_tree_map_3w<key, mapped>();
 		t.restart();
 		for (std::size_t i(0); i < COUNT; ++i)
 		{
-			std::pair<grape::lrb_tree_map_3w<key, mapped>::iterator, bool> result(insert_with_default_mapped_value(*m6, key(i, i)));
+			std::pair<grapenlp::lrb_tree_map_3w<key, mapped>::iterator, bool> result(insert_with_default_mapped_value(*m6, key(i, i)));
 			static_cast<map_elem&>(*result.first).set_mapped(i, i);
 		}
 		delete m6;

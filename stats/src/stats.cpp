@@ -1,5 +1,5 @@
 /*
- * GRAPE
+ * GRAPENLP
  *
  * Copyright (C) 2004-2018 Javier Miguel Sastre Martínez <javier.sastre@telefonica.net>
  *
@@ -23,9 +23,9 @@
  *  @author Javier Sastre
  */
 
-#include <grape/stats.h>
+#include <grapenlp/stats.h>
 
-namespace grape
+namespace grapenlp
 {
 	set_trie<char> the_stats_label_set_trie;
 	stats_label_dico the_stats_label_dico(the_stats_label_set_trie);
@@ -189,4 +189,4 @@ namespace grape
 */
 		return true;
 	}
-} //namespace grape
+} //namespace grapenlp

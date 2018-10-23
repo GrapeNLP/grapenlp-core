@@ -1,5 +1,5 @@
 /*
- * GRAPE
+ * GRAPENLP
  *
  * Copyright (C) 2004-2018 Javier Miguel Sastre Martínez <javier.sastre@telefonica.net>
  *
@@ -23,10 +23,10 @@
  *  @author Javier Sastre
  */
 
-#include <grape/simple_segment_array_x_weight.h>
+#include <grapenlp/simple_segment_array_x_weight.h>
 
-namespace grape
+namespace grapenlp
 {
 	//Up to now, everything declared inline: all definitions in the corresponding header file
-} //namespace grape
+} //namespace grapenlp
 

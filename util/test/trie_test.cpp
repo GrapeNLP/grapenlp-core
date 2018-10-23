@@ -1,5 +1,5 @@
 /*
- * GRAPE
+ * GRAPENLP
  *
  * Copyright (C) 2004-2018 Javier Miguel Sastre Martínez <javier.sastre@telefonica.net>
  *
@@ -25,18 +25,18 @@
 
 #include <gtest/gtest.h>
 #include <list>
-#include <grape/array.h>
-#include <grape/trie.h>
-#include <grape/set_trie.h>
+#include <grapenlp/array.h>
+#include <grapenlp/trie.h>
+#include <grapenlp/set_trie.h>
 
 using namespace std;
-using namespace grape;
+using namespace grapenlp;
 
 typedef trie<char> c_trie;
 typedef c_trie::string ct_string;
 typedef set_trie<char> c_set_trie;
 typedef c_set_trie::string cst_string;
-typedef grape::array<char> c_array;
+typedef grapenlp::array<char> c_array;
 /*
 int mainx(int argc, char **argv)
 {

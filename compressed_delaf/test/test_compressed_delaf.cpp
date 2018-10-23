@@ -1,5 +1,5 @@
 /*
- * GRAPE
+ * GRAPENLP
  *
  * Copyright (C) 2004-2018 Javier Miguel Sastre Martínez <javier.sastre@telefonica.net>
  *
@@ -25,13 +25,13 @@
 
 #include <array>
 
-#include <grape/mtrace.h>
-#include <grape/unicode.h>
-#include <grape/error.h>
-#include <grape/compressed_delaf_reader.h>
+#include <grapenlp/mtrace.h>
+#include <grapenlp/unicode.h>
+#include <grapenlp/error.h>
+#include <grapenlp/compressed_delaf_reader.h>
 
 using namespace std;
-using namespace grape;
+using namespace grapenlp;
 
 
 template<typename Iterator>

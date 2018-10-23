@@ -1,6 +1,6 @@
-#include <grape/movistarbot_phone_digit_separator_set.h>
+#include <grapenlp/movistarbot_phone_digit_separator_set.h>
 
-namespace grape
+namespace grapenlp
 {
 	movistarbot_phone_digit_separator_set::movistarbot_phone_digit_separator_set(): base_type()
 	{
@@ -9,4 +9,4 @@ namespace grape
 		base_type::add('(');
 		base_type::add(')');
 	}
-} //namespace grape
+} //namespace grapenlp

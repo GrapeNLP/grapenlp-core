@@ -29,10 +29,7 @@ target_link_libraries(manager
         )
 
 install(TARGETS manager EXPORT managerConfig
-        ARCHIVE DESTINATION ${CMAKE_INSTALL_LIBDIR}
-        LIBRARY DESTINATION ${CMAKE_INSTALL_LIBDIR}
-        RUNTIME DESTINATION ${CMAKE_INSTALL_BINDIR}
-        COMPONENT libgrapenlp-dev)
-install(DIRECTORY include/ DESTINATION ${CMAKE_INSTALL_INCLUDEDIR})
-install(EXPORT managerConfig DESTINATION share/manager/cmake)
+        ARCHIVE DESTINATION ${CMAKE_INSTALL_LIBDIR} COMPONENT libgrapenlpdev)
+install(DIRECTORY include/ DESTINATION ${CMAKE_INSTALL_INCLUDEDIR} COMPONENT libgrapenlpdev)
+install(EXPORT managerConfig DESTINATION share/grapenlp/manager/cmake COMPONENT libgrapenlpdev)
 export(TARGETS manager FILE managerConfig.cmake)

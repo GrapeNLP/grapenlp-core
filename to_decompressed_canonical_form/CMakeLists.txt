@@ -8,12 +8,9 @@ target_include_directories(to_decompressed_canonical_form PUBLIC
 target_link_libraries(to_decompressed_canonical_form compressed_delaf)
 
 install(TARGETS to_decompressed_canonical_form EXPORT to_decompressed_canonical_formConfig
-        ARCHIVE DESTINATION ${CMAKE_INSTALL_LIBDIR}
-        LIBRARY DESTINATION ${CMAKE_INSTALL_LIBDIR}
-        RUNTIME DESTINATION ${CMAKE_INSTALL_BINDIR}
-        COMPONENT libgrapenlp-dev)
-install(DIRECTORY include/ DESTINATION ${CMAKE_INSTALL_INCLUDEDIR})
-install(EXPORT to_decompressed_canonical_formConfig DESTINATION share/to_decompressed_canonical_form/cmake)
+        ARCHIVE DESTINATION ${CMAKE_INSTALL_LIBDIR} COMPONENT libgrapenlpdev)
+install(DIRECTORY include/ DESTINATION ${CMAKE_INSTALL_INCLUDEDIR} COMPONENT libgrapenlpdev)
+install(EXPORT to_decompressed_canonical_formConfig DESTINATION share/grapenlp/to_decompressed_canonical_form/cmake COMPONENT libgrapenlpdev)
 export(TARGETS to_decompressed_canonical_form FILE to_decompressed_canonical_formConfig.cmake)
 
 # Test files

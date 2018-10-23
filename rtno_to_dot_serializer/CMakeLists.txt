@@ -8,10 +8,7 @@ target_include_directories(rtno_to_dot_serializer PUBLIC
 target_link_libraries(rtno_to_dot_serializer rtno)
 
 install(TARGETS rtno_to_dot_serializer EXPORT rtno_to_dot_serializerConfig
-        ARCHIVE DESTINATION ${CMAKE_INSTALL_LIBDIR}
-        LIBRARY DESTINATION ${CMAKE_INSTALL_LIBDIR}
-        RUNTIME DESTINATION ${CMAKE_INSTALL_BINDIR}
-        COMPONENT libgrapenlp-dev)
-install(DIRECTORY include/ DESTINATION ${CMAKE_INSTALL_INCLUDEDIR})
-install(EXPORT rtno_to_dot_serializerConfig DESTINATION share/rtno_to_dot_serializer/cmake)
+        ARCHIVE DESTINATION ${CMAKE_INSTALL_LIBDIR} COMPONENT libgrapenlpdev)
+install(DIRECTORY include/ DESTINATION ${CMAKE_INSTALL_INCLUDEDIR} COMPONENT libgrapenlpdev)
+install(EXPORT rtno_to_dot_serializerConfig DESTINATION share/grapenlp/rtno_to_dot_serializer/cmake COMPONENT libgrapenlpdev)
 export(TARGETS rtno_to_dot_serializer FILE rtno_to_dot_serializerConfig.cmake)

@@ -21,10 +21,7 @@ target_link_libraries(output_fprtn_top
         )
 
 install(TARGETS output_fprtn_top EXPORT output_fprtn_topConfig
-        ARCHIVE DESTINATION ${CMAKE_INSTALL_LIBDIR}
-        LIBRARY DESTINATION ${CMAKE_INSTALL_LIBDIR}
-        RUNTIME DESTINATION ${CMAKE_INSTALL_BINDIR}
-        COMPONENT libgrapenlp-dev)
-install(DIRECTORY include/ DESTINATION ${CMAKE_INSTALL_INCLUDEDIR})
-install(EXPORT output_fprtn_topConfig DESTINATION share/output_fprtn_top/cmake)
+        ARCHIVE DESTINATION ${CMAKE_INSTALL_LIBDIR} COMPONENT libgrapenlpdev)
+install(DIRECTORY include/ DESTINATION ${CMAKE_INSTALL_INCLUDEDIR} COMPONENT libgrapenlpdev)
+install(EXPORT output_fprtn_topConfig DESTINATION share/grapenlp/output_fprtn_top/cmake COMPONENT libgrapenlpdev)
 export(TARGETS output_fprtn_top FILE output_fprtn_topConfig.cmake)

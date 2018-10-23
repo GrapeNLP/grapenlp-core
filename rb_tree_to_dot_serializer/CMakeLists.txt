@@ -11,10 +11,7 @@ target_link_libraries(rb_tree_to_dot_serializer
         )
 
 install(TARGETS rb_tree_to_dot_serializer EXPORT rb_tree_to_dot_serializerConfig
-        ARCHIVE DESTINATION ${CMAKE_INSTALL_LIBDIR}
-        LIBRARY DESTINATION ${CMAKE_INSTALL_LIBDIR}
-        RUNTIME DESTINATION ${CMAKE_INSTALL_BINDIR}
-        COMPONENT libgrapenlp-dev)
-install(DIRECTORY include/ DESTINATION ${CMAKE_INSTALL_INCLUDEDIR})
-install(EXPORT rb_tree_to_dot_serializerConfig DESTINATION share/rb_tree_to_dot_serializer/cmake)
+        ARCHIVE DESTINATION ${CMAKE_INSTALL_LIBDIR} COMPONENT libgrapenlpdev)
+install(DIRECTORY include/ DESTINATION ${CMAKE_INSTALL_INCLUDEDIR} COMPONENT libgrapenlpdev)
+install(EXPORT rb_tree_to_dot_serializerConfig DESTINATION share/grapenlp/rb_tree_to_dot_serializer/cmake COMPONENT libgrapenlpdev)
 export(TARGETS rb_tree_to_dot_serializer FILE rb_tree_to_dot_serializerConfig.cmake)

@@ -17,10 +17,7 @@ target_link_libraries(to_fprtn_top_parsing
         )
 
 install(TARGETS to_fprtn_top_parsing EXPORT to_fprtn_top_parsingConfig
-        ARCHIVE DESTINATION ${CMAKE_INSTALL_LIBDIR}
-        LIBRARY DESTINATION ${CMAKE_INSTALL_LIBDIR}
-        RUNTIME DESTINATION ${CMAKE_INSTALL_BINDIR}
-        COMPONENT libgrapenlp-dev)
-install(DIRECTORY include/ DESTINATION ${CMAKE_INSTALL_INCLUDEDIR})
-install(EXPORT to_fprtn_top_parsingConfig DESTINATION share/to_fprtn_top_parsing/cmake)
+        ARCHIVE DESTINATION ${CMAKE_INSTALL_LIBDIR} COMPONENT libgrapenlpdev)
+install(DIRECTORY include/ DESTINATION ${CMAKE_INSTALL_INCLUDEDIR} COMPONENT libgrapenlpdev)
+install(EXPORT to_fprtn_top_parsingConfig DESTINATION share/grapenlp/to_fprtn_top_parsing/cmake COMPONENT libgrapenlpdev)
 export(TARGETS to_fprtn_top_parsing FILE to_fprtn_top_parsingConfig.cmake)

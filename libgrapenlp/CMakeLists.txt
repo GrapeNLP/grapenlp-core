@@ -12,8 +12,8 @@ target_link_libraries(grapenlp
         )
 
 install(TARGETS grapenlp EXPORT grapenlpConfig
-        LIBRARY DESTINATION ${CMAKE_INSTALL_LIBDIR}
-        COMPONENT libgrapenlp)
-install(DIRECTORY include/ DESTINATION ${CMAKE_INSTALL_INCLUDEDIR})
-install(EXPORT grapenlpConfig DESTINATION share/grapenlp/cmake)
+        LIBRARY DESTINATION ${CMAKE_INSTALL_LIBDIR} COMPONENT libgrapenlp)
+install(DIRECTORY include/ DESTINATION ${CMAKE_INSTALL_INCLUDEDIR} COMPONENT libgrapenlpdev)
+install(EXPORT grapenlpConfig DESTINATION share/grapenlp/grapenlp/cmake COMPONENT libgrapenlpdev)
 export(TARGETS grapenlp FILE grapenlpConfig.cmake)
+

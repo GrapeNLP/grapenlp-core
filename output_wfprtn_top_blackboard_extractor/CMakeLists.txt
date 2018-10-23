@@ -20,10 +20,7 @@ target_link_libraries(output_wfprtn_top_blackboard_extractor
         )
 
 install(TARGETS output_wfprtn_top_blackboard_extractor EXPORT output_wfprtn_top_blackboard_extractorConfig
-        ARCHIVE DESTINATION ${CMAKE_INSTALL_LIBDIR}
-        LIBRARY DESTINATION ${CMAKE_INSTALL_LIBDIR}
-        RUNTIME DESTINATION ${CMAKE_INSTALL_BINDIR}
-        COMPONENT libgrapenlp-dev)
-install(DIRECTORY include/ DESTINATION ${CMAKE_INSTALL_INCLUDEDIR})
-install(EXPORT output_wfprtn_top_blackboard_extractorConfig DESTINATION share/output_wfprtn_top_blackboard_extractor/cmake)
+        ARCHIVE DESTINATION ${CMAKE_INSTALL_LIBDIR} COMPONENT libgrapenlpdev)
+install(DIRECTORY include/ DESTINATION ${CMAKE_INSTALL_INCLUDEDIR} COMPONENT libgrapenlpdev)
+install(EXPORT output_wfprtn_top_blackboard_extractorConfig DESTINATION share/grapenlp/output_wfprtn_top_blackboard_extractor/cmake COMPONENT libgrapenlpdev)
 export(TARGETS output_wfprtn_top_blackboard_extractor FILE output_wfprtn_top_blackboard_extractorConfig.cmake)

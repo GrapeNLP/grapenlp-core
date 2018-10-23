@@ -30,12 +30,9 @@ target_include_directories(util PUBLIC
         PRIVATE src)
 
 install(TARGETS util EXPORT utilConfig
-        ARCHIVE DESTINATION ${CMAKE_INSTALL_LIBDIR}
-        LIBRARY DESTINATION ${CMAKE_INSTALL_LIBDIR}
-        RUNTIME DESTINATION ${CMAKE_INSTALL_BINDIR}
-        COMPONENT libgrapenlp-dev)
-install(DIRECTORY include/ DESTINATION ${CMAKE_INSTALL_INCLUDEDIR})
-install(EXPORT utilConfig DESTINATION share/util/cmake)
+        ARCHIVE DESTINATION ${CMAKE_INSTALL_LIBDIR} COMPONENT libgrapenlpdev)
+install(DIRECTORY include/ DESTINATION ${CMAKE_INSTALL_INCLUDEDIR} COMPONENT libgrapenlpdev)
+install(EXPORT utilConfig DESTINATION share/grapenlp/util/cmake COMPONENT libgrapenlpdev)
 export(TARGETS util FILE utilConfig.cmake)
 
 # Test files

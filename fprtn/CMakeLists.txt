@@ -18,12 +18,9 @@ target_include_directories(fprtn PUBLIC
 target_link_libraries(fprtn segment)
 
 install(TARGETS fprtn EXPORT fprtnConfig
-        ARCHIVE DESTINATION ${CMAKE_INSTALL_LIBDIR}
-        LIBRARY DESTINATION ${CMAKE_INSTALL_LIBDIR}
-        RUNTIME DESTINATION ${CMAKE_INSTALL_BINDIR}
-        COMPONENT libgrapenlp-dev)
-install(DIRECTORY include/ DESTINATION ${CMAKE_INSTALL_INCLUDEDIR})
-install(EXPORT fprtnConfig DESTINATION share/fprtn/cmake)
+        ARCHIVE DESTINATION ${CMAKE_INSTALL_LIBDIR} COMPONENT libgrapenlpdev)
+install(DIRECTORY include/ DESTINATION ${CMAKE_INSTALL_INCLUDEDIR} COMPONENT libgrapenlpdev)
+install(EXPORT fprtnConfig DESTINATION share/grapenlp/fprtn/cmake COMPONENT libgrapenlpdev)
 export(TARGETS fprtn FILE fprtnConfig.cmake)
 
 #Test files

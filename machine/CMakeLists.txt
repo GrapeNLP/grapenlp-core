@@ -14,9 +14,7 @@ target_include_directories(machine PUBLIC
 target_link_libraries(machine util)
 
 install(TARGETS machine EXPORT machineConfig
-        ARCHIVE DESTINATION ${CMAKE_INSTALL_LIBDIR}
-        LIBRARY DESTINATION ${CMAKE_INSTALL_LIBDIR}
-        RUNTIME DESTINATION ${CMAKE_INSTALL_BINDIR})
-install(DIRECTORY include/ DESTINATION ${CMAKE_INSTALL_INCLUDEDIR})
-install(EXPORT machineConfig DESTINATION share/machine/cmake)
+        ARCHIVE DESTINATION ${CMAKE_INSTALL_LIBDIR} COMPONENT libgrapenlpdev)
+install(DIRECTORY include/ DESTINATION ${CMAKE_INSTALL_INCLUDEDIR} COMPONENT libgrapenlpdev)
+install(EXPORT machineConfig DESTINATION share/grapenlp/machine/cmake COMPONENT libgrapenlpdev)
 export(TARGETS machine FILE machineConfig.cmake)

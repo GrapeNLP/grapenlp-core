@@ -16,12 +16,9 @@ target_include_directories(compressed_delaf PUBLIC
         PRIVATE src)
 
 install(TARGETS compressed_delaf EXPORT compressed_delafConfig
-        ARCHIVE DESTINATION ${CMAKE_INSTALL_LIBDIR}
-        LIBRARY DESTINATION ${CMAKE_INSTALL_LIBDIR}
-        RUNTIME DESTINATION ${CMAKE_INSTALL_BINDIR}
-        COMPONENT libgrapenlp-dev)
-install(DIRECTORY include/ DESTINATION ${CMAKE_INSTALL_INCLUDEDIR})
-install(EXPORT compressed_delafConfig DESTINATION share/compressed_delaf/cmake)
+        ARCHIVE DESTINATION ${CMAKE_INSTALL_LIBDIR} COMPONENT libgrapenlpdev)
+install(DIRECTORY include/ DESTINATION ${CMAKE_INSTALL_INCLUDEDIR} COMPONENT libgrapenlpdev)
+install(EXPORT compressed_delafConfig DESTINATION share/grapenlp/compressed_delaf/cmake COMPONENT libgrapenlpdev)
 export(TARGETS compressed_delaf FILE compressed_delafConfig.cmake)
 
 target_link_libraries(compressed_delaf delaf)

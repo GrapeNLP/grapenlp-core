@@ -26,12 +26,9 @@ target_link_libraries(rtno
         )
 
 install(TARGETS rtno EXPORT rtnoConfig
-        ARCHIVE DESTINATION ${CMAKE_INSTALL_LIBDIR}
-        LIBRARY DESTINATION ${CMAKE_INSTALL_LIBDIR}
-        RUNTIME DESTINATION ${CMAKE_INSTALL_BINDIR}
-        COMPONENT libgrapenlp-dev)
-install(DIRECTORY include/ DESTINATION ${CMAKE_INSTALL_INCLUDEDIR})
-install(EXPORT rtnoConfig DESTINATION share/rtno/cmake)
+        ARCHIVE DESTINATION ${CMAKE_INSTALL_LIBDIR} COMPONENT libgrapenlpdev)
+install(DIRECTORY include/ DESTINATION ${CMAKE_INSTALL_INCLUDEDIR} COMPONENT libgrapenlpdev)
+install(EXPORT rtnoConfig DESTINATION share/grapenlp/rtno/cmake COMPONENT libgrapenlpdev)
 export(TARGETS rtno FILE rtnoConfig.cmake)
 
 add_executable(set_default_weights src/set_default_weights.cpp)

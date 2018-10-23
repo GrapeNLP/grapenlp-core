@@ -22,10 +22,7 @@ target_include_directories(output_fprtn_zpps PUBLIC
 target_link_libraries(output_fprtn_zpps output_fprtn)
 
 install(TARGETS output_fprtn_zpps EXPORT output_fprtn_zppsConfig
-        ARCHIVE DESTINATION ${CMAKE_INSTALL_LIBDIR}
-        LIBRARY DESTINATION ${CMAKE_INSTALL_LIBDIR}
-        RUNTIME DESTINATION ${CMAKE_INSTALL_BINDIR}
-        COMPONENT libgrapenlp-dev)
-install(DIRECTORY include/ DESTINATION ${CMAKE_INSTALL_INCLUDEDIR})
-install(EXPORT output_fprtn_zppsConfig DESTINATION share/output_fprtn_zpps/cmake)
+        ARCHIVE DESTINATION ${CMAKE_INSTALL_LIBDIR} COMPONENT libgrapenlpdev)
+install(DIRECTORY include/ DESTINATION ${CMAKE_INSTALL_INCLUDEDIR} COMPONENT libgrapenlpdev)
+install(EXPORT output_fprtn_zppsConfig DESTINATION share/grapenlp/output_fprtn_zpps/cmake COMPONENT libgrapenlpdev)
 export(TARGETS output_fprtn_zpps FILE output_fprtn_zppsConfig.cmake)

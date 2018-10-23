@@ -11,12 +11,9 @@ target_include_directories(token PUBLIC
 target_link_libraries(token unicode)
 
 install(TARGETS token EXPORT tokenConfig
-        ARCHIVE DESTINATION ${CMAKE_INSTALL_LIBDIR}
-        LIBRARY DESTINATION ${CMAKE_INSTALL_LIBDIR}
-        RUNTIME DESTINATION ${CMAKE_INSTALL_BINDIR}
-        COMPONENT libgrapenlp-dev)
-install(DIRECTORY include/ DESTINATION ${CMAKE_INSTALL_INCLUDEDIR})
-install(EXPORT tokenConfig DESTINATION share/token/cmake)
+        ARCHIVE DESTINATION ${CMAKE_INSTALL_LIBDIR} COMPONENT libgrapenlpdev)
+install(DIRECTORY include/ DESTINATION ${CMAKE_INSTALL_INCLUDEDIR} COMPONENT libgrapenlpdev)
+install(EXPORT tokenConfig DESTINATION share/grapenlp/token/cmake COMPONENT libgrapenlpdev)
 export(TARGETS token FILE tokenConfig.cmake)
 
 add_executable(tokenize src/tokenize.cpp)

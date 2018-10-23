@@ -8,10 +8,7 @@ target_include_directories(parsing PUBLIC
 target_link_libraries(parsing rtno)
 
 install(TARGETS parsing EXPORT parsingConfig
-        ARCHIVE DESTINATION ${CMAKE_INSTALL_LIBDIR}
-        LIBRARY DESTINATION ${CMAKE_INSTALL_LIBDIR}
-        RUNTIME DESTINATION ${CMAKE_INSTALL_BINDIR}
-        COMPONENT libgrapenlp-dev)
-install(DIRECTORY include/ DESTINATION ${CMAKE_INSTALL_INCLUDEDIR})
-install(EXPORT parsingConfig DESTINATION share/parsing/cmake)
+        ARCHIVE DESTINATION ${CMAKE_INSTALL_LIBDIR} COMPONENT libgrapenlpdev)
+install(DIRECTORY include/ DESTINATION ${CMAKE_INSTALL_INCLUDEDIR} COMPONENT libgrapenlpdev)
+install(EXPORT parsingConfig DESTINATION share/grapenlp/parsing/cmake COMPONENT libgrapenlpdev)
 export(TARGETS parsing FILE parsingConfig.cmake)

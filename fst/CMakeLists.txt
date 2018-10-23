@@ -11,10 +11,7 @@ target_include_directories(fst PUBLIC
 target_link_libraries(fst unicode)
 
 install(TARGETS fst EXPORT fstConfig
-        ARCHIVE DESTINATION ${CMAKE_INSTALL_LIBDIR}
-        LIBRARY DESTINATION ${CMAKE_INSTALL_LIBDIR}
-        RUNTIME DESTINATION ${CMAKE_INSTALL_BINDIR}
-        COMPONENT libgrapenlp-dev)
-install(DIRECTORY include/ DESTINATION ${CMAKE_INSTALL_INCLUDEDIR})
-install(EXPORT fstConfig DESTINATION share/fst/cmake)
+        ARCHIVE DESTINATION ${CMAKE_INSTALL_LIBDIR} COMPONENT libgrapenlpdev)
+install(DIRECTORY include/ DESTINATION ${CMAKE_INSTALL_INCLUDEDIR} COMPONENT libgrapenlpdev)
+install(EXPORT fstConfig DESTINATION share/grapenlp/fst/cmake COMPONENT libgrapenlpdev)
 export(TARGETS fst FILE fstConfig.cmake)

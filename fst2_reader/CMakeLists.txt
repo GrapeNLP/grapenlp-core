@@ -30,12 +30,9 @@ target_link_libraries(fst2_reader
         )
 
 install(TARGETS fst2_reader EXPORT fst2_readerConfig
-        ARCHIVE DESTINATION ${CMAKE_INSTALL_LIBDIR}
-        LIBRARY DESTINATION ${CMAKE_INSTALL_LIBDIR}
-        RUNTIME DESTINATION ${CMAKE_INSTALL_BINDIR}
-        COMPONENT libgrapenlp-dev)
-install(DIRECTORY include/ DESTINATION ${CMAKE_INSTALL_INCLUDEDIR})
-install(EXPORT fst2_readerConfig DESTINATION share/fst2_reader/cmake)
+        ARCHIVE DESTINATION ${CMAKE_INSTALL_LIBDIR} COMPONENT libgrapenlpdev)
+install(DIRECTORY include/ DESTINATION ${CMAKE_INSTALL_INCLUDEDIR} COMPONENT libgrapenlpdev)
+install(EXPORT fst2_readerConfig DESTINATION share/grapenlp/fst2_reader/cmake COMPONENT libgrapenlpdev)
 export(TARGETS fst2_reader FILE fst2_readerConfig.cmake)
 
 #Test files

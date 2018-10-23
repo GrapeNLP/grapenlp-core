@@ -15,12 +15,9 @@ target_include_directories(text_delaf PUBLIC
 target_link_libraries(text_delaf delaf)
 
 install(TARGETS text_delaf EXPORT text_delafConfig
-        ARCHIVE DESTINATION ${CMAKE_INSTALL_LIBDIR}
-        LIBRARY DESTINATION ${CMAKE_INSTALL_LIBDIR}
-        RUNTIME DESTINATION ${CMAKE_INSTALL_BINDIR}
-        COMPONENT libgrapenlp-dev)
-install(DIRECTORY include/ DESTINATION ${CMAKE_INSTALL_INCLUDEDIR})
-install(EXPORT text_delafConfig DESTINATION share/text_delaf/cmake)
+        ARCHIVE DESTINATION ${CMAKE_INSTALL_LIBDIR} COMPONENT libgrapenlpdev)
+install(DIRECTORY include/ DESTINATION ${CMAKE_INSTALL_INCLUDEDIR} COMPONENT libgrapenlpdev)
+install(EXPORT text_delafConfig DESTINATION share/grapenlp/text_delaf/cmake COMPONENT libgrapenlpdev)
 export(TARGETS text_delaf FILE text_delafConfig.cmake)
 
 add_executable(normalize_delaf src/normalize_delaf.cpp)

@@ -1,4 +1,4 @@
-project(output_fprtn_zpps_prune VERSION 0.1 LANGUAGES CXX)
+project(output_fprtn_zpps_prune VERSION ${GRAPENLP_VERSION_MAJOR}.${GRAPENLP_VERSION_MINOR}.${GRAPENLP_VERSION_PATCH} LANGUAGES CXX)
 
 add_library(output_fprtn_zpps_prune STATIC
         src/output_fprtn_zpps_prune.cpp
@@ -30,7 +30,8 @@ target_link_libraries(output_fprtn_zpps_prune
 install(TARGETS output_fprtn_zpps_prune EXPORT output_fprtn_zpps_pruneConfig
         ARCHIVE DESTINATION ${CMAKE_INSTALL_LIBDIR}
         LIBRARY DESTINATION ${CMAKE_INSTALL_LIBDIR}
-        RUNTIME DESTINATION ${CMAKE_INSTALL_BINDIR})
+        RUNTIME DESTINATION ${CMAKE_INSTALL_BINDIR}
+        COMPONENT libgrapenlp-dev)
 install(DIRECTORY include/ DESTINATION ${CMAKE_INSTALL_INCLUDEDIR})
 install(EXPORT output_fprtn_zpps_pruneConfig DESTINATION share/output_fprtn_zpps_prune/cmake)
 export(TARGETS output_fprtn_zpps_prune FILE output_fprtn_zpps_pruneConfig.cmake)

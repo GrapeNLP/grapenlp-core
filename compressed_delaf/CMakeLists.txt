@@ -1,4 +1,4 @@
-project(compressed_delaf VERSION 0.1 LANGUAGES CXX)
+project(compressed_delaf VERSION ${GRAPENLP_VERSION_MAJOR}.${GRAPENLP_VERSION_MINOR}.${GRAPENLP_VERSION_PATCH} LANGUAGES CXX)
 
 add_library(compressed_delaf STATIC
         src/bin_delaf.cpp
@@ -18,7 +18,8 @@ target_include_directories(compressed_delaf PUBLIC
 install(TARGETS compressed_delaf EXPORT compressed_delafConfig
         ARCHIVE DESTINATION ${CMAKE_INSTALL_LIBDIR}
         LIBRARY DESTINATION ${CMAKE_INSTALL_LIBDIR}
-        RUNTIME DESTINATION ${CMAKE_INSTALL_BINDIR})
+        RUNTIME DESTINATION ${CMAKE_INSTALL_BINDIR}
+        COMPONENT libgrapenlp-dev)
 install(DIRECTORY include/ DESTINATION ${CMAKE_INSTALL_INCLUDEDIR})
 install(EXPORT compressed_delafConfig DESTINATION share/compressed_delaf/cmake)
 export(TARGETS compressed_delaf FILE compressed_delafConfig.cmake)

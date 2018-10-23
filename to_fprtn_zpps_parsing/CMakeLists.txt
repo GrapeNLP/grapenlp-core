@@ -1,4 +1,4 @@
-project(to_fprtn_zpps_parsing VERSION 0.1 LANGUAGES CXX)
+project(to_fprtn_zpps_parsing VERSION ${GRAPENLP_VERSION_MAJOR}.${GRAPENLP_VERSION_MINOR}.${GRAPENLP_VERSION_PATCH} LANGUAGES CXX)
 
 add_library(to_fprtn_zpps_parsing STATIC
         src/to_fprtn_zpps_parser.cpp
@@ -19,7 +19,8 @@ target_link_libraries(to_fprtn_zpps_parsing
 install(TARGETS to_fprtn_zpps_parsing EXPORT to_fprtn_zpps_parsingConfig
         ARCHIVE DESTINATION ${CMAKE_INSTALL_LIBDIR}
         LIBRARY DESTINATION ${CMAKE_INSTALL_LIBDIR}
-        RUNTIME DESTINATION ${CMAKE_INSTALL_BINDIR})
+        RUNTIME DESTINATION ${CMAKE_INSTALL_BINDIR}
+        COMPONENT libgrapenlp-dev)
 install(DIRECTORY include/ DESTINATION ${CMAKE_INSTALL_INCLUDEDIR})
 install(EXPORT to_fprtn_zpps_parsingConfig DESTINATION share/to_fprtn_zpps_parsing/cmake)
 export(TARGETS to_fprtn_zpps_parsing FILE to_fprtn_zpps_parsingConfig.cmake)

@@ -1,4 +1,4 @@
-project(lrb_tree VERSION 0.1 LANGUAGES CXX)
+project(lrb_tree VERSION ${GRAPENLP_VERSION_MAJOR}.${GRAPENLP_VERSION_MINOR}.${GRAPENLP_VERSION_PATCH} LANGUAGES CXX)
 
 add_library(lrb_tree STATIC
         src/lrb_tree.cpp

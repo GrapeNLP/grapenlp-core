@@ -1,4 +1,4 @@
-project(segment VERSION 0.1 LANGUAGES CXX)
+project(segment VERSION ${GRAPENLP_VERSION_MAJOR}.${GRAPENLP_VERSION_MINOR}.${GRAPENLP_VERSION_PATCH} LANGUAGES CXX)
 
 add_library(segment STATIC
         src/out_bound.cpp
@@ -22,7 +22,8 @@ target_link_libraries(segment
 install(TARGETS segment EXPORT segmentConfig
         ARCHIVE DESTINATION ${CMAKE_INSTALL_LIBDIR}
         LIBRARY DESTINATION ${CMAKE_INSTALL_LIBDIR}
-        RUNTIME DESTINATION ${CMAKE_INSTALL_BINDIR})
+        RUNTIME DESTINATION ${CMAKE_INSTALL_BINDIR}
+        COMPONENT libgrapenlp-dev)
 install(DIRECTORY include/ DESTINATION ${CMAKE_INSTALL_INCLUDEDIR})
 install(EXPORT segmentConfig DESTINATION share/segment/cmake)
 export(TARGETS segment FILE segmentConfig.cmake)

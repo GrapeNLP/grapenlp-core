@@ -1,4 +1,4 @@
-project(output_fprtn_blackboard_set_expander VERSION 0.1 LANGUAGES CXX)
+project(output_fprtn_blackboard_set_expander VERSION ${GRAPENLP_VERSION_MAJOR}.${GRAPENLP_VERSION_MINOR}.${GRAPENLP_VERSION_PATCH} LANGUAGES CXX)
 
 add_library(output_fprtn_blackboard_set_expander STATIC
         src/fprtn_blackboard_set_expander.cpp
@@ -28,7 +28,8 @@ target_link_libraries(output_fprtn_blackboard_set_expander
 install(TARGETS output_fprtn_blackboard_set_expander EXPORT output_fprtn_blackboard_set_expanderConfig
         ARCHIVE DESTINATION ${CMAKE_INSTALL_LIBDIR}
         LIBRARY DESTINATION ${CMAKE_INSTALL_LIBDIR}
-        RUNTIME DESTINATION ${CMAKE_INSTALL_BINDIR})
+        RUNTIME DESTINATION ${CMAKE_INSTALL_BINDIR}
+        COMPONENT libgrapenlp-dev)
 install(DIRECTORY include/ DESTINATION ${CMAKE_INSTALL_INCLUDEDIR})
 install(EXPORT output_fprtn_blackboard_set_expanderConfig DESTINATION share/output_fprtn_blackboard_set_expander/cmake)
 export(TARGETS output_fprtn_blackboard_set_expander FILE output_fprtn_blackboard_set_expanderConfig.cmake)

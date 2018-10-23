@@ -1,4 +1,4 @@
-project(stats VERSION 0.1 LANGUAGES CXX)
+project(stats VERSION ${GRAPENLP_VERSION_MAJOR}.${GRAPENLP_VERSION_MINOR}.${GRAPENLP_VERSION_PATCH} LANGUAGES CXX)
 
 add_library(stats STATIC src/stats.cpp)
 target_include_directories(stats PUBLIC
@@ -13,7 +13,8 @@ target_link_libraries(stats
 install(TARGETS stats EXPORT statsConfig
         ARCHIVE DESTINATION ${CMAKE_INSTALL_LIBDIR}
         LIBRARY DESTINATION ${CMAKE_INSTALL_LIBDIR}
-        RUNTIME DESTINATION ${CMAKE_INSTALL_BINDIR})
+        RUNTIME DESTINATION ${CMAKE_INSTALL_BINDIR}
+        COMPONENT libgrapenlp-dev)
 install(DIRECTORY include/ DESTINATION ${CMAKE_INSTALL_INCLUDEDIR})
 install(EXPORT statsConfig DESTINATION share/stats/cmake)
 export(TARGETS stats FILE statsConfig.cmake)

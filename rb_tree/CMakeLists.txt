@@ -1,4 +1,4 @@
-project(rb_tree VERSION 0.1 LANGUAGES CXX)
+project(rb_tree VERSION ${GRAPENLP_VERSION_MAJOR}.${GRAPENLP_VERSION_MINOR}.${GRAPENLP_VERSION_PATCH} LANGUAGES CXX)
 
 add_library(rb_tree STATIC
         src/rb_tree.cpp
@@ -20,7 +20,8 @@ target_link_libraries(rb_tree util)
 install(TARGETS rb_tree EXPORT rb_treeConfig
         ARCHIVE DESTINATION ${CMAKE_INSTALL_LIBDIR}
         LIBRARY DESTINATION ${CMAKE_INSTALL_LIBDIR}
-        RUNTIME DESTINATION ${CMAKE_INSTALL_BINDIR})
+        RUNTIME DESTINATION ${CMAKE_INSTALL_BINDIR}
+        COMPONENT libgrapenlp-dev)
 install(DIRECTORY include/ DESTINATION ${CMAKE_INSTALL_INCLUDEDIR})
 install(EXPORT rb_treeConfig DESTINATION share/rb_tree/cmake)
 export(TARGETS rb_tree FILE rb_treeConfig.cmake)

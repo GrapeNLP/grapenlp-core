@@ -1,4 +1,4 @@
-project(rtno VERSION 0.1 LANGUAGES CXX)
+project(rtno VERSION ${GRAPENLP_VERSION_MAJOR}.${GRAPENLP_VERSION_MINOR}.${GRAPENLP_VERSION_PATCH} LANGUAGES CXX)
 
 add_library(rtno STATIC
         src/l_rtno.cpp
@@ -28,7 +28,8 @@ target_link_libraries(rtno
 install(TARGETS rtno EXPORT rtnoConfig
         ARCHIVE DESTINATION ${CMAKE_INSTALL_LIBDIR}
         LIBRARY DESTINATION ${CMAKE_INSTALL_LIBDIR}
-        RUNTIME DESTINATION ${CMAKE_INSTALL_BINDIR})
+        RUNTIME DESTINATION ${CMAKE_INSTALL_BINDIR}
+        COMPONENT libgrapenlp-dev)
 install(DIRECTORY include/ DESTINATION ${CMAKE_INSTALL_INCLUDEDIR})
 install(EXPORT rtnoConfig DESTINATION share/rtno/cmake)
 export(TARGETS rtno FILE rtnoConfig.cmake)

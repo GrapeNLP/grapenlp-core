@@ -1,4 +1,4 @@
-project(unicode VERSION 0.1 LANGUAGES CXX)
+project(unicode VERSION ${GRAPENLP_VERSION_MAJOR}.${GRAPENLP_VERSION_MINOR}.${GRAPENLP_VERSION_PATCH} LANGUAGES CXX)
 
 add_library(unicode STATIC
 		src/error.cpp
@@ -31,7 +31,8 @@ target_link_libraries(unicode util)
 install(TARGETS unicode EXPORT unicodeConfig
 		ARCHIVE DESTINATION ${CMAKE_INSTALL_LIBDIR}
 		LIBRARY DESTINATION ${CMAKE_INSTALL_LIBDIR}
-		RUNTIME DESTINATION ${CMAKE_INSTALL_BINDIR})
+		RUNTIME DESTINATION ${CMAKE_INSTALL_BINDIR}
+		COMPONENT libgrapenlp-dev)
 install(DIRECTORY include/ DESTINATION ${CMAKE_INSTALL_INCLUDEDIR})
 install(EXPORT unicodeConfig DESTINATION share/unicode/cmake)
 export(TARGETS unicode FILE unicodeConfig.cmake)

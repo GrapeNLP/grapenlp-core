@@ -1,4 +1,4 @@
-project(lexmask VERSION 0.1 LANGUAGES CXX)
+project(lexmask VERSION ${GRAPENLP_VERSION_MAJOR}.${GRAPENLP_VERSION_MINOR}.${GRAPENLP_VERSION_PATCH} LANGUAGES CXX)
 
 add_library(lexmask STATIC
         src/meta_code_dico.cpp

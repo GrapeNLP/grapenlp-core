@@ -1,4 +1,4 @@
-project(machine VERSION 0.1 LANGUAGES CXX)
+project(machine VERSION ${GRAPENLP_VERSION_MAJOR}.${GRAPENLP_VERSION_MINOR}.${GRAPENLP_VERSION_PATCH} LANGUAGES CXX)
 
 add_library(machine STATIC
         src/tag_input_traits.cpp

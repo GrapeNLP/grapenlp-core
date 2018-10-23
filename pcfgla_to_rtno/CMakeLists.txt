@@ -1,4 +1,4 @@
-project(pcfgla_to_rtno VERSION 0.1 LANGUAGES CXX)
+project(pcfgla_to_rtno VERSION ${GRAPENLP_VERSION_MAJOR}.${GRAPENLP_VERSION_MINOR}.${GRAPENLP_VERSION_PATCH} LANGUAGES CXX)
 
 add_library(pcfgla_to_rtno STATIC src/pcfgla_to_rtno.cpp)
 target_include_directories(pcfgla_to_rtno PUBLIC
@@ -13,7 +13,8 @@ target_link_libraries(pcfgla_to_rtno
 install(TARGETS pcfgla_to_rtno EXPORT pcfgla_to_rtnoConfig
         ARCHIVE DESTINATION ${CMAKE_INSTALL_LIBDIR}
         LIBRARY DESTINATION ${CMAKE_INSTALL_LIBDIR}
-        RUNTIME DESTINATION ${CMAKE_INSTALL_BINDIR})
+        RUNTIME DESTINATION ${CMAKE_INSTALL_BINDIR}
+        COMPONENT libgrapenlp-dev)
 install(DIRECTORY include/ DESTINATION ${CMAKE_INSTALL_INCLUDEDIR})
 install(EXPORT pcfgla_to_rtnoConfig DESTINATION share/pcfgla_to_rtno/cmake)
 export(TARGETS pcfgla_to_rtno FILE pcfgla_to_rtnoConfig.cmake)

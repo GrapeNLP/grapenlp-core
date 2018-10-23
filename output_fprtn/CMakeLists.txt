@@ -1,4 +1,4 @@
-project(output_fprtn VERSION 0.1 LANGUAGES CXX)
+project(output_fprtn VERSION ${GRAPENLP_VERSION_MAJOR}.${GRAPENLP_VERSION_MINOR}.${GRAPENLP_VERSION_PATCH} LANGUAGES CXX)
 
 add_library(output_fprtn STATIC
         src/output_fprtn.cpp
@@ -29,7 +29,8 @@ target_link_libraries(output_fprtn
 install(TARGETS output_fprtn EXPORT output_fprtnConfig
         ARCHIVE DESTINATION ${CMAKE_INSTALL_LIBDIR}
         LIBRARY DESTINATION ${CMAKE_INSTALL_LIBDIR}
-        RUNTIME DESTINATION ${CMAKE_INSTALL_BINDIR})
+        RUNTIME DESTINATION ${CMAKE_INSTALL_BINDIR}
+        COMPONENT libgrapenlp-dev)
 install(DIRECTORY include/ DESTINATION ${CMAKE_INSTALL_INCLUDEDIR})
 install(EXPORT output_fprtnConfig DESTINATION share/output_fprtn/cmake)
 export(TARGETS output_fprtn FILE output_fprtnConfig.cmake)

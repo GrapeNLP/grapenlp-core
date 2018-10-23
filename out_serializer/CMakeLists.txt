@@ -1,4 +1,4 @@
-project(out_serializer VERSION 0.1 LANGUAGES CXX)
+project(out_serializer VERSION ${GRAPENLP_VERSION_MAJOR}.${GRAPENLP_VERSION_MINOR}.${GRAPENLP_VERSION_PATCH} LANGUAGES CXX)
 
 add_library(out_serializer STATIC
         src/movistarbot_phone_digit_separator_set.cpp
@@ -19,7 +19,8 @@ target_link_libraries(out_serializer
 install(TARGETS out_serializer EXPORT out_serializerConfig
         ARCHIVE DESTINATION ${CMAKE_INSTALL_LIBDIR}
         LIBRARY DESTINATION ${CMAKE_INSTALL_LIBDIR}
-        RUNTIME DESTINATION ${CMAKE_INSTALL_BINDIR})
+        RUNTIME DESTINATION ${CMAKE_INSTALL_BINDIR}
+        COMPONENT libgrapenlp-dev)
 install(DIRECTORY include/ DESTINATION ${CMAKE_INSTALL_INCLUDEDIR})
 install(EXPORT out_serializerConfig DESTINATION share/out_serializer/cmake)
 export(TARGETS out_serializer FILE out_serializerConfig.cmake)

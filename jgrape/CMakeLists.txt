@@ -5,7 +5,7 @@ set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -fpermissive -DSIMPLIFIED_OUTPUT -DSWIG_
 set(CMAKE_SWIG_FLAGS ${CMAKE_SWIG_FLAGS} "-package" "com.grapenlp.core")
 set_property(SOURCE swig/grape/jgrape.i PROPERTY CPLUSPLUS ON)
 set_property(SOURCE swig/grape/jgrape.i PROPERTY SWIG_FLAGS "-includeall")
-swig_add_library(jgrape SHARED LANGUAGE java SOURCES swig/grape/jgrape.i)
+swig_add_library(jgrape TYPE SHARED LANGUAGE java SOURCES swig/grape/jgrape.i)
 swig_link_libraries(jgrape
         manager
         )

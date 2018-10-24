@@ -8,3 +8,7 @@ swig_add_library(pygrape SHARED LANGUAGE python SOURCES swig/grape/pygrape.i)
 swig_link_libraries(pygrape
         manager
         )
+
+
+install(FILES ${CMAKE_CURRENT_BINARY_DIR}/pygrapePYTHON_wrap.cxx DESTINATION ${CMAKE_INSTALL_DATADIR})
+install(FILES ${CMAKE_CURRENT_BINARY_DIR}/pygrape.py DESTINATION ${CMAKE_INSTALL_DATADIR})

@@ -1,4 +1,4 @@
-#!/bin/bash 
+#!/bin/bash
 SCRIPTFOLDER="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )"
 
 TARGETS=("debug" "release" "armeabi-v7adebug" "armeabi-v7arelease" "x86_64debug" "x86_64release")

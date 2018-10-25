@@ -35,3 +35,6 @@ rel/
 #Default CLion cmake build folders
 cmake-build-debug/
 cmake-build-release/
+
+# Mac
+*.DS_Store*

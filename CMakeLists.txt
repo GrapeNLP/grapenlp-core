@@ -1,7 +1,7 @@
 cmake_minimum_required(VERSION 3.6 FATAL_ERROR)
 set(GRAPENLP_VERSION_MAJOR 2)
 set(GRAPENLP_VERSION_MINOR 0)
-set(GRAPENLP_VERSION_PATCH 1)
+set(GRAPENLP_VERSION_PATCH 2)
 project(grapenlp-core VERSION ${GRAPENLP_VERSION_MAJOR}.${GRAPENLP_VERSION_MINOR}.${GRAPENLP_VERSION_PATCH} LANGUAGES CXX)
 configure_file (
         "${PROJECT_SOURCE_DIR}/config/include/grapenlp/config.h.in"
@@ -88,6 +88,9 @@ add_subdirectory(earley_parsing)
 #add_subdirectory(fst)
 add_subdirectory(fst2_constants)
 add_subdirectory(fst2_reader)
+if (CMAKE_BUILD_TYPE STREQUAL "Release")
+    add_subdirectory(jgrapenlp)
+endif (CMAKE_BUILD_TYPE STREQUAL "Release")
 add_subdirectory(lexmask)
 add_subdirectory(lrb_tree)
 add_subdirectory(lrb_tree_to_dot_serializer)

@@ -1756,6 +1756,7 @@ unichar *u_strncpy(unichar *dest, const unichar *src, int n) {
         *dest = *src;
     for (; src != src_end; ++src, ++dest)
         *dest = 0;
+    return dest;
 }
 
 /**

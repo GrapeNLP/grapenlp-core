@@ -4,7 +4,8 @@ set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -fpermissive -DSIMPLIFIED_OUTPUT -DSWIG_
 
 set_property(SOURCE swig/grapenlp/pygrapenlp.i PROPERTY CPLUSPLUS ON)
 set_property(SOURCE swig/grapenlp/pygrapenlp.i PROPERTY SWIG_FLAGS "-includeall" "-py3" "-extranative")
-swig_add_library(pygrapenlp SHARED LANGUAGE python SOURCES swig/grapenlp/pygrapenlp.i)
+swig_add_library(pygrapenlp TYPE SHARED LANGUAGE python SOURCES swig/grapenlp/pygrapenlp.i)
 swig_link_libraries(pygrapenlp
         manager
+        ${PYTHON_LIBRARIES}
         )

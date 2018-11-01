@@ -1,3 +1,8 @@
+# v2.0.2
+* Minor fixes to allow compilation in MacOS (tested with High Sierra)
+* Enabled compilation of Java interface (jgrapenlp)
+* Fixed warning in unicode.cpp
+
 # v2.0.1
 * Added version number management in CMakefiles
 

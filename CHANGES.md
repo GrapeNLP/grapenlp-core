@@ -1,3 +1,6 @@
+# v2.1.0
+* Added several Dockerfiles for building docker images that contain all the needed tools for compiling grapenlp-core in different platforms, namely Alpine 3.6, Alpine 3.7, Alpine 3.8, Ubuntu 16.04 and Ubuntu 18.04.
+
 # v2.0.2
 * Minor fixes to allow compilation in MacOS (tested with High Sierra)
 * Enabled compilation of Java interface (jgrapenlp)

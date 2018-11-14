@@ -5,10 +5,10 @@ sudo: required
 services:
 - docker
 
-env: SH="docker exec -t grapenlp/core-build-ubuntu:16.04 bash -c"
+env: SH="docker exec -t build-image bash -c"
 
 before_install:
-- docker run -d -u build -v $(pwd):/home/build/travis -w /home/build/travis grapenlp/core-build-ubuntu:16.04 tail -f /dev/null
+- docker run -d --name build-image -u build -v $(pwd):/home/build/travis -w /home/build/travis grapenlp/core-build-ubuntu:16.04 tail -f /dev/null
 - docker ps
 
 install:

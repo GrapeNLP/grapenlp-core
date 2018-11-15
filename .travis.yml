@@ -8,13 +8,16 @@ services:
 env: SH="docker exec -t build-image bash -c"
 
 before_install:
-- docker run -d --name build-image -v $(pwd):/travis -w /travis grapenlp/core-build-ubuntu:16.04 tail -f /dev/null
+- docker run -d --name build-image -u build -v $(pwd):/home/build/grapenlp-core -w /home/build/grapenlp-core grapenlp/core-build-ubuntu:16.04 tail -f /dev/null
 - docker ps
 
 install:
+- mkdir bin
+- chown 1000:1000 bin
 
 script:
 - $SH "build/scripts/build.sh release"
 
 notifications:
   email: true
+

@@ -18,7 +18,7 @@ matrix:
       script:
         - $SH "build/scripts/build.sh release"
 
-    -env: 'PLATFORM=Ubuntu 18.04'
+    - env: 'PLATFORM=Ubuntu 18.04'
       before_install:
         - mkdir bin
         - sudo chown 1000:1000 bin
@@ -27,7 +27,7 @@ matrix:
       script:
         - $SH "build/scripts/build.sh release"
 
-    -env: 'PLATFORM=Alpine 3.6'
+    - env: 'PLATFORM=Alpine 3.6'
       before_install:
         - mkdir bin
         - sudo chown 100:101 bin

@@ -13,7 +13,7 @@ before_install:
 
 install:
 - mkdir bin
-- chown 1000:1000 bin
+- sudo chown 1000:1000 bin
 
 script:
 - $SH "build/scripts/build.sh release"

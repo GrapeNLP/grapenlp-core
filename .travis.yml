@@ -5,19 +5,20 @@ sudo: required
 services:
 - docker
 
-env: SH="docker exec -t build-image bash -c"
+env:
+  global: SH="docker exec -t build-image bash -c"
 
 matrix:
   fast_finish: true
   include:
-  - env: 'PLATFORM=Ubuntu 16.04'
+  - env: 'PLATFORM="Ubuntu 16.04"'
     before_install:
     - mkdir bin
     - sudo chown 1000:1000 bin
     - docker run -d --name build-image -u build -v $(pwd):/home/build/grapenlp-core -w /home/build/grapenlp-core grapenlp/core-build-ubuntu:16.04 tail -f /dev/null
     - docker ps
 
-  - env: 'PLATFORM=Ubuntu 18.04'
+  - env: 'PLATFORM="Ubuntu 18.04"'
     before_install:
     - mkdir bin
     - sudo chown 1000:1000 bin

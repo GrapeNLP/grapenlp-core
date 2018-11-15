@@ -16,14 +16,35 @@ matrix:
     - mkdir bin
     - sudo chown 1000:1000 bin
     - docker run -d --name build-image -u build -v $(pwd):/home/build/grapenlp-core -w /home/build/grapenlp-core grapenlp/core-build-ubuntu:16.04 tail -f /dev/null
-    - docker ps
+    - docker ps -a
 
   - env: 'PLATFORM="Ubuntu 18.04"'
     before_install:
     - mkdir bin
     - sudo chown 1000:1000 bin
     - docker run -d --name build-image -u build -v $(pwd):/home/build/grapenlp-core -w /home/build/grapenlp-core grapenlp/core-build-ubuntu:18.04 tail -f /dev/null
-    - docker ps
+    - docker ps -a
+
+  - env: 'PLATFORM="Alpine 3.6"'
+    before_install:
+    - mkdir bin
+    - sudo chown 100:101 bin
+    - docker run -d --name build-image -u build -v $(pwd):/home/build/grapenlp-core -w /home/build/grapenlp-core grapenlp/core-build-alpine:3.6 tail -f /dev/null
+    - docker ps -a
+
+  - env: 'PLATFORM="Alpine 3.7"'
+    before_install:
+    - mkdir bin
+    - sudo chown 100:101 bin
+    - docker run -d --name build-image -u build -v $(pwd):/home/build/grapenlp-core -w /home/build/grapenlp-core grapenlp/core-build-alpine:3.7 tail -f /dev/null
+    - docker ps -a
+
+  - env: 'PLATFORM="Alpine 3.8"'
+    before_install:
+    - mkdir bin
+    - sudo chown 100:101 bin
+    - docker run -d --name build-image -u build -v $(pwd):/home/build/grapenlp-core -w /home/build/grapenlp-core grapenlp/core-build-alpine:3.8 tail -f /dev/null
+    - docker ps -a
 
 script: $SH "build/scripts/build.sh release"
 

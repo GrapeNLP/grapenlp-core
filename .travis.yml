@@ -1,5 +1,3 @@
-language: c++
-
 sudo: required
 
 services:
@@ -12,6 +10,7 @@ matrix:
   fast_finish: true
   include:
   - env: 'PLATFORM="Ubuntu 16.04"'
+    language: c++
     before_install:
     - mkdir bin
     - sudo chown 1000:1000 bin
@@ -19,6 +18,7 @@ matrix:
     - docker ps -a
 
   - env: 'PLATFORM="Ubuntu 18.04"'
+    language: c++
     before_install:
     - mkdir bin
     - sudo chown 1000:1000 bin
@@ -26,6 +26,7 @@ matrix:
     - docker ps -a
 
   - env: 'PLATFORM="Alpine 3.6"'
+    language: c++
     before_install:
     - mkdir bin
     - sudo chown 100:101 bin
@@ -33,6 +34,7 @@ matrix:
     - docker ps -a
 
   - env: 'PLATFORM="Alpine 3.7"'
+    language: c++
     before_install:
     - mkdir bin
     - sudo chown 100:101 bin
@@ -40,6 +42,7 @@ matrix:
     - docker ps -a
 
   - env: 'PLATFORM="Alpine 3.8"'
+    language: c++
     before_install:
     - mkdir bin
     - sudo chown 100:101 bin

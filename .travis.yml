@@ -41,8 +41,14 @@ matrix:
     - 'PLATFORM="MacOS 10.13"'
     os: osx
     osx_image: xcode9.3
-    install:
-    - brew install boost cmake swig python
+    addons:
+      homebrew:
+        packages:
+          - boost
+          - cmake
+          - swig
+          - python
+        update: true
     script: build/scripts/build.sh release
 
   - env:

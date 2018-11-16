@@ -44,11 +44,23 @@ matrix:
     addons:
       homebrew:
         packages:
+          - wget
           - boost
           - cmake
           - swig
           - python
         update: true
+    install:
+    - wget https://github.com/google/googletest/archive/release-1.8.1.tar.gz
+    - tar xfz release-1.8.1.tar.gz
+    - cd googletest-release-1.8.1
+    - mkdir build
+    - cd build
+    - cmake ..
+    - make
+    - cp -r ../include/gtest /usr/local/include
+    - cp googlemock/lib*.a /usr/local/lib
+    - cp googlemock/gtest/lib*.a /usr/local/lib
     script: build/scripts/build.sh release
 
   - env:

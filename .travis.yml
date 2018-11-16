@@ -58,7 +58,7 @@ matrix:
     - cd build
     - cmake ..
     - make
-    - cp -r ../include/gtest /usr/local/include
+    - cp -r ../googletest/include/gtest /usr/local/include
     - cp googlemock/lib*.a /usr/local/lib
     - cp googlemock/gtest/lib*.a /usr/local/lib
     script: build/scripts/build.sh release

@@ -1,0 +1,46 @@
+grapenlp-core (2.2.0) stable; urgency=medium
+
+  * Improved Debian packaging to conform with Debian standards (added copyright and changelog)
+  * Added libjgrapenlp Debian package containing the Java SWIG interface for consuming the GRAPENLP engine from Java
+  * Added to libgrapenlp-dev automatically generated source code files with SWIG which are to be used by pygrapenlp Python package for consuming the GRAPENLP engine from Python
+
+ -- Javier Sastre <javier.sastre@telefonica.net>  Thu, 10 Jan 2019 09:35:02 +0100
+
+grapenlp-core (2.1.0) stable; urgency=medium
+
+  * Added several Dockerfiles for building docker images that contain all the needed tools for compiling grapenlp-core in different platforms, namely Alpine 3.6, Alpine 3.7, Alpine 3.8, Ubuntu 16.04 and Ubuntu 18.04.
+
+ -- Javier Sastre <javier.sastre@telefonica.net>  Wed, 7 Nov 2018 15:51:31 +0100
+
+grapenlp-core (2.0.2) stable; urgency=medium
+
+  * Minor fixes to allow compilation in MacOS (tested with High Sierra)
+  * Enabled compilation of Java interface (jgrapenlp)
+  * Fixed warning in unicode.cpp
+
+ -- Javier Sastre <javier.sastre@telefonica.net>  Thu, 1 Nov 2018 20:00:15 +0100
+
+grapenlp-core (2.1.0) stable; urgency=medium
+
+  * Added version number management in CMakefiles
+
+ -- Javier Sastre <javier.sastre@telefonica.net>  Tue, 23 Oct 2018 18:40:14 +0200
+
+grapenlp-core (2.0.0) stable; urgency=medium
+
+  * Renamed all grape "stuff" (libraries, namespaces, include folders, etc.) to grapenlp to avoid collisions with other open-source projects (sorry folks, grapes are popular among the open-source community)
+
+ -- Javier Sastre <javier.sastre@telefonica.net>  Tue, 23 Oct 2018 13:11:45 +0200
+
+grapenlp-core (1.0.1) stable; urgency=medium
+
+  * Corrected some typos in README.md
+  * Added LICENSE file to main folder
+
+ -- Javier Sastre <javier.sastre@telefonica.net>  Sun, 14 Oct 2018 22:58:05 +0200
+
+grapenlp-core (1.0.0) stable; urgency=medium
+
+  * First disclosed GrapeNLP-core version uploaded to GitHub. It is operative, though documentation is still lacking. Debug and release versions can be compiled using the script at build/scripts/build.sh. Compilation has been tested in Ubuntu and Alpine, and interfaces for Python and Java have also been developed (see modules pygrapenlp and jgrapenlp).
+
+ -- Javier Sastre <javier.sastre@telefonica.net>  Sun, 14 Oct 2018 22:33:32 +0200

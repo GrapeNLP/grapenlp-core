@@ -2,7 +2,7 @@ cmake_minimum_required(VERSION 3.6 FATAL_ERROR)
 set(GRAPENLP_VERSION_MAJOR 2)
 set(GRAPENLP_VERSION_MINOR 1)
 set(GRAPENLP_VERSION_PATCH 0)
-project(grapenlp-core VERSION ${GRAPENLP_VERSION_MAJOR}.${GRAPENLP_VERSION_MINOR}.${GRAPENLP_VERSION_PATCH} LANGUAGES CXX)
+project(grapenlp VERSION ${GRAPENLP_VERSION_MAJOR}.${GRAPENLP_VERSION_MINOR}.${GRAPENLP_VERSION_PATCH} LANGUAGES CXX)
 configure_file (
         "${PROJECT_SOURCE_DIR}/config/include/grapenlp/config.h.in"
         "${PROJECT_BINARY_DIR}/config/include/grapenlp/config.h"
@@ -139,32 +139,50 @@ set(CPACK_DEB_COMPONENT_INSTALL ON)
 set(CPACK_DEBIAN_ENABLE_COMPONENT_DEPENDS ON)
 set(CPACK_GENERATOR "DEB")
 set(CPACK_DEBIAN_PACKAGE_VERSION "${PROJECT_VERSION}")
-set(CPACK_DEBIAN_PACKAGE_MAINTAINER "Javier Sastre")
+set(CPACK_DEBIAN_PACKAGE_MAINTAINER "Javier Sastre <javier.sastre@telefonica.net>")
 set(CPACK_DEBIAN_PACKAGE_ARCHITECTURE "amd64")
+set(CPACK_DEBIAN_PACKAGE_HOMEPAGE "https://github.com/GrapeNLP/grapenlp-core")
 
 set(CPACK_DEBIAN_LIBGRAPENLP_PACKAGE_NAME "libgrapenlp")
-set(CPACK_DEBIAN_LIBGRAPENLP_PACKAGE_DESCRIPTION "GRAPENLP library (Grammar Annotation Patterns Engine)")
-set(CPACK_DEBIAN_LIBGRAPENLP_PACKAGE_DEPENDS "libboost-program-options-dev (>= 1.58.0), libboost-program-options-dev (< 2.0.0)")
+set(CPACK_COMPONENT_LIBGRAPENLP_DESCRIPTION "GRAPENLP shared library\n Grammar Annotation Pattern Engine for Natural Language Processing.\n .\n This package contains the shared library.")
+set(CPACK_DEBIAN_LIBGRAPENLP_PACKAGE_DEPENDS "libboost-program-options-dev (>= 1.58.0), libboost-program-options-dev (<< 2.0.0)")
 set(CPACK_DEBIAN_LIBGRAPENLP_PACKAGE_SECTION "libs")
 set(CPACK_DEBIAN_LIBGRAPENLP_PACKAGE_PRIORITY "optional")
 set(CPACK_DEBIAN_LIBGRAPENLP_FILE_NAME "libgrapenlp-${PROJECT_VERSION}-${CPACK_DEBIAN_PACKAGE_ARCHITECTURE}.deb")
 set(CPACK_DEBIAN_LIBGRAPENLP_PACKAGE_CONTROL_EXTRA "${CMAKE_CURRENT_SOURCE_DIR}/libgrapenlp/postinst;${CMAKE_CURRENT_SOURCE_DIR}/libgrapenlp/postrm")
 
 set(CPACK_DEBIAN_LIBGRAPENLPDEV_PACKAGE_NAME "libgrapenlp-dev")
-set(CPACK_DEBIAN_LIBGRAPENLPDEV_PACKAGE_DESCRIPTION "GRAPENLP headers (Grammar Annotation Patterns Engine)")
-set(CPACK_DEBIAN_LIBGRAPENLPDEV_PACKAGE_DEPENDS "libgrapenlp (>= 2.0.0), libgrapenlp (< 3.0.0)")
+set(CPACK_COMPONENT_LIBGRAPENLPDEV_DESCRIPTION "GRAPENLP headers.\n Grammar Annotation Pattern Engine for Natural Language Processing.\n .\n This package contains the headers and static libraries as well as the source files needed for compiling the SWIG interfaces for consuming GRAPENLP from other programming languages (e.g. Python and Java).")
+set(CPACK_DEBIAN_LIBGRAPENLPDEV_PACKAGE_DEPENDS "libgrapenlp (>= 2.0.0), libgrapenlp (<< 3.0.0)")
 set(CPACK_DEBIAN_LIBGRAPENLPDEV_PACKAGE_SECTION "libdevel")
 set(CPACK_DEBIAN_LIBGRAPENLPDEV_PACKAGE_PRIORITY "optional")
 set(CPACK_DEBIAN_LIBGRAPENLPDEV_FILE_NAME "libgrapenlp-dev-${PROJECT_VERSION}-${CPACK_DEBIAN_PACKAGE_ARCHITECTURE}.deb")
 
 set(CPACK_DEBIAN_CGRAPENLP_PACKAGE_NAME "grapenlp")
-set(CPACK_DEBIAN_CGRAPENLP_PACKAGE_DESCRIPTION "GRAPENLP executable (Grammar Annotation Patterns Engine)")
-set(CPACK_DEBIAN_CGRAPENLP_PACKAGE_DEPENDS "libgrapenlp (>= 2.0.0), libgrapenlp (< 3.0.0)")
+set(CPACK_COMPONENT_CGRAPENLP_DESCRIPTION "GRAPENLP executable\n Grammar Annotation Pattern Engine for Natural Language Processing.\n .\n This package contains the grapenlp executable for using GRAPENLP from the command line.")
+set(CPACK_DEBIAN_CGRAPENLP_PACKAGE_DEPENDS "libgrapenlp (>= 2.0.0), libgrapenlp (<< 3.0.0)")
 set(CPACK_DEBIAN_CGRAPENLP_PACKAGE_SECTION "science")
 set(CPACK_DEBIAN_CGRAPENLP_PACKAGE_PRIORITY "optional")
 set(CPACK_DEBIAN_CGRAPENLP_FILE_NAME "grapenlp-${PROJECT_VERSION}-${CPACK_DEBIAN_PACKAGE_ARCHITECTURE}.deb")
 
+set(CPACK_DEBIAN_LIBJGRAPENLP_PACKAGE_NAME "libjgrapenlp")
+set(CPACK_COMPONENT_LIBJGRAPENLP_DESCRIPTION "GRAPENLP Java interface library\n Grammar Annotation Pattern Engine for Natural Language Processing.\n .\n This package contains the SWIG shared library for consuming GRAPENLP from Java.")
+set(CPACK_DEBIAN_LIBJGRAPENLP_PACKAGE_DEPENDS "libgrapenlp (>= 2.0.0), libgrapenlp (<< 3.0.0)")
+set(CPACK_DEBIAN_LIBJGRAPENLP_PACKAGE_SECTION "science")
+set(CPACK_DEBIAN_LIBJGRAPENLP_PACKAGE_PRIORITY "optional")
+set(CPACK_DEBIAN_LIBJGRAPENLP_FILE_NAME "libjgrapenlp-${PROJECT_VERSION}-${CPACK_DEBIAN_PACKAGE_ARCHITECTURE}.deb")
+set(CPACK_DEBIAN_LIBJGRAPENLP_PACKAGE_CONTROL_EXTRA "${CMAKE_CURRENT_SOURCE_DIR}/jgrapenlp/postinst;${CMAKE_CURRENT_SOURCE_DIR}/jgrapenlp/postrm")
+
+configure_file(${CMAKE_CURRENT_SOURCE_DIR}/LICENSE
+        ${CMAKE_CURRENT_BINARY_DIR}/copyright)
+configure_file(${CMAKE_CURRENT_SOURCE_DIR}/CHANGES
+        ${CMAKE_CURRENT_BINARY_DIR}/changelog.Debian)
+execute_process(COMMAND gzip -9 -c ${CMAKE_CURRENT_BINARY_DIR}/changelog.Debian
+        WORKING_DIRECTORY ${PROJECT_BINARY_DIR}
+        OUTPUT_FILE "${CMAKE_BINARY_DIR}/changelog.Debian.gz")
+
 include(CPack)
 cpack_add_component(libgrapenlp REQUIRED)
-cpack_add_component(libgrapenlpdev REQUIRED)
 cpack_add_component(cgrapenlp REQUIRED)
+cpack_add_component(libgrapenlpdev DISABLED)
+cpack_add_component(libjgrapenlp DISABLED)

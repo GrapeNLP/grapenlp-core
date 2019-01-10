@@ -9,3 +9,8 @@ swig_link_libraries(pygrapenlp
         manager
         ${PYTHON_LIBRARIES}
         )
+
+install(FILES "${CMAKE_CURRENT_BINARY_DIR}/pygrapenlp.py"
+        "${CMAKE_CURRENT_BINARY_DIR}/pygrapenlpPYTHON_wrap.cxx"
+        DESTINATION "src/grapenlp/pygrapenlp"
+        COMPONENT libgrapenlpdev)

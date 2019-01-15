@@ -1,4 +1,6 @@
 #!/bin/bash
 
-. cmakemhome Release
+SCRIPTFOLDER="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )"
+
+. $SCRIPTFOLDER/cmakex86_64 Release
 

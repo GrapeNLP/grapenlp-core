@@ -1,4 +1,6 @@
 #!/bin/bash
 
-. cmakeandroid x86_64 $1
+SCRIPTFOLDER="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )"
+
+. $SCRIPTFOLDER/cmakeandroid x86_64 $1
 

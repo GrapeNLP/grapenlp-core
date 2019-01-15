@@ -31,28 +31,30 @@ MESSAGE(STATUS "CXX_FLAGS:" ${CMAKE_CXX_FLAGS})
 include(GNUInstallDirs)
 
 if (NOT ANDROID_NDK_TOOLCHAIN_INCLUDED)
-    # Include Boost as an imported target
+    # Include system installed Boost as an imported target
     find_package(Boost REQUIRED COMPONENTS program_options)
-    # Include Swig for building native library interfaces with Python and Java
-    find_package(SWIG REQUIRED)
-    include(${SWIG_USE_FILE})
-    if(WIN32)
-        set(CMAKE_SWIG_FLAGS ${CMAKE_SWIG_FLAGS} "-DWIN32")
-    elseif(UNIX)
-        set(CMAKE_SWIG_FLAGS ${CMAKE_SWIG_FLAGS} "-DUNIX" "-DSIMPLIFIED_OUTPUT")
-    endif(WIN32)
-    if (CMAKE_BUILD_TYPE STREQUAL "Debug")
-        set(CMAKE_SWIG_FLAGS ${CMAKE_SWIG_FLAGS} "-DTRACE")
-    endif(CMAKE_BUILD_TYPE STREQUAL "Debug")
-    MESSAGE(STATUS "CMAKE_SWIG_FLAGS: ${CMAKE_SWIG_FLAGS}")
 
+    # Include Python
     find_package(PythonLibs)
     include_directories(${PYTHON_INCLUDE_PATH})
 
+    # Include Java
     find_package(JNI REQUIRED)
     include_directories(${JAVA_INCLUDE_PATH})
-
 endif (NOT ANDROID_NDK_TOOLCHAIN_INCLUDED)
+
+# Include Swig for building native library interfaces with Python and Java
+find_package(SWIG REQUIRED)
+include(${SWIG_USE_FILE})
+if(WIN32)
+    set(CMAKE_SWIG_FLAGS ${CMAKE_SWIG_FLAGS} "-DWIN32")
+elseif(UNIX)
+    set(CMAKE_SWIG_FLAGS ${CMAKE_SWIG_FLAGS} "-DUNIX" "-DSIMPLIFIED_OUTPUT")
+endif(WIN32)
+if (CMAKE_BUILD_TYPE STREQUAL "Debug")
+    set(CMAKE_SWIG_FLAGS ${CMAKE_SWIG_FLAGS} "-DTRACE")
+endif(CMAKE_BUILD_TYPE STREQUAL "Debug")
+MESSAGE(STATUS "CMAKE_SWIG_FLAGS: ${CMAKE_SWIG_FLAGS}")
 
 MESSAGE(STATUS "Boost include dir:" ${Boost_INCLUDE_DIR})
 MESSAGE(STATUS "Boost program_options lib:" ${Boost_PROGRAM_OPTIONS_LIBRARY})
@@ -70,9 +72,6 @@ include_directories(${GTEST_INCLUDE_DIRS})
 endif (NOT ANDROID_NDK_TOOLCHAIN_INCLUDED)
 
 # Targets that we develop here
-if (ANDROID_NDK_TOOLCHAIN_INCLUDED)
-    add_subdirectory(AndroidLib)
-endif (ANDROID_NDK_TOOLCHAIN_INCLUDED)
 add_subdirectory(assoc_container_impl_selector)
 add_subdirectory(breadth_first_parsing)
 if (NOT ANDROID_NDK_TOOLCHAIN_INCLUDED)
@@ -96,9 +95,6 @@ add_subdirectory(lrb_tree)
 add_subdirectory(lrb_tree_to_dot_serializer)
 add_subdirectory(machine)
 add_subdirectory(manager)
-#if (NOT ANDROID_NDK_TOOLCHAIN_INCLUDED)
-#    add_subdirectory(NativeLib)
-#endif (NOT ANDROID_NDK_TOOLCHAIN_INCLUDED)
 add_subdirectory(out_serializer)
 add_subdirectory(output_fprtn)
 add_subdirectory(output_fprtn_blackboard_set_expander)

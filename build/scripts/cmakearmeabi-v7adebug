@@ -1,3 +1,5 @@
 #!/bin/bash
 
-. cmakegalaxy Debug
+SCRIPTFOLDER="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )"
+
+. $SCRIPTFOLDER/cmakearmeabi-v7a Debug

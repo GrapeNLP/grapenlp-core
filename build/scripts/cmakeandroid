@@ -1,7 +1,87 @@
 #!/bin/bash
 
-ANDROID_SDK_FOLDER=/opt/android-sdk
-ANDROID_CMAKE=$ANDROID_SDK_FOLDER/cmake/3.6.4111459/bin/cmake
+# Find Android SDK installation folder
+function find_android_sdk
+{
+  if [ -n "$ANDROID_SDK_ROOT" ]; then
+    echo "$ANDROID_SDK_ROOT"
+  elsif [ -n "$ANDROID_HOME" ]; then
+      echo "$ANDROID_HOME"
+  fi
+}
+
+# Return the greatest of 2 version numbers $1.$2.$3 and $4.$5.$6
+function max_version
+{
+  a_major=`echo $1 | cut -d"." -f1`
+  a_minor=`echo $2 | cut -d"." -f2`
+  a_patch=`echo $3 | cut -d"." -f3`
+  b_major=`echo $4 | cut -d"." -f1`
+  b_minor=`echo $5 | cut -d"." -f2`
+  b_patch=`echo $6 | cut -d"." -f3`
+  b_is_greater=false
+  if [ b_major -gt a_major ]; then
+    b_is_greater=true
+  elif [ b_major -eq a_major ]; then
+    if [ b_minor -gt a_minor ]; then
+      b_is_greater=true
+    elif [ b_minor -eq a_minor ]; then
+      if [ b_patch -gt a_patch ]; then
+        b_is_greater=true
+      fi
+    fi
+  fi
+  if b_is_greater; then
+    echo $b_major.$b_minor.$b_patch
+  elif
+    echo $a_major.$a_minor.$a_patch
+  fi
+}
+
+# Find path to Android SDK cmake command
+function find_android_sdk_cmake
+{
+  $android_sdk_root="$1"
+  $android_sdk_cmake_root="$1/cmake"
+  $android_sdk_cmake_version=0.0.0
+  if [ -d "$android_sdk_cmake_root" ]; then
+    for v in `ls "$android_sdk_cmake_root"`; do
+      android_sdk_cmake_version=max_version $android_sdk_cmake_version $v
+  fi
+  if [ $android_sdk_cmake_version != "0.0.0" ]; then
+    android_sdk_cmake="$android_sdk_cmake/$android_sdk_cmake_version/bin/cmake"
+    if [ -f $android_sdk_cmake ]; then
+      echo $android_sdk_cmake
+    fi
+  fi
+}
+
+# Find path to Android NDK
+function find_android_ndk
+{
+  android_sdk=$1
+  android_ndk="$NDK_ROOT"
+  if [ -z "$ndk_path" ]; then
+    ndk_path="$NDK_ROOT"
+  else
+    ndk_path=e
+}
+
+ANDROID_SDK_FOLDER=find_android_sdk
+if [ -z "$ANDROID_SDK_FOLDER" ]; then
+  echo "Unable to find Android SDK cmake; please install it"
+  exit 1
+fi
+
+ANDROID_SDK_CMAKE=find_android_sdk_cmake
+if [ -z "$ANDROID_SDK_CMAKE" ]; then
+  echo "Unable to find Android SDK cmake; please install it"
+  exit 1
+fi
+
+NDK_FOLDER=find_android_ndk
+if [ -z "$NDK_FOLDER" ];
+
 ANDROID_TOOLCHAIN_FILE=$NDK_FOLDER/ndk-bundle/build/cmake/android.toolchain.cmake
 BOOSTFORANDROID_FOLDER=$HOME/src/Boost-for-Android
 ANDROID_NATIVE_API_LEVEL=21 

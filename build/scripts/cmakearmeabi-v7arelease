@@ -1,4 +1,6 @@
 #!/bin/bash
 
-. cmakegalaxy Release
+SCRIPTFOLDER="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )"
+
+. $SCRIPTFOLDER/cmakearmeabi-v7a Release
 

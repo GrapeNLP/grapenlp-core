@@ -1,5 +1,0 @@
-#!/bin/bash
-
-SCRIPTFOLDER="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )"
-
-. $SCRIPTFOLDER/cmakex86_64 Debug

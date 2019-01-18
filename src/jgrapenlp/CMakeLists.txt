@@ -14,8 +14,8 @@ swig_link_libraries(jgrapenlp
 install(TARGETS jgrapenlp EXPORT jgrapenlpConfig
         LIBRARY DESTINATION ${CMAKE_INSTALL_LIBDIR} COMPONENT libjgrapenlp)
 install(EXPORT jgrapenlpConfig DESTINATION share/grapenlp/jgrapenlp/cmake COMPONENT libjgrapenlp)
-install(FILES "${CMAKE_BINARY_DIR}/copyright"
-        "${CMAKE_BINARY_DIR}/changelog.Debian.gz"
+install(FILES "${CMAKE_BINARY_DIR}/debian/copyright"
+        "${CMAKE_BINARY_DIR}/debian/changelog.Debian.gz"
         DESTINATION "${CMAKE_INSTALL_DOCDIR}/libjgrapenlp"
         COMPONENT libjgrapenlp)
 install(DIRECTORY "${CMAKE_CURRENT_BINARY_DIR}/jgrapenlp"

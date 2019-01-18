@@ -1,57 +1,49 @@
 #!/bin/bash 
 SCRIPTFOLDER="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )"
 
-TARGETS=("debug" "release" "armeabi-v7adebug" "armeabi-v7arelease" "x86_64debug" "x86_64release")
+. ${SCRIPTFOLDER}/util.sh
 
-function join {
-  local IFS="$1"
-  shift
-  echo "$*"
-}
+TARGET="$1"
+TARGETS=("debug" "release")
+USAGE="Usage:\n"
+USAGE="${USAGE}`basename "$0"` TARGET\n"
+USAGE="${USAGE}Available targets are:\n"
+USAGE="${USAGE}`join "|" ${TARGETS[@]}`"
 
-function help {
-  echo "Usage:"
-  echo -n `basename "$0"`
-  echo -n " "
-  echo `join "|" ${TARGETS[@]}`
-}
+# Validate arguments
+if_help_flag_show_usage_and_exit "${USAGE}" "$1"
+validate_argument_count_or_exit "${USAGE}" $# 1
+check_argument_in_range_or_exit "${USAGE}" "target" "${TARGET}" "${TARGETS[@]}"
+CMAKE_TARGET="$(to_proper_noun "${TARGET}")"
 
-function index_of {
-  local item="$1"
-  shift
-  index=0
-  while [ $# -gt 0 -a "$item" != "$1" ]; do
-    let "index++"
-    shift
-  done
-  if [ $# -eq 0 ]; then
-    echo -1
-  else
-    echo $index
-  fi
-}
+# Create build root folder
+BUILD_FOLDER="$(make_build_folder "${SCRIPTFOLDER}" "${TARGET}")"
+cd "${BUILD_FOLDER}"
 
-if [ $# -ne 1 ]; then
-  help
-  exit 1
-fi
+# Create build subfolders and compilation scripts
+log_info_banner "Configuring"
+cmake -DCMAKE_BUILD_TYPE="${CMAKE_TARGET}" ../..
+success_or_exit
 
-if [ `index_of "$1" "${TARGETS[@]}"` -lt 0 ]; then
-  echo "$1 is not a valid target"
-  help
-  exit 1
-fi
-
-cd $SCRIPTFOLDER/../..
-if [ ! -d bin ]; then
-  mkdir bin
-fi
-
-cd bin
-if [ ! -d $1 ]; then
-  mkdir $1
-fi
-
-cd $1
-$SCRIPTFOLDER/cmake$1
+# Compile
+log_info_banner "Compiling"
 make
+success_or_exit
+
+# On Linux, make the Debian packages
+if [[ "$OSTYPE" == "linux-gnu" ]]; then
+  log_info_banner "Packaging"
+  make package
+  success_or_exit
+fi
+
+# Report success
+log_info_banner "Build completed"
+
+# On Linux, inform about the location of the resulting Debian packages
+if [[ "$OSTYPE" == "linux-gnu" ]]; then
+  echo "You may now install the packages at ${BUILD_FOLDER}/packages:"
+  echo
+  echo "sudo dpkg -i \"${BUILD_FOLDER}/packages/*.deb\""
+  echo
+fi

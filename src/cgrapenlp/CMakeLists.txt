@@ -8,8 +8,8 @@ target_link_libraries(cgrapenlp
 
 install(TARGETS cgrapenlp EXPORT cgrapenlpConfig
         RUNTIME DESTINATION ${CMAKE_INSTALL_BINDIR} COMPONENT cgrapenlp)
-install(FILES "${CMAKE_BINARY_DIR}/copyright"
-        "${CMAKE_BINARY_DIR}/changelog.Debian.gz"
+install(FILES "${CMAKE_BINARY_DIR}/debian/copyright"
+        "${CMAKE_BINARY_DIR}/debian/changelog.Debian.gz"
         DESTINATION "${CMAKE_INSTALL_DOCDIR}/grapenlp"
         COMPONENT cgrapenlp)
 install(EXPORT cgrapenlpConfig DESTINATION share/grapenlp/grapenlp/cmake COMPONENT libgrapenlpdev)

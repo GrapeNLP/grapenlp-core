@@ -1,6 +1,7 @@
 grapenlp-core (2.4.0) stable; urgency=medium
 
   * Refactored build scripts in build/scripts: build.sh builds the native version and buildforandroid.sh builds the Android version
+  * Disabled generation of Debian packages on non-Linux systems or on MacOS (it's not supported)
   * Placed all source code folders inside a new folder src
 
  -- Javier Sastre <javier.sastre@telefonica.net>  Thu, 17 Jan 2019 17:12:33 +0100

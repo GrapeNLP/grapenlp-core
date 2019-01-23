@@ -38,6 +38,39 @@ matrix:
     script: $SH "build/scripts/build.sh release"
 
   - env:
+      - 'PLATFORM="Android 14 armeabi-v7a"'
+      - 'SH="docker exec -t build-image bash -c"'
+    services: docker
+    before_install:
+      - mkdir bin
+      - sudo chown 100:101 bin
+      - docker run -d --name build-image -u build -v $(pwd):/home/build/grapenlp-core -w /home/build/grapenlp-core grapenlp/core-android-sdk:14 tail -f /dev/null
+      - docker ps -a
+    script: $SH "build/scripts/buildforandroid.sh release armeabi-v7a 14"
+
+  - env:
+      - 'PLATFORM="Android 14 x86"'
+      - 'SH="docker exec -t build-image bash -c"'
+    services: docker
+    before_install:
+      - mkdir bin
+      - sudo chown 100:101 bin
+      - docker run -d --name build-image -u build -v $(pwd):/home/build/grapenlp-core -w /home/build/grapenlp-core grapenlp/core-android-sdk:14 tail -f /dev/null
+      - docker ps -a
+    script: $SH "build/scripts/buildforandroid.sh release x86 14"
+
+  - env:
+      - 'PLATFORM="Android 14 x86_64"'
+      - 'SH="docker exec -t build-image bash -c"'
+    services: docker
+    before_install:
+      - mkdir bin
+      - sudo chown 100:101 bin
+      - docker run -d --name build-image -u build -v $(pwd):/home/build/grapenlp-core -w /home/build/grapenlp-core grapenlp/core-android-sdk:14 tail -f /dev/null
+      - docker ps -a
+    script: $SH "build/scripts/buildforandroid.sh release x86_64 14"
+
+  - env:
     - 'PLATFORM="MacOS 10.13"'
     os: osx
     osx_image: xcode9.3

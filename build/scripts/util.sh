@@ -246,7 +246,7 @@ function find_boostforandroid
 {
   local scriptfolder="$1"
   local boostforandroid="${BOOSTFORANDROID_ROOT}"
-  if [[ -z "${boostforandroid}" ]] || [[ -d "${boostforandroid}" ]]; then
+  if [[ -z "${boostforandroid}" ]] || [[ ! -d "${boostforandroid}" ]]; then
     boostforandroid="$1/../../../Boost-for-Android"
   fi
   if [[ -n "${boostforandroid}" ]] && [[ -d "${boostforandroid}" ]]; then

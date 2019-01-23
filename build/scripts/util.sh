@@ -158,7 +158,7 @@ function make_build_folder
 {
     local scriptfolder="$1"
     local target="$2"
-    cd ${scriptfolder}/../..
+    cd "${scriptfolder}/../.."
     if [[ ! -d bin ]]; then
       mkdir bin
     fi

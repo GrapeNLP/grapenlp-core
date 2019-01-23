@@ -42,32 +42,32 @@ matrix:
       - 'SH="docker exec -t build-image bash -c"'
     services: docker
     before_install:
-      - mkdir bin
-      - sudo chown 100:101 bin
-      - docker run -d --name build-image -u build -v $(pwd):/home/build/grapenlp-core -w /home/build/grapenlp-core grapenlp/core-build-android-sdk:14 tail -f /dev/null
-      - docker ps -a
+    - mkdir bin
+    - sudo chown 100:101 bin
+    - docker run -d --name build-image -u build -v $(pwd):/home/build/grapenlp-core -w /home/build/grapenlp-core grapenlp/core-build-android-sdk:14 tail -f /dev/null
+    - docker ps -a
     script: $SH "build/scripts/buildforandroid.sh release armeabi-v7a 14"
 
   - env:
-      - 'PLATFORM="Android 14 x86"'
-      - 'SH="docker exec -t build-image bash -c"'
+    - 'PLATFORM="Android 14 x86"'
+    - 'SH="docker exec -t build-image bash -c"'
     services: docker
     before_install:
-      - mkdir bin
-      - sudo chown 100:101 bin
-      - docker run -d --name build-image -u build -v $(pwd):/home/build/grapenlp-core -w /home/build/grapenlp-core grapenlp/core-build-android-sdk:14 tail -f /dev/null
-      - docker ps -a
+    - mkdir bin
+    - sudo chown 100:101 bin
+    - docker run -d --name build-image -u build -v $(pwd):/home/build/grapenlp-core -w /home/build/grapenlp-core grapenlp/core-build-android-sdk:14 tail -f /dev/null
+    - docker ps -a
     script: $SH "build/scripts/buildforandroid.sh release x86 14"
 
   - env:
-      - 'PLATFORM="Android 14 x86_64"'
-      - 'SH="docker exec -t build-image bash -c"'
+    - 'PLATFORM="Android 14 x86_64"'
+    - 'SH="docker exec -t build-image bash -c"'
     services: docker
     before_install:
-      - mkdir bin
-      - sudo chown 100:101 bin
-      - docker run -d --name build-image -u build -v $(pwd):/home/build/grapenlp-core -w /home/build/grapenlp-core grapenlp/core-build-android-sdk:14 tail -f /dev/null
-      - docker ps -a
+    - mkdir bin
+    - sudo chown 100:101 bin
+    - docker run -d --name build-image -u build -v $(pwd):/home/build/grapenlp-core -w /home/build/grapenlp-core grapenlp/core-build-android-sdk:14 tail -f /dev/null
+    - docker ps -a
     script: $SH "build/scripts/buildforandroid.sh release x86_64 14"
 
   - env:
@@ -77,11 +77,11 @@ matrix:
     addons:
       homebrew:
         packages:
-          - wget
-          - boost
-          - cmake
-          - swig
-          - python
+        - wget
+        - boost
+        - cmake
+        - swig
+        - python
         update: true
     install:
     - wget https://github.com/google/googletest/archive/release-1.8.1.tar.gz

@@ -44,7 +44,7 @@ matrix:
     before_install:
       - mkdir bin
       - sudo chown 100:101 bin
-      - docker run -d --name build-image -u build -v $(pwd):/home/build/grapenlp-core -w /home/build/grapenlp-core grapenlp/core-android-sdk:14 tail -f /dev/null
+      - docker run -d --name build-image -u build -v $(pwd):/home/build/grapenlp-core -w /home/build/grapenlp-core grapenlp/core-build-android-sdk:14 tail -f /dev/null
       - docker ps -a
     script: $SH "build/scripts/buildforandroid.sh release armeabi-v7a 14"
 
@@ -55,7 +55,7 @@ matrix:
     before_install:
       - mkdir bin
       - sudo chown 100:101 bin
-      - docker run -d --name build-image -u build -v $(pwd):/home/build/grapenlp-core -w /home/build/grapenlp-core grapenlp/core-android-sdk:14 tail -f /dev/null
+      - docker run -d --name build-image -u build -v $(pwd):/home/build/grapenlp-core -w /home/build/grapenlp-core grapenlp/core-build-android-sdk:14 tail -f /dev/null
       - docker ps -a
     script: $SH "build/scripts/buildforandroid.sh release x86 14"
 
@@ -66,7 +66,7 @@ matrix:
     before_install:
       - mkdir bin
       - sudo chown 100:101 bin
-      - docker run -d --name build-image -u build -v $(pwd):/home/build/grapenlp-core -w /home/build/grapenlp-core grapenlp/core-android-sdk:14 tail -f /dev/null
+      - docker run -d --name build-image -u build -v $(pwd):/home/build/grapenlp-core -w /home/build/grapenlp-core grapenlp/core-build-android-sdk:14 tail -f /dev/null
       - docker ps -a
     script: $SH "build/scripts/buildforandroid.sh release x86_64 14"
 

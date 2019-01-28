@@ -25,15 +25,15 @@
  
 # Specific Android component versions to install
 ARG ANDROID_SDK_VERSION="4333796"
-ARG ANDROID_NDK_VERSION="r18b"
+ARG ANDROID_NDK_VERSION="r16b"
 ARG ANDROID_BUILD_TOOLS_VERSION="28.0.3"
 ARG ANDROID_PLATFORM_VERSION="14"
 ARG ANDROID_CMAKE_VERSION="3.10.2.4988404"
 ARG BOOST_VERSION="1.68.0"
 
-######################################
+########################################
 # Target image with Ubuntu, JDK & SWIG #
-######################################
+########################################
 FROM ubuntu:18.04 AS base
 
 # Version label to force docker image rebuild
@@ -60,7 +60,7 @@ RUN apt-get install -y build-essential
 RUN apt-get install -y wget
 RUN apt-get install -y unzip
 
-# Install JDK 8 from tar.gz
+# Install JDK 8
 RUN apt-get install -y openjdk-8-jdk
 WORKDIR /usr/lib/jvm/java-8-openjdk-amd64/include
 RUN ln -s linux/jawt_md.h

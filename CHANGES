@@ -1,11 +1,12 @@
 grapenlp-core (2.5.0) stable; urgency=medium
 
   * Added docker for building the Android version for platform 14
-  * Added Android compilations to .travis config file for ABIs armeabi-v7a, x86 and x86_64
+  * Added Android compilations to .travis config file for all Android ABIs
   * Fixed bug in buildforandroid.sh which prevented from finding the BoostForBuild folder from the environment variable BOOSTFORBUILD_ROOT
   * Updated license headers (2018 -> 2019)
+  * Moved scripts folder outside src
 
- -- Javier Sastre <javier.sastre@telefonica.net>  Wed, 23 Jan 2019 17:11:13 +0100
+ -- Javier Sastre <javier.sastre@telefonica.net>  Mon, 28 Jan 2019 17:35:16 +0100
 
 grapenlp-core (2.4.0) stable; urgency=medium
 

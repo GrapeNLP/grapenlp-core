@@ -62,7 +62,7 @@ cd "${BUILD_FOLDER}"
 log_info_banner "Configuring"
 ${ANDROID_SDK_CMAKE} \
  -DANDROID_ABI=${ANDROID_ABI} \
- -DANDROID_STL=c++_static \
+ -DANDROID_STL="c++_static" \
  -DANDROID_CPP_FEATURES="rtti exceptions" \
  -DCMAKE_BUILD_TYPE=${CMAKE_TARGET} \
  -DCMAKE_TOOLCHAIN_FILE="${ANDROID_TOOLCHAIN_FILE}" \

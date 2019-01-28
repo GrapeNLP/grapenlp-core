@@ -401,7 +401,7 @@ namespace grapenlp {
                 the_parse_func_ref(NULL),
                 the_parse_and_get_fprtn_stats_func_ref(NULL) {}
 
-        ul_manager(rtno_type grammar_type_, const string &grammar_path_name, const string &dico_path_name) :
+        ul_manager(rtno_type grammar_type_, const std::string &grammar_path_name, const std::string &dico_path_name) :
                 grammar_type(),
                 grammar_ref(NULL),
                 dico_ref(NULL),
@@ -770,7 +770,8 @@ namespace grapenlp {
     private:
 #ifndef DISABLE_TEXT_DICO
 
-        void load_text_dico(const string &dico_path_name) {
+    void load_text_dico(const std::string &dico_path_name)
+    {
             FILE *dico_file(u_fopen(dico_path_name.c_str(), U_READ));
             if (dico_file == NULL)
                 fatal_error("Unable to open dico file to read\n");
@@ -799,7 +800,8 @@ namespace grapenlp {
 #endif //DISABLE_TEXT_DICO
 #ifndef DISABLE_COMPRESSED_DICO
 
-        void load_compressed_dico(const string &dico_bin_path_name, const string &dico_inf_path_name) {
+        void load_compressed_dico(const std::string &dico_bin_path_name, const std::string &dico_inf_path_name)
+        {
             if (dico_is_loaded())
                 delete_delaf();
 #if !defined(DISABLE_TEXT_DICO) && !defined(DISABLE_COMPRESSED_DICO)
@@ -832,8 +834,9 @@ namespace grapenlp {
 #endif //DISABLE_COMPRESSED_DICO
 
     public:
-        void load_grammar(rtno_type grammar_type, const string &grammar_path_name) {
-            if (!string(grammar_path_name).ends_with(".fst2"))
+        void load_grammar(rtno_type grammar_type, const std::string &grammar_path_name)
+        {
+            if (!grapenlp::string(grammar_path_name).ends_with(".fst2"))
                 fatal_error("Unsupported grammar format (expected .fst2 file)\n");
 
             FILE *grammar_file = u_fopen(grammar_path_name.c_str(), U_READ);
@@ -966,24 +969,26 @@ namespace grapenlp {
         }
 
         void
-        load_grammar_and_dico(rtno_type grammar_type, const string &grammar_path_name, const string &dico_path_name) {
-            if (dico_path_name.ends_with(".dic"))
+        load_grammar_and_dico(rtno_type grammar_type, const std::string &grammar_path_name, const std::string &dico_path_name)
+        {
+            grapenlp::string dpn(dico_path_name);
+            if (dpn.ends_with(".dic"))
 #ifdef DISABLE_TEXT_DICO
                 fatal_error("Text dictionary format has been disabled");
 #else
-                load_text_dico(dico_path_name);
+                load_text_dico(dpn);
 #endif
-            else if (dico_path_name.ends_with(".bin"))
+            else if (dpn.ends_with(".bin"))
 #ifdef DISABLE_COMPRESSED_DICO
                 fatal_error("Compressed dictionary format has been disabled");
 #else
-                load_compressed_dico(dico_path_name, dico_path_name.substr(0, dico_path_name.size() - 3).append("inf"));
+                load_compressed_dico(dpn, dpn.substr(0, dpn.size() - 3).append("inf"));
 #endif
-            else if (dico_path_name.ends_with(".inf"))
+            else if (dpn.ends_with(".inf"))
 #ifdef DISABLE_COMPRESSED_DICO
                 fatal_error("Compressed dictionary format has been disabled");
 #else
-                load_compressed_dico(dico_path_name.substr(0, dico_path_name.size() - 3).append("bin"), dico_path_name);
+                load_compressed_dico(dico_path_name.substr(0, dpn.size() - 3).append("bin"), dpn);
 #endif
             else fatal_error("Unsupported dictionary format (expected .dic, .bin or .inf file\n");
             load_grammar(grammar_type, grammar_path_name);

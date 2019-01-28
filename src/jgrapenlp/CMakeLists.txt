@@ -6,8 +6,9 @@ set(CMAKE_SWIG_OUTDIR "${CMAKE_BINARY_DIR}/java/com/grapenlp/core")
 set_property(SOURCE swig/grapenlp/jgrapenlp.i PROPERTY CPLUSPLUS ON)
 set_property(SOURCE swig/grapenlp/jgrapenlp.i PROPERTY SWIG_FLAGS "-includeall")
 swig_add_library(jgrapenlp TYPE SHARED LANGUAGE java SOURCES swig/grapenlp/jgrapenlp.i)
-swig_link_libraries(jgrapenlp
+target_link_libraries(jgrapenlp
         manager
+        ${JNI_LIBRARIES}
         )
 
 install(TARGETS jgrapenlp EXPORT jgrapenlpConfig

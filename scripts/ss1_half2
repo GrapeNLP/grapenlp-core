@@ -1,4 +1,4 @@
 #!/bin/bash
 cd `dirname $0`
 . paths
-. ss_half2 $CORPUS $CORPUS_NO_OUTPUT $TID_GRAMMAR $STATS_TXT
+. ss_half2 $CORPUS $CORPUS_NO_OUTPUT $CHATBOT_GRAMMAR $STATS_TXT

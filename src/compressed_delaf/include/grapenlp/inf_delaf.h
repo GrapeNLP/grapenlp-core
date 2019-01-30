@@ -82,14 +82,14 @@ namespace grapenlp
 			entry(unsigned char inflected_form_suffix_length_, u_array &&canonical_form_suffix_, ust_string &pos_): inflected_form_suffix_length(inflected_form_suffix_length_), canonical_form_suffix(std::move(canonical_form_suffix_)), pos(pos_), semantic_traits(), possible_flexional_traits(), clitic_pronouns()
 			{}
 
-			inline bool is_canonical_form()
+			bool is_canonical_form()
 			{ return !inflected_form_suffix_length && !canonical_form_suffix.size(); }
 
-//			inline compressed_canonical_form<u_array::const_iterator> get_compressed_canonical_form()
+//			compressed_canonical_form<u_array::const_iterator> get_compressed_canonical_form()
 //			{ return compressed_canonical_form<u_array::const_iterator>(inflected_form_suffix_length, canonical_form_suffix.begin(), canonical_form_suffix.end()); }
 
 			template<typename UCharIterator>
-			inline std::size_t get_decompressed_canonical_form_size(UCharIterator inflected_form_begin, UCharIterator inflected_form_end)
+			std::size_t get_decompressed_canonical_form_size(UCharIterator inflected_form_begin, UCharIterator inflected_form_end)
 			{ return std::distance(inflected_form_begin, inflected_form_end) - inflected_form_suffix_length + canonical_form_suffix.size(); }
 
 			//Verifies that this entry has the specified canonical form
@@ -111,7 +111,7 @@ namespace grapenlp
 			{ return excludes(forbidden_ppooss.begin(), forbidden_ppooss.end(), &pos); }
 
 			//Verifies that this entry has all the specified semantic traits
-			inline bool  match_mandatory_semantic_traits(const ust_set &mandatory_semantic_traits) const
+			bool  match_mandatory_semantic_traits(const ust_set &mandatory_semantic_traits) const
 			{ return std::includes(semantic_traits.begin(), semantic_traits.end(), mandatory_semantic_traits.begin(), mandatory_semantic_traits.end()); }
 
 			//Verifies that this entry does not have any of the specified semantic traits
@@ -189,21 +189,21 @@ namespace grapenlp
 			bool match_canonical_form_and_semantic_and_possible_flexional_traits(LemmaCharIterator lemma_begin, LemmaCharIterator lemma_end, CanonicalFormCharIterator canonical_form_to_match_begin, CanonicalFormCharIterator canonical_form_to_match_end, const ust_set &mandatory_semantic_traits, const ust_set &forbidden_semantic_traits, const u_flexional_traits_list &possible_flexional_traits_to_match) const
 			{
 				return match_canonical_form_and_semantic_traits(lemma_begin, lemma_end, canonical_form_to_match_begin, canonical_form_to_match_end, mandatory_semantic_traits, forbidden_semantic_traits) &&
-				       match_possible_flexional_traits(possible_flexional_traits);
+				       match_possible_flexional_traits(possible_flexional_traits_to_match);
 			}
 
 			template<typename LemmaCharIterator, typename CanonicalFormCharIterator>
 			bool match_canonical_form_and_mandatory_pos_and_semantic_and_possible_flexional_traits(LemmaCharIterator lemma_begin, LemmaCharIterator lemma_end, CanonicalFormCharIterator canonical_form_to_match_begin, CanonicalFormCharIterator canonical_form_to_match_end, const ust_string &mandatory_pos, const ust_set &mandatory_semantic_traits, const ust_set &forbidden_semantic_traits, const u_flexional_traits_list &possible_flexional_traits_to_match) const
 			{
 				return match_canonical_form_and_mandatory_pos_and_semantic_traits(lemma_begin, lemma_end, canonical_form_to_match_begin, canonical_form_to_match_end, mandatory_pos, mandatory_semantic_traits, forbidden_semantic_traits) &&
-				       match_possible_flexional_traits(possible_flexional_traits);
+				       match_possible_flexional_traits(possible_flexional_traits_to_match);
 			}
 
 			template<typename LemmaCharIterator, typename CanonicalFormCharIterator>
 			bool match_canonical_form_and_forbidden_ppooss_and_semantic_and_possible_flexional_traits(LemmaCharIterator lemma_begin, LemmaCharIterator lemma_end, CanonicalFormCharIterator canonical_form_to_match_begin, CanonicalFormCharIterator canonical_form_to_match_end, const ust_set &forbidden_ppooss, const ust_set &mandatory_semantic_traits, const ust_set &forbidden_semantic_traits, const u_flexional_traits_list &possible_flexional_traits_to_match) const
 			{
 				return match_canonical_form_and_forbidden_ppooss_and_semantic_traits(lemma_begin, lemma_end, canonical_form_to_match_begin, canonical_form_to_match_end, forbidden_ppooss, mandatory_semantic_traits, forbidden_semantic_traits) &&
-				       match_possible_flexional_traits(possible_flexional_traits);
+				       match_possible_flexional_traits(possible_flexional_traits_to_match);
 			}
 
 			bool match_mandatory_pos_and_semantic_traits(const ust_string &mandatory_pos, const ust_set &mandatory_semantic_traits, const ust_set &forbidden_semantic_traits) const

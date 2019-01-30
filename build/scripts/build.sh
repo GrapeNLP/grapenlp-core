@@ -4,7 +4,7 @@ SCRIPTFOLDER="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )"
 . ${SCRIPTFOLDER}/util.sh
 
 TARGET="$1"
-TARGETS=("debug" "release")
+TARGETS=("debug" "mtrace" "release")
 USAGE="Usage:\n"
 USAGE="${USAGE}`basename "$0"` TARGET\n"
 USAGE="${USAGE}Available targets are:\n"

@@ -29,7 +29,7 @@
 
 using namespace grapenlp;
 
-int main(int argc, char **argv)
+int main(__attribute__((unused)) int argc, __attribute__((unused)) char **argv)
 {
 	std::size_t c;
 	u_printf("%d %d", uppercase_table.size(), lowercase_table.size());

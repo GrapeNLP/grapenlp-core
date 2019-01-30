@@ -23,7 +23,6 @@
  *  @author Javier Sastre
  */
 
-#include <grapenlp/mtrace.h>
 #include <grapenlp/u_array.h>
 #include <grapenlp/u_trie.h>
 #include <grapenlp/u_set_trie.h>
@@ -31,7 +30,7 @@
 using namespace std;
 using namespace grapenlp;
 
-int main(int argc, char **argv)
+int main(__attribute__((unused)) int argc, __attribute__((unused)) char **argv)
 {
 #ifndef MTRACE
 	setlocale(LC_CTYPE,"");

@@ -19,8 +19,8 @@
   *
   */
 
-#ifndef UnicodeH
-#define UnicodeH
+#ifndef GRAPENLP_UNICODE_H
+#define GRAPENLP_UNICODE_H
 
 #include <cstdarg>
 #include <cstdlib>

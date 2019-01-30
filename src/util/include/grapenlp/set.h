@@ -45,11 +45,11 @@ namespace grapenlp
 		explicit ptr_set(const Comparator& comparator, const Allocator& a): base_type(comparator, a) {};
 
 		//Unsafe random insertion
-		inline std::pair<iterator,bool> unsafe_insert (T *x)
+		std::pair<iterator,bool> unsafe_insert (T *x)
 		{ return base_type::insert(x); }
 
 		//Unsafe efficient insertion
-		inline iterator unsafe_insert (iterator position, T *x)
+		iterator unsafe_insert (iterator position, T *x)
 		{ return base_type::insert(position, x); }
 
 		//Safe efficient range insertion

@@ -195,11 +195,11 @@ namespace grapenlp
 	};
 
 	template<typename TagInput, typename TagOutput, typename CharT, typename Traits>
-	inline std::basic_ostream<CharT, Traits>& rtno_to_dot_serialize(std::basic_ostream<CharT, Traits>& out, const char *rtno_name, CharT state_letter, const ns_rtno<TagInput, TagOutput> &the_rtno)
+	std::basic_ostream<CharT, Traits>& rtno_to_dot_serialize(std::basic_ostream<CharT, Traits>& out, const char *rtno_name, CharT state_letter, const ns_rtno<TagInput, TagOutput> &the_rtno)
 	{ return rtno_to_dot_serializer<typename tag_serializer<TagInput>::type, typename tag_serializer<TagOutput>::type>()(out, rtno_name, state_letter, the_rtno);	}
 
 	template<typename TagInputSerializer, typename TagOutputSerializer, typename CharT, typename Traits>
-	inline std::basic_ostream<CharT, Traits>& rtno_to_dot_serialize(std::basic_ostream<CharT, Traits>& out, const char *rtno_name, CharT state_letter, const ns_rtno<typename serializer_traits<TagInputSerializer>::elem_type, typename serializer_traits<TagOutputSerializer>::elem_type> &the_rtno, const TagInputSerializer &tis, const TagOutputSerializer &tos)
+	std::basic_ostream<CharT, Traits>& rtno_to_dot_serialize(std::basic_ostream<CharT, Traits>& out, const char *rtno_name, CharT state_letter, const ns_rtno<typename serializer_traits<TagInputSerializer>::elem_type, typename serializer_traits<TagOutputSerializer>::elem_type> &the_rtno, const TagInputSerializer &tis, const TagOutputSerializer &tos)
 	{ return rtno_to_dot_serializer<TagInputSerializer, TagOutputSerializer>(tis, tos)(out, rtno_name, state_letter, the_rtno); }
 } //namespace grapenlp
 

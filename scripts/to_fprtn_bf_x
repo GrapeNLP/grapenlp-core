@@ -2,4 +2,4 @@
 cd `dirname $0`
 . paths
 
-$DEBUG_NLP -x -pto-fprtn-and-breadth-first-expand $TID_GRAMMAR $TEXT_DICO $TEST_INPUT $OUTPUT
+$DEBUG_NLP -x -pto-fprtn-and-breadth-first-expand $CHATBOT_GRAMMAR $TEXT_DICO $TEST_INPUT $OUTPUT

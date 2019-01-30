@@ -77,7 +77,7 @@ void u_read_dico(tolower_u_text_delaf &dico)
 	u_fclose(f);
 }
 
-int main(int argc, char **argv)
+int main(__attribute__((unused)) int argc, __attribute__((unused)) char **argv)
 {
 	std::array<unichar, 4> hola = { {'h', 'o', 'l', 'a'} };
 	std::array<unichar, 5> adios = { {'a', 'd', 'i', 'o', 's'} };

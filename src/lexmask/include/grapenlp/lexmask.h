@@ -132,7 +132,7 @@ namespace grapenlp
 		virtual lexmask_type get_type() const
 		{ return TOKEN_META_LEXMASK; }
 
-		virtual bool match(const token<InputIterator>& t) const
+		virtual bool match(__attribute__((unused)) const token<InputIterator>& t) const
 		{ return true; }
 
 		virtual bool same_type_less(const lexmask<InputIterator> &l) const
@@ -155,7 +155,7 @@ namespace grapenlp
 
 	//There can only be one token meta mask; since x < x is always false this function always returns false
 	template<typename InputIterator>
-	bool operator< (const token_meta_mask<InputIterator>& l1, const token_meta_mask<InputIterator>& l2)
+	bool operator< (__attribute__((unused)) const token_meta_mask<InputIterator>& l1, __attribute__((unused)) const token_meta_mask<InputIterator>& l2)
 	{ return false;	}
 
 /*
@@ -234,7 +234,7 @@ namespace grapenlp
 
 	//There can only be one digit meta mask; since x < x is always false this function always returns false
 	template<typename InputIterator>
-	bool operator< (const digit_meta_mask<InputIterator>& l1, const digit_meta_mask<InputIterator>& l2)
+	bool operator< (__attribute__((unused)) const digit_meta_mask<InputIterator>& l1, __attribute__((unused)) const digit_meta_mask<InputIterator>& l2)
 	{ return false;	}
 
 /*
@@ -447,7 +447,7 @@ namespace grapenlp
 
 	//There can only be one word meta mask; since x < x is always false this function always returns false
 	template<typename InputIterator>
-	bool operator< (const word_meta_mask<InputIterator>& l1, const word_meta_mask<InputIterator>& l2)
+	bool operator< (__attribute__((unused)) const word_meta_mask<InputIterator>& l1, __attribute__((unused)) const word_meta_mask<InputIterator>& l2)
 	{ return false;	}
 
 /*
@@ -490,7 +490,7 @@ namespace grapenlp
 
 	//There can only be one not-a-word meta mask; since x < x is always false this function always returns false
 	template<typename InputIterator>
-	bool operator< (const no_word_meta_mask<InputIterator>& l1, const no_word_meta_mask<InputIterator>& l2)
+	bool operator< (__attribute__((unused)) const no_word_meta_mask<InputIterator>& l1, __attribute__((unused)) const no_word_meta_mask<InputIterator>& l2)
 	{ return false;	}
 
 /*
@@ -533,7 +533,7 @@ namespace grapenlp
 
 	//There can only be one upper word meta mask; since x < x is always false this function always returns false
 	template<typename InputIterator>
-	bool operator< (const upper_word_meta_mask<InputIterator>& l1, const upper_word_meta_mask<InputIterator>& l2)
+	bool operator< (__attribute__((unused)) const upper_word_meta_mask<InputIterator>& l1, __attribute__((unused)) const upper_word_meta_mask<InputIterator>& l2)
 	{ return false;	}
 
 /*
@@ -576,7 +576,7 @@ namespace grapenlp
 
 	//There can only be one not-an-upper word meta mask; since x < x is always false this function always returns false
 	template<typename InputIterator>
-	bool operator< (const no_upper_word_meta_mask<InputIterator>& l1, const no_upper_word_meta_mask<InputIterator>& l2)
+	bool operator< (__attribute__((unused)) const no_upper_word_meta_mask<InputIterator>& l1, __attribute__((unused)) const no_upper_word_meta_mask<InputIterator>& l2)
 	{ return false;	}
 
 /*
@@ -619,7 +619,7 @@ namespace grapenlp
 
 	//There can only be one lower word meta mask; since x < x is always false this function always returns false
 	template<typename InputIterator>
-	bool operator< (const lower_word_meta_mask<InputIterator>& l1, const lower_word_meta_mask<InputIterator>& l2)
+	bool operator< (__attribute__((unused)) const lower_word_meta_mask<InputIterator>& l1, __attribute__((unused)) const lower_word_meta_mask<InputIterator>& l2)
 	{ return false;	}
 
 /*
@@ -662,7 +662,7 @@ namespace grapenlp
 
 	//There can only be one not-a-lower word meta mask; since x < x is always false this function always returns false
 	template<typename InputIterator>
-	bool operator< (const no_lower_word_meta_mask<InputIterator>& l1, const no_lower_word_meta_mask<InputIterator>& l2)
+	bool operator< (__attribute__((unused)) const no_lower_word_meta_mask<InputIterator>& l1, __attribute__((unused)) const no_lower_word_meta_mask<InputIterator>& l2)
 	{ return false;	}
 
 /*
@@ -705,7 +705,7 @@ namespace grapenlp
 
 	//There can only be one first upper word meta mask; since x < x is always false this function always returns false
 	template<typename InputIterator>
-	bool operator< (const first_upper_word_meta_mask<InputIterator>& l1, const first_upper_word_meta_mask<InputIterator>& l2)
+	bool operator< (__attribute__((unused)) const first_upper_word_meta_mask<InputIterator>& l1, __attribute__((unused)) const first_upper_word_meta_mask<InputIterator>& l2)
 	{ return false;	}
 
 /*
@@ -750,7 +750,7 @@ namespace grapenlp
 
 	//There can only be one not-a-first-upper word meta mask; since x < x is always false this function always returns false
 	template<typename InputIterator>
-	bool operator< (const no_first_upper_word_meta_mask<InputIterator>& l1, const no_first_upper_word_meta_mask<InputIterator>& l2)
+	bool operator< (__attribute__((unused)) const no_first_upper_word_meta_mask<InputIterator>& l1, __attribute__((unused)) const no_first_upper_word_meta_mask<InputIterator>& l2)
 	{ return false;	}
 
 /*
@@ -825,7 +825,7 @@ namespace grapenlp
 		virtual std::wostream& wserialize(std::wostream& out) const
 		{ return def_ref->wserialize(out); }
 
-		virtual void u_write(FILE *f) const
+		virtual void u_write(__attribute__((unused)) FILE *f) const
 		{
 			//TODO
 		}

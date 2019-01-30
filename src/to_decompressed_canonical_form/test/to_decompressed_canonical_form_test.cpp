@@ -52,7 +52,7 @@ void u_read_compressed_dico(compressed_delaf &dico)
 	fclose(inf_delaf_file);
 }
 
-int main(int argc, char **argv)
+int main(__attribute__((unused)) int argc, __attribute__((unused)) char **argv)
 {
 	//Load input
 	u_array input(u_fread("../test.txt"));

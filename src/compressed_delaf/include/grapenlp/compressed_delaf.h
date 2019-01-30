@@ -82,23 +82,23 @@ namespace grapenlp
 
 		public:
 			//Increment iterator
-			inline const_word_iterator& operator++()
+			const_word_iterator& operator++()
 			{ return static_cast<const_word_iterator&>(base_type::operator++ ()); }
 
-			inline bool operator==(const const_word_iterator &ci) const
+			bool operator==(const const_word_iterator &ci) const
 			{ return base_type::operator== (ci); }
 
-			inline bool operator!=(const const_word_iterator &ci) const
+			bool operator!=(const const_word_iterator &ci) const
 			{ return !(*this == ci); }
 
-			inline const word operator*() const
+			const word operator*() const
 			{ return word(const_last_path_char_iterator_begin(), const_last_path_char_iterator_end(), *dico.entries[dico.offset_to_state(bs.back().first->get_target_state_offset()).get_word_properties_index()]); }
 		};
 
-		inline const_word_iterator const_word_begin() const
+		const_word_iterator const_word_begin() const
 		{ return const_word_iterator(*this, get_initial_state()); }
 
-		inline const_word_iterator const_word_end() const
+		const_word_iterator const_word_end() const
 		{ return const_word_iterator(*this); }
 	};
 

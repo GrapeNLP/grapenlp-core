@@ -25,7 +25,6 @@
 
 #include <array>
 
-#include <grapenlp/mtrace.h>
 #include <grapenlp/unicode.h>
 #include <grapenlp/error.h>
 #include <grapenlp/compressed_delaf_reader.h>
@@ -56,7 +55,7 @@ void u_read_compressed_dico(compressed_delaf &dico)
 	fclose(inf_delaf_file);
 }
 
-int main(int argc, char **argv)
+int main(__attribute__((unused)) int argc, __attribute__((unused)) char **argv)
 {
 #ifndef MTRACE
 	setlocale(LC_CTYPE,"");

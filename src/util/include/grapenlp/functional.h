@@ -37,7 +37,7 @@ namespace grapenlp
 	struct no_op
 	{
 		template<typename T>
-		inline void operator() (const T &t) const
+		void operator() (const T &t) const
 		{}
 	};
 
@@ -97,10 +97,10 @@ namespace grapenlp
 	template<typename T>
 	struct identity: public std::unary_function<T, T>
 	{
-		inline T& operator()(T& a) const
+		T& operator()(T& a) const
 		{ return a; }
 
-		inline const T& operator() (const T& a) const
+		const T& operator() (const T& a) const
 		{ return a; }
 	};
 
@@ -122,7 +122,7 @@ namespace grapenlp
 	template<typename T>
 	struct compare_3w<T, true>: public std::binary_function<T, T, std::ptrdiff_t>
 	{
-		inline int operator() (const T& a, const T& b) const
+		int operator() (const T& a, const T& b) const
 		{ return a.compare_3w(b); }
 	};
 
@@ -130,7 +130,7 @@ namespace grapenlp
 	template<typename T1, typename T2>
 	struct compare_3w<std::pair<T1, T2>, true>: public std::binary_function<std::pair<T1, T2>, std::pair<T1, T2>, std::ptrdiff_t>
 	{
-		inline int operator() (const std::pair<T1, T2> &a, const std::pair<T1, T2> &b) const
+		int operator() (const std::pair<T1, T2> &a, const std::pair<T1, T2> &b) const
 		{
 			std::ptrdiff_t result(compare_3w<T1>()(a.first, b.first));
 			if (result)
@@ -143,7 +143,7 @@ namespace grapenlp
 	template<typename T>
 	struct compare_3w<T, false>: public std::binary_function<T, T, std::ptrdiff_t>
 	{
-		inline int operator() (const T& a, const T& b) const
+		int operator() (const T& a, const T& b) const
 		{ return static_cast<std::ptrdiff_t>(a) - static_cast<std::ptrdiff_t>(b); }
 	};
 
@@ -151,7 +151,7 @@ namespace grapenlp
 	template<typename T>
 	struct compare_3w<T*, false>: public std::binary_function<T*, T*, std::ptrdiff_t>
 	{
-		inline int operator() (const T* a, const T* b) const
+		int operator() (const T* a, const T* b) const
 		{ return reinterpret_cast<std::ptrdiff_t>(a) - reinterpret_cast<std::ptrdiff_t>(b); }
 	};
 
@@ -159,7 +159,7 @@ namespace grapenlp
 	template<typename T>
 	struct compare_3w<T const *, false>: public std::binary_function<T const *, T const *, std::ptrdiff_t>
 	{
-		inline int operator() (const T* a, const T* b) const
+		int operator() (const T* a, const T* b) const
 		{ return reinterpret_cast<std::ptrdiff_t>(a) - reinterpret_cast<std::ptrdiff_t>(b); }
 	};
 
@@ -167,7 +167,7 @@ namespace grapenlp
 	template<typename T>
 	struct compare_3w<T* const, false>: public std::binary_function<T* const, T* const, std::ptrdiff_t>
 	{
-		inline int operator() (const T* a, const T* b) const
+		int operator() (const T* a, const T* b) const
 		{ return reinterpret_cast<std::ptrdiff_t>(a) - reinterpret_cast<std::ptrdiff_t>(b); }
 	};
 
@@ -175,7 +175,7 @@ namespace grapenlp
 	template<typename T>
 	struct compare_3w<T const * const, false>: public std::binary_function<T const * const, T const * const, std::ptrdiff_t>
 	{
-		inline int operator() (const T* a, const T* b) const
+		int operator() (const T* a, const T* b) const
 		{ return reinterpret_cast<std::ptrdiff_t>(a) - reinterpret_cast<std::ptrdiff_t>(b); }
 	};
 
@@ -183,7 +183,7 @@ namespace grapenlp
 	template<typename T>
 	struct ref_compare_3w: public std::binary_function<T, T, int>
 	{
-		inline int operator() (const T &a, const T &b) const
+		int operator() (const T &a, const T &b) const
 		{ return compare_3w<T*, false>()(&a, &b); };
 	};
 
@@ -192,35 +192,35 @@ namespace grapenlp
 	template<typename reference_type>
 	struct deref_less: public std::binary_function<reference_type, reference_type, bool>
 	{
-		inline bool operator() (const reference_type& a, const reference_type& b) const
+		bool operator() (const reference_type& a, const reference_type& b) const
 		{ return *a < *b; }
 	};
 
 	template<typename reference_type>
 	struct deref_less_equal: public std::binary_function<reference_type, reference_type, bool>
 	{
-		inline bool operator() (const reference_type& a, const reference_type& b) const
+		bool operator() (const reference_type& a, const reference_type& b) const
 		{ return *a <= *b; }
 	};
 
 	template<typename reference_type>
 	struct deref_equal_to: public std::binary_function<reference_type, reference_type, bool>
 	{
-		inline bool operator() (const reference_type& a, const reference_type& b) const
+		bool operator() (const reference_type& a, const reference_type& b) const
 		{ return *a == *b; }
 	};
 
 	template<typename reference_type>
 	struct deref_greater: public std::binary_function<reference_type, reference_type, bool>
 	{
-		inline bool operator() (const reference_type& a, const reference_type& b) const
+		bool operator() (const reference_type& a, const reference_type& b) const
 		{ return *a > *b; }
 	};
 
 	template<typename reference_type>
 	struct deref_greater_equal: public std::binary_function<reference_type, reference_type, bool>
 	{
-		inline bool operator() (const reference_type& a, const reference_type& b) const
+		bool operator() (const reference_type& a, const reference_type& b) const
 		{ return *a >= *b; }
 	};
 
@@ -229,35 +229,35 @@ namespace grapenlp
 	template<typename T>
 	struct ref_less: public std::binary_function<T, T, bool>
 	{
-		inline bool operator() (const T& a, const T& b) const
+		bool operator() (const T& a, const T& b) const
 		{ return &a < &b; }
 	};
 
 	template<typename T>
 	struct ref_less_equal: public std::binary_function<T, T, bool>
 	{
-		inline bool operator() (const T& a, const T& b) const
+		bool operator() (const T& a, const T& b) const
 		{ return &a <= &b; }
 	};
 
 	template<typename T>
 	struct ref_equal_to: public std::binary_function<T, T, bool>
 	{
-		inline bool operator() (const T& a, const T& b) const
+		bool operator() (const T& a, const T& b) const
 		{ return &a == &b; }
 	};
 
 	template<typename T>
 	struct ref_greater: public std::binary_function<T, T, bool>
 	{
-		inline bool operator() (const T& a, const T& b) const
+		bool operator() (const T& a, const T& b) const
 		{ return &a > &b; }
 	};
 
 	template<typename T>
 	struct ref_greater_equal: public std::binary_function<T, T, bool>
 	{
-		inline bool operator() (const T& a, const T& b) const
+		bool operator() (const T& a, const T& b) const
 		{ return &a >= &b; }
 	};
 
@@ -265,21 +265,21 @@ namespace grapenlp
 	template<typename T>
 	struct assign: public std::binary_function<T&, const T&, T&>
 	{
-		inline T& operator() (T& a, const T& b) const
+		T& operator() (T& a, const T& b) const
 		{ return a = b; }
 	};
 
 	template<typename T>
 	struct ref_assign: public std::binary_function<T*, T&, T*>
 	{
-		inline T* operator() (T* a, T& b) const
+		T* operator() (T* a, T& b) const
 		{ return a = &b; }
 	};
 
 	template<typename T>
 	struct deref: public std::unary_function<T*, T&>
 	{
-		inline T& operator() (T* a) const
+		T& operator() (T* a) const
 		{ return *a; }
 	};
 
@@ -287,14 +287,14 @@ namespace grapenlp
 	template<typename T>
 	struct ref: public std::unary_function<T&, T*>
 	{
-		inline T* operator() (T &a) const
+		T* operator() (T &a) const
 		{ return &a; }
 	};
 
 	template<typename T>
 	struct deleter
 	{
-		inline void operator() (T *p) const
+		void operator() (T *p) const
 		{ delete p; }
 	};
 

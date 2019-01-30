@@ -146,7 +146,7 @@ namespace grapenlp
 	};
 
 	template<typename SourceRef, typename CharT, typename Traits>
-	inline std::basic_ostream<CharT, Traits>& operator<< (std::basic_ostream<CharT, Traits>& out, const segment<SourceRef> &s)
+	std::basic_ostream<CharT, Traits>& operator<< (std::basic_ostream<CharT, Traits>& out, const segment<SourceRef> &s)
 	{ return s.serialize(out); }
 
 	template<typename SourceRef, typename Id, assoc_container_impl_choice acic>
@@ -161,7 +161,7 @@ namespace grapenlp
 		segment_map(): base_type()
 		{}
 
-		inline bool has_key(typename out_bound<Id>::name_string_const_ref key) const
+		bool has_key(typename out_bound<Id>::name_string_const_ref key) const
 		{ return this->find(key) != this->end(); }
 
 		segment_map& insert(SourceRef src_ref, SourceRef begin_src_ref, SourceRef end_src_ref, const out_bound<Id> &ob)
@@ -307,7 +307,7 @@ namespace grapenlp
 			}
 		}
 
-		inline std::ptrdiff_t compare_3w(const segment_map &sm) const
+		std::ptrdiff_t compare_3w(const segment_map &sm) const
 		{ return lexicographical_compare_3way(this->begin(), this->end(), sm.begin(), sm.end()); }
 
 		template<typename CharT, typename Traits>
@@ -330,7 +330,7 @@ namespace grapenlp
 	};
 
 	template<typename SourceRef, typename Id, assoc_container_impl_choice acsic, typename CharT, typename Traits>
-	inline std::basic_ostream<CharT, Traits>& operator<< (std::basic_ostream<CharT, Traits>& out, const segment_map<SourceRef, Id, acsic> &sm)
+	std::basic_ostream<CharT, Traits>& operator<< (std::basic_ostream<CharT, Traits>& out, const segment_map<SourceRef, Id, acsic> &sm)
 	{ return sm.serialize(out); }
 
 	template<typename SourceRef, typename Id, assoc_container_impl_choice acsic>

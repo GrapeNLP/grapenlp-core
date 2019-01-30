@@ -23,7 +23,6 @@
  *  @author Javier Sastre
  */
 
-#include <grapenlp/mtrace.h>
 #include <iostream>
 #include <fstream>
 #include <locale>
@@ -75,7 +74,7 @@ void u_read_grammar(ualutiw_rtno &grammar, ual_trie &ualt, u_trie &ut, compresse
 	u_fclose(f);
 }
 
-int main(int argc, char **argv)
+int main(__attribute__((unused)) int argc, __attribute__((unused)) char **argv)
 {
 #ifndef MTRACE
 	setlocale(LC_CTYPE,"");

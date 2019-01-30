@@ -23,7 +23,6 @@
  *  @author Javier Sastre
  */
 
-#include <grapenlp/mtrace.h>
 #include <locale>
 
 #include <boost/program_options.hpp>
@@ -261,14 +260,14 @@ bool get_next_bound(ua_input_iterator &input_begin, const ua_input_iterator &inp
 	return true;
 }
 
-inline input_range_vector& get_sentence_bounds(ua_input_iterator input_begin, ua_input_iterator input_end, input_range_vector &srv, std::size_t &sentence_char_count)
+input_range_vector& get_sentence_bounds(ua_input_iterator input_begin, ua_input_iterator input_end, input_range_vector &srv, std::size_t &sentence_char_count)
 {
 	sentence_char_count = 0;
 	while (get_next_bound(input_begin, input_end, srv, sentence_bound_char, sentence_char_count));
 	return srv;
 }
 
-inline void get_aligned_sentence_bounds(ua_input_iterator input_begin, ua_input_iterator input_end, input_range_vector &srv, std::size_t &sentence_char_count, input_range_vector &orv, std::size_t output_char_count)
+void get_aligned_sentence_bounds(ua_input_iterator input_begin, ua_input_iterator input_end, input_range_vector &srv, std::size_t &sentence_char_count, input_range_vector &orv, std::size_t output_char_count)
 {
 	sentence_char_count = 0;
 	output_char_count = 0;
@@ -281,7 +280,7 @@ inline void get_aligned_sentence_bounds(ua_input_iterator input_begin, ua_input_
 	}
 }
 
-inline std::pair<std::size_t, std::size_t> process(ualxiw_manager &the_manager, rtno_parser_type the_parser_type, bool no_output, ua_input_iterator input_begin, ua_input_iterator input_end)
+std::pair<std::size_t, std::size_t> process(ualxiw_manager &the_manager, rtno_parser_type the_parser_type, bool no_output, ua_input_iterator input_begin, ua_input_iterator input_end)
 {
 	std::size_t token_count(the_manager.tokenize(input_begin, input_end));
 	std::size_t parse_count(the_manager.parse());
@@ -299,7 +298,7 @@ inline std::pair<std::size_t, std::size_t> process(ualxiw_manager &the_manager, 
 }
 
 
-inline std::pair<long double, std::size_t> process_corpus_for_stats(ualxiw_manager &the_manager, rtno_parser_type the_parser_type, bool no_output, input_range_vector::const_iterator begin, input_range_vector::const_iterator end, std::size_t min_repeats, long double min_elapsed_seconds)
+std::pair<long double, std::size_t> process_corpus_for_stats(ualxiw_manager &the_manager, rtno_parser_type the_parser_type, bool no_output, input_range_vector::const_iterator begin, input_range_vector::const_iterator end, std::size_t min_repeats, long double min_elapsed_seconds)
 {
 	std::size_t actual_repeats(0);
 	timer total_timer;
@@ -312,7 +311,7 @@ inline std::pair<long double, std::size_t> process_corpus_for_stats(ualxiw_manag
 	return std::make_pair(total_timer.elapsed(), actual_repeats);
 }
 
-inline std::pair<long double, std::size_t> process_sentence_for_stats(ualxiw_manager &the_manager, rtno_parser_type the_parser_type, bool no_output, ua_input_iterator begin, ua_input_iterator end, std::size_t min_repeats, long double min_elapsed_seconds)
+std::pair<long double, std::size_t> process_sentence_for_stats(ualxiw_manager &the_manager, rtno_parser_type the_parser_type, bool no_output, ua_input_iterator begin, ua_input_iterator end, std::size_t min_repeats, long double min_elapsed_seconds)
 {
 	std::size_t actual_repeats(0);
 	timer total_timer;
@@ -325,7 +324,7 @@ inline std::pair<long double, std::size_t> process_sentence_for_stats(ualxiw_man
 	return std::make_pair(total_timer.elapsed(), actual_repeats);
 }
 
-inline std::pair<std::size_t, std::size_t> process_and_get_fprtn_stats(ualxiw_manager &the_manager, rtno_parser_type the_parser_type, bool no_output, ua_input_iterator input_begin, ua_input_iterator input_end, std::size_t &state_count, std::size_t &transition_count, std::size_t &pruned_state_count, std::size_t &pruned_transition_count)
+std::pair<std::size_t, std::size_t> process_and_get_fprtn_stats(ualxiw_manager &the_manager, rtno_parser_type the_parser_type, bool no_output, ua_input_iterator input_begin, ua_input_iterator input_end, std::size_t &state_count, std::size_t &transition_count, std::size_t &pruned_state_count, std::size_t &pruned_transition_count)
 {
 	std::size_t token_count(the_manager.tokenize(input_begin, input_end));
 	std::size_t parse_count(the_manager.parse_and_get_fprtn_stats(state_count, transition_count, pruned_state_count, pruned_transition_count));

@@ -4,9 +4,9 @@ cd `dirname $0`
 
 if [ $# -gt 0 ]
 then
-$PROFILE_NLP -sxcw -pbreadth-first -r$1 $TID_GRAMMAR $COMPRESSED_DICO $CORPUS $OUTPUT
+$PROFILE_NLP -sxcw -pbreadth-first -r$1 $CHATBOT_GRAMMAR $COMPRESSED_DICO $CORPUS $OUTPUT
 else
-$PROFILE_NLP -sxcw -pbreadth-first $TID_GRAMMAR $COMPRESSED_DICO $CORPUS $OUTPUT
+$PROFILE_NLP -sxcw -pbreadth-first $CHATBOT_GRAMMAR $COMPRESSED_DICO $CORPUS $OUTPUT
 fi
 echo \#\#\#\#\#\#\#\#\#\#\#\#\#\#\#\#\# > $BREADTH_FIRST_PROFILE_TRACE
 echo \# Breadth-First \# >> $BREADTH_FIRST_PROFILE_TRACE

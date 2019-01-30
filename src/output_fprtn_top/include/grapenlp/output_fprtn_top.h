@@ -49,11 +49,11 @@ namespace grapenlp
 		output_fprtn_reverse_transition_type top_reverse_transition_type;
 		std::size_t ifptc;
 
-		inline top_data_x_incoming_filtered_pop_transition_counter()
+		top_data_x_incoming_filtered_pop_transition_counter()
 		{}
 
 		//Avoid wasting time copying this info since it will be initialized and modified in the ultimate copy only
-		inline top_data_x_incoming_filtered_pop_transition_counter(const top_data_x_incoming_filtered_pop_transition_counter &tdxincoming_transition_count)
+		top_data_x_incoming_filtered_pop_transition_counter(__attribute__((unused)) const top_data_x_incoming_filtered_pop_transition_counter &tdxincoming_transition_count)
 		{}
 	};
 

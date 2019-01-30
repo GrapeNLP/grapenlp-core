@@ -72,7 +72,7 @@ namespace grapenlp
 	};
 
 	template<typename SourceRef, typename Id, typename Weight, assoc_container_impl_choice acic, typename CharT, typename Traits>
-	inline std::basic_ostream<CharT, Traits>& operator<< (std::basic_ostream<CharT, Traits> &out, const segment_map_x_weight<SourceRef, Id, Weight, acic> &smxw)
+	std::basic_ostream<CharT, Traits>& operator<< (std::basic_ostream<CharT, Traits> &out, const segment_map_x_weight<SourceRef, Id, Weight, acic> &smxw)
 	{ return out << '(' << smxw.sm << ", " << smxw.w << ')'; }
 
 	template<typename SourceRef, typename Id, typename WeightTransformer, assoc_container_impl_choice acic>

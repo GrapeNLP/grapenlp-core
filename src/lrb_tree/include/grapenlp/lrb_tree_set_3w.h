@@ -218,31 +218,31 @@ namespace grapenlp
 	};
 
 	template<typename Key, typename Compare, typename Allocator>
-	inline bool operator==(const lrb_tree_set_3w<Key, Compare, Allocator>& s1, const lrb_tree_set_3w<Key, Compare, Allocator>& s2)
+	bool operator==(const lrb_tree_set_3w<Key, Compare, Allocator>& s1, const lrb_tree_set_3w<Key, Compare, Allocator>& s2)
 	{ return s1.the_tree == s2.the_tree; }
 
 	template<typename Key, typename Compare, typename Allocator>
-	inline bool operator<(const lrb_tree_set_3w<Key, Compare, Allocator>& s1, const lrb_tree_set_3w<Key, Compare, Allocator>& s2)
+	bool operator<(const lrb_tree_set_3w<Key, Compare, Allocator>& s1, const lrb_tree_set_3w<Key, Compare, Allocator>& s2)
 	{ return s1.the_tree < s2.the_tree; }
 
 	template<typename Key, typename Compare, typename Allocator>
-	inline bool operator!=(const lrb_tree_set_3w<Key, Compare, Allocator>& s1, const lrb_tree_set_3w<Key, Compare, Allocator>& s2)
+	bool operator!=(const lrb_tree_set_3w<Key, Compare, Allocator>& s1, const lrb_tree_set_3w<Key, Compare, Allocator>& s2)
 	{ return !(s1 == s2); }
 
 	template<typename Key, typename Compare, typename Allocator>
-	inline bool operator>(const lrb_tree_set_3w<Key, Compare, Allocator>& s1, const lrb_tree_set_3w<Key, Compare, Allocator>& s2)
+	bool operator>(const lrb_tree_set_3w<Key, Compare, Allocator>& s1, const lrb_tree_set_3w<Key, Compare, Allocator>& s2)
 	{ return s2 < s1; }
 
 	template<typename Key, typename Compare, typename Allocator>
-    inline bool operator<=(const lrb_tree_set_3w<Key, Compare, Allocator>& s1, const lrb_tree_set_3w<Key, Compare, Allocator>& s2)
+    bool operator<=(const lrb_tree_set_3w<Key, Compare, Allocator>& s1, const lrb_tree_set_3w<Key, Compare, Allocator>& s2)
     { return !(s2 < s1); }
 
 	template<typename Key, typename Compare, typename Allocator>
-	inline bool operator>=(const lrb_tree_set_3w<Key, Compare, Allocator>& s1, const lrb_tree_set_3w<Key, Compare, Allocator>& s2)
+	bool operator>=(const lrb_tree_set_3w<Key, Compare, Allocator>& s1, const lrb_tree_set_3w<Key, Compare, Allocator>& s2)
     { return !(s1 < s2); }
 
 	template<typename Key, typename Compare, typename Allocator>
-	inline void swap(lrb_tree_set_3w<Key, Compare, Allocator>& s1, lrb_tree_set_3w<Key, Compare, Allocator>& s2)
+	void swap(lrb_tree_set_3w<Key, Compare, Allocator>& s1, lrb_tree_set_3w<Key, Compare, Allocator>& s2)
     { s1.swap(s2); }
 } //namespace grapenlp
 

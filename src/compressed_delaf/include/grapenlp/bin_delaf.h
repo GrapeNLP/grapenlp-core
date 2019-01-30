@@ -49,13 +49,13 @@ namespace grapenlp
 			{}
 
 		public:
-			inline unichar get_label() const
+			unichar get_label() const
 			{
 				return ((unichar)byte0) * 0x0100 +
 				       ((unichar)byte1);
 			}
 
-			inline std::size_t get_target_state_offset() const
+			std::size_t get_target_state_offset() const
 			{
 				return ((std::size_t)byte2) * ((std::size_t)0x00010000) +
 				       ((std::size_t)byte3) * ((std::size_t)0x00000100) +
@@ -80,10 +80,10 @@ namespace grapenlp
 			{}
 
 		public:
-			inline bool is_final() const
+			bool is_final() const
 			{ return !(byte0 & 0x80); }
 
-			inline std::size_t get_outgoing_transition_count() const
+			std::size_t get_outgoing_transition_count() const
 			{
 				return ((std::size_t)(byte0 & 0x7F)) * ((std::size_t)0x0100) +
 				       ((std::size_t)byte1);
@@ -92,7 +92,7 @@ namespace grapenlp
 			//Returns the word properties index associated to this state
 			//Notice that only final states have an associated word properties index
 			//This function does not check if the state is final
-			inline std::size_t get_word_properties_index() const
+			std::size_t get_word_properties_index() const
 			{
 				return ((std::size_t)byte2) * ((std::size_t)0x00010000) +
 				       ((std::size_t)byte3) * ((std::size_t)0x00000100) +
@@ -100,7 +100,7 @@ namespace grapenlp
 			}
 
 			//Returns the first transition handler
-			inline const_outgoing_transition_iterator outgoing_transition_begin() const
+			const_outgoing_transition_iterator outgoing_transition_begin() const
 			{
 				if (is_final())
 					return reinterpret_cast<const_outgoing_transition_iterator>(((std::size_t)this) + ((std::size_t)5));
@@ -108,7 +108,7 @@ namespace grapenlp
 			}
 
 			//Returns the position after the last transition
-			inline const_outgoing_transition_iterator outgoing_transition_end() const
+			const_outgoing_transition_iterator outgoing_transition_end() const
 			{
 				if (is_final())
 					return reinterpret_cast<const_outgoing_transition_iterator>(((std::size_t)this) + ((std::size_t)5) + get_outgoing_transition_count() * sizeof(outgoing_transition));
@@ -117,7 +117,7 @@ namespace grapenlp
 
 			//Returns the outgoing transition at the specified index
 			//Notice that we do not check if the index is out of bounds
-			inline const outgoing_transition& get_outgoing_transition(std::size_t index) const
+			const outgoing_transition& get_outgoing_transition(std::size_t index) const
 			{ return outgoing_transition_begin()[index]; }
 
 			//Binary searches the outgoing transition corresponding to the specified character
@@ -176,7 +176,7 @@ namespace grapenlp
 
 		public:
 			//This is the end iterator once the backtracking stack is empty
-			inline bool is_end()
+			bool is_end()
 			{ return bs.empty(); }
 
 			//Increment iterator
@@ -211,10 +211,10 @@ namespace grapenlp
 				return *this;
 			}
 
-			inline bool operator==(const const_depth_first_iterator &cdfi) const
+			bool operator==(const const_depth_first_iterator &cdfi) const
 			{ return bs == cdfi.bs; }
 
-			inline bool operator!=(const const_depth_first_iterator &cdfi) const
+			bool operator!=(const const_depth_first_iterator &cdfi) const
 			{ return !(*this == cdfi); }
 
 			class const_last_path_char_iterator
@@ -233,22 +233,22 @@ namespace grapenlp
 				{ return i->first->get_label(); }
 				//Member access operator "->" is not defined since we are to return chars and not structs
 
-				inline const_last_path_char_iterator& operator++ ()
+				const_last_path_char_iterator& operator++ ()
 				{
 					++i;
 					return *this;
 				}
 
-				inline const_last_path_char_iterator& operator-- ()
+				const_last_path_char_iterator& operator-- ()
 				{
 					--i;
 					return *this;
 				}
 
-				inline bool operator== (const_last_path_char_iterator &clpci) const
+				bool operator== (const_last_path_char_iterator &clpci) const
 				{ return i == clpci.i; }
 
-				inline bool operator!= (const_last_path_char_iterator &clpci) const
+				bool operator!= (const_last_path_char_iterator &clpci) const
 				{ return !(*this == clpci); }
 			}; //class const_last_path_char_iterator
 
@@ -290,10 +290,10 @@ namespace grapenlp
 				return *this;
 			}
 
-			inline bool operator==(const const_depth_first_final_state_iterator &ci) const
+			bool operator==(const const_depth_first_final_state_iterator &ci) const
 			{ return base_type::operator== (ci); }
 
-			inline bool operator!=(const const_depth_first_final_state_iterator &ci) const
+			bool operator!=(const const_depth_first_final_state_iterator &ci) const
 			{ return !(*this == ci); }
 
 			const state& operator*() const
@@ -322,14 +322,14 @@ namespace grapenlp
 		const_depth_first_iterator depth_first_end() const
 		{ return const_depth_first_iterator(*this); }
 
-		inline const state& offset_to_state(std::size_t offset) const
+		const state& offset_to_state(std::size_t offset) const
 		{ return *reinterpret_cast<const state*>((std::size_t)buffer + offset); }
 
 		//First state byte is the fifth one (the first 4 bytes are the size in bytes of the whole bin_delaf structure)
-		inline std::size_t get_initial_state_offset() const
+		std::size_t get_initial_state_offset() const
 		{ return 4; }
 
-		inline const state& get_initial_state() const
+		const state& get_initial_state() const
 		{ return offset_to_state(get_initial_state_offset()); }
 
 		//Returns the offset of the last state reached by consuming the specified word;
@@ -355,7 +355,7 @@ namespace grapenlp
 
 		//Indicates if the specified word is included in this dictionary or not
 		template<typename UCharIterator>
-		inline bool includes(UCharIterator word_begin, UCharIterator word_end) const
+		bool includes(UCharIterator word_begin, UCharIterator word_end) const
 		{ return get_state_offset(word_begin, word_end) != std::numeric_limits<std::size_t>::max(); }
 	};
 } //namespace grapenlp

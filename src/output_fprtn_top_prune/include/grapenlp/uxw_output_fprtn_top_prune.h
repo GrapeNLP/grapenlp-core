@@ -32,7 +32,7 @@
 namespace grapenlp
 {
 	template<typename SourceRef, typename Weight, typename RTNOTagInput, assoc_container_impl_choice execution_state_set_impl_choice>
-	inline std::size_t uxw_prune_top(typename uxw_output_fprtn_top<SourceRef, Weight, RTNOTagInput, execution_state_set_impl_choice>::type &m, Weight w_min)
+	std::size_t uxw_prune_top(typename uxw_output_fprtn_top<SourceRef, Weight, RTNOTagInput, execution_state_set_impl_choice>::type &m, Weight w_min)
 	{
 		return xw_prune_top<SourceRef, unichar, Weight, RTNOTagInput, execution_state_set_impl_choice>(m, w_min);
 	}

@@ -93,7 +93,7 @@ namespace grapenlp
 		typedef typename weight_transformer::result_type weight;
 		typedef PoolSequenceConcatenator pool_sequence_concatenator;
 
-		inline pool_sequence_x_weight<SequencePool, weight>& operator()(pool_sequence_x_weight<SequencePool, weight> &psxw, const array_const_ref_x_weight<char_type, weight> &acrxw)
+		pool_sequence_x_weight<SequencePool, weight>& operator()(pool_sequence_x_weight<SequencePool, weight> &psxw, const array_const_ref_x_weight<char_type, weight> &acrxw)
 		{
 			if (acrxw.a_cref)
 				pool_sequence_concatenator()(psxw.ps, acrxw.a_cref);
@@ -102,7 +102,7 @@ namespace grapenlp
 		}
 
     	template<typename SourceRef>
-		inline pool_sequence_x_weight<SequencePool, weight>& operator()(pool_sequence_x_weight<SequencePool, weight> &psxw, SourceRef s_ref, const array_const_ref_x_weight<char_type, weight> &acrxw)
+		pool_sequence_x_weight<SequencePool, weight>& operator()(pool_sequence_x_weight<SequencePool, weight> &psxw, SourceRef s_ref, const array_const_ref_x_weight<char_type, weight> &acrxw)
 		{
 			if (acrxw.a_cref)
 				pool_sequence_concatenator()(psxw.ps, s_ref, acrxw.a_cref);
@@ -120,7 +120,7 @@ namespace grapenlp
 		typedef Weight weight;
 		typedef PoolSequenceReverseConcatenator pool_sequence_converse_concatenator;
 
-		inline pool_sequence_x_weight<SequencePool, weight>& operator()(pool_sequence_x_weight<SequencePool, weight> &psxw, const array<char_type> *a_cref)
+		pool_sequence_x_weight<SequencePool, weight>& operator()(pool_sequence_x_weight<SequencePool, weight> &psxw, const array<char_type> *a_cref)
 		{
 			if (a_cref)
 				pool_sequence_converse_concatenator()(psxw.ps, a_cref);
@@ -128,7 +128,7 @@ namespace grapenlp
 		}
 
     	template<typename SourceRef>
-		inline pool_sequence_x_weight<SequencePool, weight>& operator()(pool_sequence_x_weight<SequencePool, weight> &psxw, SourceRef s_ref, const array<char_type> *a_cref)
+		pool_sequence_x_weight<SequencePool, weight>& operator()(pool_sequence_x_weight<SequencePool, weight> &psxw, SourceRef s_ref, const array<char_type> *a_cref)
 		{
 			if (a_cref)
 				pool_sequence_converse_concatenator()(psxw.ps, s_ref, a_cref);
@@ -146,7 +146,7 @@ namespace grapenlp
 		typedef typename weight_transformer::result_type weight;
 		typedef PoolSequenceConcatenator2 pool_sequence_concatenator2;
 
-		inline pool_sequence_x_weight<SequencePool, weight>& operator()(pool_sequence_x_weight<SequencePool, weight> &psxw1, const pool_sequence_x_weight<SequencePool, weight> &psxw2)
+		pool_sequence_x_weight<SequencePool, weight>& operator()(pool_sequence_x_weight<SequencePool, weight> &psxw1, const pool_sequence_x_weight<SequencePool, weight> &psxw2)
 		{
 			pool_sequence_concatenator2()(psxw1.ps, psxw2.ps);
 			psxw1.w = weight_transformer()(psxw1.w, psxw2.w);
@@ -154,7 +154,7 @@ namespace grapenlp
 		}
 
     	template<typename SourceRef>
-		inline pool_sequence_x_weight<SequencePool, weight>& operator()(pool_sequence_x_weight<SequencePool, weight> &psxw1, SourceRef s_ref, const pool_sequence_x_weight<SequencePool, weight> &psxw2)
+		pool_sequence_x_weight<SequencePool, weight>& operator()(pool_sequence_x_weight<SequencePool, weight> &psxw1, SourceRef s_ref, const pool_sequence_x_weight<SequencePool, weight> &psxw2)
 		{
 			pool_sequence_concatenator2()(psxw1.ps, psxw2.ps);
 			psxw1.w = weight_transformer()(psxw1.w, psxw2.w);

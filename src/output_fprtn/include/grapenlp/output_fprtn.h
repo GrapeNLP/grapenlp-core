@@ -388,10 +388,10 @@ namespace grapenlp
 			return std::basic_string<CharT, Traits>(letter_string) + boost::lexical_cast<std::basic_string<CharT, Traits> >((unsigned int)number);
 		}
 
-		inline std::string label() const
+		std::string label() const
 		{ return basic_label<char, std::char_traits<char> >(); }
 
-		inline std::wstring wlabel() const
+		std::wstring wlabel() const
 		{ return basic_label<wchar_t, std::char_traits<wchar_t> >(); }
 
 		template<typename CharT, typename Traits>
@@ -459,7 +459,7 @@ namespace grapenlp
 			base_type::second.useless_flag = true;
 		}
 
-/*			inline void set_mapped(SourceRef src_ref_)
+/*			void set_mapped(SourceRef src_ref_)
 		{
 			base_type::second.src_ref = src_ref_;
 			base_type::second.useless_flag = true;
@@ -664,13 +664,13 @@ namespace grapenlp
 		bool is_final() const
 		{ return base_type::first.is_final(); }
 
-		inline std::size_t transition_count() const
+		std::size_t transition_count() const
 		{ return base_type::second.transition_count(); }
 
-		inline bool has_no_outgoing_transitions() const
+		bool has_no_outgoing_transitions() const
 		{ return base_type::second.has_no_outgoing_transitions(); }
 
-		inline bool has_no_incoming_transitions() const
+		bool has_no_incoming_transitions() const
 		{ return base_type::second.has_no_incoming_transitions(); }
 
 #ifdef TRACE
@@ -862,7 +862,7 @@ namespace grapenlp
 		}
 
 		//Insertion with non-default mapped value
-		inline std::pair<state_iterator, bool> create_other_state(source_rtno_state_const_ref q, source_rtno_state_const_ref q_h, std::size_t j, SourceRef src_ref)
+		std::pair<state_iterator, bool> create_other_state(source_rtno_state_const_ref q, source_rtno_state_const_ref q_h, std::size_t j, SourceRef src_ref)
 		{
 #ifdef TRACE
 			std::pair<state_iterator, bool> result(other_states.insert(state(q, q_h, j,	state_label_letter,	*state_label_counter, src_ref)));
@@ -875,7 +875,7 @@ namespace grapenlp
 		}
 
 		//Insertion with default mapped value; if insertion succeeds, mapped value must be initialized afterwards
-/*			inline std::pair<state_iterator, bool> create_other_state(source_rtno_state_const_ref q, source_rtno_state_const_ref q_h, std::size_t j)
+/*			std::pair<state_iterator, bool> create_other_state(source_rtno_state_const_ref q, source_rtno_state_const_ref q_h, std::size_t j)
 		{
 #ifdef TRACE
 			std::pair<state_iterator, bool> result(insert_with_default_mapped_value(other_states, state_key(q, q_h, j)));
@@ -988,13 +988,13 @@ namespace grapenlp
 #endif
 		{}
 
-		inline std::pair<state_iterator, bool> create_other_state(source_rtno_state_const_ref q, source_rtno_state_const_ref q_h, std::size_t j, std::size_t k, SourceRef src_ref)
+		std::pair<state_iterator, bool> create_other_state(source_rtno_state_const_ref q, source_rtno_state_const_ref q_h, std::size_t j, std::size_t k, SourceRef src_ref)
 		{ return the_chart[k].create_other_state(q, q_h, j, src_ref); }
 
-//		inline std::pair<state_iterator, bool> create_other_state(source_rtno_state_const_ref q, source_rtno_state_const_ref q_h, std::size_t j, std::size_t k)
+//		std::pair<state_iterator, bool> create_other_state(source_rtno_state_const_ref q, source_rtno_state_const_ref q_h, std::size_t j, std::size_t k)
 //		{ return the_chart[k].create_other_state(q, q_h, j); }
 
-		inline std::size_t state_count() const
+		std::size_t state_count() const
 		{
 			std::size_t count = 2; //Initial and global acceptor states
 			for (chart_const_iterator c_it(the_chart.begin()); c_it != the_chart.end(); ++c_it)
@@ -1012,7 +1012,7 @@ namespace grapenlp
 			return count;
 		}
 
-		inline void clear()
+		void clear()
 		{
 			for (chart_iterator c_it(the_chart.begin()); c_it != the_chart.end(); ++c_it)
 			{
@@ -1073,7 +1073,7 @@ namespace grapenlp
 	};
 
 	template<typename SourceRef, typename TagInput, typename RTNOTagInput, assoc_container_impl_choice execution_state_set_impl_choice>
-	inline bool operator== (const typename output_fprtn<SourceRef, TagInput, RTNOTagInput, execution_state_set_impl_choice>::state& q1, const typename output_fprtn<SourceRef, TagInput, RTNOTagInput, execution_state_set_impl_choice>::state& q2)
+	bool operator== (const typename output_fprtn<SourceRef, TagInput, RTNOTagInput, execution_state_set_impl_choice>::state& q1, const typename output_fprtn<SourceRef, TagInput, RTNOTagInput, execution_state_set_impl_choice>::state& q2)
 	{ return &q1 == &q2; }
 
 /*	bool operator< (const typename output_fprtn<SourceRef, TagInput, RTNOTagInput>::state& q1, const typename output_fprtn<SourceRef, TagInput, RTNOTagInput>::state& q2)

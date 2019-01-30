@@ -51,7 +51,7 @@ namespace grapenlp
 		normalizer_iterator(const this_type &ni): base_type(ni)
 		{};
 
-		inline value_type operator* ()
+		value_type operator* ()
 		{ return Normalizer()(*base_type::the_iterator); } 
 	};
 } //namespace grapenlp

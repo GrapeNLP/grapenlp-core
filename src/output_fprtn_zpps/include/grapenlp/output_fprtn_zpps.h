@@ -47,11 +47,11 @@ namespace grapenlp
 		std::size_t useless_data_3;
 		std::size_t useless_data_4;
 
-		inline index_x_incoming_filtered_pop_transition_counter()
+		index_x_incoming_filtered_pop_transition_counter()
 		{}
 
 		//Avoid wasting time copying this info since it will be initialized and modified in the ultimate copy only
-		inline index_x_incoming_filtered_pop_transition_counter(const index_x_incoming_filtered_pop_transition_counter &bsixifptc)
+		index_x_incoming_filtered_pop_transition_counter(__attribute__((unused)) const index_x_incoming_filtered_pop_transition_counter &bsixifptc)
 		{}
 	};
 

@@ -72,11 +72,11 @@ namespace grapenlp
 		}
 
 		//Unsafe random insertion
-		inline std::pair<iterator,bool> unsafe_insert (const value_type x)
+		std::pair<iterator,bool> unsafe_insert (const value_type x)
 		{ return base_type::insert(x); }
 
 		//Unsafe efficient insertion
-		inline iterator unsafe_insert (iterator position, const value_type x)
+		iterator unsafe_insert (iterator position, const value_type x)
 		{ return base_type::insert(position, x); }
 
 		//Safe efficient range insertion
@@ -144,7 +144,7 @@ namespace grapenlp
 			return 1;
 		}
 
-		inline Data* const operator[] (const key_type &x)
+		Data* operator[] (const key_type &x)
 		{ return (*(this->insert(std::make_pair(x,new Data)).first)).second; }
 
 		void erase(iterator first, iterator last)

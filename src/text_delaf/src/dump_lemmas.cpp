@@ -36,7 +36,7 @@ void u_read_dico(tolower_u_text_delaf &d)
 	u_fclose(f);
 }
 
-int main(int argc, char **argv)
+int main(__attribute__((unused)) int argc, __attribute__((unused)) char **argv)
 {
 	tolower_u_text_delaf d;
 	std::wcout << L"Reading dico" << std::endl;

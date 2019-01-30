@@ -104,7 +104,7 @@ void u_write_edited_dico(uid_text_delaf &dico, uid_union_text_delaf_entry_filter
 	u_fclose(f);
 }
 
-int main(int argc, char **argv)
+int main(__attribute__((unused)) int argc, __attribute__((unused)) char **argv)
 {
 	uid_text_delaf dico;
 	std::wcout << L"Reading DELAF dico" << std::endl;

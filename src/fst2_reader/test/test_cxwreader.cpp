@@ -23,7 +23,6 @@
  *  @author Javier Sastre
  */
 
-#include <grapenlp/mtrace.h>
 #include <iostream>
 #include <fstream>
 #include <locale>

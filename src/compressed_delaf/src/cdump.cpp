@@ -23,7 +23,6 @@
  *  @author Javier Sastre
  */
 
-#include <grapenlp/mtrace.h>
 #include <grapenlp/compressed_delaf_reader.h>
 #include <grapenlp/decompress_delaf_writer.h>
 

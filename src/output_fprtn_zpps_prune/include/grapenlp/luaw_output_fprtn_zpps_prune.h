@@ -32,7 +32,7 @@
 namespace grapenlp
 {
 	template<typename SourceRef, typename Weight, typename InputIterator, assoc_container_impl_choice execution_state_set_impl_choice>
-	inline std::size_t luaw_prune_zpps(typename luaw_output_fprtn_zpps<SourceRef, Weight, InputIterator, execution_state_set_impl_choice>::type &m)
+	std::size_t luaw_prune_zpps(typename luaw_output_fprtn_zpps<SourceRef, Weight, InputIterator, execution_state_set_impl_choice>::type &m)
 	{
 		return uaw_prune_zpps<SourceRef, Weight, typename lexmask<InputIterator>::const_ref, execution_state_set_impl_choice>(m);
 	}

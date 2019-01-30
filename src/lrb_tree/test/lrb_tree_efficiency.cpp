@@ -23,8 +23,6 @@
  *  @author Javier Sastre
  */
 
-#include <grapenlp/mtrace.h>
-
 #include <set>
 #include <grapenlp/lrb_tree_set.h>
 #include <grapenlp/lrb_tree_set_3w.h>

@@ -23,7 +23,6 @@
  *  @author Javier Sastre
  */
 
-#include <grapenlp/mtrace.h>
 #include <grapenlp/u_text_delaf_reader.h>
 #include <grapenlp/u_text_delaf_writer.h>
 
@@ -49,7 +48,7 @@ void u_write_dico(uid_text_delaf &dico)
 	u_fclose(f);
 }
 
-int main(int argc, char **argv)
+int main(__attribute__((unused)) int argc, __attribute__((unused)) char **argv)
 {
 #ifndef MTRACE
 	setlocale(LC_CTYPE,"");

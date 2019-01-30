@@ -274,7 +274,7 @@ namespace grapenlp
 			acceptor_execution_state_inserter(blackboard_set &t_, state_const_ref initial_state_): t(t_), initial_state(initial_state_)
 			{}
 
-			inline void operator()(const active_execution_state &x)
+			void operator()(const active_execution_state &x)
 			{
 				if (x.i == 0 && x.q->is_final() && x.q_h == initial_state)
 				{
@@ -288,7 +288,7 @@ namespace grapenlp
 
 		struct no_op_on_execution_state
 		{
-			inline void operator()(const active_execution_state &x) const
+			void operator()(const active_execution_state &x) const
 			{}
 		};
 
@@ -602,7 +602,7 @@ namespace grapenlp
 
 		//Build V_0 as the eclosure of Q X {b_emptyset} X {lambda};
 		template<typename ExtraInsertOp>
-		inline void build_initial_ses(state_const_ref initial_state, bool hasnt_white_at_begin, ExtraInsertOp op, const blackboard &empty_blackboard)
+		void build_initial_ses(state_const_ref initial_state, bool hasnt_white_at_begin, ExtraInsertOp op, const blackboard &empty_blackboard)
 		{
 #ifdef TRACE
 			std::wcout << L"----- V[0] -----" << std::endl;

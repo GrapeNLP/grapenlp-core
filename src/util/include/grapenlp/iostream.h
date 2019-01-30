@@ -113,7 +113,7 @@ namespace grapenlp
 		typedef T *elem_type;
 
 		template<typename CharT, typename Traits>
-		inline std::basic_ostream<CharT, Traits>& operator()(std::basic_ostream<CharT, Traits> &out, T* t) const
+		std::basic_ostream<CharT, Traits>& operator()(std::basic_ostream<CharT, Traits> &out, T* t) const
 		{ return out << *t;	}
 	};
 
@@ -127,7 +127,7 @@ namespace grapenlp
 		typedef const T *elem_type;
 
 		template<typename CharT, typename Traits>
-		inline std::basic_ostream<CharT, Traits>& operator()(std::basic_ostream<CharT, Traits> &out, const T* t) const
+		std::basic_ostream<CharT, Traits>& operator()(std::basic_ostream<CharT, Traits> &out, const T* t) const
 		{ return out << *t;	}
 	};
 
@@ -196,11 +196,11 @@ namespace grapenlp
 		typedef typename iterator_type::value_type elem_type;
 
 		template<typename CharT, typename Traits>
-		inline std::basic_ostream<CharT, Traits>& operator()(std::basic_ostream<CharT, Traits> &out, Iterator begin, Iterator end) const
+		std::basic_ostream<CharT, Traits>& operator()(std::basic_ostream<CharT, Traits> &out, Iterator begin, Iterator end) const
 		{ return serialize_sequence<Iterator, CharT, Traits>(out, begin, end); }
 
 		template<typename CharT, typename Traits>
-		inline std::basic_ostream<CharT, Traits>& operator()(std::basic_ostream<CharT, Traits> &out, Iterator begin, Iterator end, CharT separator) const
+		std::basic_ostream<CharT, Traits>& operator()(std::basic_ostream<CharT, Traits> &out, Iterator begin, Iterator end, CharT separator) const
 		{ return serialize_sequence<Iterator, CharT, Traits>(out, begin, end, separator);	}
 	};
 
@@ -264,11 +264,11 @@ namespace grapenlp
 		typedef typename Iterator::value_type elem_type;
 
 		template<typename CharT, typename Traits>
-		inline std::basic_ostream<CharT, Traits>& operator()(std::basic_ostream<CharT, Traits> &out, Iterator begin, Iterator end) const
+		std::basic_ostream<CharT, Traits>& operator()(std::basic_ostream<CharT, Traits> &out, Iterator begin, Iterator end) const
 		{ return serialize_ptr_sequence<Iterator, CharT, Traits>(out, begin, end); }
 
 		template<typename CharT, typename Traits>
-		inline std::basic_ostream<CharT, Traits>& operator()(std::basic_ostream<CharT, Traits> &out, Iterator begin, Iterator end, CharT separator) const
+		std::basic_ostream<CharT, Traits>& operator()(std::basic_ostream<CharT, Traits> &out, Iterator begin, Iterator end, CharT separator) const
 		{ return serialize_ptr_sequence<Iterator, CharT, Traits>(out, begin, end, separator);	}
 	};
 
@@ -304,11 +304,11 @@ namespace grapenlp
 
 	//These are for helping the compiler to find the generic serializer
 	template<typename Iterator, typename InnerSequenceSerializer>
-	inline std::ostream& serialize_sequence_of_ptr_sequences(std::ostream &out, Iterator begin, Iterator end, wchar_t outer_separator, InnerSequenceSerializer &iss)
+	std::ostream& serialize_sequence_of_ptr_sequences(std::ostream &out, Iterator begin, Iterator end, wchar_t outer_separator, InnerSequenceSerializer &iss)
 	{ return serialize_sequence_of_ptr_sequences<Iterator, InnerSequenceSerializer, char, std::char_traits<char> >(out, begin, end, outer_separator, iss); }
 
 	template<typename Iterator, typename InnerSequenceSerializer>
-	inline std::wostream& serialize_sequence_of_ptr_sequences(std::wostream &out, Iterator begin, Iterator end, wchar_t outer_separator, InnerSequenceSerializer &iss)
+	std::wostream& serialize_sequence_of_ptr_sequences(std::wostream &out, Iterator begin, Iterator end, wchar_t outer_separator, InnerSequenceSerializer &iss)
 	{ return serialize_sequence_of_ptr_sequences<Iterator, InnerSequenceSerializer, wchar_t, std::char_traits<wchar_t> >(out, begin, end, outer_separator, iss); }
 
 	/*****************************************/
@@ -330,7 +330,7 @@ namespace grapenlp
 		{}
 
 		template<typename CharT, typename Traits>
-		inline std::basic_ostream<CharT, Traits>& operator()(std::basic_ostream<CharT, Traits> &out, Iterator begin, Iterator end, CharT outer_separator)
+		std::basic_ostream<CharT, Traits>& operator()(std::basic_ostream<CharT, Traits> &out, Iterator begin, Iterator end, CharT outer_separator)
 		{ return serialize_sequence_of_ptr_sequences<Iterator, InnerSequenceSerializer, CharT, Traits>(out, begin, end, outer_separator, iss); }
 	};
 

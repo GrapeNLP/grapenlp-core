@@ -159,7 +159,7 @@ namespace grapenlp
 	#ifdef TRACE
 			std::wcout << L"Adding transitions\n";
 	#endif
-			add_transitions(grammar, called_states, stv, trv);
+			add_transitions(called_states, stv, trv);
 			return 0;
 		}
 
@@ -366,7 +366,7 @@ namespace grapenlp
 			return value;
 		}
 
-		void add_transitions(machine &grammar, state_ref_array &called_states, ul_state_ref_x_transition_indexes_vector_ref_vector &stv, tag_ref_vector &trv)
+		void add_transitions(state_ref_array &called_states, ul_state_ref_x_transition_indexes_vector_ref_vector &stv, tag_ref_vector &trv)
 		{
 			typename ul_state_ref_x_transition_indexes_vector_ref_vector::iterator i;
 			typename transition_indexes_vector::iterator j;

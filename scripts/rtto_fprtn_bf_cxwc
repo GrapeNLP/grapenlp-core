@@ -4,7 +4,7 @@ cd `dirname $0`
 
 if [ $# -gt 0 ]
 then
-$RELEASE_NLP -sxcwt -r$1 -elrb-tree -bstd -pto-fprtn-and-breadth-first-expand $TID_GRAMMAR $COMPRESSED_DICO $CORPUS $OUTPUT
+$RELEASE_NLP -sxcwt -r$1 -elrb-tree -bstd -pto-fprtn-and-breadth-first-expand $CHATBOT_GRAMMAR $COMPRESSED_DICO $CORPUS $OUTPUT
 else
-$RELEASE_NLP -sxcwt -elrb-tree -bstd -pto-fprtn-and-breadth-first-expand $TID_GRAMMAR $COMPRESSED_DICO $CORPUS $OUTPUT
+$RELEASE_NLP -sxcwt -elrb-tree -bstd -pto-fprtn-and-breadth-first-expand $CHATBOT_GRAMMAR $COMPRESSED_DICO $CORPUS $OUTPUT
 fi

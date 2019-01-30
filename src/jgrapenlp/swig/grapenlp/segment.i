@@ -89,7 +89,7 @@ namespace grapenlp
         segment_map& converse_insert(SourceRef src_ref, SourceRef begin_src_ref, SourceRef end_src_ref, const out_bound<Id> &ob);
         segment_map& insert(const segment_map &sm);
         bool operator< (const segment_map &sm) const;
-        inline std::ptrdiff_t compare_3w(const segment_map &sm) const;
+        std::ptrdiff_t compare_3w(const segment_map &sm) const;
         ~segment_map();
 	};
 */

@@ -138,7 +138,7 @@ namespace grapenlp
 	};
 
 	template<typename T, typename CharT, typename Traits>
-	inline std::basic_ostream<CharT, Traits>& operator<< (std::basic_ostream<CharT, Traits>& out, const out_bound<T> &ob)
+	std::basic_ostream<CharT, Traits>& operator<< (std::basic_ostream<CharT, Traits>& out, const out_bound<T> &ob)
 	{ return ob.serialize(out); }
 } //namespace grapenlp
 

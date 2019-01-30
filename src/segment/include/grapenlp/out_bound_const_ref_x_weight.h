@@ -89,14 +89,14 @@ namespace grapenlp
 	template<typename T, typename Weight>
 	struct out_bound_const_ref_x_weight_weight_getter
 	{
-		inline Weight operator() (const out_bound_const_ref_x_weight<T, Weight> &obcrxw) const
+		Weight operator() (const out_bound_const_ref_x_weight<T, Weight> &obcrxw) const
 		{ return obcrxw.w; }
 	};
 
 	template<typename T, typename Weight>
 	struct out_bound_const_ref_x_weight_non_weight_getter
 	{
-		inline typename out_bound<T>::const_ref operator() (const out_bound_const_ref_x_weight<T, Weight> &obcrxw) const
+		typename out_bound<T>::const_ref operator() (const out_bound_const_ref_x_weight<T, Weight> &obcrxw) const
 		{ return obcrxw.ob_cref; }
 	};
 } //namespace grapenlp

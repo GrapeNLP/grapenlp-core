@@ -23,7 +23,6 @@
  *  @author Javier Sastre
  */
 
-#include <grapenlp/mtrace.h>
 #include <cstdlib>
 #include <ctime>
 #include <fstream>
@@ -52,7 +51,7 @@ using namespace grapenlp;
 
 typedef rb_tree_multimap<int, int> multimap_type;
 
-inline bool is_digit(char c)
+bool is_digit(char c)
 {
 	return c >= '0' && c <= '9';
 }
@@ -99,7 +98,7 @@ std::pair<int, int> parse_int_pair(std::string::const_iterator &begin, std::stri
 	return std::make_pair(i, j);
 }
 
-inline void add_int_pairs(vector<std::pair<int, int> > &ints, const std::string &int_list)
+void add_int_pairs(vector<std::pair<int, int> > &ints, const std::string &int_list)
 {
 	if (int_list.empty())
 		return;
@@ -118,13 +117,13 @@ inline void add_int_pairs(vector<std::pair<int, int> > &ints, const std::string 
 	}
 }
 
-inline void add_random_int_pairs(vector<std::pair<int, int> > &ints, size_t int_count, int max_int)
+void add_random_int_pairs(vector<std::pair<int, int> > &ints, size_t int_count, int max_int)
 {
 	for (; int_count > 0; --int_count)
 		ints.push_back(std::pair<int, int>(rand() % max_int, rand() &max_int));
 }
 
-inline void add_ints(vector<int> &ints, const std::string &int_list)
+void add_ints(vector<int> &ints, const std::string &int_list)
 {
 	if (int_list.empty())
 		return;
@@ -143,7 +142,7 @@ inline void add_ints(vector<int> &ints, const std::string &int_list)
 	}
 }
 
-inline void add_random_ints(vector<int> &ints, size_t int_count, int max_int)
+void add_random_ints(vector<int> &ints, size_t int_count, int max_int)
 {
 	for (; int_count > 0; --int_count)
 		ints.push_back(rand() % max_int);

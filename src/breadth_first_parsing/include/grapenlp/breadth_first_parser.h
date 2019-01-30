@@ -185,7 +185,7 @@ namespace grapenlp
 			acceptor_execution_state_inserter(blackboard_set &t_): t(t_)
 			{}
 
-			inline void operator()(const execution_state &x)
+			void operator()(const execution_state &x)
 			{
 				if (x.q->is_final() && x.pi.empty())
 				{
@@ -199,7 +199,7 @@ namespace grapenlp
 
 		struct no_op_on_execution_state
 		{
-			inline void operator()(const execution_state &x) const
+			void operator()(__attribute__((unused)) const execution_state &x) const
 			{}
 		};
 
@@ -215,9 +215,9 @@ namespace grapenlp
 
 		template<typename ExtraInsertOp>
 #ifdef TRACE
-		inline void process_epsilon_transitions(const execution_state &x_s, outgoing_epsilon_transition_set_iterator epsilon_transition_begin, outgoing_epsilon_transition_set_iterator epsilon_transition_end, ExtraInsertOp op, const std::wstring &epsilon_transition_type = L"")
+		void process_epsilon_transitions(const execution_state &x_s, outgoing_epsilon_transition_set_iterator epsilon_transition_begin, outgoing_epsilon_transition_set_iterator epsilon_transition_end, ExtraInsertOp op, const std::wstring &epsilon_transition_type = L"")
 #else
-		inline void process_epsilon_transitions(const execution_state &x_s, outgoing_epsilon_transition_set_iterator epsilon_transition_begin, outgoing_epsilon_transition_set_iterator epsilon_transition_end, ExtraInsertOp op)
+		void process_epsilon_transitions(const execution_state &x_s, outgoing_epsilon_transition_set_iterator epsilon_transition_begin, outgoing_epsilon_transition_set_iterator epsilon_transition_end, ExtraInsertOp op)
 #endif
 		{
 			for (; epsilon_transition_begin != epsilon_transition_end; ++epsilon_transition_begin)
@@ -236,9 +236,9 @@ namespace grapenlp
 
 		template<typename ExtraInsertOp>
 #ifdef TRACE
-		inline void process_inserting_transitions(const execution_state &x_s, outgoing_inserting_transition_set_iterator inserting_transition_begin, outgoing_inserting_transition_set_iterator inserting_transition_end, SourceRef in, ExtraInsertOp op, const std::wstring &inserting_transition_type = L"")
+		void process_inserting_transitions(const execution_state &x_s, outgoing_inserting_transition_set_iterator inserting_transition_begin, outgoing_inserting_transition_set_iterator inserting_transition_end, SourceRef in, ExtraInsertOp op, const std::wstring &inserting_transition_type = L"")
 #else
-		inline void process_inserting_transitions(const execution_state &x_s, outgoing_inserting_transition_set_iterator inserting_transition_begin, outgoing_inserting_transition_set_iterator inserting_transition_end, SourceRef in, ExtraInsertOp op)
+		void process_inserting_transitions(const execution_state &x_s, outgoing_inserting_transition_set_iterator inserting_transition_begin, outgoing_inserting_transition_set_iterator inserting_transition_end, SourceRef in, ExtraInsertOp op)
 #endif
 		{
 			for (; inserting_transition_begin != inserting_transition_end; ++inserting_transition_begin)
@@ -385,7 +385,7 @@ namespace grapenlp
 
 		//Build V_0 as the eclosure of Q X {b_emptyset} X {lambda};
 		template<typename ExtraInsertOp>
-		inline void build_initial_ses(state_const_ref initial_state, state_const_ref_stack empty_stack, bool hasnt_white_at_begin, ExtraInsertOp op, const blackboard &empty_blackboard)
+		void build_initial_ses(state_const_ref initial_state, state_const_ref_stack empty_stack, bool hasnt_white_at_begin, ExtraInsertOp op, const blackboard &empty_blackboard)
 		{
 #ifdef TRACE
 			std::wcout << L"----- V[0] -----" << std::endl;

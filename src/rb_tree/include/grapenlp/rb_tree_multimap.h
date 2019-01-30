@@ -227,31 +227,31 @@ namespace grapenlp
 	};
 
 	template<typename Key, typename T, typename Compare, typename Allocator>
-	inline bool operator==(const rb_tree_multimap<Key, T, Compare, Allocator>& m1, const rb_tree_multimap<Key, T, Compare, Allocator>& m2)
+	bool operator==(const rb_tree_multimap<Key, T, Compare, Allocator>& m1, const rb_tree_multimap<Key, T, Compare, Allocator>& m2)
 	{ return m1.the_tree == m2.the_tree; }
 
 	template<typename Key, typename T, typename Compare, typename Allocator>
-	inline bool operator<(const rb_tree_multimap<Key, T, Compare, Allocator>& m1, const rb_tree_multimap<Key, T, Compare, Allocator>& m2)
+	bool operator<(const rb_tree_multimap<Key, T, Compare, Allocator>& m1, const rb_tree_multimap<Key, T, Compare, Allocator>& m2)
 	{ return m1.the_tree < m2.the_tree; }
 
 	template<typename Key, typename T, typename Compare, typename Allocator>
-	inline bool operator!=(const rb_tree_multimap<Key, T, Compare, Allocator>& m1, const rb_tree_multimap<Key, T, Compare, Allocator>& m2)
+	bool operator!=(const rb_tree_multimap<Key, T, Compare, Allocator>& m1, const rb_tree_multimap<Key, T, Compare, Allocator>& m2)
 	{ return !(m1 == m2); }
 
 	template<typename Key, typename T, typename Compare, typename Allocator>
-	inline bool operator>(const rb_tree_multimap<Key, T, Compare, Allocator>& m1, const rb_tree_multimap<Key, T, Compare, Allocator>& m2)
+	bool operator>(const rb_tree_multimap<Key, T, Compare, Allocator>& m1, const rb_tree_multimap<Key, T, Compare, Allocator>& m2)
 	{ return m2 < m1; }
 
 	template<typename Key, typename T, typename Compare, typename Allocator>
-    inline bool operator<=(const rb_tree_multimap<Key, T, Compare, Allocator>& m1, const rb_tree_multimap<Key, T, Compare, Allocator>& m2)
+    bool operator<=(const rb_tree_multimap<Key, T, Compare, Allocator>& m1, const rb_tree_multimap<Key, T, Compare, Allocator>& m2)
     { return !(m2 < m1); }
 
 	template<typename Key, typename T, typename Compare, typename Allocator>
-	inline bool operator>=(const rb_tree_multimap<Key, T, Compare, Allocator>& m1, const rb_tree_multimap<Key, T, Compare, Allocator>& m2)
+	bool operator>=(const rb_tree_multimap<Key, T, Compare, Allocator>& m1, const rb_tree_multimap<Key, T, Compare, Allocator>& m2)
     { return !(m1 < m2); }
 
 	template<typename Key, typename T, typename Compare, typename Allocator>
-	inline void swap(rb_tree_multimap<Key, T, Compare, Allocator>& m1, rb_tree_multimap<Key, T, Compare, Allocator>& m2)
+	void swap(rb_tree_multimap<Key, T, Compare, Allocator>& m1, rb_tree_multimap<Key, T, Compare, Allocator>& m2)
     { m1.swap(m2); }
 } //namespace grapenlp
 

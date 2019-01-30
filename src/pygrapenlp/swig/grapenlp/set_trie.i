@@ -102,10 +102,10 @@ namespace grapenlp
 		bool includes(Iterator begin, Iterator end) const;
 
 		template<typename Iterator>
-		inline typename string::ref get_longest_match(Iterator begin, Iterator end);
+		typename string::ref get_longest_match(Iterator begin, Iterator end);
 
 		template<typename Iterator>
-		inline typename string::const_ref get_longest_match(Iterator begin, Iterator end) const;
+		typename string::const_ref get_longest_match(Iterator begin, Iterator end) const;
 
         ~set_trie();
 	};

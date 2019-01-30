@@ -320,7 +320,7 @@ namespace grapenlp {
 
         array<T> substr(std::size_t i) { return array(begin() + i, end()); }
 
-        inline array<T> prefix() const { return substr(0, count - 1); }
+        array<T> prefix() const { return substr(0, count - 1); }
 
         // size is constant
         size_type size() const { return count; }
@@ -500,58 +500,58 @@ namespace grapenlp {
 
     // global swap()
     template<typename T>
-    inline void swap(array<T> &x, array<T> &y) {
+    void swap(array<T> &x, array<T> &y) {
         x.swap(y);
     }
 
     template<typename T>
     struct array_appender {
-        inline array<T> &operator()(array<T> &a, const T &e) const { return a.append(e); }
+        array<T> &operator()(array<T> &a, const T &e) const { return a.append(e); }
     };
 
     template<typename T>
     struct array_concatenator {
-        inline array<T> &operator()(array<T> &a, const array<T> &b) const { return a.concat(b); }
+        array<T> &operator()(array<T> &a, const array<T> &b) const { return a.concat(b); }
     };
 
     template<typename T>
     struct array_deref_appender {
-        inline array<T> &operator()(array<T> &a, const T *e) const { return a.append(*e); }
+        array<T> &operator()(array<T> &a, const T *e) const { return a.append(*e); }
 
         template<typename SourceRef>
-        inline array<T> &operator()(array<T> &a, SourceRef src_ref, const T *e) const { return a.append(*e); }
+        array<T> &operator()(array<T> &a, SourceRef src_ref, const T *e) const { return a.append(*e); }
     };
 
     template<typename T, typename Sequence>
     struct array_and_deref_sequence_concatenator {
-        inline array<T> &operator()(array<T> &a, const Sequence *seq) const {
+        array<T> &operator()(array<T> &a, const Sequence *seq) const {
             return a.concat(seq->begin(), seq->end());
         }
 
         template<typename SourceRef>
-        inline array<T> &operator()(array<T> &a, SourceRef src_ref, const Sequence *seq) const {
+        array<T> &operator()(array<T> &a, SourceRef src_ref, const Sequence *seq) const {
             return a.concat(seq->begin(), seq->end());
         }
     };
 
     template<typename T, typename Sequence>
     struct array_and_deref_sequence_converse_concatenator {
-        inline array<T> &operator()(array<T> &a, const Sequence *seq) const {
+        array<T> &operator()(array<T> &a, const Sequence *seq) const {
             return a.cconcat(seq->begin(), seq->end());
         }
 
         template<typename SourceRef>
-        inline array<T> &operator()(array<T> &a, SourceRef src_ref, const Sequence *seq) const {
+        array<T> &operator()(array<T> &a, SourceRef src_ref, const Sequence *seq) const {
             return a.cconcat(seq->begin(), seq->end());
         }
     };
 
     template<typename T>
     struct array_and_array_concatenator {
-        inline array<T> &operator()(array<T> &a, const array<T> &b) const { return a.concat(b); }
+        array<T> &operator()(array<T> &a, const array<T> &b) const { return a.concat(b); }
 
         template<typename SourceRef>
-        inline array<T> &operator()(array<T> &a, SourceRef src_ref, const array<T> &b) const { return a.concat(b); }
+        array<T> &operator()(array<T> &a, SourceRef src_ref, const array<T> &b) const { return a.concat(b); }
     };
 } //namespace grapenlp
 

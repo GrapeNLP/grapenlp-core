@@ -71,7 +71,7 @@ const std::array<unichar, 5> cs_BeAu = { {'@', 'B', 'e', 'A', 'u'} };
 const std::array<unichar, 5> ci_digit_meta = { {'%', '<', 'N', 'B', '>'} };
 const std::array<unichar, 6> ci_word_meta = { {'%', '<', 'M', 'O', 'T', '>'} };
 
-int main(int argc, unichar **argv)
+int main(__attribute__((unused)) int argc, __attribute__((unused)) unichar **argv)
 {
 	u_array input(read_unichars(input));
 

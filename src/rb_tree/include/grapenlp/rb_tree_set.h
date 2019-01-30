@@ -201,31 +201,31 @@ namespace grapenlp
 	};
 
 	template<typename Key, typename Compare, typename Allocator>
-	inline bool operator==(const rb_tree_set<Key, Compare, Allocator>& s1, const rb_tree_set<Key, Compare, Allocator>& s2)
+	bool operator==(const rb_tree_set<Key, Compare, Allocator>& s1, const rb_tree_set<Key, Compare, Allocator>& s2)
 	{ return s1.the_tree == s2.the_tree; }
 
 	template<typename Key, typename Compare, typename Allocator>
-	inline bool operator<(const rb_tree_set<Key, Compare, Allocator>& s1, const rb_tree_set<Key, Compare, Allocator>& s2)
+	bool operator<(const rb_tree_set<Key, Compare, Allocator>& s1, const rb_tree_set<Key, Compare, Allocator>& s2)
 	{ return s1.the_tree < s2.the_tree; }
 
 	template<typename Key, typename Compare, typename Allocator>
-	inline bool operator!=(const rb_tree_set<Key, Compare, Allocator>& s1, const rb_tree_set<Key, Compare, Allocator>& s2)
+	bool operator!=(const rb_tree_set<Key, Compare, Allocator>& s1, const rb_tree_set<Key, Compare, Allocator>& s2)
 	{ return !(s1 == s2); }
 
 	template<typename Key, typename Compare, typename Allocator>
-	inline bool operator>(const rb_tree_set<Key, Compare, Allocator>& s1, const rb_tree_set<Key, Compare, Allocator>& s2)
+	bool operator>(const rb_tree_set<Key, Compare, Allocator>& s1, const rb_tree_set<Key, Compare, Allocator>& s2)
 	{ return s2 < s1; }
 
 	template<typename Key, typename Compare, typename Allocator>
-    inline bool operator<=(const rb_tree_set<Key, Compare, Allocator>& s1, const rb_tree_set<Key, Compare, Allocator>& s2)
+    bool operator<=(const rb_tree_set<Key, Compare, Allocator>& s1, const rb_tree_set<Key, Compare, Allocator>& s2)
     { return !(s2 < s1); }
 
 	template<typename Key, typename Compare, typename Allocator>
-	inline bool operator>=(const rb_tree_set<Key, Compare, Allocator>& s1, const rb_tree_set<Key, Compare, Allocator>& s2)
+	bool operator>=(const rb_tree_set<Key, Compare, Allocator>& s1, const rb_tree_set<Key, Compare, Allocator>& s2)
     { return !(s1 < s2); }
 
 	template<typename Key, typename Compare, typename Allocator>
-	inline void swap(rb_tree_set<Key, Compare, Allocator>& s1, rb_tree_set<Key, Compare, Allocator>& s2)
+	void swap(rb_tree_set<Key, Compare, Allocator>& s1, rb_tree_set<Key, Compare, Allocator>& s2)
     { s1.swap(s2); }
 } //namespace grapenlp
 

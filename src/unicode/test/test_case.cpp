@@ -28,7 +28,7 @@
 
 using namespace grapenlp;
 
-std::pair<unichar *, std::size_t> read_unichars(u_array &input)
+std::pair<unichar *, std::size_t> read_unichars()
 {
 	FILE *f(u_fopen("../alpha.txt", U_READ));
 	if (f == NULL)
@@ -41,9 +41,9 @@ std::pair<unichar *, std::size_t> read_unichars(u_array &input)
 	return std::make_pair(s, input_unichar_count);
 }
 
-int main(int argc, char **argv)
+int main(__attribute__((unused)) int argc, __attribute__((unused)) char **argv)
 {
-	u_array input(read_unichars(input));
+	u_array input(read_unichars());
 	u_array lower(input, u_tolower());
 	u_array upper(input, u_toupper());
 

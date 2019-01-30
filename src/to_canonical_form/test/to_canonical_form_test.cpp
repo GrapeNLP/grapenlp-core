@@ -48,7 +48,7 @@ void u_read_dico(tolower_u_text_delaf &dico)
 	u_fclose(f);
 }
 
-int main(int argc, char **argv)
+int main(__attribute__((unused)) int argc, __attribute__((unused)) char **argv)
 {
 	//Load input
 	u_array input(u_fread("../test.txt"));

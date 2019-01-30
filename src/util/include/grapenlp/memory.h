@@ -34,7 +34,7 @@ namespace grapenlp
 	template<typename Allocator, bool = std::is_empty<Allocator>::value>
 	struct allocator_swapper
 	{
-		void operator() (Allocator& a1, Allocator& a2)
+		void operator() (__attribute__((unused)) Allocator& a1, __attribute__((unused)) Allocator& a2)
 		{}
 	};
 

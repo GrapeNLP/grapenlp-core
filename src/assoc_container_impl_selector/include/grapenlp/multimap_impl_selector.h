@@ -74,19 +74,19 @@ namespace grapenlp
 	};
 
 	template<typename Key, typename T, typename Compare, typename Allocator>
-	inline std::pair<typename std::multimap<Key, T, Compare, Allocator>::iterator, bool> insert_with_default_mapped_value(std::multimap<Key, T, Compare, Allocator> &m, const Key &k)
+	std::pair<typename std::multimap<Key, T, Compare, Allocator>::iterator, bool> insert_with_default_mapped_value(std::multimap<Key, T, Compare, Allocator> &m, const Key &k)
 	{ return m.insert(std::make_pair(k, T())); }
 
 	template<typename Key, typename T, typename Compare, typename Allocator>
-	inline std::pair<typename lrb_tree_multimap<Key, T, Compare, Allocator>::iterator, bool> insert_with_default_mapped_value(lrb_tree_multimap<Key, T, Compare, Allocator> &m, const Key &k)
+	std::pair<typename lrb_tree_multimap<Key, T, Compare, Allocator>::iterator, bool> insert_with_default_mapped_value(lrb_tree_multimap<Key, T, Compare, Allocator> &m, const Key &k)
 	{ return m.insert(k); }
 
 	template<typename Key, typename T, typename Compare, typename Allocator>
-	inline std::pair<typename lrb_tree_multimap_3w<Key, T, Compare, Allocator>::iterator, bool> insert_with_default_mapped_value(lrb_tree_multimap_3w<Key, T, Compare, Allocator> &m, const Key &k)
+	std::pair<typename lrb_tree_multimap_3w<Key, T, Compare, Allocator>::iterator, bool> insert_with_default_mapped_value(lrb_tree_multimap_3w<Key, T, Compare, Allocator> &m, const Key &k)
 	{ return m.insert(k); }
 
 	template<typename Key, typename T, typename Compare, typename Allocator>
-	inline std::pair<typename std::multimap<Key, T, Compare, Allocator>::iterator, bool> insert_and_report(std::multimap<Key, T, Compare, Allocator> &m, typename std::multimap<Key, T, Compare, Allocator>::iterator hint_it, const std::pair<const Key, T>& elem)
+	std::pair<typename std::multimap<Key, T, Compare, Allocator>::iterator, bool> insert_and_report(std::multimap<Key, T, Compare, Allocator> &m, typename std::multimap<Key, T, Compare, Allocator>::iterator hint_it, const std::pair<const Key, T>& elem)
 	{
 		typedef std::multimap<Key, T, Compare, Allocator> multimap_type;
 		typename multimap_type::size_type old_elem_count(m.size());
@@ -95,72 +95,72 @@ namespace grapenlp
 	}
 
 	template<typename Key, typename T, typename Compare, typename Allocator>
-	inline std::pair<typename lrb_tree_multimap<Key, T, Compare, Allocator>::iterator, bool> insert_and_report(lrb_tree_multimap<Key, T, Compare, Allocator> &m, typename lrb_tree_multimap<Key, T, Compare, Allocator>::iterator hint_it, const std::pair<const Key, T>& elem)
+	std::pair<typename lrb_tree_multimap<Key, T, Compare, Allocator>::iterator, bool> insert_and_report(lrb_tree_multimap<Key, T, Compare, Allocator> &m, typename lrb_tree_multimap<Key, T, Compare, Allocator>::iterator hint_it, const std::pair<const Key, T>& elem)
 	{ return m.insert_and_report(hint_it, elem); }
 
 	template<typename Key, typename T, typename Compare, typename Allocator>
-	inline std::pair<typename lrb_tree_multimap_3w<Key, T, Compare, Allocator>::iterator, bool> insert_and_report(lrb_tree_multimap_3w<Key, T, Compare, Allocator> &m, typename lrb_tree_multimap_3w<Key, T, Compare, Allocator>::iterator hint_it, const std::pair<const Key, T>& elem)
+	std::pair<typename lrb_tree_multimap_3w<Key, T, Compare, Allocator>::iterator, bool> insert_and_report(lrb_tree_multimap_3w<Key, T, Compare, Allocator> &m, typename lrb_tree_multimap_3w<Key, T, Compare, Allocator>::iterator hint_it, const std::pair<const Key, T>& elem)
 	{ return m.insert_and_report(hint_it, elem); }
 
 	//Normal erase since there is no unbalanced erase with std::multimap
 	template<typename Key, typename T, typename Compare, typename Allocator>
-	inline void unbalanced_erase(std::multimap<Key, T, Compare, Allocator> &m, typename std::multimap<Key, T, Compare, Allocator>::iterator it)
+	void unbalanced_erase(std::multimap<Key, T, Compare, Allocator> &m, typename std::multimap<Key, T, Compare, Allocator>::iterator it)
 	{ m.erase(it); }
 
 	template<typename Key, typename T, typename Compare, typename Allocator>
-	inline void unbalanced_erase(lrb_tree_multimap<Key, T, Compare, Allocator> &m, typename lrb_tree_multimap<Key, T, Compare, Allocator>::iterator it)
+	void unbalanced_erase(lrb_tree_multimap<Key, T, Compare, Allocator> &m, typename lrb_tree_multimap<Key, T, Compare, Allocator>::iterator it)
 	{ return m.unbalanced_erase(it); }
 
 	template<typename Key, typename T, typename Compare, typename Allocator>
-	inline void unbalanced_erase(lrb_tree_multimap_3w<Key, T, Compare, Allocator> &m, typename lrb_tree_multimap_3w<Key, T, Compare, Allocator>::iterator it)
+	void unbalanced_erase(lrb_tree_multimap_3w<Key, T, Compare, Allocator> &m, typename lrb_tree_multimap_3w<Key, T, Compare, Allocator>::iterator it)
 	{ return m.unbalanced_erase(it); }
 
 	template<typename Key, typename T, typename Compare, typename Allocator>
-	inline T& front(std::multimap<Key, T, Compare, Allocator> &m)
+	T& front(std::multimap<Key, T, Compare, Allocator> &m)
 	{ return m.front(); }
 
 	template<typename Key, typename T, typename Compare, typename Allocator>
-	inline const T& front(const std::multimap<Key, T, Compare, Allocator> &m)
+	const T& front(const std::multimap<Key, T, Compare, Allocator> &m)
 	{ return *(m.begin()); }
 
 	template<typename Key, typename T, typename Compare, typename Allocator>
-	inline T& front(lrb_tree_multimap<Key, T, Compare, Allocator> &m)
+	T& front(lrb_tree_multimap<Key, T, Compare, Allocator> &m)
 	{ return m.front(); }
 
 	template<typename Key, typename T, typename Compare, typename Allocator>
-	inline const T& front(const lrb_tree_multimap<Key, T, Compare, Allocator> &m)
+	const T& front(const lrb_tree_multimap<Key, T, Compare, Allocator> &m)
 	{ return m.front(); }
 
 	template<typename Key, typename T, typename Compare, typename Allocator>
-	inline T& front(lrb_tree_multimap_3w<Key, T, Compare, Allocator> &m)
+	T& front(lrb_tree_multimap_3w<Key, T, Compare, Allocator> &m)
 	{ return m.front(); }
 
 	template<typename Key, typename T, typename Compare, typename Allocator>
-	inline const T& front(const lrb_tree_multimap_3w<Key, T, Compare, Allocator> &m)
+	const T& front(const lrb_tree_multimap_3w<Key, T, Compare, Allocator> &m)
 	{ return m.front(); }
 
 	template<typename Key, typename T, typename Compare, typename Allocator>
-	inline T& back(std::multimap<Key, T, Compare, Allocator> &m)
+	T& back(std::multimap<Key, T, Compare, Allocator> &m)
 	{ return *m.rbegin(); }
 
 	template<typename Key, typename T, typename Compare, typename Allocator>
-	inline const T& back(const std::multimap<Key, T, Compare, Allocator> &m)
+	const T& back(const std::multimap<Key, T, Compare, Allocator> &m)
 	{ return *m.rbegin(); }
 
 	template<typename Key, typename T, typename Compare, typename Allocator>
-	inline T& back(lrb_tree_multimap<Key, T, Compare, Allocator> &m)
+	T& back(lrb_tree_multimap<Key, T, Compare, Allocator> &m)
 	{ return m.back(); }
 
 	template<typename Key, typename T, typename Compare, typename Allocator>
-	inline const T& back(const lrb_tree_multimap<Key, T, Compare, Allocator> &m)
+	const T& back(const lrb_tree_multimap<Key, T, Compare, Allocator> &m)
 	{ return m.back(); }
 
 	template<typename Key, typename T, typename Compare, typename Allocator>
-	inline T& back(lrb_tree_multimap_3w<Key, T, Compare, Allocator> &m)
+	T& back(lrb_tree_multimap_3w<Key, T, Compare, Allocator> &m)
 	{ return m.back(); }
 
 	template<typename Key, typename T, typename Compare, typename Allocator>
-	inline const T& back(const lrb_tree_multimap_3w<Key, T, Compare, Allocator> &m)
+	const T& back(const lrb_tree_multimap_3w<Key, T, Compare, Allocator> &m)
 	{ return m.back(); }
 } //namespace grapenlp
 

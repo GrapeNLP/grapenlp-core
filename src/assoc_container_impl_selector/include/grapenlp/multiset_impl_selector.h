@@ -74,7 +74,7 @@ namespace grapenlp
 	};
 
 	template<typename T, typename Compare, typename Allocator>
-	inline std::pair<typename std::multiset<T, Compare, Allocator>::iterator, bool> insert_and_report(std::multiset<T, Compare, Allocator> &s, typename std::multiset<T, Compare, Allocator>::iterator hint_it, const T& elem)
+	std::pair<typename std::multiset<T, Compare, Allocator>::iterator, bool> insert_and_report(std::multiset<T, Compare, Allocator> &s, typename std::multiset<T, Compare, Allocator>::iterator hint_it, const T& elem)
 	{
 		typedef std::multiset<T, Compare, Allocator> multiset_type;
 		typename multiset_type::size_type old_elem_count(s.size());
@@ -83,72 +83,72 @@ namespace grapenlp
 	}
 
 	template<typename T, typename Compare, typename Allocator>
-	inline std::pair<typename lrb_tree_multiset<T, Compare, Allocator>::iterator, bool> insert_and_report(lrb_tree_multiset<T, Compare, Allocator> &s, typename lrb_tree_multiset<T, Compare, Allocator>::iterator hint_it, const T& elem)
+	std::pair<typename lrb_tree_multiset<T, Compare, Allocator>::iterator, bool> insert_and_report(lrb_tree_multiset<T, Compare, Allocator> &s, typename lrb_tree_multiset<T, Compare, Allocator>::iterator hint_it, const T& elem)
 	{ return s.insert_and_report(hint_it, elem); }
 
 	template<typename T, typename Compare, typename Allocator>
-	inline std::pair<typename lrb_tree_multiset_3w<T, Compare, Allocator>::iterator, bool> insert_and_report(lrb_tree_multiset_3w<T, Compare, Allocator> &s, typename lrb_tree_multiset_3w<T, Compare, Allocator>::iterator hint_it, const T& elem)
+	std::pair<typename lrb_tree_multiset_3w<T, Compare, Allocator>::iterator, bool> insert_and_report(lrb_tree_multiset_3w<T, Compare, Allocator> &s, typename lrb_tree_multiset_3w<T, Compare, Allocator>::iterator hint_it, const T& elem)
 	{ return s.insert_and_report(hint_it, elem); }
 
 	//Normal erase since there is no unbalanced erase with std::multiset
 	template<typename T, typename Compare, typename Allocator>
-	inline void unbalanced_erase(std::multiset<T, Compare, Allocator> &s, typename std::multiset<T, Compare, Allocator>::iterator it)
+	void unbalanced_erase(std::multiset<T, Compare, Allocator> &s, typename std::multiset<T, Compare, Allocator>::iterator it)
 	{ s.erase(it); }
 
 	template<typename T, typename Compare, typename Allocator>
-	inline void unbalanced_erase(lrb_tree_multiset<T, Compare, Allocator> &s, typename lrb_tree_multiset<T, Compare, Allocator>::iterator it)
+	void unbalanced_erase(lrb_tree_multiset<T, Compare, Allocator> &s, typename lrb_tree_multiset<T, Compare, Allocator>::iterator it)
 	{ return s.unbalanced_erase(it); }
 
 	template<typename T, typename Compare, typename Allocator>
-	inline void unbalanced_erase(lrb_tree_multiset_3w<T, Compare, Allocator> &s, typename lrb_tree_multiset_3w<T, Compare, Allocator>::iterator it)
+	void unbalanced_erase(lrb_tree_multiset_3w<T, Compare, Allocator> &s, typename lrb_tree_multiset_3w<T, Compare, Allocator>::iterator it)
 	{ return s.unbalanced_erase(it); }
 
 	template<typename T, typename Compare, typename Allocator>
-	inline T& front(std::multiset<T, Compare, Allocator> &s)
+	T& front(std::multiset<T, Compare, Allocator> &s)
 	{ return s.front(); }
 
 	template<typename T, typename Compare, typename Allocator>
-	inline T& front(const std::multiset<T, Compare, Allocator> &s)
+	T& front(const std::multiset<T, Compare, Allocator> &s)
 	{ return *(s.begin()); }
 
 	template<typename T, typename Compare, typename Allocator>
-	inline T& front(lrb_tree_multiset<T, Compare, Allocator> &s)
+	T& front(lrb_tree_multiset<T, Compare, Allocator> &s)
 	{ return s.front(); }
 
 	template<typename T, typename Compare, typename Allocator>
-	inline T& front(const lrb_tree_multiset<T, Compare, Allocator> &s)
+	T& front(const lrb_tree_multiset<T, Compare, Allocator> &s)
 	{ return s.front(); }
 
 	template<typename T, typename Compare, typename Allocator>
-	inline T& front(lrb_tree_multiset_3w<T, Compare, Allocator> &s)
+	T& front(lrb_tree_multiset_3w<T, Compare, Allocator> &s)
 	{ return s.front(); }
 
 	template<typename T, typename Compare, typename Allocator>
-	inline T& front(const lrb_tree_multiset_3w<T, Compare, Allocator> &s)
+	T& front(const lrb_tree_multiset_3w<T, Compare, Allocator> &s)
 	{ return s.front(); }
 
 	template<typename T, typename Compare, typename Allocator>
-	inline T& back(std::multiset<T, Compare, Allocator> &s)
+	T& back(std::multiset<T, Compare, Allocator> &s)
 	{ return *s.rbegin(); }
 
 	template<typename T, typename Compare, typename Allocator>
-	inline T& back(const std::multiset<T, Compare, Allocator> &s)
+	T& back(const std::multiset<T, Compare, Allocator> &s)
 	{ return *s.rbegin(); }
 
 	template<typename T, typename Compare, typename Allocator>
-	inline T& back(lrb_tree_multiset<T, Compare, Allocator> &s)
+	T& back(lrb_tree_multiset<T, Compare, Allocator> &s)
 	{ return s.back(); }
 
 	template<typename T, typename Compare, typename Allocator>
-	inline T& back(const lrb_tree_multiset<T, Compare, Allocator> &s)
+	T& back(const lrb_tree_multiset<T, Compare, Allocator> &s)
 	{ return s.back(); }
 
 	template<typename T, typename Compare, typename Allocator>
-	inline T& back(lrb_tree_multiset_3w<T, Compare, Allocator> &s)
+	T& back(lrb_tree_multiset_3w<T, Compare, Allocator> &s)
 	{ return s.back(); }
 
 	template<typename T, typename Compare, typename Allocator>
-	inline T& back(const lrb_tree_multiset_3w<T, Compare, Allocator> &s)
+	T& back(const lrb_tree_multiset_3w<T, Compare, Allocator> &s)
 	{ return s.back(); }
 } //namespace grapenlp
 

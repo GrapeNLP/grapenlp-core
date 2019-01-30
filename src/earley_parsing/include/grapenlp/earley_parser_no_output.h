@@ -258,7 +258,7 @@ namespace grapenlp
 			acceptor_execution_state_acknowledger(bool &accept_, state_const_ref initial_state_): accept(accept_), initial_state(initial_state_)
 			{}
 
-			inline void operator()(const active_execution_state &x)
+			void operator()(const active_execution_state &x)
 			{
 				accept = accept || (x.i == 0 && x.q->is_final() && x.q_h == initial_state);
 #ifdef TRACE
@@ -270,7 +270,7 @@ namespace grapenlp
 
 		struct no_op_on_execution_state
 		{
-			inline void operator()(const active_execution_state &x) const
+			void operator()(__attribute__((unused)) const active_execution_state &x) const
 			{}
 		};
 
@@ -514,7 +514,7 @@ namespace grapenlp
 
 		//Build V_0 as the eclosure of Q X {b_emptyset} X {lambda};
 		template<typename ExtraInsertOp>
-		inline void build_initial_ses(state_const_ref initial_state, bool hasnt_white_at_begin, ExtraInsertOp op)
+		void build_initial_ses(state_const_ref initial_state, bool hasnt_white_at_begin, ExtraInsertOp op)
 		{
 #ifdef TRACE
 			std::wcout << L"----- V[0] -----" << std::endl;

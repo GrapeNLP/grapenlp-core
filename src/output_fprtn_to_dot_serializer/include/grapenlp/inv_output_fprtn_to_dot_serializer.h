@@ -164,11 +164,11 @@ namespace grapenlp
 	};
 
 	template<typename SourceRef, typename TagInput, typename RTNOTagInput, assoc_container_impl_choice execution_state_set_impl_choice, output_fprtn_incoming_filtered_pop_transition_extra_data_choice edc, typename StateMappedExtraData, typename CharT, typename Traits>
-	inline std::basic_ostream<CharT, Traits>& inv_output_fprtn_to_dot_serialize(std::basic_ostream<CharT, Traits>& out, const char *output_fprtn_name, const output_fprtn<SourceRef, TagInput, RTNOTagInput, execution_state_set_impl_choice, edc, StateMappedExtraData> &the_output_fprtn)
+	std::basic_ostream<CharT, Traits>& inv_output_fprtn_to_dot_serialize(std::basic_ostream<CharT, Traits>& out, const char *output_fprtn_name, const output_fprtn<SourceRef, TagInput, RTNOTagInput, execution_state_set_impl_choice, edc, StateMappedExtraData> &the_output_fprtn)
 	{ return inv_output_fprtn_to_dot_serializer<SourceRef, typename tag_serializer<TagInput>::type, RTNOTagInput, execution_state_set_impl_choice, edc, StateMappedExtraData>()(out, output_fprtn_name, the_output_fprtn); }
 
 	template<typename SourceRef, typename TagInputSerializer, typename RTNOTagInput, assoc_container_impl_choice execution_state_set_impl_choice, output_fprtn_incoming_filtered_pop_transition_extra_data_choice edc, typename StateMappedExtraData, typename CharT, typename Traits>
-	inline std::basic_ostream<CharT, Traits>& inv_output_fprtn_to_dot_serialize(std::basic_ostream<CharT, Traits>& out, const char *output_fprtn_name, const output_fprtn<SourceRef, typename serializer_traits<TagInputSerializer>::elem_type, RTNOTagInput, execution_state_set_impl_choice, edc, StateMappedExtraData> &the_output_fprtn, const TagInputSerializer &tis)
+	std::basic_ostream<CharT, Traits>& inv_output_fprtn_to_dot_serialize(std::basic_ostream<CharT, Traits>& out, const char *output_fprtn_name, const output_fprtn<SourceRef, typename serializer_traits<TagInputSerializer>::elem_type, RTNOTagInput, execution_state_set_impl_choice, edc, StateMappedExtraData> &the_output_fprtn, const TagInputSerializer &tis)
 	{ return inv_output_fprtn_to_dot_serializer<SourceRef, TagInputSerializer, RTNOTagInput, execution_state_set_impl_choice, edc, StateMappedExtraData>(tis)(out, output_fprtn_name, the_output_fprtn); }
 
 #ifdef TRACE

@@ -165,13 +165,13 @@ namespace grapenlp
 	};
 
 	template<typename SourceRef, typename TagInput, typename CharT, typename Traits>
-	inline std::basic_ostream<CharT, Traits>& fprtn_to_dot_serialize(std::basic_ostream<CharT, Traits>& out, const char *fprtn_name, const fprtn<SourceRef, TagInput> &the_fprtn, SourceRef source_begin)
+	std::basic_ostream<CharT, Traits>& fprtn_to_dot_serialize(std::basic_ostream<CharT, Traits>& out, const char *fprtn_name, const fprtn<SourceRef, TagInput> &the_fprtn, SourceRef source_begin)
 	{
 		return fprtn_to_dot_serializer<SourceRef, typename tag_serializer<TagInput>::type>()(out, fprtn_name, the_fprtn, source_begin);
 	}
 
 	template<typename SourceRef, typename TagInputSerializer, typename CharT, typename Traits>
-	inline std::basic_ostream<CharT, Traits>& fprtn_to_dot_serialize(std::basic_ostream<CharT, Traits>& out, const char *fprtn_name, const fprtn<SourceRef, typename serializer_traits<TagInputSerializer>::elem_type> &the_fprtn, SourceRef source_begin, const TagInputSerializer &tis)
+	std::basic_ostream<CharT, Traits>& fprtn_to_dot_serialize(std::basic_ostream<CharT, Traits>& out, const char *fprtn_name, const fprtn<SourceRef, typename serializer_traits<TagInputSerializer>::elem_type> &the_fprtn, SourceRef source_begin, const TagInputSerializer &tis)
 	{ return fprtn_to_dot_serializer<SourceRef, TagInputSerializer>(tis)(out, fprtn_name, the_fprtn, source_begin); }
 } //namespace grapenlp
 

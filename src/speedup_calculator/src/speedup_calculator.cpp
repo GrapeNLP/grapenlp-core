@@ -51,7 +51,7 @@ void help(const std::string &program_name, const options_description &desc)
 
 typedef std::list<grapenlp::alg_trie::string::ref> alg_ptr_list;
 
-inline void inc_until_ref_parser(grapenlp::stat_list::const_iterator &i, grapenlp::stat_list::const_iterator end, char speedup_param)
+void inc_until_ref_parser(grapenlp::stat_list::const_iterator &i, grapenlp::stat_list::const_iterator end, char speedup_param)
 {
 	while (i != end && i->pitvm.find(speedup_param) == i->pitvm.end())
 		++i;

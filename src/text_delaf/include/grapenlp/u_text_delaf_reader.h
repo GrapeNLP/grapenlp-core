@@ -1,7 +1,7 @@
 /*
  * GRAPENLP
  *
- * Copyright (C) 2004-2018 Javier Miguel Sastre Martínez <javier.sastre@telefonica.net>
+ * Copyright (C) 2004-2019 Javier Miguel Sastre Martínez <javier.sastre@telefonica.net>
  *
  * This library is free software; you can redistribute it and/or
  * modify it under the terms of the GNU Lesser General Public
@@ -48,29 +48,29 @@ namespace grapenlp
 	bool u_read_entry(FILE *f, std::size_t entry_count, u_text_delaf<CaseNormalizer> &dico);
 
 	template<typename CaseNormalizer>
-	inline unichar u_read_lemma(FILE *f, typename u_text_delaf<CaseNormalizer>::u_lemma_string::ref &lemma)
+	unichar u_read_lemma(FILE *f, typename u_text_delaf<CaseNormalizer>::u_lemma_string::ref &lemma)
 	{ return u_read<typename u_text_delaf<CaseNormalizer>::u_entry_list, std::array<unichar, 3>::const_iterator, CaseNormalizer>(f, lemma, lemma_end_marks.begin(), lemma_end_marks.end(), CaseNormalizer()); }
 
 	template<typename CaseNormalizer>
-	inline unichar u_read_canonical_form(FILE *f, typename u_text_delaf<CaseNormalizer>::u_lemma_string::ref &canonical_form)
+	unichar u_read_canonical_form(FILE *f, typename u_text_delaf<CaseNormalizer>::u_lemma_string::ref &canonical_form)
 	{ return u_read<typename u_text_delaf<CaseNormalizer>::u_entry_list, std::array<unichar, 3>::const_iterator, CaseNormalizer>(f, canonical_form, canonical_form_end_marks.begin(), canonical_form_end_marks.end(), CaseNormalizer()); }
 
 	template<typename CaseNormalizer>
 	unichar u_read_semantic_traits(FILE *f, std::size_t entry_count, u_text_delaf<CaseNormalizer> &d, typename u_text_delaf<CaseNormalizer>::ust_set& semantic_traits);
 
-	inline unichar u_read_semantic_trait(FILE *f, ust_string::ref &semantic_trait)
+	unichar u_read_semantic_trait(FILE *f, ust_string::ref &semantic_trait)
 	{ return u_read(f, semantic_trait, semantic_traits_end_marks.begin(), semantic_traits_end_marks.end()); }
 
 	template<typename CaseNormalizer>
 	unichar u_read_possible_flexional_traits(FILE *f, std::size_t entry_count, u_text_delaf<CaseNormalizer> &d, typename u_text_delaf<CaseNormalizer>::u_flexional_traits_list &possible_flexional_traits);
 
-	inline unichar u_read_flexional_traits(FILE *f, u_set &flexional_traits)
+	unichar u_read_flexional_traits(FILE *f, u_set &flexional_traits)
 	{ return u_read(f, flexional_traits, flexional_traits_end_marks.begin(), flexional_traits_end_marks.end()); }
 
 	template<typename CaseNormalizer>
 	unichar u_read_clitic_pronouns(FILE *f, std::size_t entry_count, u_text_delaf<CaseNormalizer> &d, typename u_text_delaf<CaseNormalizer>::ust_set &clitic_pronouns);
 
-	inline unichar u_read_clitic_pronoun(FILE *f, ust_string::ref &clitic_pronoun)
+	unichar u_read_clitic_pronoun(FILE *f, ust_string::ref &clitic_pronoun)
 	{ return u_read(f, clitic_pronoun, clitic_pronouns_end_marks.begin(), clitic_pronouns_end_marks.end()); }
 
 	template<typename CaseNormalizer>

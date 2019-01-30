@@ -1,7 +1,7 @@
 /*
  * GRAPENLP
  *
- * Copyright (C) 2004-2018 Javier Miguel Sastre Martínez <javier.sastre@telefonica.net>
+ * Copyright (C) 2004-2019 Javier Miguel Sastre Martínez <javier.sastre@telefonica.net>
  *
  * This library is free software; you can redistribute it and/or
  * modify it under the terms of the GNU Lesser General Public
@@ -164,11 +164,11 @@ namespace grapenlp
 	};
 
 	template<typename SourceRef, typename TagInput, typename CharT, typename Traits>
-	inline std::basic_ostream<CharT, Traits>& inv_fprtn_to_dot_serialize(std::basic_ostream<CharT, Traits>& out, const char *fprtn_name, const fprtn<SourceRef, TagInput> &the_fprtn, SourceRef src_begin)
+	std::basic_ostream<CharT, Traits>& inv_fprtn_to_dot_serialize(std::basic_ostream<CharT, Traits>& out, const char *fprtn_name, const fprtn<SourceRef, TagInput> &the_fprtn, SourceRef src_begin)
 	{ return inv_fprtn_to_dot_serializer<SourceRef, typename tag_serializer<TagInput>::type>()(out, fprtn_name, the_fprtn, src_begin); }
 
 	template<typename SourceRef, typename TagInputSerializer, typename CharT, typename Traits>
-	inline std::basic_ostream<CharT, Traits>& inv_fprtn_to_dot_serialize(std::basic_ostream<CharT, Traits>& out, const char *fprtn_name, const fprtn<SourceRef, typename serializer_traits<TagInputSerializer>::elem_type> &the_fprtn, SourceRef src_ref, const TagInputSerializer &tis)
+	std::basic_ostream<CharT, Traits>& inv_fprtn_to_dot_serialize(std::basic_ostream<CharT, Traits>& out, const char *fprtn_name, const fprtn<SourceRef, typename serializer_traits<TagInputSerializer>::elem_type> &the_fprtn, SourceRef src_ref, const TagInputSerializer &tis)
 	{ return inv_fprtn_to_dot_serializer<SourceRef, TagInputSerializer>(tis)(out, fprtn_name, the_fprtn); }
 } //namespace grapenlp
 

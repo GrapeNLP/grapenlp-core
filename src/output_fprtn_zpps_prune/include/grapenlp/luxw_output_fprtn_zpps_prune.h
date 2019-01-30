@@ -1,7 +1,7 @@
 /*
  * GRAPENLP
  *
- * Copyright (C) 2004-2018 Javier Miguel Sastre Martínez <javier.sastre@telefonica.net>
+ * Copyright (C) 2004-2019 Javier Miguel Sastre Martínez <javier.sastre@telefonica.net>
  *
  * This library is free software; you can redistribute it and/or
  * modify it under the terms of the GNU Lesser General Public
@@ -32,7 +32,7 @@
 namespace grapenlp
 {
 	template<typename SourceRef, typename Weight, typename InputIterator, assoc_container_impl_choice execution_state_set_impl_choice>
-	inline std::size_t luxw_prune_zpps(typename luxw_output_fprtn_zpps<SourceRef, Weight, InputIterator, execution_state_set_impl_choice>::type &m)
+	std::size_t luxw_prune_zpps(typename luxw_output_fprtn_zpps<SourceRef, Weight, InputIterator, execution_state_set_impl_choice>::type &m)
 	{
 		return uxw_prune_zpps<SourceRef, Weight, typename lexmask<InputIterator>::const_ref, execution_state_set_impl_choice>(m);
 	}

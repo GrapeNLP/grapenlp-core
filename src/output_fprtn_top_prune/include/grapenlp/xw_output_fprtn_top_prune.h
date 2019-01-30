@@ -1,7 +1,7 @@
 /*
  * GRAPENLP
  *
- * Copyright (C) 2004-2018 Javier Miguel Sastre Martínez <javier.sastre@telefonica.net>
+ * Copyright (C) 2004-2019 Javier Miguel Sastre Martínez <javier.sastre@telefonica.net>
  *
  * This library is free software; you can redistribute it and/or
  * modify it under the terms of the GNU Lesser General Public
@@ -32,7 +32,7 @@
 namespace grapenlp
 {
 	template<typename SourceRef, typename Id, typename Weight, typename RTNOTagInput, assoc_container_impl_choice execution_state_set_impl_choice>
-	inline std::size_t xw_prune_top(typename xw_output_fprtn_top<SourceRef, Id, Weight, RTNOTagInput, execution_state_set_impl_choice>::type &m, Weight w_min)
+	std::size_t xw_prune_top(typename xw_output_fprtn_top<SourceRef, Id, Weight, RTNOTagInput, execution_state_set_impl_choice>::type &m, Weight w_min)
 	{
 		return prune_top<SourceRef, out_bound_const_ref_x_weight<Id, Weight>, RTNOTagInput, execution_state_set_impl_choice>(m, w_min);
 	}

@@ -69,8 +69,8 @@ namespace std
 	    static const char_type* find(const char_type* __s, size_t __n, const char_type& __a)
 	    {
 	    	for (size_t __i = 0; __i < __n; ++__i)
-			if (eq(__s[__i], __a))
-			  return __s + __i;
+				if (eq(__s[__i], __a))
+				  return __s + __i;
 			return 0;
 	    }
 

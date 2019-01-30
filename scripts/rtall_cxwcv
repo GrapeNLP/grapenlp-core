@@ -1,0 +1,20 @@
+#!/bin/bash
+cd `dirname $0`
+. paths
+
+if [ $# -gt 0 ]
+then
+$RELEASE_NLP --desc-parser -sxcwt -r$1 -pdepth-first -bstd $CHATBOT_NO_KEYWORD_GRAMMAR $COMPRESSED_DICO $CORPUS_NO_KEYWORD $OUTPUT $VALIDATE
+$RELEASE_NLP --desc-parser -sxcwt -r$1 -pbreadth-first -elrb-tree -bstd $CHATBOT_NO_KEYWORD_GRAMMAR $COMPRESSED_DICO $CORPUS_NO_KEYWORD $OUTPUT $VALIDATE
+$RELEASE_NLP --desc-parser -sxcwt -r$1 -pearley -elrb-tree -bstd $CHATBOT_NO_KEYWORD_GRAMMAR $COMPRESSED_DICO $CORPUS_NO_KEYWORD $OUTPUT $VALIDATE
+$RELEASE_NLP --desc-parser -sxcwt -r$1 -pto-fprtn-and-breadth-first-expand -elrb-tree -bstd $CHATBOT_NO_KEYWORD_GRAMMAR $COMPRESSED_DICO $CORPUS_NO_KEYWORD $OUTPUT $VALIDATE
+$RELEASE_NLP --desc-parser -sxcwt -r$1 -pto-fprtn-and-blackboard-set-expand -elrb-tree -bstd $CHATBOT_NO_KEYWORD_GRAMMAR $COMPRESSED_DICO $CORPUS_NO_KEYWORD $OUTPUT $VALIDATE
+$RELEASE_NLP --desc-parser -sxcwt -r$1 -pto-fprtn-and-top-blackboard-extract -elrb-tree $CHATBOT_NO_KEYWORD_GRAMMAR $COMPRESSED_DICO $CORPUS_NO_KEYWORD $OUTPUT $VALIDATE
+else
+$RELEASE_NLP --desc-parser -sxcwt -pdepth-first -bstd $CHATBOT_NO_KEYWORD_GRAMMAR $COMPRESSED_DICO $CORPUS_NO_KEYWORD $OUTPUT $VALIDATE
+$RELEASE_NLP --desc-parser -sxcwt -pbreadth-first -elrb-tree -bstd $CHATBOT_NO_KEYWORD_GRAMMAR $COMPRESSED_DICO $CORPUS_NO_KEYWORD $OUTPUT $VALIDATE
+$RELEASE_NLP --desc-parser -sxcwt -pearley -elrb-tree -bstd $CHATBOT_NO_KEYWORD_GRAMMAR $COMPRESSED_DICO $CORPUS_NO_KEYWORD $OUTPUT $VALIDATE
+$RELEASE_NLP --desc-parser -sxcwt -pto-fprtn-and-breadth-first-expand -elrb-tree -bstd $CHATBOT_NO_KEYWORD_GRAMMAR $COMPRESSED_DICO $CORPUS_NO_KEYWORD $OUTPUT $VALIDATE
+$RELEASE_NLP --desc-parser -sxcwt -pto-fprtn-and-blackboard-set-expand -elrb-tree -bstd $CHATBOT_NO_KEYWORD_GRAMMAR $COMPRESSED_DICO $CORPUS_NO_KEYWORD $OUTPUT $VALIDATE
+$RELEASE_NLP --desc-parser -sxcwt -pto-fprtn-and-top-blackboard-extract -elrb-tree $CHATBOT_NO_KEYWORD_GRAMMAR $COMPRESSED_DICO $CORPUS_NO_KEYWORD $OUTPUT $VALIDATE
+fi

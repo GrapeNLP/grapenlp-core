@@ -1,7 +1,7 @@
 /*
  * GRAPENLP
  *
- * Copyright (C) 2004-2018 Javier Miguel Sastre Martínez <javier.sastre@telefonica.net>
+ * Copyright (C) 2004-2019 Javier Miguel Sastre Martínez <javier.sastre@telefonica.net>
  *
  * This library is free software; you can redistribute it and/or
  * modify it under the terms of the GNU Lesser General Public
@@ -49,11 +49,11 @@ namespace grapenlp
 		output_fprtn_reverse_transition_type top_reverse_transition_type;
 		std::size_t ifptc;
 
-		inline top_data_x_incoming_filtered_pop_transition_counter()
+		top_data_x_incoming_filtered_pop_transition_counter()
 		{}
 
 		//Avoid wasting time copying this info since it will be initialized and modified in the ultimate copy only
-		inline top_data_x_incoming_filtered_pop_transition_counter(const top_data_x_incoming_filtered_pop_transition_counter &tdxincoming_transition_count)
+		top_data_x_incoming_filtered_pop_transition_counter(__attribute__((unused)) const top_data_x_incoming_filtered_pop_transition_counter &tdxincoming_transition_count)
 		{}
 	};
 

@@ -1,7 +1,7 @@
 /*
  * GRAPENLP
  *
- * Copyright (C) 2004-2018 Javier Miguel Sastre Martínez <javier.sastre@telefonica.net>
+ * Copyright (C) 2004-2019 Javier Miguel Sastre Martínez <javier.sastre@telefonica.net>
  *
  * This library is free software; you can redistribute it and/or
  * modify it under the terms of the GNU Lesser General Public
@@ -82,16 +82,16 @@ namespace grapenlp
 		set_trie(): base_trie_with_def_data(new string()), elem_count(0)
 		{}
 
-        inline size_type size()
+        size_type size()
         { return elem_count; }
 
-        inline bool empty()
+        bool empty()
         { return (bool)elem_count; }
 
-        inline const_iterator begin() const
+        const_iterator begin() const
         { return const_iterator(base_trie_with_def_data::epsilon()); }
 
-        inline const_iterator end() const
+        const_iterator end() const
         { return const_iterator(); }
 
 		string& add(const T& elem)
@@ -126,7 +126,7 @@ namespace grapenlp
 		}
 
 		template<typename Iterator>
-		inline typename string::ref get_longest_match(Iterator begin, Iterator end)
+		typename string::ref get_longest_match(Iterator begin, Iterator end)
 		{
 			typename string::ref s(&base_trie_with_def_data::epsilon());
 			typename string::ref s2(&base_trie_with_def_data::epsilon());
@@ -143,7 +143,7 @@ namespace grapenlp
 		}
 
 		template<typename Iterator>
-		inline typename string::const_ref get_longest_match(Iterator begin, Iterator end) const
+		typename string::const_ref get_longest_match(Iterator begin, Iterator end) const
 		{
 			typename string::const_ref s(&base_trie_with_def_data::epsilon());
 			typename string::const_ref s2(&base_trie_with_def_data::epsilon());

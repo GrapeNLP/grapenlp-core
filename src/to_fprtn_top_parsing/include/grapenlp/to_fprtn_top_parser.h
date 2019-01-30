@@ -1,7 +1,7 @@
 /*
  * GRAPENLP
  *
- * Copyright (C) 2004-2018 Javier Miguel Sastre Martínez <javier.sastre@telefonica.net>
+ * Copyright (C) 2004-2019 Javier Miguel Sastre Martínez <javier.sastre@telefonica.net>
  *
  * This library is free software; you can redistribute it and/or
  * modify it under the terms of the GNU Lesser General Public
@@ -122,7 +122,7 @@ namespace grapenlp
 			acceptor_execution_state_inserter(out_state &global_acceptor_state_, in_state_const_ref in_initial_state_, paused_execution_state_map_iterator ini_call_pes_it_): global_acceptor_state(global_acceptor_state_), in_initial_state(in_initial_state_), ini_call_pes_it(ini_call_pes_it_)
 			{}
 
-			inline void operator()(out_state &x)
+			void operator()(out_state &x)
 			{
 				if (x.first.i == 0 && x.is_final() && x.first.q_h == in_initial_state)
 				{
@@ -136,7 +136,7 @@ namespace grapenlp
 
 		struct no_op_on_execution_state
 		{
-			inline void operator()(out_state &x) const
+			void operator()(__attribute__((unused)) out_state &x) const
 			{}
 		};
 
@@ -502,7 +502,7 @@ namespace grapenlp
 		}
 
 		template<typename ExtraInsertOp>
-		inline void build_initial_ses(in_state_const_ref in_initial_state, bool hasnt_white_at_begin, out_machine &out, ExtraInsertOp op)
+		void build_initial_ses(in_state_const_ref in_initial_state, bool hasnt_white_at_begin, out_machine &out, ExtraInsertOp op)
 		{
 #ifdef TRACE
 			std::wcout << L"----- V[0] -----" << std::endl;

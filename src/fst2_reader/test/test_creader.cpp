@@ -74,7 +74,7 @@ void u_read_grammar(ualua_rtno &grammar, ual_trie &ualt, ua_trie &uat, compresse
 	u_fclose(f);
 }
 
-int main(int argc, char **argv)
+int main(__attribute__((unused)) int argc, __attribute__((unused)) char **argv)
 {
 	ualua_rtno grammar;
 	ual_trie ualt;

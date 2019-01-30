@@ -1,7 +1,7 @@
 /*
  * GRAPENLP
  *
- * Copyright (C) 2004-2018 Javier Miguel Sastre Martínez <javier.sastre@telefonica.net>
+ * Copyright (C) 2004-2019 Javier Miguel Sastre Martínez <javier.sastre@telefonica.net>
  *
  * This library is free software; you can redistribute it and/or
  * modify it under the terms of the GNU Lesser General Public
@@ -286,10 +286,10 @@ namespace grapenlp
 				return std::basic_string<CharT, Traits>(letter_string) + boost::lexical_cast<std::basic_string<CharT, Traits> >((unsigned int)number);
 			}
 
-			inline std::string label() const
+			std::string label() const
 			{ return basic_label<char, std::char_traits<char> >(); }
 
-			inline std::wstring wlabel() const
+			std::wstring wlabel() const
 			{ return basic_label<wchar_t, std::char_traits<wchar_t> >(); }
 
 			template<typename CharT, typename Traits>
@@ -547,7 +547,7 @@ namespace grapenlp
 			return other_states.back();
 		}
 
-		inline state_ref create_state(bool initial_flag, bool final_flag)
+		state_ref create_state(bool initial_flag, bool final_flag)
 		{
 			if (initial_flag)
 				return create_initial_state(final_flag);
@@ -651,7 +651,7 @@ namespace grapenlp
 			}
 		}
 
-		inline void remove_unreachable_states()
+		void remove_unreachable_states()
 		{
 #ifdef TRACE
 			std::wcout << L"remove useless initial states\n";

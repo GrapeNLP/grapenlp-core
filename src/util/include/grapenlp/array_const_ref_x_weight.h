@@ -1,7 +1,7 @@
 /*
  * GRAPENLP
  *
- * Copyright (C) 2004-2018 Javier Miguel Sastre Martínez <javier.sastre@telefonica.net>
+ * Copyright (C) 2004-2019 Javier Miguel Sastre Martínez <javier.sastre@telefonica.net>
  *
  * This library is free software; you can redistribute it and/or
  * modify it under the terms of the GNU Lesser General Public
@@ -85,14 +85,14 @@ namespace grapenlp
 	template<typename T, typename Weight>
 	struct array_const_ref_x_weight_weight_getter
 	{
-		inline Weight operator() (const array_const_ref_x_weight<T, Weight> &acrxw) const
+		Weight operator() (const array_const_ref_x_weight<T, Weight> &acrxw) const
 		{ return acrxw.w; }
 	};
 
 	template<typename T, typename Weight>
 	struct array_const_ref_x_weight_non_weight_getter
 	{
-		inline const array<T>* operator() (const array_const_ref_x_weight<T, Weight> &acrxw) const
+		const array<T>* operator() (const array_const_ref_x_weight<T, Weight> &acrxw) const
 		{ return acrxw.a_cref; }
 	};
 } //namespace grapenlp

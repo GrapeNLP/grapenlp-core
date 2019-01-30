@@ -1,7 +1,7 @@
 /*
  * GRAPENLP
  *
- * Copyright (C) 2004-2018 Javier Miguel Sastre Martínez <javier.sastre@telefonica.net>
+ * Copyright (C) 2004-2019 Javier Miguel Sastre Martínez <javier.sastre@telefonica.net>
  *
  * This library is free software; you can redistribute it and/or
  * modify it under the terms of the GNU Lesser General Public
@@ -46,17 +46,17 @@ namespace grapenlp
 
 	unichar u_read_inf_delaf_semantic_traits(FILE *f, std::size_t ambiguous_entry_count, inf_delaf &dico, inf_delaf::ust_set &semantic_traits);
 
-	inline unichar u_read_inf_delaf_semantic_trait(FILE *f, ust_string::ref &semantic_trait)
+	unichar u_read_inf_delaf_semantic_trait(FILE *f, ust_string::ref &semantic_trait)
 	{ return u_read(f, semantic_trait, inf_delaf_semantic_traits_end_marks.begin(), inf_delaf_semantic_traits_end_marks.end()); }
 
 	unichar u_read_inf_delaf_possible_flexional_traits(FILE *f, std::size_t ambiguous_entry_count, inf_delaf &dico, inf_delaf::u_flexional_traits_list &possible_flexional_traits);
 
-	inline unichar u_read_inf_delaf_flexional_traits(FILE *f, u_set &flexional_traits)
+	unichar u_read_inf_delaf_flexional_traits(FILE *f, u_set &flexional_traits)
 	{ return u_read(f, flexional_traits, inf_delaf_flexional_traits_end_marks.begin(), inf_delaf_flexional_traits_end_marks.end()); }
 
 	unichar u_read_inf_delaf_clitic_pronouns(FILE *f, std::size_t ambiguous_entry_count, inf_delaf &dico, inf_delaf::ust_set &clitic_pronouns);
 
-	inline unichar u_read_inf_delaf_clitic_pronoun(FILE *f, ust_string::ref &clitic_pronoun)
+	unichar u_read_inf_delaf_clitic_pronoun(FILE *f, ust_string::ref &clitic_pronoun)
 	{ return u_read(f, clitic_pronoun, inf_delaf_clitic_pronouns_end_marks.begin(), inf_delaf_clitic_pronouns_end_marks.end()); }
 
 	void u_read(FILE *f, inf_delaf &dico)

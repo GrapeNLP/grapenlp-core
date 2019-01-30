@@ -1,7 +1,7 @@
 /*
  * GRAPENLP
  *
- * Copyright (C) 2004-2018 Javier Miguel Sastre Martínez <javier.sastre@telefonica.net>
+ * Copyright (C) 2004-2019 Javier Miguel Sastre Martínez <javier.sastre@telefonica.net>
  *
  * This library is free software; you can redistribute it and/or
  * modify it under the terms of the GNU Lesser General Public
@@ -76,8 +76,8 @@ namespace grapenlp
 			base_node(): parent_ref(NULL), left_ref(NULL), right_ref(NULL), previous_ref(NULL), next_ref(NULL), is_red(false)
 			{}
 
-			inline value_type& value();
-			inline const value_type& value() const;
+			value_type& value();
+			const value_type& value() const;
 		};
 
 		typedef typename base_node::ref base_node_ref;
@@ -96,10 +96,10 @@ namespace grapenlp
 			node(const value_type &v_): base_node(), v(v_)
 			{}
 
-            inline value_type& value()
+            value_type& value()
             { return v; }
 
-            inline const value_type& value() const
+            const value_type& value() const
             { return v; }
 
 #ifdef TRACE
@@ -120,13 +120,13 @@ namespace grapenlp
         typedef typename node::const_ref node_const_ref;
         typedef typename allocator_type::template rebind<node>::other node_allocator;
 
-		inline node_allocator& get_node_allocator()
+		node_allocator& get_node_allocator()
 		{ return *static_cast<node_allocator*>(&this->d); }
 
-		inline const node_allocator& get_node_allocator() const
+		const node_allocator& get_node_allocator() const
 		{ return *static_cast<const node_allocator*>(&this->d); }
 
-		inline allocator_type get_allocator() const
+		allocator_type get_allocator() const
 		{ return allocator_type(get_node_allocator()); }
 
 	protected:
@@ -224,28 +224,9 @@ namespace grapenlp
 		}
 
 	public:
-		class base_iterator
-		{
-			friend class lrb_tree;
-
-			base_node_ref x;
-
-			explicit base_iterator(base_node_ref x_): x(x_)
-			{}
-
-		public:
-			base_iterator(): x(NULL)
-			{}
-
-			base_iterator(const base_iterator &it): x(it.x)
-			{}
-
-		};
-
-	public:
 		class const_iterator;
 
-		class iterator: public base_iterator, public std::iterator<std::bidirectional_iterator_tag, value_type, std::size_t, value_type*, value_type&>
+		class iterator: public std::iterator<std::bidirectional_iterator_tag, value_type, std::size_t, value_type*, value_type&>
 		{
 			friend class lrb_tree;
 
@@ -267,26 +248,26 @@ namespace grapenlp
 			value_type* operator->() const
 			{ return &x->value(); }
 
-			inline iterator& operator++ ()
+			iterator& operator++ ()
 			{
 				x = x->next_ref;
 				return *this;
 			}
 
-			inline iterator& operator++ (int)
+			iterator& operator++ (int)
 			{
 				iterator it(x);
 				x = x->next_ref;
 				return it;
 			}
 
-			inline iterator& operator-- ()
+			iterator& operator-- ()
 			{
 				x = x->previous_ref;
 				return *this;
 			}
 
-			inline iterator& operator-- (int i)
+			iterator& operator-- (int i)
 			{
 				iterator it(x);
 				x = x->previous_ref;
@@ -306,7 +287,7 @@ namespace grapenlp
 			{ return x != it.x; }
 		};
 
-		class const_iterator: public base_iterator, public std::iterator<std::bidirectional_iterator_tag, value_type, std::size_t, const value_type*, const value_type&>
+		class const_iterator: public std::iterator<std::bidirectional_iterator_tag, value_type, std::size_t, const value_type*, const value_type&>
 		{
 			friend class lrb_tree;
 
@@ -325,32 +306,32 @@ namespace grapenlp
 			const_iterator(const iterator &it): x(it.x)
 			{}
 
-			inline const value_type& operator*() const
+			const value_type& operator*() const
 			{ return x->value(); }
 
-			inline const value_type* operator->() const
+			const value_type* operator->() const
 			{ return &x->value(); }
 
-			inline const_iterator& operator++ ()
+			const_iterator& operator++ ()
 			{
 				x = x->next_ref;
 				return *this;
 			}
 
-			inline const_iterator& operator++ (int i)
+			const_iterator& operator++ (int i)
 			{
 				const_iterator it(x);
 				x = x->next_ref;
 				return it;
 			}
 
-			inline const_iterator& operator-- ()
+			const_iterator& operator-- ()
 			{
 				x = x->previous_ref;
 				return *this;
 			}
 
-			inline const_iterator& operator-- (int i)
+			const_iterator& operator-- (int i)
 			{
 				const_iterator it(x);
 				x = x->previous_ref;
@@ -390,13 +371,13 @@ namespace grapenlp
 			const_preorder_iterator(const const_preorder_iterator &it): s(it.s), x(it.x)
 			{}
 
-			inline const key_type& operator* () const
+			const key_type& operator* () const
 			{ return x->key(); }
 
-			inline const key_type& key() const
+			const key_type& key() const
 			{ return x->key(); }
 
-			inline const key_type* operator-> () const
+			const key_type* operator-> () const
 			{ return &(x->key()); }
 
 			bool operator== (const const_preorder_iterator &it) const
@@ -405,7 +386,7 @@ namespace grapenlp
 			bool operator!= (const const_preorder_iterator &it) const
 			{ return x != it.x; }
 
-			inline const_preorder_iterator& operator++ ()
+			const_preorder_iterator& operator++ ()
 			{
 				//If there is left child, explore it
 				if (x->has_left())
@@ -478,101 +459,101 @@ namespace grapenlp
 		}
 
 	public:
-		inline key_compare key_comp() const
+		key_compare key_comp() const
 		{ return d.comp; }
 
 	private:
-		inline bool compare_value_keys(const value_type &v1, const value_type &v2) const
+		bool compare_value_keys(const value_type &v1, const value_type &v2) const
 		{ return d.comp(KeyGetter()(v1), KeyGetter()(v2)); }
 
-		inline bool compare_value_keys(const value_type &v, base_node_const_ref x) const
+		bool compare_value_keys(const value_type &v, base_node_const_ref x) const
 		{ return d.comp(KeyGetter()(v), KeyGetter()(x->value())); }
 
-		inline bool compare_value_keys(base_node_const_ref x, const value_type &v) const
+		bool compare_value_keys(base_node_const_ref x, const value_type &v) const
 		{ return d.comp(KeyGetter()(x->value()), KeyGetter()(v)); }
 
-		inline bool compare_keys(const key_type &k1, const key_type &k2) const
+		bool compare_keys(const key_type &k1, const key_type &k2) const
 		{ return d.comp(k1, k2); }
 
-		inline bool compare_keys(const key_type &k, base_node_const_ref x) const
+		bool compare_keys(const key_type &k, base_node_const_ref x) const
 		{ return d.comp(k, KeyGetter()(x->value())); }
 
-		inline bool compare_keys(base_node_const_ref x, const key_type &k) const
+		bool compare_keys(base_node_const_ref x, const key_type &k) const
 		{ return d.comp(KeyGetter()(x->value()), k); }
 
-		inline base_node_ref& nil_ref()
+		base_node_ref& nil_ref()
 		{ return d.nil_ref; }
 
-		inline base_node_const_ref nil_const_ref() const
+		base_node_const_ref nil_const_ref() const
 		{ return d.nil_ref; }
 
-		inline base_node_ref& root_ref()
+		base_node_ref& root_ref()
 		{ return nil_ref()->parent_ref; }
 
-		inline base_node_const_ref root_const_ref() const
+		base_node_const_ref root_const_ref() const
 		{ return nil_const_ref()->parent_ref; }
 
-		inline base_node_ref& first_base_node_ref()
+		base_node_ref& first_base_node_ref()
 		{ return nil_ref()->next_ref; }
 
-		inline base_node_const_ref first_base_node_const_ref() const
+		base_node_const_ref first_base_node_const_ref() const
 		{ return nil_const_ref()->next_ref; }
 
-		inline base_node_ref& last_base_node_ref()
+		base_node_ref& last_base_node_ref()
 		{ return nil_ref()->previous_ref; }
 
-		inline base_node_const_ref last_base_node_const_ref() const
+		base_node_const_ref last_base_node_const_ref() const
 		{ return nil_const_ref()->previous_ref; }
 
-		inline bool is_nil(base_node_const_ref x) const
+		bool is_nil(base_node_const_ref x) const
 		{ return x == nil_const_ref(); }
 
-		inline bool is_not_nil(base_node_const_ref x) const
+		bool is_not_nil(base_node_const_ref x) const
 		{ return x != nil_const_ref(); }
 
-		inline bool has_left(base_node_const_ref x) const
+		bool has_left(base_node_const_ref x) const
 		{ return is_not_nil(x->left_ref); }
 
-		inline bool has_no_left(base_node_const_ref x) const
+		bool has_no_left(base_node_const_ref x) const
 		{ return is_nil(x->left_ref); }
 
-		inline bool has_right(base_node_const_ref x) const
+		bool has_right(base_node_const_ref x) const
 		{ return is_not_nil(x->right_ref); }
 
-		inline bool has_no_right(base_node_const_ref x) const
+		bool has_no_right(base_node_const_ref x) const
 		{ return is_nil(x->right_ref); }
 
-		inline bool has_next(base_node_const_ref x) const
+		bool has_next(base_node_const_ref x) const
 		{ return is_not_nil(x->next_ref); }
 
-		inline bool has_no_next(base_node_const_ref x) const
+		bool has_no_next(base_node_const_ref x) const
 		{ return is_nil(x->next_ref); }
 
-		inline bool has_previous(base_node_const_ref x) const
+		bool has_previous(base_node_const_ref x) const
 		{ return is_not_nil(x->previous_ref); }
 
-		inline bool has_no_previous(base_node_const_ref x) const
+		bool has_no_previous(base_node_const_ref x) const
 		{ return is_nil(x->previous_ref); }
 
-		inline bool has_missing_child(base_node_const_ref x) const
+		bool has_missing_child(base_node_const_ref x) const
 		{ return has_no_left(x) || has_no_right(x); }
 
-		inline bool has_both_children(base_node_const_ref x) const
+		bool has_both_children(base_node_const_ref x) const
 		{ return has_left(x) && has_right(x); }
 
-		inline bool is_root(base_node_const_ref x) const
+		bool is_root(base_node_const_ref x) const
 		{ return is_nil(x->parent_ref); }
 
-		inline bool is_leaf(base_node_const_ref x) const
+		bool is_leaf(base_node_const_ref x) const
 		{ return x->has_no_left && x->has_no_right; }
 
-		inline bool is_inner(base_node_const_ref x) const
+		bool is_inner(base_node_const_ref x) const
 		{ return x->has_left || x->has_right; }
 
-		inline bool is_left_child(base_node_const_ref x) const
+		bool is_left_child(base_node_const_ref x) const
 		{ return x == x->parent_ref->left_ref; }
 
-		inline bool is_right_child(base_node_const_ref x) const
+		bool is_right_child(base_node_const_ref x) const
 		{ return x == x->parent_ref->right_ref; }
 
 		//Requires the tree to be non-empty: verify before calling this function
@@ -588,7 +569,7 @@ namespace grapenlp
 		}
 
 	public:
-		inline void clear()
+		void clear()
 		{
 			if (empty())
 				return;
@@ -613,34 +594,34 @@ namespace grapenlp
 		}
 
 	public:
-		inline iterator begin()
+		iterator begin()
 		{ return iterator(first_base_node_ref()); }
 
-		inline iterator end()
+		iterator end()
 		{ return iterator(nil_ref()); }
 
-		inline reverse_iterator rbegin()
+		reverse_iterator rbegin()
 		{ return reverse_iterator(end()); }
 
-		inline reverse_iterator rend()
+		reverse_iterator rend()
 		{ return reverse_iterator(begin()); }
 
-		inline const_iterator begin() const
+		const_iterator begin() const
 		{ return const_iterator(first_base_node_const_ref()); }
 
-		inline const_iterator end() const
+		const_iterator end() const
 		{ return const_iterator(nil_const_ref()); }
 
-		inline const_reverse_iterator rbegin() const
+		const_reverse_iterator rbegin() const
 		{ return const_reverse_iterator(end()); }
 
-		inline const_reverse_iterator rend() const
+		const_reverse_iterator rend() const
 		{ return const_reverse_iterator(begin()); }
 
-/*		inline const_preorder_iterator preorder_begin() const
+/*		const_preorder_iterator preorder_begin() const
 		{ return const_preorder_iterator(root_ref()); }
 
-		inline const_preorder_iterator preorder_end() const
+		const_preorder_iterator preorder_end() const
 		{ return const_preorder_iterator(d.nil_ref); }
 */
 		value_type& front()
@@ -655,13 +636,13 @@ namespace grapenlp
 		value_type& back() const
 		{ return last_base_node_const_ref()->value(); }
 
-		inline bool empty() const
+		bool empty() const
 		{ return is_nil(root_const_ref()); }
 
-		inline std::size_t size() const
+		std::size_t size() const
 		{ return d.node_count; }
 
-		inline size_type max_size() const
+		size_type max_size() const
 		{ return get_allocator().max_size(); }
 
 	private:
@@ -749,7 +730,7 @@ namespace grapenlp
 			root_ref()->is_red = false;
 		}
 
-		inline base_node_ref insert_as_root(const value_type &value)
+		base_node_ref insert_as_root(const value_type &value)
 		{
 			base_node_ref z(create_node(nil_ref(), nil_ref(), nil_ref(), nil_ref(), nil_ref(), true, value));
 			last_base_node_ref() = first_base_node_ref() = root_ref() = z;
@@ -758,10 +739,10 @@ namespace grapenlp
 			return z;
 		}
 
-		inline base_node_ref insert_with_default_mapped_value_as_root(const key_type& k)
+		base_node_ref insert_with_default_mapped_value_as_root(const key_type& k)
 		{ return insert_as_root(value_type(k, typename value_type::second_type())); }
 
-		inline base_node_ref insert_as_left_child_of(base_node_ref x, const value_type &value)
+		base_node_ref insert_as_left_child_of(base_node_ref x, const value_type &value)
 		{
 			base_node_ref z(create_node(x, nil_ref(), nil_ref(), x->previous_ref, x, true, value));
 			x->previous_ref = x->previous_ref->next_ref = x->left_ref = z;
@@ -770,10 +751,10 @@ namespace grapenlp
 			return z;
 		}
 
-		inline base_node_ref insert_with_default_mapped_value_as_left_child_of(base_node_ref x, const key_type& k)
+		base_node_ref insert_with_default_mapped_value_as_left_child_of(base_node_ref x, const key_type& k)
 		{ return insert_as_left_child_of(x, value_type(k, typename value_type::second_type())); }
 
-		inline base_node_ref insert_as_right_child_of(base_node_ref x, const value_type &value)
+		base_node_ref insert_as_right_child_of(base_node_ref x, const value_type &value)
 		{
 			base_node_ref z(create_node(x, nil_ref(), nil_ref(), x, x->next_ref, true, value));
 			x->next_ref = x->next_ref->previous_ref = x->right_ref = z;
@@ -782,7 +763,7 @@ namespace grapenlp
 			return z;
 		}
 
-		inline base_node_ref insert_with_default_mapped_value_as_right_child_of(base_node_ref x, const key_type& k)
+		base_node_ref insert_with_default_mapped_value_as_right_child_of(base_node_ref x, const key_type& k)
 		{ return insert_as_right_child_of(x, value_type(k, typename value_type::second_type())); }
 
 		//Insertion without duplicates (uses "less than" comparator)
@@ -887,25 +868,25 @@ namespace grapenlp
 
 	public:
 		//Insertion without duplicates (uses "less than" comparator)
-		inline std::pair<iterator, bool> insert(const value_type &value)
+		std::pair<iterator, bool> insert(const value_type &value)
 		{
 			std::pair<base_node_ref, bool> result(insert_to_base_node_ref(value));
 			return std::make_pair(iterator(result.first), result.second);
 		}
 
 		//Insertion without duplicates (uses "less than" comparator)
-		inline std::pair<iterator, bool> insert_with_default_mapped_value(const key_type &key)
+		std::pair<iterator, bool> insert_with_default_mapped_value(const key_type &key)
 		{
 			std::pair<base_node_ref, bool> result(insert_to_base_node_ref_with_default_mapped_value(key));
 			return std::make_pair(iterator(result.first), result.second);
 		}
 
 		//Insertion with duplicates (uses "greater or equal than" comparator)
-		inline iterator multi_insert(const value_type &value)
+		iterator multi_insert(const value_type &value)
 		{ return iterator(multi_insert_to_base_node_ref(value)); }
 
 		//Insertion with duplicates (uses "greater or equal than" comparator)
-		inline iterator multi_insert_with_default_mapped_value(const key_type &key)
+		iterator multi_insert_with_default_mapped_value(const key_type &key)
 		{ return iterator(multi_insert_to_base_node_ref_with_default_mapped_value(key)); }
 
 	private:
@@ -1130,26 +1111,26 @@ namespace grapenlp
 		}
 
 	public:
-		inline std::pair<iterator, bool> insert(const_iterator position, const value_type& v)
+		std::pair<iterator, bool> insert(const_iterator position, const value_type& v)
 		{
 			std::pair<base_node_ref, bool> result(insert(position.x, v));
 			return std::make_pair(iterator(result.first), result.second);
 		}
 
-		inline std::pair<iterator, bool> insert_with_default_mapped_value(const_iterator position, const key_type& k)
+		std::pair<iterator, bool> insert_with_default_mapped_value(const_iterator position, const key_type& k)
 		{
 			std::pair<base_node_ref, bool> result(insert_with_default_mapped_value(position.x, k));
 			return std::make_pair(iterator(result.first), result.second);
 		}
 
-		inline iterator multi_insert(const_iterator position, const value_type& v)
+		iterator multi_insert(const_iterator position, const value_type& v)
 		{ return iterator(multi_insert(position.x, v)); }
 
-		inline iterator multi_insert_with_default_mapped_value(const_iterator position, const key_type& k)
+		iterator multi_insert_with_default_mapped_value(const_iterator position, const key_type& k)
 		{ return iterator(multi_insert_with_default_mapped_value(position.x, k)); }
 
 	private:
-		inline void unbalanced_erase(base_node_ref x)
+		void unbalanced_erase(base_node_ref x)
 		{
 			x->previous_ref->next_ref = x->next_ref;
 			x->next_ref->previous_ref = x->previous_ref;
@@ -1269,13 +1250,13 @@ namespace grapenlp
 		}
 
 	public:
-		inline void erase(iterator it)
+		void erase(iterator it)
 		{ erase(it.x); }
 
-		inline void erase(const_iterator it)
+		void erase(const_iterator it)
 		{ erase(const_cast<base_node_ref>(it.x)); }
 
-		inline void erase(iterator first, iterator last)
+		void erase(iterator first, iterator last)
 		{
 			if (first.x == first_base_node_ref() && last.x == last_base_node_ref())
 			{
@@ -1286,7 +1267,7 @@ namespace grapenlp
 				erase(first.x);
 		}
 
-		inline void erase(const_iterator first, const_iterator last)
+		void erase(const_iterator first, const_iterator last)
 		{
 			if (first.x == first_base_node_ref() && last.x == last_base_node_ref())
 			{
@@ -1297,7 +1278,7 @@ namespace grapenlp
 				erase(const_cast<base_node_ref>(first.x));
 		}
 
-		inline std::size_t erase(const key_type &k)
+		std::size_t erase(const key_type &k)
 		{
 			base_node_ref x(find_base_node_ref(k));
 			if (is_not_nil(x))
@@ -1308,7 +1289,7 @@ namespace grapenlp
 			return 0;
 		}
 
-		inline size_type multi_erase(const key_type &k)
+		size_type multi_erase(const key_type &k)
 		{
 			std::pair<base_node_ref, base_node_ref> bounds(equal_range(k));
 			const size_type previous_size(size());
@@ -1317,20 +1298,20 @@ namespace grapenlp
 		}
 
 	public:
-		inline void unbalanced_erase(iterator it)
+		void unbalanced_erase(iterator it)
 		{ unbalanced_erase(it.x); }
 
-		inline void unbalanced_erase(const_iterator it)
+		void unbalanced_erase(const_iterator it)
 		{ unbalanced_erase(const_cast<base_node_ref>(it.x)); }
 
-		inline void erase_if(std::unary_function<const key_type&, bool> &discriminator)
+		void erase_if(std::unary_function<const key_type&, bool> &discriminator)
 		{
 			for (base_node_ref x(first_base_node_ref()); x != last_base_node_ref(); ++x)
 				if (discriminator(x->key()))
 					erase(x);
 		}
 
-		inline void unbalanced_erase_if(std::unary_function<const key_type&, bool> &discriminator)
+		void unbalanced_erase_if(std::unary_function<const key_type&, bool> &discriminator)
 		{
 			for (base_node_ref x(first_base_node_ref()); x != last_base_node_ref(); ++x)
 				if (discriminator(x->key()))
@@ -1565,14 +1546,14 @@ namespace grapenlp
 		const_iterator find(const key_type &key) const
 		{ return const_iterator(find_base_node_const_ref(key)); }
 
-		inline size_type count(const key_type &key) const
+		size_type count(const key_type &key) const
 		{
 			if (is_nil(find_base_node_const_ref(key)))
 				return 0;
 			return 1;
 		}
 
-		inline size_type multi_count(const key_type &key) const
+		size_type multi_count(const key_type &key) const
 		{
 			std::pair<const_iterator, const_iterator> bounds(equal_range(key));
 			return std::distance(bounds.first, bounds.second);
@@ -1616,13 +1597,13 @@ namespace grapenlp
 		}
 
 	public:
-		inline std::pair<iterator, iterator> equal_range(const key_type &key)
+		std::pair<iterator, iterator> equal_range(const key_type &key)
 		{
 			std::pair<base_node_ref, base_node_ref> result(equal_range_to_base_node_ref(key));
 			return std::make_pair(iterator(result.first), iterator(result.second));
 		}
 
-		inline std::pair<const_iterator, const_iterator> equal_range(const key_type &key) const
+		std::pair<const_iterator, const_iterator> equal_range(const key_type &key) const
 		{
 			std::pair<base_node_const_ref, base_node_const_ref> result(equal_range_to_base_node_const_ref(key));
 			return std::make_pair(const_iterator(result.first), const_iterator(result.second));
@@ -1666,13 +1647,13 @@ namespace grapenlp
 		}
 
 	public:
-		inline std::pair<iterator, iterator> multi_equal_range(const key_type &key)
+		std::pair<iterator, iterator> multi_equal_range(const key_type &key)
 		{
 			std::pair<base_node_ref, bool> result(multi_equal_range_to_base_node_ref(key));
 			return std::make_pair(iterator(result.first), result.second);
 		}
 
-		inline std::pair<const_iterator, const_iterator> multi_equal_range(const key_type &key) const
+		std::pair<const_iterator, const_iterator> multi_equal_range(const key_type &key) const
 		{
 			std::pair<base_node_const_ref, bool> result(multi_equal_range_to_base_node_const_ref(key));
 			return std::make_pair(const_iterator(result.first), result.second);
@@ -1707,11 +1688,11 @@ namespace grapenlp
 		}
 
 		template<typename CharT, typename Traits>
-		inline std::basic_ostream<CharT, Traits>& subtree_serialize(std::basic_ostream<CharT, Traits> &out) const
+		std::basic_ostream<CharT, Traits>& subtree_serialize(std::basic_ostream<CharT, Traits> &out) const
 		{ return subtree_serialize(out, root_ref()); }
 
 		template<typename CharT, typename Traits>
-		inline std::basic_ostream<CharT, Traits>& subtree_serialize(std::basic_ostream<CharT, Traits> &out, const_iterator subroot_it) const
+		std::basic_ostream<CharT, Traits>& subtree_serialize(std::basic_ostream<CharT, Traits> &out, const_iterator subroot_it) const
 		{ return subtree_serialize(out, subroot_it.x); }
 #endif //TRACE
 		base_node_ref minimum(base_node_ref x)
@@ -1742,35 +1723,35 @@ namespace grapenlp
 			return x;
 		}
 
-		inline bool operator== (const lrb_tree& t) const
+		bool operator== (const lrb_tree& t) const
 		{ return size() == t.size() && std::equal(begin(), end(), t.begin()); }
 
-		inline bool operator< (const lrb_tree& t) const
+		bool operator< (const lrb_tree& t) const
 		{ return std::lexicographical_compare(begin(), end(), t.begin(), t.end()); }
 
-		inline bool operator!= (const lrb_tree& t) const
+		bool operator!= (const lrb_tree& t) const
 		{ return !operator== (t); }
 
-		inline bool operator> (const lrb_tree& t) const
+		bool operator> (const lrb_tree& t) const
 		{ return t.operator< (*this); }
 
-		inline bool operator<= (const lrb_tree& t) const
+		bool operator<= (const lrb_tree& t) const
 		{ return !t.operator< (*this); }
 
-		inline bool operator>= (const lrb_tree& t) const
+		bool operator>= (const lrb_tree& t) const
 		{ return !operator< (t); }
 	};
 
 	template<typename Key, typename Value, typename KeyGetter, typename KeyCompare>
-	inline void swap(lrb_tree<Key, Value, KeyGetter, KeyCompare>& x, lrb_tree<Key, Value, KeyGetter, KeyCompare>& y)
+	void swap(lrb_tree<Key, Value, KeyGetter, KeyCompare>& x, lrb_tree<Key, Value, KeyGetter, KeyCompare>& y)
 	{ x.swap(y); }
 
     template<typename Key, typename Value, typename KeyGetter, typename KeyCompare, typename Allocator>
-    inline typename lrb_tree<Key, Value, KeyGetter, KeyCompare, Allocator>::value_type& lrb_tree<Key, Value, KeyGetter, KeyCompare, Allocator>::base_node::value()
+    typename lrb_tree<Key, Value, KeyGetter, KeyCompare, Allocator>::value_type& lrb_tree<Key, Value, KeyGetter, KeyCompare, Allocator>::base_node::value()
     { return static_cast<node_ref>(this)->v; }
 
     template<typename Key, typename Value, typename KeyGetter, typename KeyCompare, typename Allocator>
-    inline const typename lrb_tree<Key, Value, KeyGetter, KeyCompare, Allocator>::value_type& lrb_tree<Key, Value, KeyGetter, KeyCompare, Allocator>::base_node::value() const
+    const typename lrb_tree<Key, Value, KeyGetter, KeyCompare, Allocator>::value_type& lrb_tree<Key, Value, KeyGetter, KeyCompare, Allocator>::base_node::value() const
     { return static_cast<node_const_ref>(this)->v; }
 } //namespace grapenlp
 

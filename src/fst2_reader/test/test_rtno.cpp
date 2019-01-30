@@ -1,7 +1,7 @@
 /*
  * GRAPENLP
  *
- * Copyright (C) 2004-2018 Javier Miguel Sastre Martínez <javier.sastre@telefonica.net>
+ * Copyright (C) 2004-2019 Javier Miguel Sastre Martínez <javier.sastre@telefonica.net>
  *
  * This library is free software; you can redistribute it and/or
  * modify it under the terms of the GNU Lesser General Public
@@ -71,7 +71,7 @@ const std::array<unichar, 5> cs_BeAu = { {'@', 'B', 'e', 'A', 'u'} };
 const std::array<unichar, 5> ci_digit_meta = { {'%', '<', 'N', 'B', '>'} };
 const std::array<unichar, 6> ci_word_meta = { {'%', '<', 'M', 'O', 'T', '>'} };
 
-int main(int argc, unichar **argv)
+int main(__attribute__((unused)) int argc, __attribute__((unused)) unichar **argv)
 {
 	u_array input(read_unichars(input));
 

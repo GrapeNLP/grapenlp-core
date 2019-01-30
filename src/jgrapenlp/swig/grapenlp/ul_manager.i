@@ -1,7 +1,7 @@
 /*
  * GRAPENLP
  *
- * Copyright (C) 2004-2018 Javier Miguel Sastre Martínez <javier.sastre@telefonica.net>
+ * Copyright (C) 2004-2019 Javier Miguel Sastre Martínez <javier.sastre@telefonica.net>
  *
  * This library is free software; you can redistribute it and/or
  * modify it under the terms of the GNU Lesser General Public
@@ -31,12 +31,13 @@
 %include parser.i
 %include simple_segment_array_x_weight.i
 %{
+#include <string>
 /*#include <grapenlp/ualxiw_manager.h>*/
 #include <grapenlp/ul_manager.h>
 namespace grapenlp
 {
-    typedef typename u_array::const_iterator ua_input_iterator;
-    typedef ::grapenlp::ul_manager<ua_input_iterator, std::plus<int> > ualxiw_manager;
+    typedef u_array::const_iterator ua_input_iterator;
+    typedef ul_manager<ua_input_iterator, std::plus<int> > ualxiw_manager;
 }
 %}
 
@@ -63,6 +64,6 @@ namespace grapenlp
         void process(ua_input_iterator input_begin, ua_input_iterator input_end, rtno_parser_type the_rtno_parser_type, bool trie_strings, bool no_output, assoc_container_impl_choice the_execution_state_set_impl_choice, assoc_container_impl_choice the_output_set_impl_choice);
     };
 
-    typedef ::grapenlp::ul_manager<ua_input_iterator, std::plus<int> > ualxiw_manager;
-    %template(ualxiw_manager) ::grapenlp::ul_manager<::grapenlp::u_array::const_iterator, std::plus<int> >;
+    typedef ul_manager<ua_input_iterator, std::plus<int> > ualxiw_manager;
+    %template(ualxiw_manager) ul_manager<ua_input_iterator, std::plus<int> >;
 }

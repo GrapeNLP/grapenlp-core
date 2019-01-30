@@ -1,7 +1,7 @@
 /*
  * GRAPENLP
  *
- * Copyright (C) 2004-2018 Javier Miguel Sastre Martínez <javier.sastre@telefonica.net>
+ * Copyright (C) 2004-2019 Javier Miguel Sastre Martínez <javier.sastre@telefonica.net>
  *
  * This library is free software; you can redistribute it and/or
  * modify it under the terms of the GNU Lesser General Public
@@ -214,16 +214,16 @@ std::basic_istream<CharT, Traits>& skip_up_to_char(std::basic_istream<CharT, Tra
 { return in.ignore(std::numeric_limits<std::streamsize>::max(),in.widen(c)); }
 
 template<typename CharT, typename Traits>
-inline std::basic_istream<CharT, Traits>& skip_line(std::basic_istream<CharT, Traits> &in)
+std::basic_istream<CharT, Traits>& skip_line(std::basic_istream<CharT, Traits> &in)
 { return skip_up_to_char(in, '\n'); }
 
-inline bool is_digit(char c)
+bool is_digit(char c)
 { return c >= '0' && c <= '9'; }
 
-inline bool is_digit_or_dot(char c)
+bool is_digit_or_dot(char c)
 { return is_digit(c) || c == '.'; }
 
-inline bool is_digit_or_dot_or_sign_or_e(char c)
+bool is_digit_or_dot_or_sign_or_e(char c)
 { return is_digit_or_dot(c) || c == '+' || c == '-' || c == 'e' || c == 'E'; }
 
 std::pair<std::string, std::string::const_iterator> get_ending_figure_string(const std::string &line, std::string::const_iterator end)
@@ -238,7 +238,7 @@ std::pair<std::string, std::string::const_iterator> get_ending_figure_string(con
 	return std::make_pair(std::string(begin, end), begin);
 }
 
-inline std::pair<std::string, std::string::const_iterator> get_ending_figure_string(const std::string &line)
+std::pair<std::string, std::string::const_iterator> get_ending_figure_string(const std::string &line)
 { return get_ending_figure_string(line, line.end()); }
 
 void get_sd_cv_p_min_max(const std::string &line, std::string &sd, std::string &cv, std::string &p, std::string &min, std::string &max)

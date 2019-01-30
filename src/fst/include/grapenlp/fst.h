@@ -1,7 +1,7 @@
 /*
  * GRAPENLP
  *
- * Copyright (C) 2004-2018 Javier Miguel Sastre Martínez <javier.sastre@telefonica.net>
+ * Copyright (C) 2004-2019 Javier Miguel Sastre Martínez <javier.sastre@telefonica.net>
  *
  * This library is free software; you can redistribute it and/or
  * modify it under the terms of the GNU Lesser General Public
@@ -107,7 +107,7 @@ namespace grapenlp
 		fst()
 		{ state_label_counter = -1; }
 
-		inline typename state::ref create_state(bool initial_flag, bool final_flag)
+		typename state::ref create_state(bool initial_flag, bool final_flag)
 		{ return create_state(initial_flag, final_flag, ++state_label_counter); }
 
 		typename state::ref create_state(bool initial_flag, bool final_flag, std::size_t state_number)

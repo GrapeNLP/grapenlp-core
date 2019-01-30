@@ -1,7 +1,7 @@
 /*
  * GRAPENLP
  *
- * Copyright (C) 2004-2018 Javier Miguel Sastre Martínez <javier.sastre@telefonica.net>
+ * Copyright (C) 2004-2019 Javier Miguel Sastre Martínez <javier.sastre@telefonica.net>
  *
  * This library is free software; you can redistribute it and/or
  * modify it under the terms of the GNU Lesser General Public
@@ -401,7 +401,7 @@ namespace grapenlp {
                 the_parse_func_ref(NULL),
                 the_parse_and_get_fprtn_stats_func_ref(NULL) {}
 
-        ul_manager(rtno_type grammar_type_, const string &grammar_path_name, const string &dico_path_name) :
+        ul_manager(rtno_type grammar_type_, const std::string &grammar_path_name, const std::string &dico_path_name) :
                 grammar_type(),
                 grammar_ref(NULL),
                 dico_ref(NULL),
@@ -431,34 +431,34 @@ namespace grapenlp {
             load_grammar_and_dico(grammar_type_, grammar_path_name, dico_path_name);
         }
 
-        inline assoc_container_impl_choice get_output_set_impl_choice() { return the_output_set_impl_choice; }
+        assoc_container_impl_choice get_output_set_impl_choice() { return the_output_set_impl_choice; }
 
 #ifndef DISABLE_LUA_GRAMMAR
-        inline my_lua_rtno& get_lua_grammar()
+        my_lua_rtno& get_lua_grammar()
         { return *static_cast<my_lua_rtno*>(grammar_ref); }
 
-        inline void delete_lua_grammar()
+        void delete_lua_grammar()
         { delete static_cast<my_lua_rtno*>(grammar_ref); }
 #endif
 #ifndef DISABLE_LUAW_GRAMMAR
-        inline my_luaw_rtno& get_luaw_grammar()
+        my_luaw_rtno& get_luaw_grammar()
         { return *static_cast<my_luaw_rtno*>(grammar_ref); }
 
-        inline void delete_luaw_grammar()
+        void delete_luaw_grammar()
         { delete static_cast<my_luaw_rtno*>(grammar_ref); }
 #endif
 #ifndef DISABLE_LUX_GRAMMAR
-        inline my_lux_rtno& get_lux_grammar()
+        my_lux_rtno& get_lux_grammar()
         { return *static_cast<my_lux_rtno*>(grammar_ref); }
 
-        inline void delete_lux_grammar()
+        void delete_lux_grammar()
         { delete static_cast<my_lux_rtno*>(grammar_ref); }
 #endif
 #ifndef DISABLE_LUXW_GRAMMAR
 
-        inline my_luxw_rtno &get_luxw_grammar() { return *static_cast<my_luxw_rtno *>(grammar_ref); }
+        my_luxw_rtno &get_luxw_grammar() { return *static_cast<my_luxw_rtno *>(grammar_ref); }
 
-        inline void delete_luxw_grammar() { delete static_cast<my_luxw_rtno *>(grammar_ref); }
+        void delete_luxw_grammar() { delete static_cast<my_luxw_rtno *>(grammar_ref); }
 
 #endif
 
@@ -491,60 +491,60 @@ namespace grapenlp {
 
 #ifndef DISABLE_TEXT_DICO
 
-        inline tolower_u_text_delaf &get_text_delaf() { return *static_cast<tolower_u_text_delaf *>(dico_ref); }
+        tolower_u_text_delaf &get_text_delaf() { return *static_cast<tolower_u_text_delaf *>(dico_ref); }
 
-        inline void delete_text_delaf() { delete static_cast<tolower_u_text_delaf *>(dico_ref); }
+        void delete_text_delaf() { delete static_cast<tolower_u_text_delaf *>(dico_ref); }
 
 #if defined(SERIALIZED_OUTPUT)
-        inline my_text_delaf_entry_filter& get_text_v_pos_filter()
+        my_text_delaf_entry_filter& get_text_v_pos_filter()
         { return *static_cast<my_text_delaf_entry_filter*>(v_pos_filter_ref); }
 
-        inline void delete_text_v_pos_filter()
+        void delete_text_v_pos_filter()
         { delete static_cast<my_text_delaf_entry_filter*>(v_pos_filter_ref); }
 #endif
 #endif
 
 #ifndef DISABLE_COMPRESSED_DICO
 
-        inline compressed_delaf &get_compressed_delaf() { return *static_cast<compressed_delaf *>(dico_ref); }
+        compressed_delaf &get_compressed_delaf() { return *static_cast<compressed_delaf *>(dico_ref); }
 
-        inline void delete_compressed_delaf() { delete static_cast<compressed_delaf *>(dico_ref); }
+        void delete_compressed_delaf() { delete static_cast<compressed_delaf *>(dico_ref); }
 
 #if defined(SERIALIZED_OUTPUT)
-        inline my_compressed_delaf_entry_filter& get_compressed_v_pos_filter()
+        my_compressed_delaf_entry_filter& get_compressed_v_pos_filter()
         { return *static_cast<my_compressed_delaf_entry_filter*>(v_pos_filter_ref); }
 
-        inline void delete_compressed_v_pos_filter()
+        void delete_compressed_v_pos_filter()
         { delete static_cast<my_compressed_delaf_entry_filter*>(v_pos_filter_ref); }
 #endif
 #endif
 
 #if defined(DISABLE_TEXT_DICO)
-        inline void delete_delaf()
+        void delete_delaf()
         { delete_compressed_delaf();	}
 
 #if defined(SERIALIZED_OUTPUT)
-        inline void delete_v_pos_filter()
+        void delete_v_pos_filter()
         { delete_compressed_v_pos_filter();	}
 #endif
 #elif defined(DISABLE_COMPRESSED_DICO)
-        inline void delete_delaf()
+        void delete_delaf()
         { delete_text_delaf();	}
 
 #if defined(SERIALIZED_OUTPUT)
-        inline void delete_v_pos_filter()
+        void delete_v_pos_filter()
         { delete_text_v_pos_filter(); }
 #endif
 #else
 
-        inline void delete_delaf() {
+        void delete_delaf() {
             if (dico_is_in_text_format)
                 delete_text_delaf();
             else delete_compressed_delaf();
         }
 
 #if defined(SERIALIZED_OUTPUT)
-        inline void delete_v_pos_filter()
+        void delete_v_pos_filter()
         {
             if (dico_is_in_text_format)
                 delete_text_v_pos_filter();
@@ -554,60 +554,60 @@ namespace grapenlp {
 #endif //DISABLE_TEXT_DICO
 
         template<assoc_container_impl_choice acic>
-        inline typename set_impl_selector<acic, u_array>::type &
+        typename set_impl_selector<acic, u_array>::type &
         get_output_u_array_set() { return *static_cast<typename set_impl_selector<acic, u_array>::type *>(output_set_ref); }
 
         template<assoc_container_impl_choice acic>
-        inline typename set_impl_selector<acic, segment_map<token_iterator, unichar, acic> >::type &
+        typename set_impl_selector<acic, segment_map<token_iterator, unichar, acic> >::type &
         get_output_segment_map_set() { return *static_cast<typename set_impl_selector<acic, segment_map<token_iterator, unichar, acic> >::type *>(output_set_ref); }
 
 #ifndef DISABLE_WEIGHTED_GRAMMARS
 
         template<assoc_container_impl_choice acic>
-        inline typename set_impl_selector<acic, segment_map_x_weight<token_iterator, unichar, weight, acic> >::type &
+        typename set_impl_selector<acic, segment_map_x_weight<token_iterator, unichar, weight, acic> >::type &
         get_output_segment_map_x_weight_set() { return *static_cast<typename set_impl_selector<acic, segment_map_x_weight<token_iterator, unichar, weight, acic> >::type *>(output_set_ref); }
 
 #ifdef SIMPLIFIED_OUTPUT
 
-        inline const simple_segment_array_x_weight_array<InputIterator, unichar, weight> &
+        const simple_segment_array_x_weight_array<InputIterator, unichar, weight> &
         get_simplified_weighted_output() { return simplified_weighted_output; }
 
 #endif
 #endif
 
         template<assoc_container_impl_choice acic>
-        inline void
+        void
         clear_output_u_array_set() { static_cast<typename set_impl_selector<acic, u_array>::type *>(output_set_ref)->clear(); }
 
         template<assoc_container_impl_choice acic>
-        inline void
+        void
         clear_output_segment_map_set() { static_cast<typename set_impl_selector<acic, segment_map<token_iterator, unichar, acic> >::type *>(output_set_ref)->clear(); }
 
 #ifndef DISABLE_WEIGHTED_GRAMMARS
 
         template<assoc_container_impl_choice acic>
-        inline void
+        void
         clear_output_segment_map_x_weight_set() { static_cast<typename set_impl_selector<acic, segment_map_x_weight<token_iterator, unichar, weight, acic> >::type *>(output_set_ref)->clear(); }
 
 #endif
 
         template<assoc_container_impl_choice acic>
-        inline void
+        void
         delete_output_u_array_set() { delete static_cast<typename set_impl_selector<acic, u_array>::type *>(output_set_ref); }
 
         template<assoc_container_impl_choice acic>
-        inline void
+        void
         delete_output_segment_map_set() { delete static_cast<typename set_impl_selector<acic, segment_map<token_iterator, unichar, acic> >::type *>(output_set_ref); }
 
 #ifndef DISABLE_WEIGHTED_GRAMMARS
 
         template<assoc_container_impl_choice acic>
-        inline void
+        void
         delete_output_segment_map_x_weight_set() { delete static_cast<typename set_impl_selector<acic, segment_map_x_weight<token_iterator, unichar, weight, acic> >::type *>(output_set_ref); }
 
 #endif
 
-        inline void delete_output_set() {
+        void delete_output_set() {
             switch (grammar_type) {
                 case LEXMASK_X_LETTER_ARRAY_RTNO:
                 case LEXMASK_X_WEIGHTED_LETTER_ARRAY_RTNO:
@@ -770,7 +770,8 @@ namespace grapenlp {
     private:
 #ifndef DISABLE_TEXT_DICO
 
-        void load_text_dico(const string &dico_path_name) {
+    void load_text_dico(const std::string &dico_path_name)
+    {
             FILE *dico_file(u_fopen(dico_path_name.c_str(), U_READ));
             if (dico_file == NULL)
                 fatal_error("Unable to open dico file to read\n");
@@ -799,7 +800,8 @@ namespace grapenlp {
 #endif //DISABLE_TEXT_DICO
 #ifndef DISABLE_COMPRESSED_DICO
 
-        void load_compressed_dico(const string &dico_bin_path_name, const string &dico_inf_path_name) {
+        void load_compressed_dico(const std::string &dico_bin_path_name, const std::string &dico_inf_path_name)
+        {
             if (dico_is_loaded())
                 delete_delaf();
 #if !defined(DISABLE_TEXT_DICO) && !defined(DISABLE_COMPRESSED_DICO)
@@ -832,8 +834,9 @@ namespace grapenlp {
 #endif //DISABLE_COMPRESSED_DICO
 
     public:
-        void load_grammar(rtno_type grammar_type, const string &grammar_path_name) {
-            if (!string(grammar_path_name).ends_with(".fst2"))
+        void load_grammar(rtno_type grammar_type, const std::string &grammar_path_name)
+        {
+            if (!grapenlp::string(grammar_path_name).ends_with(".fst2"))
                 fatal_error("Unsupported grammar format (expected .fst2 file)\n");
 
             FILE *grammar_file = u_fopen(grammar_path_name.c_str(), U_READ);
@@ -966,24 +969,26 @@ namespace grapenlp {
         }
 
         void
-        load_grammar_and_dico(rtno_type grammar_type, const string &grammar_path_name, const string &dico_path_name) {
-            if (dico_path_name.ends_with(".dic"))
+        load_grammar_and_dico(rtno_type grammar_type, const std::string &grammar_path_name, const std::string &dico_path_name)
+        {
+            grapenlp::string dpn(dico_path_name);
+            if (dpn.ends_with(".dic"))
 #ifdef DISABLE_TEXT_DICO
                 fatal_error("Text dictionary format has been disabled");
 #else
-                load_text_dico(dico_path_name);
+                load_text_dico(dpn);
 #endif
-            else if (dico_path_name.ends_with(".bin"))
+            else if (dpn.ends_with(".bin"))
 #ifdef DISABLE_COMPRESSED_DICO
                 fatal_error("Compressed dictionary format has been disabled");
 #else
-                load_compressed_dico(dico_path_name, dico_path_name.substr(0, dico_path_name.size() - 3).append("inf"));
+                load_compressed_dico(dpn, dpn.substr(0, dpn.size() - 3).append("inf"));
 #endif
-            else if (dico_path_name.ends_with(".inf"))
+            else if (dpn.ends_with(".inf"))
 #ifdef DISABLE_COMPRESSED_DICO
                 fatal_error("Compressed dictionary format has been disabled");
 #else
-                load_compressed_dico(dico_path_name.substr(0, dico_path_name.size() - 3).append("bin"), dico_path_name);
+                load_compressed_dico(dico_path_name.substr(0, dpn.size() - 3).append("bin"), dpn);
 #endif
             else fatal_error("Unsupported dictionary format (expected .dic, .bin or .inf file\n");
             load_grammar(grammar_type, grammar_path_name);
@@ -1056,7 +1061,7 @@ namespace grapenlp {
 #ifndef DISABLE_PARSERS_WITH_FINAL_OUTPUT
 #if !defined(DISABLE_UNWEIGHTED_GRAMMARS) && !defined(DISABLE_TRIE_STRING_PARSERS)
         template<assoc_container_impl_choice output_set_impl_choice>
-        inline std::size_t u_trie_string_ref_set_to_output_u_array_set(const typename set_impl_selector<output_set_impl_choice, u_trie_string_ref>::type &utsrs)
+        std::size_t u_trie_string_ref_set_to_output_u_array_set(const typename set_impl_selector<output_set_impl_choice, u_trie_string_ref>::type &utsrs)
         {
             for (typename set_impl_selector<output_set_impl_choice, u_trie_string_ref>::type::const_iterator it(utsrs.begin()); it != utsrs.end(); ++it)
             {

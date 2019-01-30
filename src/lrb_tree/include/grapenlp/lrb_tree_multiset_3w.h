@@ -1,7 +1,7 @@
 /*
  * GRAPENLP
  *
- * Copyright (C) 2004-2018 Javier Miguel Sastre Martínez <javier.sastre@telefonica.net>
+ * Copyright (C) 2004-2019 Javier Miguel Sastre Martínez <javier.sastre@telefonica.net>
  *
  * This library is free software; you can redistribute it and/or
  * modify it under the terms of the GNU Lesser General Public
@@ -215,31 +215,31 @@ namespace grapenlp
 	};
 
 	template<typename Key, typename Compare, typename Allocator>
-	inline bool operator==(const lrb_tree_multiset_3w<Key, Compare, Allocator>& s1, const lrb_tree_multiset_3w<Key, Compare, Allocator>& s2)
+	bool operator==(const lrb_tree_multiset_3w<Key, Compare, Allocator>& s1, const lrb_tree_multiset_3w<Key, Compare, Allocator>& s2)
 	{ return s1.the_tree == s2.the_tree; }
 
 	template<typename Key, typename Compare, typename Allocator>
-	inline bool operator<(const lrb_tree_multiset_3w<Key, Compare, Allocator>& s1, const lrb_tree_multiset_3w<Key, Compare, Allocator>& s2)
+	bool operator<(const lrb_tree_multiset_3w<Key, Compare, Allocator>& s1, const lrb_tree_multiset_3w<Key, Compare, Allocator>& s2)
 	{ return s1.the_tree < s2.the_tree; }
 
 	template<typename Key, typename Compare, typename Allocator>
-	inline bool operator!=(const lrb_tree_multiset_3w<Key, Compare, Allocator>& s1, const lrb_tree_multiset_3w<Key, Compare, Allocator>& s2)
+	bool operator!=(const lrb_tree_multiset_3w<Key, Compare, Allocator>& s1, const lrb_tree_multiset_3w<Key, Compare, Allocator>& s2)
 	{ return !(s1 == s2); }
 
 	template<typename Key, typename Compare, typename Allocator>
-	inline bool operator>(const lrb_tree_multiset_3w<Key, Compare, Allocator>& s1, const lrb_tree_multiset_3w<Key, Compare, Allocator>& s2)
+	bool operator>(const lrb_tree_multiset_3w<Key, Compare, Allocator>& s1, const lrb_tree_multiset_3w<Key, Compare, Allocator>& s2)
 	{ return s2 < s1; }
 
 	template<typename Key, typename Compare, typename Allocator>
-    inline bool operator<=(const lrb_tree_multiset_3w<Key, Compare, Allocator>& s1, const lrb_tree_multiset_3w<Key, Compare, Allocator>& s2)
+    bool operator<=(const lrb_tree_multiset_3w<Key, Compare, Allocator>& s1, const lrb_tree_multiset_3w<Key, Compare, Allocator>& s2)
     { return !(s2 < s1); }
 
 	template<typename Key, typename Compare, typename Allocator>
-	inline bool operator>=(const lrb_tree_multiset_3w<Key, Compare, Allocator>& s1, const lrb_tree_multiset_3w<Key, Compare, Allocator>& s2)
+	bool operator>=(const lrb_tree_multiset_3w<Key, Compare, Allocator>& s1, const lrb_tree_multiset_3w<Key, Compare, Allocator>& s2)
     { return !(s1 < s2); }
 
 	template<typename Key, typename Compare, typename Allocator>
-	inline void swap(lrb_tree_multiset_3w<Key, Compare, Allocator>& s1, lrb_tree_multiset_3w<Key, Compare, Allocator>& s2)
+	void swap(lrb_tree_multiset_3w<Key, Compare, Allocator>& s1, lrb_tree_multiset_3w<Key, Compare, Allocator>& s2)
     { s1.swap(s2); }
 } //namespace grapenlp
 

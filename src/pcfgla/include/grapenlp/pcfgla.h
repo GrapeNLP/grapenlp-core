@@ -247,7 +247,7 @@ namespace grapenlp
 		pcfgla(n_term_trie &n_term_dico_, lexicon_trie &lexicon_dico_): n_term_dico(n_term_dico_), lexicon_dico(lexicon_dico_), binary_rules(), unary_rules(), axiom_unary_rules_first(unary_rules.end()), axiom_unary_rules_last(unary_rules.end())
 		{}
 
-		inline void reset_n_term_count(const n_term &nt)
+		void reset_n_term_count(const n_term &nt)
 		{
 			if (nt.idx >= nt.label->data.count)
 				nt.label->data.count = nt.idx + 1;
@@ -271,10 +271,10 @@ namespace grapenlp
 		std::pair<lexical_rule_set_iterator, bool> add_lexical_rule(n_term_trie_string_ref head_ref, std::list<lexicon_trie_string_ref> &token_refs, array<Probability> &pp)
 		{ return lexical_rules.insert(lexical_rule(head_ref, token_refs, pp)); }
 
-		inline bool has_axiom() const
+		bool has_axiom() const
 		{ return axiom_unary_rules_first != unary_rules.end(); }
 
-		inline n_term_trie_string_ref get_axiom_label_ref() const
+		n_term_trie_string_ref get_axiom_label_ref() const
 		{
 			if (has_axiom())
 				return axiom_unary_rules_first->head.label;

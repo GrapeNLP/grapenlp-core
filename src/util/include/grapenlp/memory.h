@@ -1,7 +1,7 @@
 /*
  * GRAPENLP
  *
- * Copyright (C) 2004-2018 Javier Miguel Sastre Martínez <javier.sastre@telefonica.net>
+ * Copyright (C) 2004-2019 Javier Miguel Sastre Martínez <javier.sastre@telefonica.net>
  *
  * This library is free software; you can redistribute it and/or
  * modify it under the terms of the GNU Lesser General Public
@@ -34,7 +34,7 @@ namespace grapenlp
 	template<typename Allocator, bool = std::is_empty<Allocator>::value>
 	struct allocator_swapper
 	{
-		void operator() (Allocator& a1, Allocator& a2)
+		void operator() (__attribute__((unused)) Allocator& a1, __attribute__((unused)) Allocator& a2)
 		{}
 	};
 

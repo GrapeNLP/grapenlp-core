@@ -1,4 +1,0 @@
-#!/bin/bash
-cd `dirname $0`
-. paths
-. ss_half2 $CORPUS_NO_KEYWORD $CORPUS_NO_OUTPUT_NO_KEYWORD $TID_NO_KEYWORD_GRAMMAR $STATS_NO_KEYWORD_TXT

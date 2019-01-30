@@ -24,7 +24,6 @@
  */
 
 #ifdef MTRACE
-#include <grapenlp/mtrace.h>
 #endif
 
 #include <iostream>

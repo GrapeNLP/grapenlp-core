@@ -1,7 +1,7 @@
 /*
  * GRAPENLP
  *
- * Copyright (C) 2004-2018 Javier Miguel Sastre Martínez <javier.sastre@telefonica.net>
+ * Copyright (C) 2004-2019 Javier Miguel Sastre Martínez <javier.sastre@telefonica.net>
  *
  * This library is free software; you can redistribute it and/or
  * modify it under the terms of the GNU Lesser General Public
@@ -189,7 +189,7 @@ namespace grapenlp
 		virtual delaf_entry_filter_type get_type() const
 		{ return TRUE_DELAF_ENTRY_FILTER; }
 
-		virtual bool match(UCharIterator lemma_begin, UCharIterator lemma_end, const compressed_delaf::entry &e) const
+		virtual bool match(__attribute__((unused)) UCharIterator lemma_begin, __attribute__((unused)) UCharIterator lemma_end, __attribute__((unused)) const compressed_delaf::entry &e) const
 		{ return true; }
 
 		virtual bool same_type_less(const compressed_delaf_entry_filter<UCharIterator> &l) const
@@ -207,7 +207,7 @@ namespace grapenlp
 
 	//There can only be one true compressed DELAF entry filter; since x < x is always false this function always returns false
 	template<typename UCharIterator>
-	bool operator< (const true_compressed_delaf_entry_filter<UCharIterator>& l1, const true_compressed_delaf_entry_filter<UCharIterator>& l2)
+	bool operator< (__attribute__((unused)) const true_compressed_delaf_entry_filter<UCharIterator>& l1, __attribute__((unused)) const true_compressed_delaf_entry_filter<UCharIterator>& l2)
 	{ return false;	}
 
 /*
@@ -235,7 +235,7 @@ namespace grapenlp
 		virtual delaf_entry_filter_type get_type() const
 		{ return FALSE_DELAF_ENTRY_FILTER; }
 
-		virtual bool match(UCharIterator lemma_begin, UCharIterator lemma_end, const compressed_delaf::entry &e) const
+		virtual bool match(__attribute__((unused)) UCharIterator lemma_begin, __attribute__((unused)) UCharIterator lemma_end, __attribute__((unused)) const compressed_delaf::entry &e) const
 		{ return false; }
 
 		virtual bool same_type_less(const compressed_delaf_entry_filter<UCharIterator> &l) const
@@ -253,7 +253,7 @@ namespace grapenlp
 
 	//There can only be one false compressed DELAF entry filter; since x < x is always false this function always returns false
 	template<typename UCharIterator>
-	bool operator< (const false_compressed_delaf_entry_filter<UCharIterator>& l1, const false_compressed_delaf_entry_filter<UCharIterator>& l2)
+	bool operator< (__attribute__((unused)) const false_compressed_delaf_entry_filter<UCharIterator>& l1, __attribute__((unused)) const false_compressed_delaf_entry_filter<UCharIterator>& l2)
 	{ return false;	}
 
 /*
@@ -391,7 +391,7 @@ namespace grapenlp
 		virtual delaf_entry_filter_type get_type() const
 		{ return MANDATORY_POS_DELAF_ENTRY_FILTER; }
 
-		virtual bool match(UCharIterator lemma_begin, UCharIterator lemma_end, const compressed_delaf::entry &e) const
+		virtual bool match(__attribute__((unused)) UCharIterator lemma_begin, __attribute__((unused)) UCharIterator lemma_end, const compressed_delaf::entry &e) const
 		{ return e.match_mandatory_pos(mandatory_pos); }
 
 		virtual bool same_type_less(const compressed_delaf_entry_filter<UCharIterator> &l) const
@@ -445,7 +445,7 @@ namespace grapenlp
 		virtual delaf_entry_filter_type get_type() const
 		{ return NEGATED_MANDATORY_POS_DELAF_ENTRY_FILTER; }
 
-		virtual bool match(UCharIterator lemma_begin, UCharIterator lemma_end, const compressed_delaf::entry &e) const
+		virtual bool match(__attribute__((unused)) UCharIterator lemma_begin, __attribute__((unused)) UCharIterator lemma_end, __attribute__((unused)) const compressed_delaf::entry &e) const
 		{ return !e.match_mandatory_pos(base_type::mandatory_pos); }
 
 		virtual bool same_type_less(const compressed_delaf_entry_filter<UCharIterator> &l) const
@@ -499,7 +499,7 @@ namespace grapenlp
 		virtual delaf_entry_filter_type get_type() const
 		{ return FORBIDDEN_PPOOSS_DELAF_ENTRY_FILTER; }
 
-		virtual bool match(UCharIterator lemma_begin, UCharIterator lemma_end, const compressed_delaf::entry &e) const
+		virtual bool match(__attribute__((unused)) UCharIterator lemma_begin, __attribute__((unused)) UCharIterator lemma_end, const compressed_delaf::entry &e) const
 		{ return e.match_forbidden_ppooss(*forbidden_ppooss_ref); }
 
 		virtual bool same_type_less(const compressed_delaf_entry_filter<UCharIterator> &l) const
@@ -570,7 +570,7 @@ namespace grapenlp
 		virtual delaf_entry_filter_type get_type() const
 		{ return NEGATED_FORBIDDEN_PPOOSS_DELAF_ENTRY_FILTER; }
 
-		virtual bool match(UCharIterator lemma_begin, UCharIterator lemma_end, const compressed_delaf::entry &e) const
+		virtual bool match(__attribute__((unused)) UCharIterator lemma_begin, __attribute__((unused)) UCharIterator lemma_end, const compressed_delaf::entry &e) const
 		{ return !e.match_forbidden_ppooss(*base_type::forbidden_ppooss_ref);	}
 
 		virtual bool same_type_less(const compressed_delaf_entry_filter<UCharIterator> &l) const
@@ -622,13 +622,13 @@ namespace grapenlp
 		virtual delaf_entry_filter_type get_type() const
 		{ return SEMANTIC_TRAITS_DELAF_ENTRY_FILTER; }
 
-		virtual bool match(UCharIterator lemma_begin, UCharIterator lemma_end, const compressed_delaf::entry &e) const
+		virtual bool match(__attribute__((unused)) UCharIterator lemma_begin, __attribute__((unused)) UCharIterator lemma_end, const compressed_delaf::entry &e) const
 		{ return e.match_semantic_traits(*mandatory_semantic_traits_ref, *forbidden_semantic_traits_ref); }
 
 		virtual bool same_type_less(const compressed_delaf_entry_filter<UCharIterator> &l) const
 		{ return *this < dynamic_cast<const semantic_traits_compressed_delaf_entry_filter &>(l); }
 
-		inline std::ostream& serialize_forbidden_semantic_traits(std::ostream& out) const
+		std::ostream& serialize_forbidden_semantic_traits(std::ostream& out) const
 		{
 			compressed_delaf::ust_set::const_iterator i(forbidden_semantic_traits_ref->begin());
 			for (; i != forbidden_semantic_traits_ref->end(); ++i)
@@ -636,7 +636,7 @@ namespace grapenlp
 			return out;
 		}
 
-		inline std::wostream& wserialize_forbidden_semantic_traits(std::wostream& out) const
+		std::wostream& wserialize_forbidden_semantic_traits(std::wostream& out) const
 		{
 			compressed_delaf::ust_set::const_iterator i(forbidden_semantic_traits_ref->begin());
 			for (; i != forbidden_semantic_traits_ref->end(); ++i)
@@ -644,7 +644,7 @@ namespace grapenlp
 			return out;
 		}
 
-		inline void u_write_forbidden_semantic_traits(FILE *f) const
+		void u_write_forbidden_semantic_traits(FILE *f) const
 		{
 			compressed_delaf::ust_set::const_iterator i(forbidden_semantic_traits_ref->begin());
 			for (; i != forbidden_semantic_traits_ref->end(); ++i)
@@ -767,7 +767,7 @@ namespace grapenlp
 		virtual delaf_entry_filter_type get_type() const
 		{ return NEGATED_SEMANTIC_TRAITS_DELAF_ENTRY_FILTER; }
 
-		virtual bool match(UCharIterator lemma_begin, UCharIterator lemma_end, const compressed_delaf::entry &e) const
+		virtual bool match(__attribute__((unused)) UCharIterator lemma_begin, __attribute__((unused)) UCharIterator lemma_end, const compressed_delaf::entry &e) const
 		{ return !e.match_semantic_traits(*base_type::mandatory_semantic_traits_ref, *base_type::forbidden_semantic_traits_ref); }
 
 		virtual bool same_type_less(const compressed_delaf_entry_filter<UCharIterator> &l) const
@@ -821,7 +821,7 @@ namespace grapenlp
 		virtual delaf_entry_filter_type get_type() const
 		{ return POSSIBLE_FLEXIONAL_TRAITS_DELAF_ENTRY_FILTER; }
 
-		virtual bool match(UCharIterator lemma_begin, UCharIterator lemma_end, const compressed_delaf::entry &e) const
+		virtual bool match(__attribute__((unused)) UCharIterator lemma_begin, __attribute__((unused)) UCharIterator lemma_end, const compressed_delaf::entry &e) const
 		{ return e.match_possible_flexional_traits(*possible_flexional_traits_ref); }
 
 		virtual bool same_type_less(const compressed_delaf_entry_filter<UCharIterator> &l) const
@@ -1999,7 +1999,7 @@ namespace grapenlp
 		virtual delaf_entry_filter_type get_type() const
 		{ return MANDATORY_POS_AND_SEMANTIC_TRAITS_DELAF_ENTRY_FILTER; }
 
-		virtual bool match(UCharIterator lemma_begin, UCharIterator lemma_end, const compressed_delaf::entry &e) const
+		virtual bool match(__attribute__((unused)) UCharIterator lemma_begin, __attribute__((unused)) UCharIterator lemma_end, const compressed_delaf::entry &e) const
 		{ return e.match_mandatory_pos_and_semantic_traits(base1_type::mandatory_pos, *base2_type::mandatory_semantic_traits_ref, *base2_type::forbidden_semantic_traits_ref); }
 
 		virtual bool same_type_less(const compressed_delaf_entry_filter<UCharIterator> &l) const
@@ -2052,7 +2052,7 @@ namespace grapenlp
 		virtual delaf_entry_filter_type get_type() const
 		{ return MANDATORY_POS_AND_SEMANTIC_TRAITS_DELAF_ENTRY_FILTER; }
 
-		virtual bool match(UCharIterator lemma_begin, UCharIterator lemma_end, const compressed_delaf::entry &e) const
+		virtual bool match(__attribute__((unused)) UCharIterator lemma_begin, __attribute__((unused)) UCharIterator lemma_end, const compressed_delaf::entry &e) const
 		{ return !e.match_mandatory_pos_and_semantic_traits(base_type::base1_type::mandatory_pos, *base_type::base2_type::mandatory_semantic_traits_ref, *base_type::base2_type::forbidden_semantic_traits_ref); }
 
 		virtual bool same_type_less(const compressed_delaf_entry_filter<UCharIterator> &l) const
@@ -2103,7 +2103,7 @@ namespace grapenlp
 		virtual delaf_entry_filter_type get_type() const
 		{ return MANDATORY_POS_AND_POSSIBLE_FLEXIONAL_TRAITS_DELAF_ENTRY_FILTER; }
 
-		virtual bool match(UCharIterator lemma_begin, UCharIterator lemma_end, const compressed_delaf::entry &e) const
+		virtual bool match(__attribute__((unused)) UCharIterator lemma_begin, __attribute__((unused)) UCharIterator lemma_end, const compressed_delaf::entry &e) const
 		{ return e.match_mandatory_pos_and_possible_flexional_traits(base1_type::mandatory_pos, *base2_type::possible_flexional_traits_ref); }
 
 		virtual bool same_type_less(const compressed_delaf_entry_filter<UCharIterator> &l) const
@@ -2157,7 +2157,7 @@ namespace grapenlp
 		virtual delaf_entry_filter_type get_type() const
 		{ return NEGATED_MANDATORY_POS_AND_POSSIBLE_FLEXIONAL_TRAITS_DELAF_ENTRY_FILTER; }
 
-		virtual bool match(UCharIterator lemma_begin, UCharIterator lemma_end, const compressed_delaf::entry &e) const
+		virtual bool match(__attribute__((unused)) UCharIterator lemma_begin, __attribute__((unused)) UCharIterator lemma_end, const compressed_delaf::entry &e) const
 		{ return !e.match_mandatory_pos_and_possible_flexional_traits(base_type::base1_type::mandatory_pos, *base_type::base2_type::possible_flexional_traits_ref); }
 
 		virtual bool same_type_less(const compressed_delaf_entry_filter<UCharIterator> &l) const
@@ -2209,7 +2209,7 @@ namespace grapenlp
 		virtual delaf_entry_filter_type get_type() const
 		{ return MANDATORY_POS_AND_SEMANTIC_AND_POSSIBLE_FLEXIONAL_TRAITS_DELAF_ENTRY_FILTER; }
 
-		virtual bool match(UCharIterator lemma_begin, UCharIterator lemma_end, const compressed_delaf::entry &e) const
+		virtual bool match(__attribute__((unused)) UCharIterator lemma_begin, __attribute__((unused)) UCharIterator lemma_end, const compressed_delaf::entry &e) const
 		{ return e.match_mandatory_pos_and_semantic_and_possible_flexional_traits(base1_type::mandatory_pos, *base2_type::mandatory_semantic_traits_ref, *base2_type::forbidden_semantic_traits_ref, *base3_type::possible_flexional_traits_ref); }
 
 		virtual bool same_type_less(const compressed_delaf_entry_filter<UCharIterator> &l) const
@@ -2267,7 +2267,7 @@ namespace grapenlp
 		virtual delaf_entry_filter_type get_type() const
 		{ return NEGATED_MANDATORY_POS_AND_SEMANTIC_AND_POSSIBLE_FLEXIONAL_TRAITS_DELAF_ENTRY_FILTER; }
 
-		virtual bool match(UCharIterator lemma_begin, UCharIterator lemma_end, const compressed_delaf::entry &e) const
+		virtual bool match(__attribute__((unused)) UCharIterator lemma_begin, __attribute__((unused)) UCharIterator lemma_end, const compressed_delaf::entry &e) const
 		{ return !e.match_mandatory_pos_and_semantic_and_possible_flexional_traits(base_type::base1_type::mandatory_pos, *base_type::base2_type::mandatory_semantic_traits_ref, *base_type::base2_type::forbidden_semantic_traits_ref, *base_type::base3_type::possible_flexional_traits_ref); }
 
 		virtual bool same_type_less(const compressed_delaf_entry_filter<UCharIterator> &l) const
@@ -2318,7 +2318,7 @@ namespace grapenlp
 		virtual delaf_entry_filter_type get_type() const
 		{ return FORBIDDEN_PPOOSS_AND_SEMANTIC_TRAITS_DELAF_ENTRY_FILTER; }
 
-		virtual bool match(UCharIterator lemma_begin, UCharIterator lemma_end, const compressed_delaf::entry &e) const
+		virtual bool match(__attribute__((unused)) UCharIterator lemma_begin, __attribute__((unused)) UCharIterator lemma_end, const compressed_delaf::entry &e) const
 		{ return e.match_forbidden_ppooss_and_semantic_traits(*base1_type::forbidden_ppooss_ref, *base2_type::mandatory_semantic_traits_ref, *base2_type::forbidden_semantic_traits_ref); }
 
 		virtual bool same_type_less(const compressed_delaf_entry_filter<UCharIterator> &l) const
@@ -2371,7 +2371,7 @@ namespace grapenlp
 		virtual delaf_entry_filter_type get_type() const
 		{ return FORBIDDEN_PPOOSS_AND_SEMANTIC_TRAITS_DELAF_ENTRY_FILTER; }
 
-		virtual bool match(UCharIterator lemma_begin, UCharIterator lemma_end, const compressed_delaf::entry &e) const
+		virtual bool match(__attribute__((unused)) UCharIterator lemma_begin, __attribute__((unused)) UCharIterator lemma_end, const compressed_delaf::entry &e) const
 		{ return !e.match_forbidden_ppooss_and_semantic_traits(*base_type::base1_type::forbidden_ppooss_ref, *base_type::base2_type::mandatory_semantic_traits_ref, *base_type::base2_type::forbidden_semantic_traits_ref); }
 
 		virtual bool same_type_less(const compressed_delaf_entry_filter<UCharIterator> &l) const
@@ -2422,7 +2422,7 @@ namespace grapenlp
 		virtual delaf_entry_filter_type get_type() const
 		{ return FORBIDDEN_PPOOSS_AND_POSSIBLE_FLEXIONAL_TRAITS_DELAF_ENTRY_FILTER; }
 
-		virtual bool match(UCharIterator lemma_begin, UCharIterator lemma_end, const compressed_delaf::entry &e) const
+		virtual bool match(__attribute__((unused)) UCharIterator lemma_begin, __attribute__((unused)) UCharIterator lemma_end, const compressed_delaf::entry &e) const
 		{ return e.match_forbidden_ppooss_and_possible_flexional_traits(*base1_type::forbidden_ppooss_ref, *base2_type::possible_flexional_traits_ref); }
 
 		virtual bool same_type_less(const compressed_delaf_entry_filter<UCharIterator> &l) const
@@ -2475,7 +2475,7 @@ namespace grapenlp
 		virtual delaf_entry_filter_type get_type() const
 		{ return NEGATED_FORBIDDEN_PPOOSS_AND_POSSIBLE_FLEXIONAL_TRAITS_DELAF_ENTRY_FILTER; }
 
-		virtual bool match(UCharIterator lemma_begin, UCharIterator lemma_end, const compressed_delaf::entry &e) const
+		virtual bool match(__attribute__((unused)) UCharIterator lemma_begin, __attribute__((unused)) UCharIterator lemma_end, const compressed_delaf::entry &e) const
 		{ return !e.match_forbidden_ppooss_and_possible_flexional_traits(*base_type::base1_type::forbidden_ppooss_ref, *base_type::base2_type::possible_flexional_traits_ref); }
 
 		virtual bool same_type_less(const compressed_delaf_entry_filter<UCharIterator> &l) const
@@ -2527,7 +2527,7 @@ namespace grapenlp
 		virtual delaf_entry_filter_type get_type() const
 		{ return FORBIDDEN_PPOOSS_AND_SEMANTIC_AND_POSSIBLE_FLEXIONAL_TRAITS_DELAF_ENTRY_FILTER; }
 
-		virtual bool match(UCharIterator lemma_begin, UCharIterator lemma_end, const compressed_delaf::entry &e) const
+		virtual bool match(__attribute__((unused)) UCharIterator lemma_begin, __attribute__((unused)) UCharIterator lemma_end, const compressed_delaf::entry &e) const
 		{ return e.match_forbidden_ppooss_and_semantic_and_possible_flexional_traits(*base1_type::forbidden_ppooss_ref, *base2_type::mandatory_semantic_traits_ref, *base2_type::forbidden_semantic_traits_ref, *base3_type::possible_flexional_traits_ref); }
 
 		virtual bool same_type_less(const compressed_delaf_entry_filter<UCharIterator> &l) const
@@ -2584,7 +2584,7 @@ namespace grapenlp
 		virtual delaf_entry_filter_type get_type() const
 		{ return NEGATED_FORBIDDEN_PPOOSS_AND_SEMANTIC_AND_POSSIBLE_FLEXIONAL_TRAITS_DELAF_ENTRY_FILTER; }
 
-		virtual bool match(UCharIterator lemma_begin, UCharIterator lemma_end, const compressed_delaf::entry &e) const
+		virtual bool match(__attribute__((unused)) UCharIterator lemma_begin, __attribute__((unused)) UCharIterator lemma_end, const compressed_delaf::entry &e) const
 		{ return !e.match_forbidden_ppooss_and_semantic_and_possible_flexional_traits(*base_type::base1_type::forbidden_ppooss_ref, *base_type::base2_type::mandatory_semantic_traits_ref, *base_type::base2_type::forbidden_semantic_traits_ref, *base_type::base3_type::possible_flexional_traits_ref); }
 
 		virtual bool same_type_less(const compressed_delaf_entry_filter<UCharIterator> &l) const
@@ -2635,7 +2635,7 @@ namespace grapenlp
 		virtual delaf_entry_filter_type get_type() const
 		{ return SEMANTIC_AND_POSSIBLE_FLEXIONAL_TRAITS_DELAF_ENTRY_FILTER; }
 
-		virtual bool match(UCharIterator lemma_begin, UCharIterator lemma_end, const compressed_delaf::entry &e) const
+		virtual bool match(__attribute__((unused)) UCharIterator lemma_begin, __attribute__((unused)) UCharIterator lemma_end, const compressed_delaf::entry &e) const
 		{ return e.match_semantic_and_possible_flexional_traits(*base1_type::mandatory_semantic_traits_ref, *base1_type::forbidden_semantic_traits_ref, *base2_type::possible_flexional_traits_ref); }
 
 		virtual bool same_type_less(const compressed_delaf_entry_filter<UCharIterator> &l) const
@@ -2688,7 +2688,7 @@ namespace grapenlp
 		virtual delaf_entry_filter_type get_type() const
 		{ return NEGATED_SEMANTIC_AND_POSSIBLE_FLEXIONAL_TRAITS_DELAF_ENTRY_FILTER; }
 
-		virtual bool match(UCharIterator lemma_begin, UCharIterator lemma_end, const compressed_delaf::entry &e) const
+		virtual bool match(__attribute__((unused)) UCharIterator lemma_begin, __attribute__((unused)) UCharIterator lemma_end, const compressed_delaf::entry &e) const
 		{ return !e.match_semantic_and_possible_flexional_traits(*base_type::base1_type::mandatory_semantic_traits_ref, *base_type::base1_type::forbidden_semantic_traits_ref, *base_type::base2_type::possible_flexional_traits_ref); }
 
 		virtual bool same_type_less(const compressed_delaf_entry_filter<UCharIterator> &l) const

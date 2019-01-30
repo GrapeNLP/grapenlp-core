@@ -620,7 +620,7 @@ int u_fputc(Encoding encoding, unichar c, FILE *f) {
  *
  * Returns 1 in case of success; 0 otherwise.
  */
-int u_ungetc_UTF16_raw(unichar c, FILE *f) {
+int u_ungetc_UTF16_raw(__attribute__((unused)) unichar c, FILE *f) {
     return (fseek(f, -2, SEEK_CUR) == 0) ? 1 : 0;
 }
 

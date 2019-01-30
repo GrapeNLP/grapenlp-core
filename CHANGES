@@ -1,3 +1,18 @@
+grapenlp-core (2.5.0) stable; urgency=medium
+
+  * Added DockerFile for building the Android version for platform 14
+  * Added Android compilations to .travis config file for all Android ABIs
+  * Fixed bug in buildforandroid.sh which prevented from finding the BoostForBuild folder from the environment variable BOOSTFORBUILD_ROOT
+  * Added target mtrace to build.sh script in order to generate binaries with memory leak verification (usage of gcc sanitizers leak and address)
+  * Compilation with all warnings activated for mtrace target
+  * Several unused parameter warnings corrected
+  * Updated license headers (2018 -> 2019)
+  * Added cmake_modules folder with modules for Debian packaging and declaration of mtrace target for simplifying main CMakeList.txt files
+  * Added license headers to CMakeList.txt files
+  * Moved scripts folder outside src
+
+ -- Javier Sastre <javier.sastre@telefonica.net>  Wed, 30 Jan 2019 12:09:21 +0100
+
 grapenlp-core (2.4.0) stable; urgency=medium
 
   * Refactored build scripts in build/scripts: build.sh builds the native version and buildforandroid.sh builds the Android version

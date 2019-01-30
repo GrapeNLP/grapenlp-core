@@ -119,7 +119,7 @@ namespace grapenlp
 			return out_open_tag_label_ref;
 		}
 
-		inline state_ref get_subinitial_state_ref_for_n_term(const n_term &nt) const
+		state_ref get_subinitial_state_ref_for_n_term(const n_term &nt) const
 		{ return nt.label->data.subinitial_state_refs[nt.idx]; }
 
 		//Builds the RTNO structure corresponding to every binary rule having a given non-terminal for head

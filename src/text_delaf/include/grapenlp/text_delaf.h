@@ -1,7 +1,7 @@
 /*
  * GRAPENLP
  *
- * Copyright (C) 2004-2018 Javier Miguel Sastre Martínez <javier.sastre@telefonica.net>
+ * Copyright (C) 2004-2019 Javier Miguel Sastre Martínez <javier.sastre@telefonica.net>
  *
  * This library is free software; you can redistribute it and/or
  * modify it under the terms of the GNU Lesser General Public
@@ -77,7 +77,7 @@ namespace grapenlp
 			{ return excludes(forbidden_ppooss.begin(), forbidden_ppooss.end(), &pos); }
 
 			//Verifies that this entry has all the specified semantic traits
-			inline bool  match_mandatory_semantic_traits(const cst_set &mandatory_semantic_traits) const
+			bool  match_mandatory_semantic_traits(const cst_set &mandatory_semantic_traits) const
 			{ return std::includes(semantic_traits.begin(), semantic_traits.end(), mandatory_semantic_traits.begin(), mandatory_semantic_traits.end()); }
 
 			//Verifies that this entry does not have any of the specified semantic traits
@@ -147,19 +147,19 @@ namespace grapenlp
 			bool match_canonical_form_and_semantic_and_possible_flexional_traits(const lemma_string &canonical_form_to_match, const cst_set &mandatory_semantic_traits, const cst_set &forbidden_semantic_traits, const flexional_traits_list &possible_flexional_traits_to_match) const
 			{
 				return match_canonical_form_and_semantic_traits(canonical_form_to_match, mandatory_semantic_traits, forbidden_semantic_traits) &&
-				       match_possible_flexional_traits(possible_flexional_traits);
+				       match_possible_flexional_traits(possible_flexional_traits_to_match);
 			}
 
 			bool match_canonical_form_and_mandatory_pos_and_semantic_and_possible_flexional_traits(const lemma_string &canonical_form_to_match, const cst_string &mandatory_pos, const cst_set &mandatory_semantic_traits, const cst_set &forbidden_semantic_traits, const flexional_traits_list &possible_flexional_traits_to_match) const
 			{
 				return match_canonical_form_and_mandatory_pos_and_semantic_traits(canonical_form_to_match, mandatory_pos, mandatory_semantic_traits, forbidden_semantic_traits) &&
-				       match_possible_flexional_traits(possible_flexional_traits);
+				       match_possible_flexional_traits(possible_flexional_traits_to_match);
 			}
 
 			bool match_canonical_form_and_forbidden_ppooss_and_semantic_and_possible_flexional_traits(const lemma_string &canonical_form_to_match, const cst_set &forbidden_ppooss, const cst_set &mandatory_semantic_traits, const cst_set &forbidden_semantic_traits, const flexional_traits_list &possible_flexional_traits_to_match) const
 			{
 				return match_canonical_form_and_forbidden_ppooss_and_semantic_traits(canonical_form_to_match, forbidden_ppooss, mandatory_semantic_traits, forbidden_semantic_traits) &&
-				       match_possible_flexional_traits(possible_flexional_traits);
+				       match_possible_flexional_traits(possible_flexional_traits_to_match);
 			}
 
 			bool match_mandatory_pos_and_semantic_traits(const cst_string &mandatory_pos, const cst_set &mandatory_semantic_traits, const cst_set &forbidden_semantic_traits) const
@@ -215,36 +215,36 @@ namespace grapenlp
 		{}
 
 		template<typename Iterator>
-		inline bool includes(Iterator begin, Iterator end) const
+		bool includes(Iterator begin, Iterator end) const
 		{
 			typename lemma_string::ref ls(lemma_to_entry_index.get(begin, end, CaseNormalizer()));
 			return (ls && ls->data);
 		}
 
-		inline typename lemma_string::ref get(const Char &c)
+		typename lemma_string::ref get(const Char &c)
 		{ return lemma_to_entry_index.get(c); }
 
-		inline typename lemma_string::const_ref get(const Char &c) const
+		typename lemma_string::const_ref get(const Char &c) const
 		{ return lemma_to_entry_index.get(c); }
 
 		template<typename Iterator>
-		inline typename lemma_string::ref get(Iterator begin, Iterator end)
+		typename lemma_string::ref get(Iterator begin, Iterator end)
 		{ return lemma_to_entry_index.get(begin, end, CaseNormalizer()); }
 
 		template<typename Iterator>
-		inline typename lemma_string::const_ref get(Iterator begin, Iterator end) const
+		typename lemma_string::const_ref get(Iterator begin, Iterator end) const
 		{ return lemma_to_entry_index.get(begin, end, CaseNormalizer()); }
 
-		inline typename lemma_trie_with_entry_data::iterator begin()
+		typename lemma_trie_with_entry_data::iterator begin()
 		{ return lemma_to_entry_index.begin(); }
 
-//		inline typename lemma_trie_with_entry_data::const_iterator begin() const
+//		typename lemma_trie_with_entry_data::const_iterator begin() const
 //		{ return lemma_to_entry_index.begin(); }
 
-		inline typename lemma_trie_with_entry_data::iterator end()
+		typename lemma_trie_with_entry_data::iterator end()
 		{ return lemma_to_entry_index.end(); }
 
-//		inline typename lemma_trie_with_entry_data::const_iterator end()
+//		typename lemma_trie_with_entry_data::const_iterator end()
 //		{ return lemma_to_entry_index.end(); }
 	};
 } //namespace grapenlp

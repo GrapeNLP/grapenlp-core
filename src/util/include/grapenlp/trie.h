@@ -1,7 +1,7 @@
 /*
  * GRAPENLP
  *
- * Copyright (C) 2004-2018 Javier Miguel Sastre Martínez <javier.sastre@telefonica.net>
+ * Copyright (C) 2004-2019 Javier Miguel Sastre Martínez <javier.sastre@telefonica.net>
  *
  * This library is free software; you can redistribute it and/or
  * modify it under the terms of the GNU Lesser General Public
@@ -225,39 +225,39 @@ namespace grapenlp
 			virtual ~string()
 			{}
 		public:
-			inline bool empty() const
+			bool empty() const
 			{ return !prefix_ref; }
 
-			inline size_type size() const
+			size_type size() const
 			{ return depth;	}
 
-			inline string& prefix()
+			string& prefix()
 			{ return *prefix_ref; }
 
-			inline const string& prefix() const
+			const string& prefix() const
 			{ return *prefix_ref; }
 
-			inline T back() const
+			T back() const
 			{ return elem; }
 
-			inline iterator begin()
+			iterator begin()
 			{
 				iterator i(this);
 				i.rewind();
 				return i;
 			}
 
-			inline const_iterator begin() const
+			const_iterator begin() const
 			{
 				const_iterator i(this);
 				i.rewind();
 				return i;
 			}
 
-			inline iterator end()
+			iterator end()
 			{ return iterator(this); }
 
-			inline const_iterator end() const
+			const_iterator end() const
 			{ return const_iterator(this); }
 
 			bool starts_with(const T &elem) const
@@ -402,7 +402,7 @@ namespace grapenlp
 				return i->second;
 			}
 
-			inline const_ref get(const T& elem) const
+			const_ref get(const T& elem) const
 			{
 				typename suffix_table::const_iterator i(suffixes.find(elem));
 				if (i == suffixes.end())
@@ -421,18 +421,18 @@ namespace grapenlp
 			}
 
 			template<typename Normalizer>
-			inline const_ref get(const T& elem, Normalizer normalizer) const
+			const_ref get(const T& elem, Normalizer normalizer) const
 			{ return static_cast<const_ref>(get(elem, normalizer)); }
 
 			//Returns the string = (*this + elem)
 			//If the trie did not contain it before, it is created and added
-			inline string& concat(const T& elem)
+			string& concat(const T& elem)
 			{ return *suffixes.insert(std::make_pair(elem, new string(elem, this))).first->second; }
 
 			//Returns the string = (*this + elem)
 			//If the trie did not contain it before, it is created and added
 			//The flag is_new is initialized consequently
-			inline string& concat(const T& elem, bool &is_new)
+			string& concat(const T& elem, bool &is_new)
 			{
 				std::pair<typename suffix_table::iterator, bool> result(suffixes.insert(std::make_pair(elem, new string(elem, this))));
 				is_new = result.second;
@@ -440,11 +440,11 @@ namespace grapenlp
 			}
 
 			//Operator version of concat(const T& elem)
-			inline string& operator+(const T& elem)
+			string& operator+(const T& elem)
 			{ return concat(elem); }
 
 			//Returns the pointer to the string = (this + s) if the trie includes it, NULL otherwise
-			inline ref get(string &s)
+			ref get(string &s)
 			{
 				//x + epsilon = x
 				if (s.empty())
@@ -456,12 +456,12 @@ namespace grapenlp
 				return result->get(s.back());
 			}
 
-			inline const_ref get(const string &s) const
+			const_ref get(const string &s) const
 			{ return static_cast<const_ref>(get(s)); }
 
 			//Returns the pointer to the string = (this + s) if the trie includes it, NULL otherwise
 			template<typename Normalizer>
-			inline ref get(string &s, Normalizer normalizer)
+			ref get(string &s, Normalizer normalizer)
 			{
 				//x + epsilon = x
 				if (s.empty())
@@ -474,7 +474,7 @@ namespace grapenlp
 			}
 
 			template<typename Normalizer>
-			inline const_ref get(const string &s, Normalizer normalizer) const
+			const_ref get(const string &s, Normalizer normalizer) const
 			{ return static_cast<const_ref>(get(s, normalizer)); }
 
 			//Returns the string = (*this + s)
@@ -507,7 +507,7 @@ namespace grapenlp
 			}
 
 			//Operator version of concat(string &s)
-			inline string& operator+(string &s)
+			string& operator+(string &s)
 			{ return concat(s); }
 
 			//Returns the pointer to the string = (*this + i1 + ... + in) where i1 == *begin and in == *(end - 1)
@@ -528,7 +528,7 @@ namespace grapenlp
 			}
 
 			template<typename Iterator>
-			inline const_ref get(Iterator begin, Iterator end) const
+			const_ref get(Iterator begin, Iterator end) const
 			{
 				const_ref s(this);
 				typename suffix_table::const_iterator i;
@@ -560,7 +560,7 @@ namespace grapenlp
 			}
 
 			template<typename Iterator, typename Normalizer>
-			inline const_ref get(Iterator begin, Iterator end, Normalizer normalizer) const
+			const_ref get(Iterator begin, Iterator end, Normalizer normalizer) const
 			{
 				const_ref s(this);
 				typename suffix_table::const_iterator i;
@@ -607,10 +607,10 @@ namespace grapenlp
 				return this->concat(begin, end).concat(*end, is_new);
 			}
 
-			inline bool operator== (const string& s) const
+			bool operator== (const string& s) const
 			{ return this == &s; }
 
-			inline bool operator!= (const string& s) const
+			bool operator!= (const string& s) const
 			{ return this != &s; }
 
 			template<typename CharT, typename Traits>
@@ -741,56 +741,56 @@ namespace grapenlp
 		trie(): epsilon_(new string())
 		{}
 
-		inline string& epsilon()
+		string& epsilon()
 		{ return *epsilon_; }
 
-		inline const string& epsilon() const
+		const string& epsilon() const
 		{ return static_cast<const string&>(*epsilon_); }
 
-		inline iterator begin()
+		iterator begin()
 		{ return iterator(epsilon()); }
 
-		inline const_iterator begin() const
+		const_iterator begin() const
 		{ return const_iterator(epsilon()); }
 
-		inline iterator end()
+		iterator end()
 		{ return iterator(); }
 
-		inline const_iterator end() const
+		const_iterator end() const
 		{ return const_iterator(); }
 
-		inline typename string::ref get(const T& elem)
+		typename string::ref get(const T& elem)
 		{ return epsilon_->get(elem); }
 
-		inline typename string::const_ref get(const T& elem) const
+		typename string::const_ref get(const T& elem) const
 		{ return epsilon_->get(elem); }
 
 		template<typename Normalizer>
-		inline typename string::ref get(const T& elem, Normalizer normalizer)
+		typename string::ref get(const T& elem, Normalizer normalizer)
 		{ return epsilon_->get(normalizer(elem)); }
 
 		template<typename Normalizer>
-		inline typename string::const_ref get(const T& elem, Normalizer normalizer) const
+		typename string::const_ref get(const T& elem, Normalizer normalizer) const
 		{ return epsilon_->get(normalizer(elem)); }
 
 		template<typename Iterator>
-		inline typename string::ref get(Iterator begin, Iterator end)
+		typename string::ref get(Iterator begin, Iterator end)
 		{ return epsilon_->get(begin, end); }
 
 		template<typename Iterator>
-		inline typename string::const_ref get(Iterator begin, Iterator end) const
+		typename string::const_ref get(Iterator begin, Iterator end) const
 		{ return epsilon_->get(begin, end); }
 
 		template<typename Iterator, typename Normalizer>
-		inline typename string::ref get(Iterator begin, Iterator end, Normalizer normalizer)
+		typename string::ref get(Iterator begin, Iterator end, Normalizer normalizer)
 		{ return epsilon_->get(begin, end, normalizer); }
 
 		template<typename Iterator, typename Normalizer>
-		inline typename string::const_ref get(Iterator begin, Iterator end, Normalizer normalizer) const
+		typename string::const_ref get(Iterator begin, Iterator end, Normalizer normalizer) const
 		{ return epsilon_->get(begin, end, normalizer); }
 
 		template<typename Iterator>
-		inline typename string::ref get_longest_prefix(Iterator begin, Iterator end)
+		typename string::ref get_longest_prefix(Iterator begin, Iterator end)
 		{
 			typename string::ref s(epsilon_);
 			typename string::ref s2;
@@ -806,7 +806,7 @@ namespace grapenlp
 		}
 
 		template<typename Iterator>
-		inline typename string::const_ref get_longest_prefix(Iterator begin, Iterator end) const
+		typename string::const_ref get_longest_prefix(Iterator begin, Iterator end) const
 		{
 			typename string::const_ref s(epsilon_);
 			typename string::const_ref s2;
@@ -828,22 +828,22 @@ namespace grapenlp
     template<typename T, typename Sequence>
     struct trie_string_and_deref_sequence_concatenator
     {
-    	inline typename trie<T>::string& operator() (typename trie<T>::string &ts, const Sequence *seq) const
+    	typename trie<T>::string& operator() (typename trie<T>::string &ts, const Sequence *seq) const
     	{ return ts.concat(seq->begin(), seq->end()); }
 
     	template<typename SourceRef>
-    	inline typename trie<T>::string& operator() (typename trie<T>::string &ts, SourceRef src_ref, const Sequence *seq) const
+    	typename trie<T>::string& operator() (typename trie<T>::string &ts, SourceRef src_ref, const Sequence *seq) const
     	{ return ts.concat(seq->begin(), seq->end()); }
     };
 
     template<typename T, typename Sequence>
     struct deref_trie_string_and_deref_sequence_concatenator
     {
-    	inline typename trie<T>::string* &operator() (typename trie<T>::string* &ts, const Sequence *seq) const
+    	typename trie<T>::string* &operator() (typename trie<T>::string* &ts, const Sequence *seq) const
     	{ return ts = &(ts->concat(seq->begin(), seq->end())); }
 
     	template<typename SourceRef>
-    	inline typename trie<T>::string* &operator() (typename trie<T>::string* &ts, SourceRef src_ref, const Sequence *seq) const
+    	typename trie<T>::string* &operator() (typename trie<T>::string* &ts, SourceRef src_ref, const Sequence *seq) const
     	{ return ts = &(ts->concat(seq->begin(), seq->end())); }
     };
 
@@ -853,11 +853,11 @@ namespace grapenlp
     	typedef typename Sequence::const_iterator const_iterator;
     	typedef std::reverse_iterator<const_iterator> reverse_const_iterator;
 
-    	inline typename trie<T>::string& operator() (typename trie<T>::string &ts, const Sequence *seq) const
+    	typename trie<T>::string& operator() (typename trie<T>::string &ts, const Sequence *seq) const
     	{ return ts.concat(reverse_const_iterator(seq->end()), reverse_const_iterator(seq->begin())); }
 
     	template<typename SourceRef>
-    	inline typename trie<T>::string& operator() (typename trie<T>::string &ts, SourceRef src_ref, const Sequence *seq) const
+    	typename trie<T>::string& operator() (typename trie<T>::string &ts, SourceRef src_ref, const Sequence *seq) const
     	{ return ts.concat(reverse_const_iterator(seq->end()), reverse_const_iterator(seq->begin())); }
     };
 
@@ -867,33 +867,33 @@ namespace grapenlp
     	typedef typename Sequence::const_iterator const_iterator;
     	typedef std::reverse_iterator<const_iterator> reverse_const_iterator;
 
-    	inline typename trie<T>::string* &operator() (typename trie<T>::string* &ts, const Sequence *seq) const
+    	typename trie<T>::string* &operator() (typename trie<T>::string* &ts, const Sequence *seq) const
     	{ return ts = &(ts->concat(reverse_const_iterator(seq->end()), reverse_const_iterator(seq->begin()))); }
 
     	template<typename SourceRef>
-    	inline typename trie<T>::string* &operator() (typename trie<T>::string* &ts, SourceRef src_ref, const Sequence *seq) const
+    	typename trie<T>::string* &operator() (typename trie<T>::string* &ts, SourceRef src_ref, const Sequence *seq) const
     	{ return ts = &(ts->concat(reverse_const_iterator(seq->end()), reverse_const_iterator(seq->begin()))); }
     };
 
     template<typename T>
     struct trie_string_and_trie_string_concatenator
     {
-    	inline typename trie<T>::string& operator() (typename trie<T>::string &ts1, const typename trie<T>::string &ts2) const
+    	typename trie<T>::string& operator() (typename trie<T>::string &ts1, const typename trie<T>::string &ts2) const
     	{ return ts1.concat(ts2); }
 
     	template<typename SourceRef>
-    	inline typename trie<T>::string& operator() (typename trie<T>::string &ts1, SourceRef src_ref, const typename trie<T>::string &ts2) const
+    	typename trie<T>::string& operator() (typename trie<T>::string &ts1, SourceRef src_ref, const typename trie<T>::string &ts2) const
     	{ return ts1.concat(ts2); }
     };
 
     template<typename T>
     struct deref_trie_string_and_deref_trie_string_concatenator
     {
-    	inline typename trie<T>::string* &operator() (typename trie<T>::string * &ts1, typename trie<T>::string *ts2) const
+    	typename trie<T>::string* &operator() (typename trie<T>::string * &ts1, typename trie<T>::string *ts2) const
     	{ return ts1 = &(ts1->concat(*ts2)); }
 
     	template<typename SourceRef>
-    	inline typename trie<T>::string* &operator() (typename trie<T>::string * &ts1, SourceRef src_ref, typename trie<T>::string *ts2) const
+    	typename trie<T>::string* &operator() (typename trie<T>::string * &ts1, SourceRef src_ref, typename trie<T>::string *ts2) const
     	{ return ts1 = &(ts1->concat(*ts2)); }
     };
 
@@ -965,39 +965,39 @@ namespace grapenlp
 		public:
 
 		public:
-			inline string& prefix()
+			string& prefix()
 			{ return static_cast<string&>(*base_string::prefix_ref); }
 
-			inline const string& prefix() const
+			const string& prefix() const
 			{ return static_cast<const ref&>(*base_string::prefix_ref); }
 
 			//Returns the pointer to the string = (this + elem) if the trie includes it, NULL otherwise
-			inline ref get(const T& elem)
+			ref get(const T& elem)
 			{ return static_cast<ref>(base_string::get(elem)); }
 
-			inline const_ref get(const T& elem) const
+			const_ref get(const T& elem) const
 			{ return static_cast<const_ref>(base_string::get(elem)); }
 
 			//Returns the pointer to the string = (this + elem) if the trie includes it, NULL otherwise
 			template<typename Normalizer>
-			inline ref get(const T& elem, Normalizer normalizer)
+			ref get(const T& elem, Normalizer normalizer)
 			{ return static_cast<ref>(base_string::get(elem, normalizer)); }
 
 			template<typename Normalizer>
-			inline const_ref get(const T& elem, Normalizer normalizer) const
+			const_ref get(const T& elem, Normalizer normalizer) const
 			{ return static_cast<const_ref>(base_string::get(elem, normalizer)); }
 
 			//Returns the string = (*this + elem)
 			//If the trie did not contain it before, it is created and added and
 			//its data field initialized with the default constructor of its class
-			inline string& concat(const T& elem)
+			string& concat(const T& elem)
 			{
 				std::pair<typename base_string::suffix_table::iterator, bool> result(base_string::suffixes.insert(std::make_pair(elem, new string(elem, this))));
 				return static_cast<string&>(*result.first->second);
 			}
 
 			//As before but returning as well whether the resulting string is new or not
-			inline string& concat(const T& elem, bool &is_new)
+			string& concat(const T& elem, bool &is_new)
 			{
 				std::pair<typename base_string::suffix_table::iterator, bool> result(base_string::suffixes.insert(std::make_pair(elem, new string(elem, this))));
 				is_new = result.second;
@@ -1006,14 +1006,14 @@ namespace grapenlp
 
 			//As before but specifying the value to be assigned to the data field
 			//If the string was already present, the old data is kept (same behaviour than class std::map)
-			inline string& concat(const T& elem, const Data &data)
+			string& concat(const T& elem, const Data &data)
 			{
 				std::pair<typename base_string::suffix_table::iterator, bool> result(base_string::suffixes.insert(std::make_pair(elem, new string(elem, this, data))));
 				return static_cast<string&>(*result.first->second);
 			}
 
 			//As before but also returning whether the concatenation string is new or not
-			inline string& concat(const T& elem, const Data &data, bool &is_new)
+			string& concat(const T& elem, const Data &data, bool &is_new)
 			{
 				std::pair<typename base_string::suffix_table::iterator, bool> result(base_string::suffixes.insert(std::make_pair(elem, new string(elem, this, data))));
 				is_new = result.second;
@@ -1021,23 +1021,23 @@ namespace grapenlp
 			}
 
 			//Operator version of concat(const T& elem)
-			inline string& operator+(const T& elem)
+			string& operator+(const T& elem)
 			{ return concat(elem); }
 
 			//Returns the pointer to the string = (this + s) if the trie includes it, NULL otherwise
-			inline ref get(string &s)
+			ref get(string &s)
 			{ return static_cast<ref>(base_string::get(s)); }
 
-			inline const_ref get(string &s) const
+			const_ref get(string &s) const
 			{ return static_cast<const_ref>(base_string::get(s)); }
 
 			//Returns the pointer to the string = (this + s) if the trie includes it, NULL otherwise
 			template<typename Normalizer>
-			inline ref get(string &s, Normalizer normalizer)
+			ref get(string &s, Normalizer normalizer)
 			{ return static_cast<ref>(base_string::get(s, normalizer)); }
 
 			template<typename Normalizer>
-			inline const_ref get(string &s, Normalizer normalizer) const
+			const_ref get(string &s, Normalizer normalizer) const
 			{ return static_cast<const_ref>(base_string::get(s, normalizer)); }
 
 			//Returns the string = (*this + s)
@@ -1070,7 +1070,7 @@ namespace grapenlp
 
 			//As before but specifying the value to be assigned to the data field
 			//If the string was already present, the old data is kept (same behaviour than class std::map)
-			inline string& concat(string &s, const Data &data)
+			string& concat(string &s, const Data &data)
 			{
 				bool is_new;
 				string &result = concat(s, is_new);
@@ -1089,27 +1089,27 @@ namespace grapenlp
 			}
 
 			//Operator version of concat(string &s)
-			inline string& operator+(string& s)
+			string& operator+(string& s)
 			{ return concat(s); }
 
 			//Returns the pointer to the string = (*this + i1 + ... + in) where i1 == *begin and in == *(end - 1)
 			//if the trie includes it, NULL otherwise
 			template<typename Iterator>
-			inline ref get(Iterator begin, Iterator end)
+			ref get(Iterator begin, Iterator end)
 			{ return static_cast<ref>(base_string::get(begin, end)); }
 
 			template<typename Iterator>
-			inline const_ref get(Iterator begin, Iterator end) const
+			const_ref get(Iterator begin, Iterator end) const
 			{ return static_cast<const_ref>(base_string::get(begin, end)); }
 
 			//Returns the pointer to the string = (*this + i1 + ... + in) where i1 == *begin and in == *(end - 1)
 			//if the trie includes it, NULL otherwise
 			template<typename Iterator, typename Normalizer>
-			inline ref get(Iterator begin, Iterator end, Normalizer normalizer)
+			ref get(Iterator begin, Iterator end, Normalizer normalizer)
 			{ return static_cast<ref>(base_string::get(begin, end, normalizer)); }
 
 			template<typename Iterator, typename Normalizer>
-			inline const_ref get(Iterator begin, Iterator end, Normalizer normalizer) const
+			const_ref get(Iterator begin, Iterator end, Normalizer normalizer) const
 			{ return static_cast<const_ref>(base_string::get(begin, end, normalizer)); }
 
 			//Returns the string = (*this + i1 + ... + in) where i1 == *begin and in == *(end - 1)
@@ -1223,54 +1223,54 @@ namespace grapenlp
 		const string& epsilon() const
 		{ return static_cast<const string&>(*base_trie::epsilon_); }
 
-		inline iterator begin()
+		iterator begin()
 		{ return iterator(epsilon()); }
 
-		inline const_iterator begin() const
+		const_iterator begin() const
 		{ return const_iterator(epsilon()); }
 
-		inline iterator end()
+		iterator end()
 		{ return iterator(); }
 
-		inline const_iterator end() const
+		const_iterator end() const
 		{ return const_iterator(); }
 
-		inline typename string::ref get(const T& elem)
+		typename string::ref get(const T& elem)
 		{ return static_cast<typename string::ref>(base_trie::get(elem)); }
 
-		inline typename string::const_ref get(const T& elem) const
+		typename string::const_ref get(const T& elem) const
 		{ return static_cast<typename string::const_ref>(base_trie::get(elem)); }
 
 		template<typename Normalizer>
-		inline typename string::ref get(const T& elem, Normalizer normalizer)
+		typename string::ref get(const T& elem, Normalizer normalizer)
 		{ return static_cast<typename string::ref>(base_trie::get(elem, normalizer)); }
 
 		template<typename Normalizer>
-		inline typename string::const_ref get(const T& elem, Normalizer normalizer) const
+		typename string::const_ref get(const T& elem, Normalizer normalizer) const
 		{ return static_cast<typename string::const_ref>(base_trie::get(elem, normalizer)); }
 
 		template<typename Iterator>
-		inline typename string::ref get(Iterator begin, Iterator end)
+		typename string::ref get(Iterator begin, Iterator end)
 		{ return static_cast<typename string::ref>(base_trie::get(begin, end)); }
 
 		template<typename Iterator>
-		inline typename string::const_ref get(Iterator begin, Iterator end) const
+		typename string::const_ref get(Iterator begin, Iterator end) const
 		{ return static_cast<typename string::const_ref>(base_trie::get(begin, end)); }
 
 		template<typename Iterator, typename Normalizer>
-		inline typename string::ref get(Iterator begin, Iterator end, Normalizer normalizer)
+		typename string::ref get(Iterator begin, Iterator end, Normalizer normalizer)
 		{ return static_cast<typename string::ref>(base_trie::get(begin, end, normalizer)); }
 
 		template<typename Iterator, typename Normalizer>
-		inline typename string::const_ref get(Iterator begin, Iterator end, Normalizer normalizer) const
+		typename string::const_ref get(Iterator begin, Iterator end, Normalizer normalizer) const
 		{ return static_cast<typename string::const_ref>(base_trie::get(begin, end, normalizer)); }
 
 		template<typename Iterator>
-		inline typename string::ref get_longest_prefix(Iterator begin, Iterator end)
+		typename string::ref get_longest_prefix(Iterator begin, Iterator end)
 		{ return static_cast<typename string::ref>(base_trie::get_longest_prefix(begin, end)); }
 
 		template<typename Iterator>
-		inline typename string::const_ref get_longest_prefix(Iterator begin, Iterator end) const
+		typename string::const_ref get_longest_prefix(Iterator begin, Iterator end) const
 		{ return static_cast<typename string::const_ref>(base_trie::get_longest_prefix(begin, end)); }
 	};
 
@@ -1326,39 +1326,39 @@ namespace grapenlp
 		public:
 
 		public:
-			inline string& prefix()
+			string& prefix()
 			{ return static_cast<string&>(*base_string::base_string::prefix_ref); }
 
-			inline const string& prefix() const
+			const string& prefix() const
 			{ return static_cast<const string&>(*base_string::base_string::prefix_ref); }
 
 			//Returns the pointer to the string = (this + elem) if the trie includes it, NULL otherwise
-			inline ref get(const T& elem)
+			ref get(const T& elem)
 			{ return static_cast<ref>(base_string::base_string::get(elem)); }
 
-			inline const_ref get(const T& elem) const
+			const_ref get(const T& elem) const
 			{ return static_cast<const_ref>(base_string::base_string::get(elem)); }
 
 			//Returns the pointer to the string = (this + elem) if the trie includes it, NULL otherwise
 			template<typename Normalizer>
-			inline ref get(const T& elem, Normalizer normalizer)
+			ref get(const T& elem, Normalizer normalizer)
 			{ return static_cast<ref>(base_string::base_string::get(elem, normalizer)); }
 
 			template<typename Normalizer>
-			inline const_ref get(const T& elem, Normalizer normalizer) const
+			const_ref get(const T& elem, Normalizer normalizer) const
 			{ return static_cast<const_ref>(base_string::base_string::get(elem, normalizer)); }
 
 			//Returns the string = (*this + elem)
 			//If the trie did not contain it before, it is created and added and
 			//its data field initialized with the specified default value
-			inline string& concat(const T& elem)
+			string& concat(const T& elem)
 			{
 				std::pair<typename base_string::base_string::suffix_table::iterator, bool> result(base_string::base_string::suffixes.insert(std::make_pair(elem, new string(elem, this))));
 				return static_cast<string&>(*result.first->second);
 			}
 
 			//As before but returning as well whether the resulting string is new or not
-			inline string& concat(const T& elem, bool &is_new)
+			string& concat(const T& elem, bool &is_new)
 			{
 				std::pair<typename base_string::base_string::suffix_table::iterator, bool> result(base_string::base_string::suffixes.insert(std::make_pair(elem, new string(elem, this))));
 				is_new = result.second;
@@ -1367,30 +1367,30 @@ namespace grapenlp
 
 			//As before but specifying the value to be assigned to the data field
 			//If the string was already present, the old data is kept (same behavior than class std::map)
-			inline string& concat(const T& elem, const data_type &data)
+			string& concat(const T& elem, const data_type &data)
 			{
 				std::pair<typename base_string::base_string::suffix_table::iterator, bool> result(base_string::base_string::suffixes.insert(std::make_pair(elem, new string(elem, this, data))));
 				return static_cast<string&>(*result.first->second);
 			}
 
 			//Operator version of concat(const T& elem)
-			inline string& operator+(const T& elem)
+			string& operator+(const T& elem)
 			{ return concat(elem); }
 
 			//Returns the pointer to the string = (this + s) if the trie includes it, NULL otherwise
-			inline ref get(string &s)
+			ref get(string &s)
 			{ return static_cast<ref>(base_string::base_string::get(s)); }
 
-			inline const_ref get(string &s) const
+			const_ref get(string &s) const
 			{ return static_cast<const_ref>(base_string::base_string::get(s)); }
 
 			//Returns the pointer to the string = (this + s) if the trie includes it, NULL otherwise
 			template<typename Normalizer>
-			inline ref get(string &s, Normalizer normalizer)
+			ref get(string &s, Normalizer normalizer)
 			{ return static_cast<ref>(base_string::base_string::get(s, normalizer)); }
 
 			template<typename Normalizer>
-			inline const_ref get(string &s, Normalizer normalizer) const
+			const_ref get(string &s, Normalizer normalizer) const
 			{ return static_cast<const_ref>(base_string::base_string::get(s, normalizer)); }
 
 			//Returns the string = (*this + s)
@@ -1423,7 +1423,7 @@ namespace grapenlp
 
 			//As before but specifying the value to be assigned to the data field
 			//If the string was already present, the old data is kept (same behaviour than class std::map)
-			inline string& concat(string &s, const data_type &data)
+			string& concat(string &s, const data_type &data)
 			{
 				bool is_new;
 				string &result = concat(s, is_new);
@@ -1442,27 +1442,27 @@ namespace grapenlp
 			}
 
 			//Operator version of concat(string &s)
-			inline string& operator+(string& s)
+			string& operator+(string& s)
 			{ return concat(s); }
 
 			//Returns the pointer to the string = (*this + i1 + ... + in) where i1 == *begin and in == *(end - 1)
 			//if the trie includes it, NULL otherwise
 			template<typename Iterator>
-			inline ref get(Iterator begin, Iterator end)
+			ref get(Iterator begin, Iterator end)
 			{ return static_cast<ref>(base_string::base_string::get(begin, end)); }
 
 			template<typename Iterator>
-			inline const_ref get(Iterator begin, Iterator end) const
+			const_ref get(Iterator begin, Iterator end) const
 			{ return static_cast<const_ref>(base_string::base_string::get(begin, end)); }
 
 			//Returns the pointer to the string = (*this + i1 + ... + in) where i1 == *begin and in == *(end - 1)
 			//if the trie includes it, NULL otherwise
 			template<typename Iterator, typename Normalizer>
-			inline ref get(Iterator begin, Iterator end, Normalizer normalizer)
+			ref get(Iterator begin, Iterator end, Normalizer normalizer)
 			{ return static_cast<ref>(base_string::base_string::get(begin, end, normalizer)); }
 
 			template<typename Iterator, typename Normalizer>
-			inline const_ref get(Iterator begin, Iterator end, Normalizer normalizer) const
+			const_ref get(Iterator begin, Iterator end, Normalizer normalizer) const
 			{ return static_cast<const_ref>(base_string::base_string::get(begin, end, normalizer)); }
 
 			//Returns the string = (*this + i1 + ... + in) where i1 == *begin and in == *(end - 1)
@@ -1576,54 +1576,54 @@ namespace grapenlp
 		const string& epsilon() const
 		{ return static_cast<const string&>(*base_trie_with_data::base_trie::epsilon_); }
 
-		inline iterator begin()
+		iterator begin()
 		{ return iterator(epsilon()); }
 
-		inline const_iterator begin() const
+		const_iterator begin() const
 		{ return const_iterator(epsilon()); }
 
-		inline iterator end()
+		iterator end()
 		{ return iterator(); }
 
-		inline const_iterator end() const
+		const_iterator end() const
 		{ return const_iterator(); }
 
-		inline typename string::ref get(const T& elem)
+		typename string::ref get(const T& elem)
 		{ return static_cast<typename string::ref>(base_trie_with_data::base_trie::get(elem)); }
 
-		inline typename string::const_ref get(const T& elem) const
+		typename string::const_ref get(const T& elem) const
 		{ return static_cast<typename string::const_ref>(base_trie_with_data::base_trie::get(elem)); }
 
 		template<typename Normalizer>
-		inline typename string::ref get(const T& elem, Normalizer normalizer)
+		typename string::ref get(const T& elem, Normalizer normalizer)
 		{ return static_cast<typename string::ref>(base_trie_with_data::base_trie::get(elem, normalizer)); }
 
 		template<typename Normalizer>
-		inline typename string::const_ref get(const T& elem, Normalizer normalizer) const
+		typename string::const_ref get(const T& elem, Normalizer normalizer) const
 		{ return static_cast<typename string::const_ref>(base_trie_with_data::base_trie::get(elem, normalizer)); }
 
 		template<typename Iterator>
-		inline typename string::ref get(Iterator begin, Iterator end)
+		typename string::ref get(Iterator begin, Iterator end)
 		{ return static_cast<typename string::ref>(base_trie_with_data::base_trie::get(begin, end)); }
 
 		template<typename Iterator>
-		inline typename string::const_ref get(Iterator begin, Iterator end) const
+		typename string::const_ref get(Iterator begin, Iterator end) const
 		{ return static_cast<typename string::const_ref>(base_trie_with_data::base_trie::get(begin, end)); }
 
 		template<typename Iterator, typename Normalizer>
-		inline typename string::ref get(Iterator begin, Iterator end, Normalizer normalizer)
+		typename string::ref get(Iterator begin, Iterator end, Normalizer normalizer)
 		{ return static_cast<typename string::ref>(base_trie_with_data::base_trie::get(begin, end, normalizer)); }
 
 		template<typename Iterator, typename Normalizer>
-		inline typename string::const_ref get(Iterator begin, Iterator end, Normalizer normalizer) const
+		typename string::const_ref get(Iterator begin, Iterator end, Normalizer normalizer) const
 		{ return static_cast<typename string::const_ref>(base_trie_with_data::base_trie::get(begin, end, normalizer)); }
 
 		template<typename Iterator>
-		inline typename string::ref get_longest_prefix(Iterator begin, Iterator end)
+		typename string::ref get_longest_prefix(Iterator begin, Iterator end)
 		{ return static_cast<typename string::ref>(base_trie_with_data::get_longest_prefix(begin, end)); }
 
 		template<typename Iterator>
-		inline typename string::const_ref get_longest_prefix(Iterator begin, Iterator end) const
+		typename string::const_ref get_longest_prefix(Iterator begin, Iterator end) const
 		{ return static_cast<typename string::const_ref>(base_trie_with_data::get_longest_prefix(begin, end)); }
 	};
 
@@ -1679,39 +1679,39 @@ namespace grapenlp
 		public:
 
 		public:
-			inline string& prefix()
+			string& prefix()
 			{ return static_cast<string&>(*base_string::base_string::prefix_ref); }
 
-			inline const string& prefix() const
+			const string& prefix() const
 			{ return static_cast<const string&>(*base_string::base_string::prefix_ref); }
 
 			//Returns the pointer to the string = (this + elem) if the trie includes it, NULL otherwise
-			inline ref get(const T& elem)
+			ref get(const T& elem)
 			{ return static_cast<ref>(base_string::base_string::get(elem)); }
 
-			inline const_ref get(const T& elem) const
+			const_ref get(const T& elem) const
 			{ return static_cast<const_ref>(base_string::base_string::get(elem)); }
 
 			//Returns the pointer to the string = (this + elem) if the trie includes it, NULL otherwise
 			template<typename Normalizer>
-			inline ref get(const T& elem, Normalizer normalizer)
+			ref get(const T& elem, Normalizer normalizer)
 			{ return static_cast<ref>(base_string::base_string::get(elem, normalizer)); }
 
 			template<typename Normalizer>
-			inline const_ref get(const T& elem, Normalizer normalizer) const
+			const_ref get(const T& elem, Normalizer normalizer) const
 			{ return static_cast<const_ref>(base_string::base_string::get(elem, normalizer)); }
 
 			//Returns the string = (*this + elem)
 			//If the trie did not contain it before, it is created and added and
 			//its data field initialized with the specified def_value
-			inline string& concat(const T& elem)
+			string& concat(const T& elem)
 			{
 				std::pair<typename base_string::base_string::suffix_table::iterator, bool> result(base_string::base_string::suffixes.insert(std::make_pair(elem, new string(elem, this))));
 				return static_cast<string&>(*result.first->second);
 			}
 
 			//As before but returning as well whether the resulting string is new or not
-			inline string& concat(const T& elem, bool &is_new)
+			string& concat(const T& elem, bool &is_new)
 			{
 				std::pair<typename base_string::base_string::suffix_table::iterator, bool> result(base_string::base_string::suffixes.insert(std::make_pair(elem, new string(elem, this))));
 				is_new = result.second;
@@ -1720,30 +1720,30 @@ namespace grapenlp
 
 			//As before but specifying the value to be assigned to the data field
 			//If the string was already present, the old data is kept (same behaviour than class std::map)
-			inline string& concat(const T& elem, Data* data)
+			string& concat(const T& elem, Data* data)
 			{
 				std::pair<typename base_string::base_string::suffix_table::iterator, bool> result(base_string::base_string::suffixes.insert(std::make_pair(elem, new string(elem, this, data))));
 				return static_cast<string&>(*result.first->second);
 			}
 
 			//Operator version of concat(const T& elem)
-			inline string& operator+(const T& elem)
+			string& operator+(const T& elem)
 			{ return concat(elem); }
 
 			//Returns the pointer to the string = (this + s) if the trie includes it, NULL otherwise
-			inline ref get(string &s)
+			ref get(string &s)
 			{ return static_cast<ref>(base_string::base_string::get(s)); }
 
-			inline const_ref get(string &s) const
+			const_ref get(string &s) const
 			{ return static_cast<const_ref>(base_string::base_string::get(s)); }
 
 			//Returns the pointer to the string = (this + s) if the trie includes it, NULL otherwise
 			template<typename Normalizer>
-			inline ref get(string &s, Normalizer normalizer)
+			ref get(string &s, Normalizer normalizer)
 			{ return static_cast<ref>(base_string::base_string::get(s, normalizer)); }
 
 			template<typename Normalizer>
-			inline const_ref get(string &s, Normalizer normalizer) const
+			const_ref get(string &s, Normalizer normalizer) const
 			{ return static_cast<const_ref>(base_string::base_string::get(s, normalizer)); }
 
 			//Returns the string = (*this + s)
@@ -1776,7 +1776,7 @@ namespace grapenlp
 
 			//As before but specifying the value to be assigned to the data field
 			//If the string was already present, the old data is kept (same behaviour than class std::map)
-			inline string& concat(string &s, Data *data)
+			string& concat(string &s, Data *data)
 			{
 				bool is_new;
 				string &result = concat(s, is_new);
@@ -1795,27 +1795,27 @@ namespace grapenlp
 			}
 
 			//Operator version of concat(string &s)
-			inline string& operator+(string& s)
+			string& operator+(string& s)
 			{ return concat(s); }
 
 			//Returns the pointer to the string = (*this + i1 + ... + in) where i1 == *begin and in == *(end - 1)
 			//if the trie includes it, NULL otherwise
 			template<typename Iterator>
-			inline ref get(Iterator begin, Iterator end)
+			ref get(Iterator begin, Iterator end)
 			{ return static_cast<ref>(base_string::base_string::get(begin, end)); }
 
 			template<typename Iterator>
-			inline const_ref get(Iterator begin, Iterator end) const
+			const_ref get(Iterator begin, Iterator end) const
 			{ return static_cast<const_ref>(base_string::base_string::get(begin, end)); }
 
 			//Returns the pointer to the string = (*this + i1 + ... + in) where i1 == *begin and in == *(end - 1)
 			//if the trie includes it, NULL otherwise
 			template<typename Iterator, typename Normalizer>
-			inline ref get(Iterator begin, Iterator end, Normalizer normalizer)
+			ref get(Iterator begin, Iterator end, Normalizer normalizer)
 			{ return static_cast<ref>(base_string::base_string::get(begin, end, normalizer)); }
 
 			template<typename Iterator, typename Normalizer>
-			inline const_ref get(Iterator begin, Iterator end, Normalizer normalizer) const
+			const_ref get(Iterator begin, Iterator end, Normalizer normalizer) const
 			{ return static_cast<const_ref>(base_string::base_string::get(begin, end, normalizer)); }
 
 			//Returns the string = (*this + i1 + ... + in) where i1 == *begin and in == *(end - 1)
@@ -1929,54 +1929,54 @@ namespace grapenlp
 		const string& epsilon() const
 		{ return static_cast<const string&>(*base_trie_with_data::base_trie::epsilon_); }
 
-		inline iterator begin()
+		iterator begin()
 		{ return iterator(epsilon()); }
 
-		inline const_iterator begin() const
+		const_iterator begin() const
 		{ return const_iterator(epsilon()); }
 
-		inline iterator end()
+		iterator end()
 		{ return iterator(); }
 
-		inline const_iterator end() const
+		const_iterator end() const
 		{ return const_iterator(); }
 
-		inline typename string::ref get(const T& elem)
+		typename string::ref get(const T& elem)
 		{ return static_cast<typename string::ref>(base_trie_with_data::base_trie::get(elem)); }
 
-		inline typename string::const_ref get(const T& elem) const
+		typename string::const_ref get(const T& elem) const
 		{ return static_cast<typename string::const_ref>(base_trie_with_data::base_trie::get(elem)); }
 
 		template<typename Normalizer>
-		inline typename string::ref get(const T& elem, Normalizer normalizer)
+		typename string::ref get(const T& elem, Normalizer normalizer)
 		{ return static_cast<typename string::ref>(base_trie_with_data::base_trie::get(elem, normalizer)); }
 
 		template<typename Normalizer>
-		inline typename string::const_ref get(const T& elem, Normalizer normalizer) const
+		typename string::const_ref get(const T& elem, Normalizer normalizer) const
 		{ return static_cast<typename string::const_ref>(base_trie_with_data::base_trie::get(elem, normalizer)); }
 
 		template<typename Iterator>
-		inline typename string::ref get(Iterator begin, Iterator end)
+		typename string::ref get(Iterator begin, Iterator end)
 		{ return static_cast<typename string::ref>(base_trie_with_data::base_trie::get(begin, end)); }
 
 		template<typename Iterator>
-		inline typename string::const_ref get(Iterator begin, Iterator end) const
+		typename string::const_ref get(Iterator begin, Iterator end) const
 		{ return static_cast<typename string::const_ref>(base_trie_with_data::base_trie::get(begin, end)); }
 
 		template<typename Iterator, typename Normalizer>
-		inline typename string::ref get(Iterator begin, Iterator end, Normalizer normalizer)
+		typename string::ref get(Iterator begin, Iterator end, Normalizer normalizer)
 		{ return static_cast<typename string::ref>(base_trie_with_data::base_trie::get(begin, end, normalizer)); }
 
 		template<typename Iterator, typename Normalizer>
-		inline typename string::const_ref get(Iterator begin, Iterator end, Normalizer normalizer) const
+		typename string::const_ref get(Iterator begin, Iterator end, Normalizer normalizer) const
 		{ return static_cast<typename string::const_ref>(base_trie_with_data::base_trie::get(begin, end, normalizer)); }
 
 		template<typename Iterator>
-		inline typename string::ref get_longest_prefix(Iterator begin, Iterator end)
+		typename string::ref get_longest_prefix(Iterator begin, Iterator end)
 		{ return static_cast<typename string::ref>(base_trie_with_data::get_longest_prefix(begin, end)); }
 
 		template<typename Iterator>
-		inline typename string::const_ref get_longest_prefix(Iterator begin, Iterator end) const
+		typename string::const_ref get_longest_prefix(Iterator begin, Iterator end) const
 		{ return static_cast<typename string::const_ref>(base_trie_with_data::get_longest_prefix(begin, end)); }
 	};
 

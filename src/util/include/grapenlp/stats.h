@@ -1,7 +1,7 @@
 /*
  * GRAPENLP
  *
- * Copyright (C) 2004-2018 Javier Miguel Sastre Martínez <javier.sastre@telefonica.net>
+ * Copyright (C) 2004-2019 Javier Miguel Sastre Martínez <javier.sastre@telefonica.net>
  *
  * This library is free software; you can redistribute it and/or
  * modify it under the terms of the GNU Lesser General Public
@@ -51,28 +51,28 @@ namespace grapenlp
 		stats(std::size_t sample_count): samples(sample_count), current_sample(samples.begin()), min_(std::numeric_limits<sample_type>::max()), max_(std::numeric_limits<sample_type>::min()), mean_(static_cast<stat_type>(0))
 		{}
 
-		inline StatType mean() const
+		StatType mean() const
 		{ return mean_; }
 
-		inline StatType std_dev() const
+		StatType std_dev() const
 		{ return std_dev_; }
 
-		inline StatType cv() const
+		StatType cv() const
 		{ return cv_; }
 
-		inline StatType up() const
+		StatType up() const
 		{ return up_; }
 
-		inline StatType down() const
+		StatType down() const
 		{ return down_; }
 
-		inline StatType p() const
+		StatType p() const
 		{ return p_; }
 
-		inline StatType min() const
+		StatType min() const
 		{ return min_; }
 
-		inline StatType max() const
+		StatType max() const
 		{ return max_; }
 
 		void add(sample_type sample)

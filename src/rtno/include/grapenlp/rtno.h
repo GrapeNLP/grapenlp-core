@@ -1,7 +1,7 @@
 /*
  * GRAPENLP
  *
- * Copyright (C) 2004-2018 Javier Miguel Sastre Martínez <javier.sastre@telefonica.net>
+ * Copyright (C) 2004-2019 Javier Miguel Sastre Martínez <javier.sastre@telefonica.net>
  *
  * This library is free software; you can redistribute it and/or
  * modify it under the terms of the GNU Lesser General Public
@@ -245,7 +245,7 @@ namespace grapenlp
 			bool is_final() const
 			{ return final_flag; }
 
-			inline std::size_t transition_count() const
+			std::size_t transition_count() const
 			{
 				return outgoing_deleting_transitions.size() +
 					outgoing_translating_transitions.size() +
@@ -258,7 +258,7 @@ namespace grapenlp
 					outgoing_call_transitions.size();
             }
 
-			inline bool has_no_transitions() const
+			bool has_no_transitions() const
 			{
 				return outgoing_deleting_transitions.empty() &&
 					outgoing_translating_transitions.empty() &&
@@ -291,13 +291,13 @@ namespace grapenlp
 			return states.back();
 		}
 
-		inline state_ref initial_state()
+		state_ref initial_state()
 		{ return *states.begin(); }
 
-		inline state_const_ref initial_state() const
+		state_const_ref initial_state() const
 		{ return static_cast<state_const_ref>(*states.begin()); }
 
-		inline std::size_t state_count() const
+		std::size_t state_count() const
 		{ return states.size(); }
 
 		std::size_t transition_count() const
@@ -481,10 +481,10 @@ namespace grapenlp
 				return std::basic_string<CharT, Traits>(letter_string) + boost::lexical_cast<std::basic_string<CharT, Traits> >((unsigned int)number);
 			}
 
-			inline std::string label(char letter) const
+			std::string label(char letter) const
 			{ return basic_label<char, std::char_traits<char> >(letter); }
 
-			inline std::wstring wlabel(wchar_t letter) const
+			std::wstring wlabel(wchar_t letter) const
 			{ return basic_label<wchar_t, std::char_traits<wchar_t> >(letter); }
 
 			template<typename CharT, typename Traits>
@@ -531,7 +531,7 @@ namespace grapenlp
 			bool is_final() const
 			{ return final_flag; }
 
-			inline std::size_t transition_count() const
+			std::size_t transition_count() const
 			{
 				return outgoing_deleting_transitions.size() +
 					outgoing_translating_transitions.size() +
@@ -544,7 +544,7 @@ namespace grapenlp
 					outgoing_call_transitions.size();
             }
 
-			inline bool has_no_transitions() const
+			bool has_no_transitions() const
 			{
 				return outgoing_deleting_transitions.empty() &&
 					outgoing_translating_transitions.empty() &&
@@ -565,13 +565,13 @@ namespace grapenlp
 		ns_rtno(): base_type(), state_label_counter(0)
 		{}
 
-		inline state_ref initial_state()
+		state_ref initial_state()
 		{ return static_cast<state_ref>(base_type::initial_state()); }
 
-		inline state_const_ref initial_state() const
+		state_const_ref initial_state() const
 		{ return static_cast<state_const_ref>(base_type::initial_state()); }
 
-		inline state_ref create_state(bool final_flag)
+		state_ref create_state(bool final_flag)
 		{
 			base_type::states.push_back(new state(final_flag, state_label_counter));
 			++state_label_counter;

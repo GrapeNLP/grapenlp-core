@@ -1,7 +1,7 @@
 /*
  * GRAPENLP
  *
- * Copyright (C) 2004-2018 Javier Miguel Sastre Martínez <javier.sastre@telefonica.net>
+ * Copyright (C) 2004-2019 Javier Miguel Sastre Martínez <javier.sastre@telefonica.net>
  *
  * This library is free software; you can redistribute it and/or
  * modify it under the terms of the GNU Lesser General Public
@@ -175,7 +175,7 @@ namespace grapenlp
 		virtual delaf_entry_filter_type get_type() const
 		{ return TRUE_DELAF_ENTRY_FILTER; }
 
-		virtual bool match(const typename text_delaf<Char, CaseNormalizer>::entry &e) const
+		virtual bool match(__attribute__((unused)) const typename text_delaf<Char, CaseNormalizer>::entry &e) const
 		{ return true; }
 
 		virtual bool same_type_less(const text_delaf_entry_filter<Char, CaseNormalizer> &l) const
@@ -190,7 +190,7 @@ namespace grapenlp
 
 	//There can only be one true DELAF entry filter; since x < x is always false this function always returns false
 	template<typename Char, typename CaseNormalizer>
-	bool operator< (const true_text_delaf_entry_filter<Char, CaseNormalizer>& l1, const true_text_delaf_entry_filter<Char, CaseNormalizer>& l2)
+	bool operator< (__attribute__((unused)) const true_text_delaf_entry_filter<Char, CaseNormalizer>& l1, __attribute__((unused)) const true_text_delaf_entry_filter<Char, CaseNormalizer>& l2)
 	{ return false;	}
 
 /*
@@ -218,7 +218,7 @@ namespace grapenlp
 		virtual delaf_entry_filter_type get_type() const
 		{ return FALSE_DELAF_ENTRY_FILTER; }
 
-		virtual bool match(const typename text_delaf<Char, CaseNormalizer>::entry &e) const
+		virtual bool match(__attribute__((unused)) const typename text_delaf<Char, CaseNormalizer>::entry &e) const
 		{ return false; }
 
 		virtual bool same_type_less(const text_delaf_entry_filter<Char, CaseNormalizer> &l) const
@@ -233,7 +233,7 @@ namespace grapenlp
 
 	//There can only be one false DELAF entry filter; since x < x is always false this function always returns false
 	template<typename Char, typename CaseNormalizer>
-	bool operator< (const false_text_delaf_entry_filter<Char, CaseNormalizer>& l1, const false_text_delaf_entry_filter<Char, CaseNormalizer>& l2)
+	bool operator< (__attribute__((unused)) const false_text_delaf_entry_filter<Char, CaseNormalizer>& l1, __attribute__((unused)) const false_text_delaf_entry_filter<Char, CaseNormalizer>& l2)
 	{ return false;	}
 
 /*
@@ -565,7 +565,7 @@ namespace grapenlp
 		virtual bool same_type_less(const text_delaf_entry_filter<Char, CaseNormalizer> &l) const
 		{ return *this < dynamic_cast<const semantic_traits_text_delaf_entry_filter<Char, CaseNormalizer> &>(l); }
 
-		inline std::ostream& serialize_forbidden_semantic_traits(std::ostream& out) const
+		std::ostream& serialize_forbidden_semantic_traits(std::ostream& out) const
 		{
 			typename text_delaf<Char, CaseNormalizer>::cst_set::const_iterator i(forbidden_semantic_traits_ref->begin());
 			for (; i != forbidden_semantic_traits_ref->end(); ++i)
@@ -573,7 +573,7 @@ namespace grapenlp
 			return out;
 		}
 
-		inline std::wostream& wserialize_forbidden_semantic_traits(std::wostream& out) const
+		std::wostream& wserialize_forbidden_semantic_traits(std::wostream& out) const
 		{
 			typename text_delaf<Char, CaseNormalizer>::cst_set::const_iterator i(forbidden_semantic_traits_ref->begin());
 			for (; i != forbidden_semantic_traits_ref->end(); ++i)

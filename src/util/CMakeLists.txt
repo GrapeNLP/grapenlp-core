@@ -12,7 +12,6 @@ add_library(util STATIC
         src/list.cpp
         src/map.cpp
         src/memory.cpp
-        src/mtrace.cpp
         src/normalizer_iterator.cpp
         src/pool.cpp
         src/pool_sequence_x_weight.cpp

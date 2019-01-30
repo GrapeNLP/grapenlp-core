@@ -1,7 +1,7 @@
 /*
  * GRAPENLP
  *
- * Copyright (C) 2004-2018 Javier Miguel Sastre Martínez <javier.sastre@telefonica.net>
+ * Copyright (C) 2004-2019 Javier Miguel Sastre Martínez <javier.sastre@telefonica.net>
  *
  * This library is free software; you can redistribute it and/or
  * modify it under the terms of the GNU Lesser General Public
@@ -50,64 +50,64 @@ namespace grapenlp
 		iterator_wrapper(const iterator_wrapper<Iterator> &iw): the_iterator(iw.the_iterator)
 		{};
 
-		inline value_type& operator* ()
+		value_type& operator* ()
 		{ return *the_iterator; } 
 
-		inline Iterator& operator-> ()
+		Iterator& operator-> ()
 		{ return the_iterator; } 
 
-		inline bool operator== (const Iterator &i) const
+		bool operator== (const Iterator &i) const
 		{ return the_iterator == i; }
 
-		inline bool operator== (const this_type &iw) const
+		bool operator== (const this_type &iw) const
 		{ return the_iterator == iw.the_iterator; }
 
-		inline bool operator!= (const Iterator &i) const
+		bool operator!= (const Iterator &i) const
 		{ return the_iterator != i; }
 
-		inline bool operator!= (const this_type &iw) const
+		bool operator!= (const this_type &iw) const
 		{ return the_iterator != iw.the_iterator; }
 
-		inline bool operator< (const Iterator &i) const
+		bool operator< (const Iterator &i) const
 		{ return the_iterator < i; }
 
-		inline bool operator< (const this_type &iw) const
+		bool operator< (const this_type &iw) const
 		{ return the_iterator < iw.the_iterator; }
 
-		inline bool operator> (const Iterator &i) const
+		bool operator> (const Iterator &i) const
 		{ return the_iterator > i; }
 
-		inline bool operator> (const this_type &iw) const
+		bool operator> (const this_type &iw) const
 		{ return the_iterator > iw.the_iterator; }
 
-		inline bool operator<= (const Iterator &i) const
+		bool operator<= (const Iterator &i) const
 		{ return the_iterator <= i; }
 
-		inline bool operator<= (const this_type &iw) const
+		bool operator<= (const this_type &iw) const
 		{ return the_iterator <= iw.the_iterator; }
 
-		inline bool operator>= (const Iterator &i) const
+		bool operator>= (const Iterator &i) const
 		{ return the_iterator >= i; }
 
-		inline bool operator>= (const this_type &iw) const
+		bool operator>= (const this_type &iw) const
 		{ return the_iterator >= iw.the_iterator; }
 
-		inline void operator++ ()
+		void operator++ ()
 		{ ++the_iterator; }
 
-		inline void operator++ (int i)
+		void operator++ (int i)
 		{ the_iterator++; }
 
-		inline void operator-- ()
+		void operator-- ()
 		{ --the_iterator; }
 
-		inline void operator-- (int i)
+		void operator-- (int i)
 		{ the_iterator--; }
 
-		inline std::size_t operator- (const this_type &iw) const
+		std::size_t operator- (const this_type &iw) const
 		{ return the_iterator - iw.the_iterator; }
 
-		inline std::size_t operator- (const Iterator &i) const
+		std::size_t operator- (const Iterator &i) const
 		{ return the_iterator - i; }
 	};
 } //namespace grapenlp

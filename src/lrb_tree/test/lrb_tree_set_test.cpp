@@ -1,7 +1,7 @@
 /*
  * GRAPENLP
  *
- * Copyright (C) 2004-2018 Javier Miguel Sastre Martínez <javier.sastre@telefonica.net>
+ * Copyright (C) 2004-2019 Javier Miguel Sastre Martínez <javier.sastre@telefonica.net>
  *
  * This library is free software; you can redistribute it and/or
  * modify it under the terms of the GNU Lesser General Public
@@ -23,7 +23,6 @@
  *  @author Javier Sastre
  */
 
-#include <grapenlp/mtrace.h>
 #include <cstdlib>
 #include <ctime>
 #include <fstream>
@@ -48,7 +47,7 @@ using namespace grapenlp;
 
 typedef lrb_tree_set<int> set_type;
 
-inline bool is_digit(char c)
+bool is_digit(char c)
 {
 	return c >= '0' && c <= '9';
 }
@@ -77,7 +76,7 @@ int parse_int(std::string::const_iterator &begin, std::string::const_iterator en
 	return i;
 }
 
-inline void add_ints(vector<int> &ints, const std::string &int_list)
+void add_ints(vector<int> &ints, const std::string &int_list)
 {
 	if (int_list.empty())
 		return;
@@ -96,7 +95,7 @@ inline void add_ints(vector<int> &ints, const std::string &int_list)
 	}
 }
 
-inline void add_random_ints(vector<int> &ints, size_t int_count, int max_int)
+void add_random_ints(vector<int> &ints, size_t int_count, int max_int)
 {
 	for (; int_count > 0; --int_count)
 		ints.push_back(rand() % max_int);

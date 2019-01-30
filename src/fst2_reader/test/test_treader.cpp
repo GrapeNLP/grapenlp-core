@@ -69,7 +69,7 @@ void u_read_grammar(ualut_rtno &grammar, ual_trie &ualt, u_trie &ut, tolower_u_t
 	u_fclose(f);
 }
 
-int main(int argc, char **argv)
+int main(__attribute__((unused)) int argc, __attribute__((unused)) char **argv)
 {
 	ualut_rtno grammar;
 	ual_trie ualt;

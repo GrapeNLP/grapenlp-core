@@ -1,7 +1,7 @@
 /*
  * GRAPENLP
  *
- * Copyright (C) 2004-2018 Javier Miguel Sastre Martínez <javier.sastre@telefonica.net>
+ * Copyright (C) 2004-2019 Javier Miguel Sastre Martínez <javier.sastre@telefonica.net>
  *
  * This library is free software; you can redistribute it and/or
  * modify it under the terms of the GNU Lesser General Public
@@ -57,7 +57,7 @@ namespace grapenlp
 
 	private:
 		template<typename CharT, typename Traits>
-		inline std::basic_ostream<CharT, Traits>& serialize_node_label(std::basic_ostream<CharT, Traits>& out, std::size_t node_count)
+		std::basic_ostream<CharT, Traits>& serialize_node_label(std::basic_ostream<CharT, Traits>& out, std::size_t node_count)
 		{ return out << "\"q" << node_count << '"'; }
 
 		template<typename CharT, typename Traits>
@@ -100,7 +100,7 @@ namespace grapenlp
 		}
 
 		template<typename CharT, typename Traits>
-		inline std::basic_ostream<CharT, Traits>& serialize_subtree(std::basic_ostream<CharT, Traits>& out, base_node_const_ref x, base_node_const_ref nil)
+		std::basic_ostream<CharT, Traits>& serialize_subtree(std::basic_ostream<CharT, Traits>& out, base_node_const_ref x, base_node_const_ref nil)
 		{
 			std::size_t node_count(0);
 			return serialize_subtree(out, x, nil, node_count);
@@ -125,11 +125,11 @@ namespace grapenlp
 	};
 
 	template<typename Key, typename Value, typename KeyGetter, typename Compare, typename Allocator, typename CharT, typename Traits>
-	inline std::basic_ostream<CharT, Traits>& lrb_tree_to_dot_serialize(std::basic_ostream<CharT, Traits>& out, const char *name, const lrb_tree<Key, Value, KeyGetter, Compare, Allocator> &t)
+	std::basic_ostream<CharT, Traits>& lrb_tree_to_dot_serialize(std::basic_ostream<CharT, Traits>& out, const char *name, const lrb_tree<Key, Value, KeyGetter, Compare, Allocator> &t)
 	{ return lrb_tree_to_dot_serializer<Key, typename tag_serializer<Value>::type, KeyGetter, Compare, Allocator>()(out, name, t); }
 
 	template<typename Key, typename ValueSerializer, typename KeyGetter, typename Compare, typename Allocator, typename CharT, typename Traits>
-	inline std::basic_ostream<CharT, Traits>& lrb_tree_to_dot_serialize(std::basic_ostream<CharT, Traits>& out, const char *name, const lrb_tree<Key, typename serializer_traits<ValueSerializer>::elem_type, KeyGetter, Compare, Allocator> &t, const ValueSerializer &vs)
+	std::basic_ostream<CharT, Traits>& lrb_tree_to_dot_serialize(std::basic_ostream<CharT, Traits>& out, const char *name, const lrb_tree<Key, typename serializer_traits<ValueSerializer>::elem_type, KeyGetter, Compare, Allocator> &t, const ValueSerializer &vs)
 	{ return lrb_tree_to_dot_serializer<Key, ValueSerializer, KeyGetter, Compare, Allocator>(vs)(out, name, t); }
 } //namespace grapenlp
 

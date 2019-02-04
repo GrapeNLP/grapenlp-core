@@ -1,10 +1,15 @@
+
+set(GRAPENLP_VERSION_MAJOR 2)
+set(GRAPENLP_VERSION_MINOR 5)
+set(GRAPENLP_VERSION_PATCH 0)
+
 # At LEAST 2.8 but newer is better
 cmake_minimum_required(VERSION 3.6 FATAL_ERROR)
 project(grape VERSION 0.1 LANGUAGES CXX)
 #set (CMAKE_CXX_STANDARD 98)
 set (CMAKE_CXX_STANDARD 11)
 set(CMAKE_VERBOSE_MAKEFILE ON)
-set(CMAKE_CXX_FLAGS  "${CMAKE_CXX_FLAGS} -fPIC -pedantic -ansi -DSIMPLIFIED_OUTPUT")
+set(CMAKE_CXX_FLAGS  "${CMAKE_CXX_FLAGS} -fPIC -pedantic -ansi -fno-strict-aliasing -DSIMPLIFIED_OUTPUT")
 if (ANDROID_NDK_TOOLCHAIN_INCLUDED)
     set(CMAKE_CXX_FLAGS  "${CMAKE_CXX_FLAGS} -DDISABLE_TEXT_DICO -DDISABLE_LUA_GRAMMAR -DDISABLE_LUAW_GRAMMAR -DDISABLE_LUT_GRAMMAR -DDISABLE_LUX_GRAMMAR -DDISABLE_DEPTH_FIRST_PARSER -DDISABLE_BREADTH_FIRST_PARSER -DDISABLE_EARLEY_PARSER -DDISABLE_TO_FPRTN_PARSER -DDISABLE_TO_FPRTN_TOP_PARSER -DDISABLE_TO_FPRTN_ZPPS_PARSER -DDISABLE_TO_FPRTN_PARSER_AND_BREADTH_FIRST_EXPANDER -DDISABLE_TO_FPRTN_PARSER_AND_BLACKBOARD_SET_EXPANDER -DDISABLE_STD_SES -DDISABLE_LRB_TREE_3W_SES -DDISABLE_LRB_TREE_BS -DDISABLE_LRB_TREE_3W_BS")
     MESSAGE(STATUS "Compiling Android version")
@@ -15,9 +20,10 @@ elseif(UNIX)
     set(CMAKE_CXX_FLAGS  "${CMAKE_CXX_FLAGS} -DUNIX")
     set(ADDITIONAL_SWIG_DEFINES ${ADDITIONAL_SWIG_DEFINES} -DUNIX)
 endif(ANDROID_NDK_TOOLCHAIN_INCLUDED)
-set(CMAKE_CXX_FLAGS_DEBUG "${CMAKE_CXX_FLAGS_DEBUG} -DTRACE")
+set(CMAKE_CXX_FLAGS_DEBUG "${CMAKE_CXX_FLAGS_DEBUG} -O0 -DTRACE")
 MESSAGE(STATUS "BUILD_TYPE:" ${CMAKE_BUILD_TYPE})
 MESSAGE(STATUS "CXX_FLAGS:" ${CMAKE_CXX_FLAGS})
+set(CMAKE_LIBRARY_OUTPUT_DIRECTORY "${CMAKE_BINARY_DIR}/libs")
 
 # Must use GNUInstallDirs to install libraries into correct
 # locations on all platforms.
@@ -26,26 +32,28 @@ include(GNUInstallDirs)
 if (NOT ANDROID_NDK_TOOLCHAIN_INCLUDED)
     # Include Boost as an imported target
     find_package(Boost REQUIRED COMPONENTS program_options)
-    # Include Swig for building native library interfaces with Python and Java
-    find_package(SWIG REQUIRED)
-    include(${SWIG_USE_FILE})
-    if(WIN32)
-        set(CMAKE_SWIG_FLAGS ${CMAKE_SWIG_FLAGS} "-DWIN32")
-    elseif(UNIX)
-        set(CMAKE_SWIG_FLAGS ${CMAKE_SWIG_FLAGS} "-DUNIX" "-DSIMPLIFIED_OUTPUT")
-    endif(WIN32)
-    if (CMAKE_BUILD_TYPE STREQUAL "Debug")
-        set(CMAKE_SWIG_FLAGS ${CMAKE_SWIG_FLAGS} "-DTRACE")
-    endif(CMAKE_BUILD_TYPE STREQUAL "Debug")
-    MESSAGE(STATUS "CMAKE_SWIG_FLAGS: ${CMAKE_SWIG_FLAGS}")
 
+    # Include Python
     find_package(PythonLibs)
     include_directories(${PYTHON_INCLUDE_PATH})
 
+    # Include Java
     find_package(JNI REQUIRED)
     include_directories(${JAVA_INCLUDE_PATH})
-
 endif (NOT ANDROID_NDK_TOOLCHAIN_INCLUDED)
+
+# Include Swig for building native library interfaces with Python and Java
+find_package(SWIG REQUIRED)
+include(${SWIG_USE_FILE})
+if(WIN32)
+    set(CMAKE_SWIG_FLAGS ${CMAKE_SWIG_FLAGS} "-DWIN32")
+elseif(UNIX)
+    set(CMAKE_SWIG_FLAGS ${CMAKE_SWIG_FLAGS} "-DUNIX" "-DSIMPLIFIED_OUTPUT")
+endif(WIN32)
+if (CMAKE_BUILD_TYPE STREQUAL "Debug")
+    set(CMAKE_SWIG_FLAGS ${CMAKE_SWIG_FLAGS} "-DTRACE")
+endif(CMAKE_BUILD_TYPE STREQUAL "Debug")
+MESSAGE(STATUS "CMAKE_SWIG_FLAGS: ${CMAKE_SWIG_FLAGS}")
 
 MESSAGE(STATUS "Boost include dir:" ${Boost_INCLUDE_DIR})
 MESSAGE(STATUS "Boost program_options lib:" ${Boost_PROGRAM_OPTIONS_LIBRARY})
@@ -63,9 +71,6 @@ include_directories(${GTEST_INCLUDE_DIRS})
 endif (NOT ANDROID_NDK_TOOLCHAIN_INCLUDED)
 
 # Targets that we develop here
-if (ANDROID_NDK_TOOLCHAIN_INCLUDED)
-    add_subdirectory(AndroidLib)
-endif (ANDROID_NDK_TOOLCHAIN_INCLUDED)
 add_subdirectory(assoc_container_impl_selector)
 add_subdirectory(breadth_first_parsing)
 if (NOT ANDROID_NDK_TOOLCHAIN_INCLUDED)
@@ -81,14 +86,14 @@ add_subdirectory(earley_parsing)
 #add_subdirectory(fst)
 add_subdirectory(fst2_constants)
 add_subdirectory(fst2_reader)
+#if (CMAKE_BUILD_TYPE STREQUAL "Release")
+    add_subdirectory(jgrape)
+#endif (CMAKE_BUILD_TYPE STREQUAL "Release")
 add_subdirectory(lexmask)
 add_subdirectory(lrb_tree)
 add_subdirectory(lrb_tree_to_dot_serializer)
 add_subdirectory(machine)
 add_subdirectory(manager)
-#if (NOT ANDROID_NDK_TOOLCHAIN_INCLUDED)
-#    add_subdirectory(NativeLib)
-#endif (NOT ANDROID_NDK_TOOLCHAIN_INCLUDED)
 add_subdirectory(out_serializer)
 add_subdirectory(output_fprtn)
 add_subdirectory(output_fprtn_blackboard_set_expander)

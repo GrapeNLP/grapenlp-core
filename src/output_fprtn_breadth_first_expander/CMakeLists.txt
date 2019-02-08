@@ -23,7 +23,7 @@
 # @author Javier Sastre
 #
 
-project(output_fprtn_breadth_first_expander VERSION ${GRAPENLP_VERSION_MAJOR}.${GRAPENLP_VERSION_MINOR}.${GRAPENLP_VERSION_PATCH} LANGUAGES CXX)
+project(output_fprtn_breadth_first_expander VERSION ${CHANGELOG_VERSION} LANGUAGES CXX)
 
 add_library(output_fprtn_breadth_first_expander STATIC
         src/fprtn_breadth_first_expander.cpp

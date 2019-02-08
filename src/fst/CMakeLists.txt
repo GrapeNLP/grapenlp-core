@@ -23,7 +23,7 @@
 # @author Javier Sastre
 #
 
-project(fst VERSION ${GRAPENLP_VERSION_MAJOR}.${GRAPENLP_VERSION_MINOR}.${GRAPENLP_VERSION_PATCH} LANGUAGES CXX)
+project(fst VERSION ${CHANGELOG_VERSION} LANGUAGES CXX)
 
 add_library(fst STATIC
         src/fst.cpp

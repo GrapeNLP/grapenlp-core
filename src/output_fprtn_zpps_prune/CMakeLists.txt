@@ -23,7 +23,7 @@
 # @author Javier Sastre
 #
 
-project(output_fprtn_zpps_prune VERSION ${GRAPENLP_VERSION_MAJOR}.${GRAPENLP_VERSION_MINOR}.${GRAPENLP_VERSION_PATCH} LANGUAGES CXX)
+project(output_fprtn_zpps_prune VERSION ${CHANGELOG_VERSION} LANGUAGES CXX)
 
 add_library(output_fprtn_zpps_prune STATIC
         src/output_fprtn_zpps_prune.cpp

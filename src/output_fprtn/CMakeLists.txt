@@ -23,7 +23,7 @@
 # @author Javier Sastre
 #
 
-project(output_fprtn VERSION ${GRAPENLP_VERSION_MAJOR}.${GRAPENLP_VERSION_MINOR}.${GRAPENLP_VERSION_PATCH} LANGUAGES CXX)
+project(output_fprtn VERSION ${CHANGELOG_VERSION} LANGUAGES CXX)
 
 add_library(output_fprtn STATIC
         src/output_fprtn.cpp

@@ -23,7 +23,7 @@
 # @author Javier Sastre
 #
 
-project(delaf VERSION ${GRAPENLP_VERSION_MAJOR}.${GRAPENLP_VERSION_MINOR}.${GRAPENLP_VERSION_PATCH} LANGUAGES CXX)
+project(delaf VERSION ${CHANGELOG_VERSION} LANGUAGES CXX)
 
 add_library(delaf STATIC
         src/delaf_entry_filter_default_weight.cpp

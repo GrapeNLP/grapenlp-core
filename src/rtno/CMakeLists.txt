@@ -23,7 +23,7 @@
 # @author Javier Sastre
 #
 
-project(rtno VERSION ${GRAPENLP_VERSION_MAJOR}.${GRAPENLP_VERSION_MINOR}.${GRAPENLP_VERSION_PATCH} LANGUAGES CXX)
+project(rtno VERSION ${CHANGELOG_VERSION} LANGUAGES CXX)
 
 add_library(rtno STATIC
         src/l_rtno.cpp

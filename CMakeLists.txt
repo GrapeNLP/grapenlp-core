@@ -23,17 +23,49 @@
 # @author Javier Sastre
 #
 
-cmake_minimum_required(VERSION 3.6 FATAL_ERROR)
-
-set(GRAPENLP_VERSION_MAJOR 2)
-set(GRAPENLP_VERSION_MINOR 5)
-set(GRAPENLP_VERSION_PATCH 0)
+cmake_minimum_required(VERSION 3.5 FATAL_ERROR)
 
 set(CMAKE_MODULE_PATH ${CMAKE_MODULE_PATH} "${CMAKE_CURRENT_SOURCE_DIR}/cmake_modules/")
 set(CMAKE_VERBOSE_MAKEFILE on)
 
+include(VersionFromChangelog)
+
+set(CPACK_PACKAGE_NAME "grapenlp")
+set(CPACK_PACKAGE_VERSION "${CHANGELOG_VERSION}")
+set(CPACK_PACKAGE_VENDOR "GrapeNLP")
+set(CPACK_PACKAGE_CONTACT "Javier Sastre <javier.sastre@telefonica.net>")
+set(CPACK_SOURCE_IGNORE_FILES
+    ${CPACK_SOURCE_IGNORE_FILES}
+    "/test\\\\.txt"
+    "/trace\\\\.txt"
+    "/result\\\\.txt"
+    "/grammar\\\\.dot"
+    "/grammar\\\\.svg"
+    "/dirty_parses\\\\.dot"
+    "/dirty_parses\\\\.svg"
+    "/inv_parses\\\\.dot"
+    "/inv_parses\\\\.svg"
+    "/parses\\\\.dot"
+    "/parses\\\\.svg"
+    "/Data/"
+    "/build/"
+    "/scripts/"
+    "/\\\\.git/"
+    "/\\\\.gitignore"
+    "/\\\\.idea/"
+    "/.*\\\\.iml"
+    "/cmake-build-.*/"
+    "/\\\\.travis.yml"
+)
+
+MESSAGE(STATUS "BUILD_TYPE: ${CMAKE_BUILD_TYPE}")
+MESSAGE(STATUS "CHANGELOG_VERSION: ${CHANGELOG_VERSION}")
+
 if (NOT ANDROID_NDK_TOOLCHAIN_INCLUDED)
-    include(DebianMetadata)
+    # Enable testing for non-Android compilations
+    # TODO: support running tests in Android continuous integration workflow by using some emulator (qemu?)
+    include(CTest)
+    MESSAGE(STATUS "BUILD_TESTING: ${BUILD_TESTING}")
 endif (NOT ANDROID_NDK_TOOLCHAIN_INCLUDED)
 
 add_subdirectory(src)

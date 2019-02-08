@@ -23,7 +23,7 @@
 # @author Javier Sastre
 #
 
-project(output_wfprtn_top_blackboard_extractor VERSION ${GRAPENLP_VERSION_MAJOR}.${GRAPENLP_VERSION_MINOR}.${GRAPENLP_VERSION_PATCH} LANGUAGES CXX)
+project(output_wfprtn_top_blackboard_extractor VERSION ${CHANGELOG_VERSION} LANGUAGES CXX)
 
 add_library(output_wfprtn_top_blackboard_extractor STATIC
         src/wfprtn_top_blackboard_extractor.cpp

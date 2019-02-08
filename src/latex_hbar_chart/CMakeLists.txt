@@ -23,7 +23,7 @@
 # @author Javier Sastre
 #
 
-project(latex_hbar_chart VERSION ${GRAPENLP_VERSION_MAJOR}.${GRAPENLP_VERSION_MINOR}.${GRAPENLP_VERSION_PATCH} LANGUAGES CXX)
+project(latex_hbar_chart VERSION ${CHANGELOG_VERSION} LANGUAGES CXX)
 
 add_executable(latex_hbar_chart src/latex_hbar_chart.cpp)
 target_link_libraries(latex_hbar_chart

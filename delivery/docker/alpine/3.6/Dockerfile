@@ -23,9 +23,9 @@
 # @author Javier Sastre
 #
 
-FROM alpine:3.7
+FROM alpine:3.6
 
-LABEL grape.alpine.docker.version="1.0"
+LABEL grape.alpine.3_6.docker.version="2.0"
 
 RUN apk --update add --no-cache dpkg g++ boost-dev boost-program_options make cmake swig python3-dev
 
@@ -57,12 +57,7 @@ RUN rm -rf *src.zip \
            jre/lib/amd64/libjfx*.so
 
 WORKDIR /usr/lib/jvm/java-8-openjdk-amd64/include
-RUN ln -s linux/jawt_md.h
-RUN ln -s linux/jni_md.h
 ENV JAVA_HOME=/usr/lib/jvm/java-1.8-openjdk
-
-# Install GTest
-RUN apk --update add --no-cache gtest gtest-dev
 
 # Install GIT
 RUN apk --update add --no-cache git

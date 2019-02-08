@@ -23,7 +23,7 @@
 # @author Javier Sastre
 #
 
-project(out_serializer VERSION ${GRAPENLP_VERSION_MAJOR}.${GRAPENLP_VERSION_MINOR}.${GRAPENLP_VERSION_PATCH} LANGUAGES CXX)
+project(out_serializer VERSION ${CHANGELOG_VERSION} LANGUAGES CXX)
 
 add_library(out_serializer STATIC
         src/movistarbot_phone_digit_separator_set.cpp

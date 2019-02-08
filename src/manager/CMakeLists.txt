@@ -23,7 +23,7 @@
 # @author Javier Sastre
 #
 
-project(manager VERSION ${GRAPENLP_VERSION_MAJOR}.${GRAPENLP_VERSION_MINOR}.${GRAPENLP_VERSION_PATCH} LANGUAGES CXX)
+project(manager VERSION ${CHANGELOG_VERSION} LANGUAGES CXX)
 
 add_library(manager STATIC
         src/ul_manager.cpp

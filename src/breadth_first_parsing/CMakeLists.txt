@@ -23,7 +23,7 @@
 # @author Javier Sastre
 #
 
-project(breadth_first_parsing VERSION ${GRAPENLP_VERSION_MAJOR}.${GRAPENLP_VERSION_MINOR}.${GRAPENLP_VERSION_PATCH} LANGUAGES CXX)
+project(breadth_first_parsing VERSION ${CHANGELOG_VERSION} LANGUAGES CXX)
 
 add_library(breadth_first_parsing STATIC
         src/breadth_first_parser.cpp

@@ -23,7 +23,7 @@
 # @author Javier Sastre
 #
 
-project(text_delaf VERSION ${GRAPENLP_VERSION_MAJOR}.${GRAPENLP_VERSION_MINOR}.${GRAPENLP_VERSION_PATCH} LANGUAGES CXX)
+project(text_delaf VERSION ${CHANGELOG_VERSION} LANGUAGES CXX)
 
 add_library(text_delaf STATIC
         src/text_delaf.cpp

@@ -23,7 +23,7 @@
 # @author Javier Sastre
 #
 
-project(rb_tree_to_dot_serializer VERSION ${GRAPENLP_VERSION_MAJOR}.${GRAPENLP_VERSION_MINOR}.${GRAPENLP_VERSION_PATCH} LANGUAGES CXX)
+project(rb_tree_to_dot_serializer VERSION ${CHANGELOG_VERSION} LANGUAGES CXX)
 
 add_library(rb_tree_to_dot_serializer STATIC src/rb_tree_to_dot_serializer.cpp)
 target_include_directories(rb_tree_to_dot_serializer PUBLIC

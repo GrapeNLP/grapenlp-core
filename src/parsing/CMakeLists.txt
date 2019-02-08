@@ -23,7 +23,7 @@
 # @author Javier Sastre
 #
 
-project(parsing VERSION ${GRAPENLP_VERSION_MAJOR}.${GRAPENLP_VERSION_MINOR}.${GRAPENLP_VERSION_PATCH} LANGUAGES CXX)
+project(parsing VERSION ${CHANGELOG_VERSION} LANGUAGES CXX)
 
 add_library(parsing STATIC src/parser.cpp)
 target_include_directories(parsing PUBLIC

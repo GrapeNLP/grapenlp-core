@@ -23,7 +23,7 @@
 # @author Javier Sastre
 #
 
-project(stats VERSION ${GRAPENLP_VERSION_MAJOR}.${GRAPENLP_VERSION_MINOR}.${GRAPENLP_VERSION_PATCH} LANGUAGES CXX)
+project(stats VERSION ${CHANGELOG_VERSION} LANGUAGES CXX)
 
 add_library(stats STATIC src/stats.cpp)
 target_include_directories(stats PUBLIC

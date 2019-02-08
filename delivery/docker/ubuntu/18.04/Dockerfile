@@ -26,7 +26,7 @@
 FROM ubuntu:18.04
 
 # Version label to force docker image rebuild
-LABEL grapenlp.ubuntu.18_04.docker.version="1.0"
+LABEL grapenlp.ubuntu.18_04.docker.version="2.0"
 
 # This avoids some warning messages due to running in a headless environment
 RUN echo 'debconf debconf/frontend select Noninteractive' | debconf-set-selections
@@ -53,8 +53,6 @@ RUN apt-get install -y libboost-dev libboost-program-options-dev
 # Install JDK 8 from tar.gz
 RUN apt-get install -y openjdk-8-jdk
 WORKDIR /usr/lib/jvm/java-8-openjdk-amd64/include
-RUN ln -s linux/jawt_md.h
-RUN ln -s linux/jni_md.h
 ENV JAVA_HOME=/usr/lib/jvm/java-8-openjdk-amd64
 
 # Install python 3.6 from Launchpad
@@ -67,11 +65,6 @@ RUN apt-get install -y swig
 
 # Install CMake 3.9.6 from tar.gz
 RUN apt-get install -y cmake
-
-# Install GTest
-RUN apt-get install -y libgtest-dev
-WORKDIR /usr/src/gtest
-RUN cmake CMakeLists.txt && make && ln -s libgtest.a /usr/lib && ln -s libgtest_main.a /usr/lib
 
 # Install GIT
 RUN apt-get install -y git

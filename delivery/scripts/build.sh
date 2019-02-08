@@ -30,6 +30,11 @@ log_info_banner "Compiling"
 make
 success_or_exit
 
+# Compile
+log_info_banner "Testing"
+make test
+success_or_exit
+
 # On Linux, make the Debian packages
 if [[ "$OSTYPE" == "linux-gnu" ]]; then
   log_info_banner "Packaging"
@@ -42,8 +47,8 @@ log_info_banner "Build completed"
 
 # On Linux, inform about the location of the resulting Debian packages
 if [[ "$OSTYPE" == "linux-gnu" ]]; then
-  echo "You may now install the packages at ${BUILD_FOLDER}/packages:"
+  echo "You may now install the packages at ${BUILD_FOLDER}/package:"
   echo
-  echo "sudo dpkg -i \"${BUILD_FOLDER}/packages/*.deb\""
+  echo "sudo dpkg -i \"${BUILD_FOLDER}/package/*.deb\""
   echo
 fi

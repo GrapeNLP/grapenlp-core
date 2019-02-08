@@ -23,7 +23,7 @@
 # @author Javier Sastre
 #
 
-project(fst2_constants VERSION ${GRAPENLP_VERSION_MAJOR}.${GRAPENLP_VERSION_MINOR}.${GRAPENLP_VERSION_PATCH} LANGUAGES CXX)
+project(fst2_constants VERSION ${CHANGELOG_VERSION} LANGUAGES CXX)
 
 add_library(fst2_constants INTERFACE)
 target_include_directories(fst2_constants INTERFACE

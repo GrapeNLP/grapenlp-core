@@ -23,7 +23,7 @@
 # @author Javier Sastre
 #
 
-project(fprtn_to_dot_serializer VERSION ${GRAPENLP_VERSION_MAJOR}.${GRAPENLP_VERSION_MINOR}.${GRAPENLP_VERSION_PATCH} LANGUAGES CXX)
+project(fprtn_to_dot_serializer VERSION ${CHANGELOG_VERSION} LANGUAGES CXX)
 
 add_library(fprtn_to_dot_serializer STATIC
         src/fprtn_to_dot_serializer.cpp

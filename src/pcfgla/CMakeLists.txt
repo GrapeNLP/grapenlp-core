@@ -23,7 +23,7 @@
 # @author Javier Sastre
 #
 
-project(pcfgla VERSION ${GRAPENLP_VERSION_MAJOR}.${GRAPENLP_VERSION_MINOR}.${GRAPENLP_VERSION_PATCH} LANGUAGES CXX)
+project(pcfgla VERSION ${CHANGELOG_VERSION} LANGUAGES CXX)
 
 add_library(pcfgla STATIC
         src/pcfgla.cpp
@@ -46,5 +46,8 @@ install(EXPORT pcfglaConfig DESTINATION share/grapenlp/pcfgla/cmake COMPONENT li
 export(TARGETS pcfgla FILE pcfglaConfig.cmake)
 
 # Test files
-add_executable(test_reader test/test_reader.cpp)
-target_link_libraries(test_reader pcfgla)
+if (BUILD_TESTING)
+    add_executable(pcfgla_test_reader test/test_pcfgla_reader.cpp)
+    set_target_properties(pcfgla_test_reader PROPERTIES RUNTIME_OUTPUT_DIRECTORY ${CMAKE_TEST_RUNTIME_OUTPUT_DIRECTORY})
+    target_link_libraries(pcfgla_test_reader pcfgla)
+endif (BUILD_TESTING)

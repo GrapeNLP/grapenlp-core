@@ -37,7 +37,7 @@ ARG BOOST_VERSION="1.68.0"
 FROM ubuntu:18.04 AS base
 
 # Version label to force docker image rebuild
-LABEL grapenlp.android-sdk.14.docker.version="1.0"
+LABEL grapenlp.android-sdk.14.docker.version="2.0"
 
 # This avoids some warning messages due to running in a headless environment
 RUN echo 'debconf debconf/frontend select Noninteractive' | debconf-set-selections
@@ -63,8 +63,6 @@ RUN apt-get install -y unzip
 # Install JDK 8
 RUN apt-get install -y openjdk-8-jdk
 WORKDIR /usr/lib/jvm/java-8-openjdk-amd64/include
-RUN ln -s linux/jawt_md.h
-RUN ln -s linux/jni_md.h
 ENV JAVA_HOME=/usr/lib/jvm/java-8-openjdk-amd64
 
 # Install SWIG

@@ -23,7 +23,7 @@
 # @author Javier Sastre
 #
 
-project(lrb_tree VERSION ${GRAPENLP_VERSION_MAJOR}.${GRAPENLP_VERSION_MINOR}.${GRAPENLP_VERSION_PATCH} LANGUAGES CXX)
+project(lrb_tree VERSION ${CHANGELOG_VERSION} LANGUAGES CXX)
 
 add_library(lrb_tree STATIC
         src/lrb_tree.cpp
@@ -51,8 +51,9 @@ install(EXPORT lrb_treeConfig DESTINATION share/grapenlp/lrb_tree/cmake COMPONEN
 export(TARGETS lrb_tree FILE lrb_treeConfig.cmake)
 
 # Test files
-if(CMAKE_BUILD_TYPE STREQUAL "Debug")
+if (CMAKE_BUILD_TYPE STREQUAL "Debug" AND BUILD_TESTING)
     add_executable(lrb_tree_set_test test/lrb_tree_set_test.cpp)
+    set_target_properties(lrb_tree_set_test PROPERTIES RUNTIME_OUTPUT_DIRECTORY ${CMAKE_TEST_RUNTIME_OUTPUT_DIRECTORY})
     target_link_libraries(lrb_tree_set_test
             util
             lrb_tree_to_dot_serializer
@@ -60,6 +61,7 @@ if(CMAKE_BUILD_TYPE STREQUAL "Debug")
             )
 
     add_executable(lrb_tree_map_test test/lrb_tree_map_test.cpp)
+    set_target_properties(lrb_tree_map_test PROPERTIES RUNTIME_OUTPUT_DIRECTORY ${CMAKE_TEST_RUNTIME_OUTPUT_DIRECTORY})
     target_link_libraries(lrb_tree_map_test
             util
             lrb_tree_to_dot_serializer
@@ -67,6 +69,7 @@ if(CMAKE_BUILD_TYPE STREQUAL "Debug")
             )
 
     add_executable(lrb_tree_multiset_test test/lrb_tree_multiset_test.cpp)
+    set_target_properties(lrb_tree_multiset_test PROPERTIES RUNTIME_OUTPUT_DIRECTORY ${CMAKE_TEST_RUNTIME_OUTPUT_DIRECTORY})
     target_link_libraries(lrb_tree_multiset_test
             util
             lrb_tree_to_dot_serializer
@@ -74,12 +77,13 @@ if(CMAKE_BUILD_TYPE STREQUAL "Debug")
             )
 
     add_executable(lrb_tree_multimap_test test/lrb_tree_multimap_test.cpp)
+    set_target_properties(lrb_tree_multimap_test PROPERTIES RUNTIME_OUTPUT_DIRECTORY ${CMAKE_TEST_RUNTIME_OUTPUT_DIRECTORY})
     target_link_libraries(lrb_tree_multimap_test
             util
             lrb_tree_to_dot_serializer
             ${Boost_PROGRAM_OPTIONS_LIBRARY}
             )
-endif(CMAKE_BUILD_TYPE STREQUAL "Debug")
+endif (CMAKE_BUILD_TYPE STREQUAL "Debug" AND BUILD_TESTING)
 #add_executable(lrb_tree_efficiency test/lrb_tree_efficiency.cpp)
 #target_link_libraries(lrb_tree_efficiency
 #        util

@@ -23,6 +23,6 @@
 # @author Javier Sastre
 #
 
-project(simplify_templates VERSION ${GRAPENLP_VERSION_MAJOR}.${GRAPENLP_VERSION_MINOR}.${GRAPENLP_VERSION_PATCH} LANGUAGES CXX)
+project(simplify_templates VERSION ${CHANGELOG_VERSION} LANGUAGES CXX)
 
 add_executable(simplify_templates src/simplify_templates.cpp)

@@ -53,6 +53,12 @@ BOOSTFORANDROID_INCLUDES="$(find_boostforandroid_includes "${BOOSTFORANDROID}" "
 check_variable_is_not_empty_or_exit "${BOOSTFORANDROID_BUILD_NOT_FOUND_ERROR}" "${BOOSTFORANDROID_INCLUDES}"
 BOOSTFORANDROID_LIBPROGRAMOPTIONS="$(find_boostforandroid_libprogramoptions "${BOOSTFORANDROID}" "${ANDROID_ABI}")"
 check_variable_is_not_empty_or_exit "${BOOSTFORANDROID_BUILD_NOT_FOUND_ERROR}" "${BOOSTFORANDROID_LIBPROGRAMOPTIONS}"
+Boost_VERSION="$(get_boostforandroid_version "${BOOSTFORANDROID_INCLUDES}")"
+Boost_VERSION_NOT_FOUND_ERROR="Unable to find Boost version number; does file ${BOOSTFORANDROID_INCLUDES}/boost/version.hpp exist and does it define constant BOOST_VERSION?"
+check_variable_is_not_empty_or_exit "${Boost_VERSION_NOT_FOUND_ERROR}" ${Boost_VERSION}
+Boost_MAJOR_VERSION="$(expr ${Boost_VERSION} / 100000)"
+Boost_MINOR_VERSION="$(expr ${Boost_VERSION} / 100 % 1000)"
+Boost_SUBMINOR_VERSION="$(expr ${Boost_VERSION} % 100)"
 
 # Create build root folder
 BUILD_FOLDER="$(make_build_folder "${SCRIPTFOLDER}" "${TARGET}-${ANDROID_ABI}-${ANDROID_NATIVE_API_LEVEL}")"
@@ -68,6 +74,10 @@ ${ANDROID_SDK_CMAKE} \
  -DCMAKE_TOOLCHAIN_FILE="${ANDROID_TOOLCHAIN_FILE}" \
  -DANDROID_NATIVE_API_LEVEL=${ANDROID_NATIVE_API_LEVEL} \
  -DANDROID_TOOLCHAIN=clang \
+ -DBoost_VERSION=${Boost_VERSION} \
+ -DBoost_MAJOR_VERSION=${Boost_MAJOR_VERSION} \
+ -DBoost_MINOR_VERSION=${Boost_MINOR_VERSION} \
+ -DBoost_SUBMINOR_VERSION=${Boost_SUBMINOR_VERSION} \
  -DBoost_INCLUDE_DIR="${BOOSTFORANDROID_INCLUDES}" \
  -DBoost_PROGRAM_OPTIONS_LIBRARY="${BOOSTFORANDROID_LIBPROGRAMOPTIONS}" \
  ../..
@@ -79,5 +89,18 @@ success_or_exit
 
 # Report success
 log_info_banner "Build completed"
-echo "You may now install the packages at ${BUILD_FOLDER}/packages:"
-echo "sudo dpkg -i ${BUILD_FOLDER}/packages/*.deb"
+echo "To use GrapeNLP in your Android project copy file"
+echo "${BUILD_FOLDER}/package/libjgrapenlp.so"
+echo "to"
+echo "your_android_project_root/app/src/main/jniLibs/${ANDROID_ABI}"
+echo "and contents of folder"
+echo "${BUILD_FOLDER}/java"
+echo "inside"
+echo "your_android_project_root/app/src/main/java"
+echo
+echo "In order to support additional Android ABIs, rebuild the project for each targeted ABI and copy the corresponding libjgrapenlp.so files to the corresponding Android project folders"
+echo
+echo "Note the Java files are the same for all ABIs, so they only need to be copied once"
+echo
+echo "For a functional example of Android app using GrapeNLP, visit"
+echo "https://github.com/GrapeNLP/agrapenlp-testapp"

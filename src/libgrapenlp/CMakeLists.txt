@@ -23,7 +23,7 @@
 # @author Javier Sastre
 #
 
-project(libgrapenlp VERSION ${GRAPENLP_VERSION_MAJOR}.${GRAPENLP_VERSION_MINOR}.${GRAPENLP_VERSION_PATCH} LANGUAGES CXX)
+project(libgrapenlp VERSION ${CHANGELOG_VERSION} LANGUAGES CXX)
 
 add_library(grapenlp SHARED
         src/ualxiw_manager.cpp

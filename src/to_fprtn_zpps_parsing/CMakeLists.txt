@@ -23,7 +23,7 @@
 # @author Javier Sastre
 #
 
-project(to_fprtn_zpps_parsing VERSION ${GRAPENLP_VERSION_MAJOR}.${GRAPENLP_VERSION_MINOR}.${GRAPENLP_VERSION_PATCH} LANGUAGES CXX)
+project(to_fprtn_zpps_parsing VERSION ${CHANGELOG_VERSION} LANGUAGES CXX)
 
 add_library(to_fprtn_zpps_parsing STATIC
         src/to_fprtn_zpps_parser.cpp

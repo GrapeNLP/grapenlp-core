@@ -23,7 +23,7 @@
 # @author Javier Sastre
 #
 
-project(machine VERSION ${GRAPENLP_VERSION_MAJOR}.${GRAPENLP_VERSION_MINOR}.${GRAPENLP_VERSION_PATCH} LANGUAGES CXX)
+project(machine VERSION ${CHANGELOG_VERSION} LANGUAGES CXX)
 
 add_library(machine STATIC
         src/tag_input_traits.cpp

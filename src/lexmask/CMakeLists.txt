@@ -23,7 +23,7 @@
 # @author Javier Sastre
 #
 
-project(lexmask VERSION ${GRAPENLP_VERSION_MAJOR}.${GRAPENLP_VERSION_MINOR}.${GRAPENLP_VERSION_PATCH} LANGUAGES CXX)
+project(lexmask VERSION ${CHANGELOG_VERSION} LANGUAGES CXX)
 
 add_library(lexmask STATIC
         src/meta_code_dico.cpp
@@ -50,5 +50,8 @@ install(EXPORT lexmaskConfig DESTINATION share/grapenlp/lexmask/cmake COMPONENT 
 export(TARGETS lexmask FILE lexmaskConfig.cmake)
 
 #Test files
-add_executable(lexmask_test test/lexmask_test.cpp)
-target_link_libraries(lexmask_test lexmask)
+if (BUILD_TESTING)
+    add_executable(lexmask_test test/lexmask_test.cpp)
+    set_target_properties(lexmask_test PROPERTIES RUNTIME_OUTPUT_DIRECTORY ${CMAKE_TEST_RUNTIME_OUTPUT_DIRECTORY})
+    target_link_libraries(lexmask_test lexmask)
+endif (BUILD_TESTING)

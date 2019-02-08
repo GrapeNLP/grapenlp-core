@@ -23,7 +23,7 @@
 # @author Javier Sastre
 #
 
-project(tokenization VERSION ${GRAPENLP_VERSION_MAJOR}.${GRAPENLP_VERSION_MINOR}.${GRAPENLP_VERSION_PATCH} LANGUAGES CXX)
+project(tokenization VERSION ${CHANGELOG_VERSION} LANGUAGES CXX)
 
 add_library(token STATIC
         src/token.cpp

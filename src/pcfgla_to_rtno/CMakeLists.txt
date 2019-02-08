@@ -23,7 +23,7 @@
 # @author Javier Sastre
 #
 
-project(pcfgla_to_rtno VERSION ${GRAPENLP_VERSION_MAJOR}.${GRAPENLP_VERSION_MINOR}.${GRAPENLP_VERSION_PATCH} LANGUAGES CXX)
+project(pcfgla_to_rtno VERSION ${CHANGELOG_VERSION} LANGUAGES CXX)
 
 add_library(pcfgla_to_rtno STATIC src/pcfgla_to_rtno.cpp)
 target_include_directories(pcfgla_to_rtno PUBLIC
@@ -42,8 +42,11 @@ install(EXPORT pcfgla_to_rtnoConfig DESTINATION share/grapenlp/pcfgla_to_rtno/cm
 export(TARGETS pcfgla_to_rtno FILE pcfgla_to_rtnoConfig.cmake)
 
 # Test files
-add_executable(test_converter test/test_converter.cpp)
-target_link_libraries(test_converter
-        pcfgla_to_rtno
-        rtno_to_dot_serializer
-        )
+if (BUILD_TESTING)
+    add_executable(test_converter test/test_converter.cpp)
+    set_target_properties(test_converter PROPERTIES RUNTIME_OUTPUT_DIRECTORY ${CMAKE_TEST_RUNTIME_OUTPUT_DIRECTORY})
+    target_link_libraries(test_converter
+            pcfgla_to_rtno
+            rtno_to_dot_serializer
+            )
+endif (BUILD_TESTING)

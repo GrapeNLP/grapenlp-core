@@ -160,9 +160,9 @@ function make_build_folder
     local target="$2"
     cd "${scriptfolder}/../.."
     if [[ ! -d bin ]]; then
-      mkdir bin
+      mkdir build
     fi
-    cd bin
+    cd build
     if [[ ! -d ${target} ]]; then
       mkdir ${target}
     fi
@@ -264,6 +264,15 @@ function find_boostforandroid_includes
     if [[ -n "${boostforandroid_includes}" ]] && [[ -d "${boostforandroid_includes}" ]]; then
       echo "${boostforandroid_includes}"
     fi
+  fi
+}
+
+function get_boostforandroid_version
+{
+  local includes="$1"
+  local version_file="${includes}/boost/version.hpp"
+  if [[ -e "${version_file}" ]]; then
+    echo "$(grep -E "#define\s+BOOST_VERSION\s" "${version_file}" | grep -oE "[0-9]+")"
   fi
 }
 

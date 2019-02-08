@@ -23,7 +23,7 @@
 # @author Javier Sastre
 #
 
-project(segment VERSION ${GRAPENLP_VERSION_MAJOR}.${GRAPENLP_VERSION_MINOR}.${GRAPENLP_VERSION_PATCH} LANGUAGES CXX)
+project(segment VERSION ${CHANGELOG_VERSION} LANGUAGES CXX)
 
 add_library(segment STATIC
         src/out_bound.cpp

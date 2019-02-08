@@ -23,7 +23,7 @@
 # @author Javier Sastre
 #
 
-project(fst2_reader VERSION ${GRAPENLP_VERSION_MAJOR}.${GRAPENLP_VERSION_MINOR}.${GRAPENLP_VERSION_PATCH} LANGUAGES CXX)
+project(fst2_reader VERSION ${CHANGELOG_VERSION} LANGUAGES CXX)
 
 add_library(fst2_reader STATIC
         src/ul_fst2_reader.cpp
@@ -61,62 +61,74 @@ install(EXPORT fst2_readerConfig DESTINATION share/grapenlp/fst2_reader/cmake CO
 export(TARGETS fst2_reader FILE fst2_readerConfig.cmake)
 
 #Test files
-add_executable(test_reader test/test_reader.cpp)
-target_link_libraries(test_reader
-        fst2_reader
-        rtno_to_dot_serializer
-        )
+if (BUILD_TESTING)
+    add_executable(test_reader test/test_reader.cpp)
+    set_target_properties(test_reader PROPERTIES RUNTIME_OUTPUT_DIRECTORY ${CMAKE_TEST_RUNTIME_OUTPUT_DIRECTORY})
+    target_link_libraries(test_reader
+            fst2_reader
+            rtno_to_dot_serializer
+            )
 
-add_executable(test_wreader test/test_wreader.cpp)
-target_link_libraries(test_wreader
-        fst2_reader
-        rtno_to_dot_serializer
-        )
+    add_executable(test_wreader test/test_wreader.cpp)
+    set_target_properties(test_wreader PROPERTIES RUNTIME_OUTPUT_DIRECTORY ${CMAKE_TEST_RUNTIME_OUTPUT_DIRECTORY})
+    target_link_libraries(test_wreader
+            fst2_reader
+            rtno_to_dot_serializer
+            )
 
-add_executable(test_creader test/test_creader.cpp)
-target_link_libraries(test_creader
-        fst2_reader
-        rtno_to_dot_serializer
-        )
+    add_executable(test_creader test/test_creader.cpp)
+    set_target_properties(test_creader PROPERTIES RUNTIME_OUTPUT_DIRECTORY ${CMAKE_TEST_RUNTIME_OUTPUT_DIRECTORY})
+    target_link_libraries(test_creader
+            fst2_reader
+            rtno_to_dot_serializer
+            )
 
-add_executable(test_cwreader test/test_cwreader.cpp)
-target_link_libraries(test_cwreader
-        fst2_reader
-        rtno_to_dot_serializer
-        )
+    add_executable(test_cwreader test/test_cwreader.cpp)
+    set_target_properties(test_cwreader PROPERTIES RUNTIME_OUTPUT_DIRECTORY ${CMAKE_TEST_RUNTIME_OUTPUT_DIRECTORY})
+    target_link_libraries(test_cwreader
+            fst2_reader
+            rtno_to_dot_serializer
+            )
 
-add_executable(test_treader test/test_treader.cpp)
-target_link_libraries(test_treader
-        fst2_reader
-        rtno_to_dot_serializer
-        )
+    add_executable(test_treader test/test_treader.cpp)
+    set_target_properties(test_treader PROPERTIES RUNTIME_OUTPUT_DIRECTORY ${CMAKE_TEST_RUNTIME_OUTPUT_DIRECTORY})
+    target_link_libraries(test_treader
+            fst2_reader
+            rtno_to_dot_serializer
+            )
 
-add_executable(test_ctreader test/test_ctreader.cpp)
-target_link_libraries(test_ctreader
-        fst2_reader
-        rtno_to_dot_serializer
-        )
+    add_executable(test_ctreader test/test_ctreader.cpp)
+    set_target_properties(test_ctreader PROPERTIES RUNTIME_OUTPUT_DIRECTORY ${CMAKE_TEST_RUNTIME_OUTPUT_DIRECTORY})
+    target_link_libraries(test_ctreader
+            fst2_reader
+            rtno_to_dot_serializer
+            )
 
-add_executable(test_twreader test/test_twreader.cpp)
-target_link_libraries(test_twreader
-        fst2_reader
-        rtno_to_dot_serializer
-        )
+    add_executable(test_twreader test/test_twreader.cpp)
+    set_target_properties(test_twreader PROPERTIES RUNTIME_OUTPUT_DIRECTORY ${CMAKE_TEST_RUNTIME_OUTPUT_DIRECTORY})
+    target_link_libraries(test_twreader
+            fst2_reader
+            rtno_to_dot_serializer
+            )
 
-add_executable(test_ctwreader test/test_ctwreader.cpp)
-target_link_libraries(test_ctwreader
-        fst2_reader
-        rtno_to_dot_serializer
-        )
+    add_executable(test_ctwreader test/test_ctwreader.cpp)
+    set_target_properties(test_ctwreader PROPERTIES RUNTIME_OUTPUT_DIRECTORY ${CMAKE_TEST_RUNTIME_OUTPUT_DIRECTORY})
+    target_link_libraries(test_ctwreader
+            fst2_reader
+            rtno_to_dot_serializer
+            )
 
-add_executable(test_xreader test/test_xreader.cpp)
-target_link_libraries(test_xreader
-        fst2_reader
-        rtno_to_dot_serializer
-        )
+    add_executable(test_xreader test/test_xreader.cpp)
+    set_target_properties(test_xreader PROPERTIES RUNTIME_OUTPUT_DIRECTORY ${CMAKE_TEST_RUNTIME_OUTPUT_DIRECTORY})
+    target_link_libraries(test_xreader
+            fst2_reader
+            rtno_to_dot_serializer
+            )
 
-add_executable(test_cxreader test/test_cxreader.cpp)
-target_link_libraries(test_cxreader
-        fst2_reader
-        rtno_to_dot_serializer
-        )
+    add_executable(test_cxreader test/test_cxreader.cpp)
+    set_target_properties(test_cxreader PROPERTIES RUNTIME_OUTPUT_DIRECTORY ${CMAKE_TEST_RUNTIME_OUTPUT_DIRECTORY})
+    target_link_libraries(test_cxreader
+            fst2_reader
+            rtno_to_dot_serializer
+            )
+endif (BUILD_TESTING)

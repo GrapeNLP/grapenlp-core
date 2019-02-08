@@ -1,0 +1,2 @@
+/usr/bin/ar qc ../../lib/librb_tree_to_dot_serializer.a  CMakeFiles/rb_tree_to_dot_serializer.dir/src/rb_tree_to_dot_serializer.cpp.o
+/usr/bin/ranlib ../../lib/librb_tree_to_dot_serializer.a

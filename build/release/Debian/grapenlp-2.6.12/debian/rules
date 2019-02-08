@@ -1,0 +1,86 @@
+#!/usr/bin/make -f
+
+BUILDDIR = build_dir
+
+build:
+	mkdir $(BUILDDIR)
+	cd $(BUILDDIR); cmake -DCMAKE_BUILD_TYPE=Release -DJAVA_HOME=/usr/lib/jvm/java-8-openjdk-`/usr/bin/dpkg --print-architecture` ..
+	cd $(BUILDDIR); 
+	make -C $(BUILDDIR) preinstall
+	touch build
+
+binary: binary-indep binary-arch
+
+binary-indep: build
+
+binary-arch: build
+	cd $(BUILDDIR); cmake -DCOMPONENT=cgrapenlp -DCMAKE_INSTALL_PREFIX=../debian/tmp_cgrapenlp/usr -P cmake_install.cmake
+	dh_testdir
+	dh_testroot
+	dh_installchangelogs
+	dh_installdocs
+	dh_installman
+	dh_install
+	dh_link
+	dh_strip
+	dh_compress
+	dh_fixperms
+	dh_listpackages
+	dh_makeshlibs
+	dh_gencontrol
+	dh_md5sums
+	dh_builddeb
+	cd $(BUILDDIR); cmake -DCOMPONENT=libgrapenlp -DCMAKE_INSTALL_PREFIX=../debian/tmp_libgrapenlp/usr -P cmake_install.cmake
+	dh_testdir
+	dh_testroot
+	dh_installchangelogs
+	dh_installdocs
+	dh_installman
+	dh_install
+	dh_link
+	dh_strip
+	dh_compress
+	dh_fixperms
+	dh_listpackages
+	dh_makeshlibs
+	dh_gencontrol
+	dh_md5sums
+	dh_builddeb
+	cd $(BUILDDIR); cmake -DCOMPONENT=libgrapenlpdev -DCMAKE_INSTALL_PREFIX=../debian/tmp_libgrapenlpdev/usr -P cmake_install.cmake
+	dh_testdir
+	dh_testroot
+	dh_installchangelogs
+	dh_installdocs
+	dh_installman
+	dh_install
+	dh_link
+	dh_strip
+	dh_compress
+	dh_fixperms
+	dh_listpackages
+	dh_makeshlibs
+	dh_gencontrol
+	dh_md5sums
+	dh_builddeb
+	cd $(BUILDDIR); cmake -DCOMPONENT=libjgrapenlp -DCMAKE_INSTALL_PREFIX=../debian/tmp_libjgrapenlp/usr -P cmake_install.cmake
+	dh_testdir
+	dh_testroot
+	dh_installchangelogs
+	dh_installdocs
+	dh_installman
+	dh_install
+	dh_link
+	dh_strip
+	dh_compress
+	dh_fixperms
+	dh_listpackages
+	dh_makeshlibs
+	dh_gencontrol
+	dh_md5sums
+	dh_builddeb
+
+clean:
+	rm -f build
+	rm -rf $(BUILDDIR)
+
+.PHONY: binary binary-arch binary-indep clean

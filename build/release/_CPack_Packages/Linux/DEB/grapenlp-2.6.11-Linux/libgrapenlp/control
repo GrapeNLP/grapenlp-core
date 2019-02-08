@@ -1,0 +1,14 @@
+Package: libgrapenlp
+Version: 2.6.11
+Section: libs
+Priority: optional
+Architecture: amd64
+Depends: libboost-program-options-dev (>= 1.58.0), libboost-program-options-dev (<< 2.0.0)
+Homepage: https://github.com/GrapeNLP/grapenlp-core
+Installed-Size: 2123
+Maintainer: Javier Sastre <javier.sastre@telefonica.net>
+Description: GRAPENLP shared library
+ Grammar Annotation Pattern Engine for Natural Language Processing.
+ .
+ This package contains the shared library.
+

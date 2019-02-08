@@ -1,0 +1,43 @@
+ dpkg-buildpackage -rfakeroot -d -us -uc -S
+dpkg-buildpackage: source package grapenlp
+dpkg-buildpackage: source version 2.6.12-0ubuntu1~xenial
+dpkg-buildpackage: source distribution xenial
+dpkg-buildpackage: source changed by Javier Sastre <javier.sastre@telefonica.net>
+ dpkg-source --before-build grapenlp-2.6.12
+ fakeroot debian/rules clean
+rm -f build
+rm -rf build_dir
+ dpkg-source -b grapenlp-2.6.12
+dpkg-source: warning: Version number suggests Ubuntu changes, but Maintainer: does not have Ubuntu address
+dpkg-source: warning: Version number suggests Ubuntu changes, but there is no XSBC-Original-Maintainer field
+dpkg-source: info: using source format '3.0 (quilt)'
+dpkg-source: info: building grapenlp using existing ./grapenlp_2.6.12.orig.tar.gz
+dpkg-source: info: building grapenlp in grapenlp_2.6.12-0ubuntu1~xenial.debian.tar.xz
+dpkg-source: info: building grapenlp in grapenlp_2.6.12-0ubuntu1~xenial.dsc
+ dpkg-genchanges -S >../grapenlp_2.6.12-0ubuntu1~xenial_source.changes
+dpkg-genchanges: including full source code in upload
+ dpkg-source --after-build grapenlp-2.6.12
+dpkg-buildpackage: full upload (original source is included)
+Now running lintian...
+W: grapenlp source: package-depends-on-itself grapenlp depends
+W: grapenlp source: debhelper-but-no-misc-depends grapenlp
+W: grapenlp source: debhelper-but-no-misc-depends libgrapenlp
+W: grapenlp source: debhelper-but-no-misc-depends libgrapenlp-dev
+W: grapenlp source: debhelper-but-no-misc-depends libjgrapenlp
+E: grapenlp source: package-uses-debhelper-but-lacks-build-depends
+W: grapenlp source: debian-rules-calls-debhelper-in-odd-order dh_makeshlibs (line 45)
+W: grapenlp source: debian-rules-calls-debhelper-in-odd-order dh_gencontrol (line 46)
+W: grapenlp source: debian-rules-calls-debhelper-in-odd-order dh_makeshlibs (line 61)
+W: grapenlp source: debian-rules-calls-debhelper-in-odd-order dh_gencontrol (line 62)
+W: grapenlp source: debian-rules-calls-debhelper-in-odd-order dh_makeshlibs (line 77)
+W: grapenlp source: debian-rules-calls-debhelper-in-odd-order dh_gencontrol (line 78)
+W: grapenlp source: debian-rules-missing-recommended-target build-arch
+W: grapenlp source: debian-rules-missing-recommended-target build-indep
+W: grapenlp source: ancient-standards-version 3.8.4 (current is 3.9.7)
+Finished running lintian.
+Now signing changes and any dsc files...
+ signfile grapenlp_2.6.12-0ubuntu1~xenial.dsc Javier Sastre <javier.sastre@telefonica.net>
+
+ signfile grapenlp_2.6.12-0ubuntu1~xenial_source.changes Javier Sastre <javier.sastre@telefonica.net>
+
+Successfully signed dsc and changes files

@@ -1,0 +1,3 @@
+/usr/bin/grapenlp
+/usr/share/doc/grapenlp/grapenlp/copyright
+/usr/share/doc/grapenlp/grapenlp/changelog.Debian.gz

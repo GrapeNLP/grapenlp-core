@@ -1,0 +1,5 @@
+/usr/lib/libjgrapenlp.so
+/usr/share/grapenlp/jgrapenlp/cmake/jgrapenlpConfig.cmake
+/usr/share/grapenlp/jgrapenlp/cmake/jgrapenlpConfig-release.cmake
+/usr/share/doc/grapenlp/libjgrapenlp/copyright
+/usr/share/doc/grapenlp/libjgrapenlp/changelog.Debian.gz

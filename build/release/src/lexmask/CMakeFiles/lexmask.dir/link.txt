@@ -1,0 +1,2 @@
+/usr/bin/ar qc ../../lib/liblexmask.a  CMakeFiles/lexmask.dir/src/meta_code_dico.cpp.o CMakeFiles/lexmask.dir/src/lexmask.cpp.o CMakeFiles/lexmask.dir/src/lexmask_and_coarse_type.cpp.o CMakeFiles/lexmask.dir/src/u_lexmask_factory.cpp.o CMakeFiles/lexmask.dir/src/lexmask_default_weight.cpp.o
+/usr/bin/ranlib ../../lib/liblexmask.a

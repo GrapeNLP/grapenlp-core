@@ -1,0 +1,2 @@
+/usr/bin/ar qc ../../lib/libtext_delaf.a  CMakeFiles/text_delaf.dir/src/text_delaf.cpp.o CMakeFiles/text_delaf.dir/src/u_text_delaf_reader.cpp.o CMakeFiles/text_delaf.dir/src/u_text_delaf_writer.cpp.o CMakeFiles/text_delaf.dir/src/text_delaf_entry_filter.cpp.o CMakeFiles/text_delaf.dir/src/u_text_delaf_entry_filter.cpp.o CMakeFiles/text_delaf.dir/src/u_text_delaf_entry_filter_factory.cpp.o
+/usr/bin/ranlib ../../lib/libtext_delaf.a

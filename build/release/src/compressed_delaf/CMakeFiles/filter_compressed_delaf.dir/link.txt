@@ -1,0 +1,1 @@
+/usr/bin/c++   -fPIC -pedantic -ansi -fno-strict-aliasing -DSIMPLIFIED_OUTPUT -DUNIX -O3 -DNDEBUG   CMakeFiles/filter_compressed_delaf.dir/src/filter_compressed_delaf.cpp.o  -o ../../bin/filter_compressed_delaf ../../lib/libcompressed_delaf.a ../../lib/libdelaf.a ../../lib/libunicode.a ../../lib/libutil.a 

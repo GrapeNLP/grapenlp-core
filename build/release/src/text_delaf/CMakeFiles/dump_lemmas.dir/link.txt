@@ -1,0 +1,1 @@
+/usr/bin/c++   -fPIC -pedantic -ansi -fno-strict-aliasing -DSIMPLIFIED_OUTPUT -DUNIX -O3 -DNDEBUG   CMakeFiles/dump_lemmas.dir/src/dump_lemmas.cpp.o  -o ../../bin/dump_lemmas ../../lib/libtext_delaf.a ../../lib/libdelaf.a ../../lib/libunicode.a ../../lib/libutil.a 

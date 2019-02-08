@@ -1,0 +1,2 @@
+/usr/bin/ar qc ../../lib/libto_decompressed_canonical_form.a  CMakeFiles/to_decompressed_canonical_form.dir/src/to_decompressed_canonical_form.cpp.o
+/usr/bin/ranlib ../../lib/libto_decompressed_canonical_form.a

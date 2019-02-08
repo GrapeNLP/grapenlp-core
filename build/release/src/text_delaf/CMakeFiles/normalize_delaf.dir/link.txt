@@ -1,0 +1,1 @@
+/usr/bin/c++   -fPIC -pedantic -ansi -fno-strict-aliasing -DSIMPLIFIED_OUTPUT -DUNIX -O3 -DNDEBUG   CMakeFiles/normalize_delaf.dir/src/normalize_delaf.cpp.o  -o ../../bin/normalize_delaf ../../lib/libtext_delaf.a ../../lib/libdelaf.a ../../lib/libunicode.a ../../lib/libutil.a 

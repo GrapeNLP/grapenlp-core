@@ -1,0 +1,1 @@
+/usr/bin/c++   -fPIC -pedantic -ansi -fno-strict-aliasing -DSIMPLIFIED_OUTPUT -DUNIX -O3 -DNDEBUG   CMakeFiles/dump_chars.dir/src/dump_chars.cpp.o  -o ../../bin/dump_chars ../../lib/libunicode.a ../../lib/libutil.a 

@@ -1,0 +1,1 @@
+/usr/bin/c++   -fPIC -pedantic -ansi -fno-strict-aliasing -DSIMPLIFIED_OUTPUT -DUNIX -O3 -DNDEBUG   CMakeFiles/dump_semantic_traits.dir/src/dump_semantic_traits.cpp.o  -o ../../bin/dump_semantic_traits ../../lib/libtext_delaf.a ../../lib/libdelaf.a ../../lib/libunicode.a ../../lib/libutil.a 

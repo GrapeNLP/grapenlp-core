@@ -1,0 +1,45 @@
+-----BEGIN PGP SIGNED MESSAGE-----
+Hash: SHA256
+
+Format: 1.8
+Date: Thu, 07 Feb 2019 17:32:39 +0100
+Source: grapenlp
+Binary: grapenlp libgrapenlp libgrapenlp-dev libjgrapenlp
+Architecture: source
+Version: 2.6.12-0ubuntu1~xenial
+Distribution: xenial
+Urgency: low
+Maintainer: Javier Sastre <javier.sastre@telefonica.net>
+Changed-By: Javier Sastre <javier.sastre@telefonica.net>
+Description:
+ grapenlp   - Project built using CMake:
+ libgrapenlp - Project built using CMake:
+ libgrapenlp-dev - Project built using CMake:
+ libjgrapenlp - Project built using CMake:
+Changes:
+ grapenlp (2.6.12-0ubuntu1~xenial) xenial; urgency=low
+ .
+   * Package built with CMake
+Checksums-Sha1:
+ f9c37590d8584ed07d29c18f8b1dc58bd4875dcd 1762 grapenlp_2.6.12-0ubuntu1~xenial.dsc
+ fbc29a7e37145c62e1b63986db80c79e179b6e75 2106301 grapenlp_2.6.12.orig.tar.gz
+ a5e87ce6f9dd4182644d5b36d3a0dfaa95cf321b 1776 grapenlp_2.6.12-0ubuntu1~xenial.debian.tar.xz
+Checksums-Sha256:
+ cadaadaa86c680a5e2e252d38acfed2176aa06a7fcf2d0e054533ed583ed11d3 1762 grapenlp_2.6.12-0ubuntu1~xenial.dsc
+ bab53c068edf5a15f4ac61db145f3ff5435473491521f4c56630435730ac9db3 2106301 grapenlp_2.6.12.orig.tar.gz
+ 840ab3f5277d522985a2ca674e9349351872f2d5e1ebc89c19ef4bb3fcc611d9 1776 grapenlp_2.6.12-0ubuntu1~xenial.debian.tar.xz
+Files:
+ 30db5b6e092303b75b1ac094a81ca0f4 1762 science optional grapenlp_2.6.12-0ubuntu1~xenial.dsc
+ 0bdb8f828e3fb2ecd38398dc82052496 2106301 science optional grapenlp_2.6.12.orig.tar.gz
+ 4f5d9a315d5a8cd1f8fbc83f8e139c52 1776 science optional grapenlp_2.6.12-0ubuntu1~xenial.debian.tar.xz
+
+-----BEGIN PGP SIGNATURE-----
+
+iQEcBAEBCAAGBQJcXF20AAoJENN+OG0iH4+T8aoH/2uxpnG0rmdJTo2DEcQB7Xbs
+oX1JO1/8k2IS+ZS799z/IE9W48pDOMIZezjjlNVenoq9zxzRxfUpvqGX3jy67NvD
+YlL+OcuDggK36kOt47lVkPIBVNd05Q184oQZag8JJOiGKuA+/w+s5pjf4KSYoHql
+joRQN9UAst3j7XCdEsONLpoz151bbcJ98X88EqIaXd234XRgDyc3PAUrqVPB+LuB
+iLUObI7IpwOShn3rWmh2Ao86XaU+QpqoGKtaPFoHOTNmtW1yaA9qHp8PE/wXoQa2
+qDP4Sy3GMiaP4b1i4Jeu9bSKZQ1c2Cs2bdzLQowZwi1f60XCY9SS/gP6Vg4ROWo=
+=7Hu6
+-----END PGP SIGNATURE-----

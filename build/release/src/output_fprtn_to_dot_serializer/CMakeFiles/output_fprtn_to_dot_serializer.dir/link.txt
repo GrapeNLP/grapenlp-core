@@ -1,2 +1,0 @@
-/usr/bin/ar qc ../../lib/liboutput_fprtn_to_dot_serializer.a  CMakeFiles/output_fprtn_to_dot_serializer.dir/src/output_fprtn_to_dot_serializer.cpp.o CMakeFiles/output_fprtn_to_dot_serializer.dir/src/inv_output_fprtn_to_dot_serializer.cpp.o
-/usr/bin/ranlib ../../lib/liboutput_fprtn_to_dot_serializer.a

@@ -1,2 +1,0 @@
-/usr/bin/ar qc ../../lib/liboutput_fprtn_prune.a  CMakeFiles/output_fprtn_prune.dir/src/output_fprtn_prune.cpp.o
-/usr/bin/ranlib ../../lib/liboutput_fprtn_prune.a

@@ -1,1 +1,0 @@
-/usr/bin/c++   -fPIC -pedantic -ansi -fno-strict-aliasing -DSIMPLIFIED_OUTPUT -DUNIX -O3 -DNDEBUG   CMakeFiles/to_canonical_form_test.dir/test/to_canonical_form_test.cpp.o  -o ../../test_bin/to_canonical_form_test ../../lib/libto_canonical_form.a ../../lib/libtoken.a ../../lib/libtext_delaf.a ../../lib/libdelaf.a ../../lib/libunicode.a ../../lib/libutil.a 

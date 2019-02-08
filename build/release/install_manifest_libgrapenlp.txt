@@ -1,3 +1,0 @@
-/usr/lib/libgrapenlp.so
-/usr/share/doc/grapenlp/libgrapenlp/copyright
-/usr/share/doc/grapenlp/libgrapenlp/changelog.Debian.gz

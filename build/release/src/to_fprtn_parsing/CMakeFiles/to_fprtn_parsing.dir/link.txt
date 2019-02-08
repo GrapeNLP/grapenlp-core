@@ -1,2 +1,0 @@
-/usr/bin/ar qc ../../lib/libto_fprtn_parsing.a  CMakeFiles/to_fprtn_parsing.dir/src/to_fprtn_parser.cpp.o CMakeFiles/to_fprtn_parsing.dir/src/lua_to_fprtn_parser.cpp.o CMakeFiles/to_fprtn_parsing.dir/src/luaw_to_fprtn_parser.cpp.o CMakeFiles/to_fprtn_parsing.dir/src/lx_to_fprtn_parser.cpp.o CMakeFiles/to_fprtn_parsing.dir/src/lxw_to_fprtn_parser.cpp.o
-/usr/bin/ranlib ../../lib/libto_fprtn_parsing.a

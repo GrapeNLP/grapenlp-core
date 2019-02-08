@@ -1,1 +1,0 @@
-/usr/bin/c++   -fPIC -pedantic -ansi -fno-strict-aliasing -DSIMPLIFIED_OUTPUT -DUNIX -O3 -DNDEBUG   CMakeFiles/lexmask_test.dir/test/lexmask_test.cpp.o  -o ../../test_bin/lexmask_test ../../lib/liblexmask.a ../../lib/libcompressed_delaf.a ../../lib/libtext_delaf.a ../../lib/libdelaf.a ../../lib/libtoken.a ../../lib/libunicode.a ../../lib/libmachine.a ../../lib/libutil.a 

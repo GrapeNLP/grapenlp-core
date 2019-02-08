@@ -1,2 +1,0 @@
-/usr/bin/ar qc ../../lib/libout_serializer.a  CMakeFiles/out_serializer.dir/src/movistarbot_phone_digit_separator_set.cpp.o CMakeFiles/out_serializer.dir/src/movistarbot_tag_dico.cpp.o CMakeFiles/out_serializer.dir/src/movistarbot_out_serializer.cpp.o CMakeFiles/out_serializer.dir/src/movistarbot_weighted_out_serializer.cpp.o
-/usr/bin/ranlib ../../lib/libout_serializer.a

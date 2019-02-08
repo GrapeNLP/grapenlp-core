@@ -1,5 +1,0 @@
-grapenlp (2.6.12-0ubuntu1~xenial) xenial; urgency=low
-
-  * Package built with CMake
-
- -- Javier Sastre <javier.sastre@telefonica.net>  Thu, 07 Feb 2019 17:32:39 +0100

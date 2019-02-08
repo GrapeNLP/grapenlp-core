@@ -1,2 +1,0 @@
-ansi_text_attribute_test 1 0.023495
----

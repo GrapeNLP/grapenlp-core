@@ -1,2 +1,0 @@
-/usr/bin/ar qc ../../lib/libdelaf.a  CMakeFiles/delaf.dir/src/delaf_entry_filter_default_weight.cpp.o CMakeFiles/delaf.dir/src/delaf_entry_filter_type.cpp.o CMakeFiles/delaf.dir/src/u_delaf_constants.cpp.o CMakeFiles/delaf.dir/src/u_delaf_entry_filter_codes.cpp.o
-/usr/bin/ranlib ../../lib/libdelaf.a

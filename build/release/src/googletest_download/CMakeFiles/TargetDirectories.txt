@@ -1,3 +1,0 @@
-/home/jmsma/src/GrapeNLP/grapenlp-core/build/release/src/googletest_download/CMakeFiles/rebuild_cache.dir
-/home/jmsma/src/GrapeNLP/grapenlp-core/build/release/src/googletest_download/CMakeFiles/edit_cache.dir
-/home/jmsma/src/GrapeNLP/grapenlp-core/build/release/src/googletest_download/CMakeFiles/googletest.dir

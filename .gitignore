@@ -15,7 +15,7 @@
 /Data/
 
 #Binary folders
-bin/
+build/
 classes/
 pkg/
 rel/

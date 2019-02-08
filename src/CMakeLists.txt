@@ -82,6 +82,7 @@ MESSAGE(STATUS "Boost_INCLUDE_DIR:" ${Boost_INCLUDE_DIR})
 MESSAGE(STATUS "Boost_PROGRAM_OPTIONS_LIBRARY:" ${Boost_PROGRAM_OPTIONS_LIBRARY})
 
 # Include Swig for building native library interfaces with Python and Java
+cmake_policy(SET CMP0078 NEW) # Avoid warning in Swig CMake module
 find_package(SWIG REQUIRED)
 include(${SWIG_USE_FILE})
 if (WIN32)

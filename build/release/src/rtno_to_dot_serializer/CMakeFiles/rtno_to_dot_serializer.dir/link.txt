@@ -1,2 +1,0 @@
-/usr/bin/ar qc ../../lib/librtno_to_dot_serializer.a  CMakeFiles/rtno_to_dot_serializer.dir/src/rtno_to_dot_serializer.cpp.o
-/usr/bin/ranlib ../../lib/librtno_to_dot_serializer.a

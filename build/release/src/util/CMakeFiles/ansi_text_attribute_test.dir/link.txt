@@ -1,1 +1,0 @@
-/usr/bin/c++   -fPIC -pedantic -ansi -fno-strict-aliasing -DSIMPLIFIED_OUTPUT -DUNIX -O3 -DNDEBUG   CMakeFiles/ansi_text_attribute_test.dir/test/ansi_text_attribute_test.cpp.o  -o ../../test_bin/ansi_text_attribute_test ../../lib/libutil.a ../../lib/libgtest_main.a ../../lib/libgtest.a -lpthread 

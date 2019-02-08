@@ -1,1 +1,0 @@
-/usr/bin/c++   -fPIC -pedantic -ansi -fno-strict-aliasing -DSIMPLIFIED_OUTPUT -DUNIX -O3 -DNDEBUG   CMakeFiles/cdump.dir/src/cdump.cpp.o  -o ../../bin/cdump ../../lib/libcompressed_delaf.a ../../lib/libdelaf.a ../../lib/libunicode.a ../../lib/libutil.a 

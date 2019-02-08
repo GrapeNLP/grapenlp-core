@@ -1,2 +1,0 @@
-/usr/bin/ar qc ../../lib/libmachine.a  CMakeFiles/machine.dir/src/tag_input_traits.cpp.o CMakeFiles/machine.dir/src/tag_reader_traits.cpp.o CMakeFiles/machine.dir/src/tag_serializer_traits.cpp.o CMakeFiles/machine.dir/src/weight_traits.cpp.o CMakeFiles/machine.dir/src/weighted_tag_output_traits.cpp.o
-/usr/bin/ranlib ../../lib/libmachine.a

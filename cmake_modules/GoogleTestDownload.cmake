@@ -24,10 +24,18 @@
 #
 
 # Download and unpack googletest at configure time
-configure_file(${PROJECT_SOURCE_DIR}/googletest_download/CMakeLists.txt.in ${CMAKE_CURRENT_BINARY_DIR}/googletest_download/CMakeLists.txt)
+set(GOOGLETEST_BINARY_DIR "${CMAKE_CURRENT_BINARY_DIR}/googletest_build")
+if (UNIX AND NOT APPLE)
+    set(GOOGLETEST_SOURCE_DIR "/usr/src/googletest")
+    set(GOOGLETEST_CMAKE_IN "CMakeLists.txt.filesystem.in")
+else (UNIX AND NOT APPLE)
+    set(GOOGLETEST_SOURCE_DIR "${CMAKE_CURRENT_BINARY_DIR}/googletest_src")
+    set(GOOGLETEST_CMAKE_IN "CMakeLists.txt.github.in")
+endif (UNIX AND NOT APPLE)
+configure_file(${PROJECT_SOURCE_DIR}/googletest_download/${GOOGLETEST_CMAKE_IN} ${CMAKE_CURRENT_BINARY_DIR}/googletest_download/CMakeLists.txt)
 execute_process(COMMAND ${CMAKE_COMMAND} -G "${CMAKE_GENERATOR}" .
         RESULT_VARIABLE result
-        WORKING_DIRECTORY ${CMAKE_CURRENT_BINARY_DIR}/googletest_download )
+        WORKING_DIRECTORY ${CMAKE_CURRENT_BINARY_DIR}/googletest_download)
 if(result)
     message(FATAL_ERROR "CMake step for GoogleTest failed: ${result}")
 endif()
@@ -48,8 +56,8 @@ set(INSTALL_GTEST OFF CACHE BOOL "" FORCE)
 # Add googletest directly to our build. This adds
 # the following targets: gtest, gtest_main, gmock
 # and gmock_main
-add_subdirectory(${CMAKE_CURRENT_BINARY_DIR}/googletest_src
-        ${CMAKE_CURRENT_BINARY_DIR}/googletest_build
+add_subdirectory(${GOOGLETEST_SOURCE_DIR}
+        ${GOOGLETEST_BINARY_DIR}
         EXCLUDE_FROM_ALL)
 
 # The gtest/gmock targets carry header search path

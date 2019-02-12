@@ -31,7 +31,11 @@ set(SWIG_OUTFILE_DIR "${CMAKE_BINARY_DIR}/python/pygrapenlp")
 set(CMAKE_LIBRARY_OUTPUT_DIRECTORY "${CMAKE_CURRENT_BINARY_DIR}")
 set_property(SOURCE swig/grapenlp/pygrapenlp.i PROPERTY CPLUSPLUS ON)
 set_property(SOURCE swig/grapenlp/pygrapenlp.i PROPERTY SWIG_FLAGS "-includeall" "-py3" "-extranative")
-swig_add_library(pygrapenlp TYPE SHARED LANGUAGE python SOURCES swig/grapenlp/pygrapenlp.i)
+if (${CMAKE_VERSION} VERSION_LESS "3.8.0")
+    swig_add_module(pygrapenlp python swig/grapenlp/pygrapenlp.i)
+else (${CMAKE_VERSION} VERSION_LESS "3.8.0")
+    swig_add_library(pygrapenlp TYPE SHARED LANGUAGE python SOURCES swig/grapenlp/pygrapenlp.i)
+endif (${CMAKE_VERSION} VERSION_LESS "3.8.0")
 swig_link_libraries(pygrapenlp
         manager
         ${PYTHON_LIBRARIES}

@@ -33,7 +33,11 @@ set(CMAKE_VERBOSE_MAKEFILE on)
 
 include(VersionFromChangelog)
 
-set(CPACK_PACKAGE_NAME "grapenlp")
+set(CPACK_PACKAGE_NAME "grapenlp-core")
+set(CPACK_PACKAGE_FILE_NAME "grapenlp-core-binary-${CHANGELOG_VERSION}")
+set(CPACK_SOURCE_PACKAGE_FILE_NAME "grapenlp-core-${CHANGELOG_VERSION}")
+set(CPACK_PACKAGE_DESCRIPTION_SUMMARY "GRAPENLP")
+set(CPACK_PACKAGE_DESCRIPTION_FILE "${CMAKE_HOME_DIRECTORY}/description.txt")
 set(CPACK_PACKAGE_VERSION "${CHANGELOG_VERSION}")
 set(CPACK_PACKAGE_VENDOR "GrapeNLP")
 set(CPACK_PACKAGE_CONTACT "Javier Sastre <javier.sastre@telefonica.net>")

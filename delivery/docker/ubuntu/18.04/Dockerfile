@@ -63,8 +63,11 @@ RUN apt-get install -y virtualenv
 # Install SWIG
 RUN apt-get install -y swig
 
-# Install CMake 3.9.6 from tar.gz
+# Install CMake
 RUN apt-get install -y cmake
+
+# Install GoogleTest source
+RUN apt-get install -y googletest
 
 # Install GIT
 RUN apt-get install -y git

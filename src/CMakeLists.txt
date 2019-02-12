@@ -23,7 +23,7 @@
 # @author Javier Sastre
 #
 
-project(grapenlp VERSION ${CHANGELOG_VERSION} LANGUAGES CXX)
+project(grapenlp-core VERSION ${CHANGELOG_VERSION} LANGUAGES CXX)
 configure_file (
         "${PROJECT_SOURCE_DIR}/config/include/grapenlp/config.h.in"
         "${PROJECT_BINARY_DIR}/config/include/grapenlp/config.h"
@@ -166,9 +166,5 @@ if (UNIX AND NOT APPLE AND NOT ANDROID_NDK_TOOLCHAIN_INCLUDED)
     set(CPACK_OUTPUT_FILE_PREFIX package)
     include(DebianPackaging)
     include(CPack)
-    cpack_add_component(libgrapenlp REQUIRED)
-    cpack_add_component(cgrapenlp REQUIRED)
-    cpack_add_component(libgrapenlpdev DISABLED)
-    cpack_add_component(libjgrapenlp DISABLED)
     include(UploadPPA)
 endif (UNIX AND NOT APPLE AND NOT ANDROID_NDK_TOOLCHAIN_INCLUDED)

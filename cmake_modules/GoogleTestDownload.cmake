@@ -23,15 +23,20 @@
 # @author Javier Sastre
 #
 
-# Download and unpack googletest at configure time
+# Check whether GoogleTest source is present in the file system or must be downloaded from GitHub
 set(GOOGLETEST_BINARY_DIR "${CMAKE_CURRENT_BINARY_DIR}/googletest_build")
-if (UNIX AND NOT APPLE)
+if (EXISTS "/usr/src/googletest")
     set(GOOGLETEST_SOURCE_DIR "/usr/src/googletest")
     set(GOOGLETEST_CMAKE_IN "CMakeLists.txt.filesystem.in")
-else (UNIX AND NOT APPLE)
+elseif (EXISTS "/usr/src/gtest")
+    set(GOOGLETEST_SOURCE_DIR "/usr/src/gtest")
+    set(GOOGLETEST_CMAKE_IN "CMakeLists.txt.filesystem.in")
+else (EXISTS "/usr/src/googletest")
     set(GOOGLETEST_SOURCE_DIR "${CMAKE_CURRENT_BINARY_DIR}/googletest_src")
     set(GOOGLETEST_CMAKE_IN "CMakeLists.txt.github.in")
-endif (UNIX AND NOT APPLE)
+endif (EXISTS "/usr/src/googletest")
+
+# Configure GoogleTest external project for the detected code source (filesystem or github) and download it if needed
 configure_file(${PROJECT_SOURCE_DIR}/googletest_download/${GOOGLETEST_CMAKE_IN} ${CMAKE_CURRENT_BINARY_DIR}/googletest_download/CMakeLists.txt)
 execute_process(COMMAND ${CMAKE_COMMAND} -G "${CMAKE_GENERATOR}" .
         RESULT_VARIABLE result

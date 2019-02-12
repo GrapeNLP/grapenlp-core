@@ -30,7 +30,11 @@ set(CMAKE_SWIG_FLAGS ${CMAKE_SWIG_FLAGS} "-package" "com.grapenlp.core")
 set(CMAKE_SWIG_OUTDIR "${CMAKE_BINARY_DIR}/java/com/grapenlp/core")
 set_property(SOURCE swig/grapenlp/jgrapenlp.i PROPERTY CPLUSPLUS ON)
 set_property(SOURCE swig/grapenlp/jgrapenlp.i PROPERTY SWIG_FLAGS "-includeall")
-swig_add_library(jgrapenlp TYPE SHARED LANGUAGE java SOURCES swig/grapenlp/jgrapenlp.i)
+if (${CMAKE_VERSION} VERSION_LESS "3.8.0")
+    swig_add_module(jgrapenlp java swig/grapenlp/jgrapenlp.i)
+else (${CMAKE_VERSION} VERSION_LESS "3.8.0")
+    swig_add_library(jgrapenlp TYPE SHARED LANGUAGE java SOURCES swig/grapenlp/jgrapenlp.i)
+endif (${CMAKE_VERSION} VERSION_LESS "3.8.0")
 target_link_libraries(jgrapenlp
         manager
         ${JNI_LIBRARIES}

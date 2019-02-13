@@ -36,7 +36,7 @@ target_link_libraries(pcfgla_to_rtno
         )
 
 install(TARGETS pcfgla_to_rtno EXPORT pcfgla_to_rtnoConfig
-        ARCHIVE DESTINATION ${CMAKE_INSTALL_LIBDIR} COMPONENT libgrapenlpdev)
+        ARCHIVE DESTINATION ${CMAKE_INSTALL_LIBDIR}/grapenlp COMPONENT libgrapenlpdev)
 install(DIRECTORY include/ DESTINATION ${CMAKE_INSTALL_INCLUDEDIR} COMPONENT libgrapenlpdev)
 install(EXPORT pcfgla_to_rtnoConfig DESTINATION share/grapenlp/pcfgla_to_rtno/cmake COMPONENT libgrapenlpdev)
 export(TARGETS pcfgla_to_rtno FILE pcfgla_to_rtnoConfig.cmake)

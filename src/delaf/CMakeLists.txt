@@ -40,7 +40,7 @@ target_link_libraries(delaf
         )
 
 install(TARGETS delaf EXPORT delafConfig
-        ARCHIVE DESTINATION ${CMAKE_INSTALL_LIBDIR} COMPONENT libgrapenlpdev)
+        ARCHIVE DESTINATION ${CMAKE_INSTALL_LIBDIR}/grapenlp COMPONENT libgrapenlpdev)
 install(DIRECTORY include/ DESTINATION ${CMAKE_INSTALL_INCLUDEDIR} COMPONENT libgrapenlpdev)
 install(EXPORT delafConfig DESTINATION share/grapenlp/delaf/cmake COMPONENT libgrapenlpdev)
 export(TARGETS delaf FILE delafConfig.cmake)

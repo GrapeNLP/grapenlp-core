@@ -38,7 +38,7 @@ target_link_libraries(token
         )
 
 install(TARGETS token EXPORT tokenConfig
-        ARCHIVE DESTINATION ${CMAKE_INSTALL_LIBDIR} COMPONENT libgrapenlpdev)
+        ARCHIVE DESTINATION ${CMAKE_INSTALL_LIBDIR}/grapenlp COMPONENT libgrapenlpdev)
 install(DIRECTORY include/ DESTINATION ${CMAKE_INSTALL_INCLUDEDIR} COMPONENT libgrapenlpdev)
 install(EXPORT tokenConfig DESTINATION share/grapenlp/token/cmake COMPONENT libgrapenlpdev)
 export(TARGETS token FILE tokenConfig.cmake)

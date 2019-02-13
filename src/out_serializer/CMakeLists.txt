@@ -42,7 +42,7 @@ target_link_libraries(out_serializer
         )
 
 install(TARGETS out_serializer EXPORT out_serializerConfig
-        ARCHIVE DESTINATION ${CMAKE_INSTALL_LIBDIR} COMPONENT libgrapenlpdev)
+        ARCHIVE DESTINATION ${CMAKE_INSTALL_LIBDIR}/grapenlp COMPONENT libgrapenlpdev)
 install(DIRECTORY include/ DESTINATION ${CMAKE_INSTALL_INCLUDEDIR} COMPONENT libgrapenlpdev)
 install(EXPORT out_serializerConfig DESTINATION share/grapenlp/out_serializer/cmake COMPONENT libgrapenlpdev)
 export(TARGETS out_serializer FILE out_serializerConfig.cmake)

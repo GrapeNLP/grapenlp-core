@@ -31,7 +31,7 @@ target_include_directories(fst2_constants INTERFACE
         $<INSTALL_INTERFACE:include>)
 
 install(TARGETS fst2_constants EXPORT fst2_constantsConfig
-        ARCHIVE DESTINATION ${CMAKE_INSTALL_LIBDIR} COMPONENT libgrapenlpdev)
+        ARCHIVE DESTINATION ${CMAKE_INSTALL_LIBDIR}/grapenlp COMPONENT libgrapenlpdev)
 install(DIRECTORY include/ DESTINATION ${CMAKE_INSTALL_INCLUDEDIR} COMPONENT libgrapenlpdev)
 install(EXPORT fst2_constantsConfig DESTINATION share/grapenlp/fst2_constants/cmake COMPONENT libgrapenlpdev)
 export(TARGETS fst2_constants FILE fst2_constantsConfig.cmake)

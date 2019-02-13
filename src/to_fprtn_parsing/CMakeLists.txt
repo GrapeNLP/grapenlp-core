@@ -44,7 +44,7 @@ target_link_libraries(to_fprtn_parsing
         )
 
 install(TARGETS to_fprtn_parsing EXPORT to_fprtn_parsingConfig
-        ARCHIVE DESTINATION ${CMAKE_INSTALL_LIBDIR} COMPONENT libgrapenlpdev)
+        ARCHIVE DESTINATION ${CMAKE_INSTALL_LIBDIR}/grapenlp COMPONENT libgrapenlpdev)
 install(DIRECTORY include/ DESTINATION ${CMAKE_INSTALL_INCLUDEDIR} COMPONENT libgrapenlpdev)
 install(EXPORT to_fprtn_parsingConfig DESTINATION share/grapenlp/to_fprtn_parsing/cmake COMPONENT libgrapenlpdev)
 export(TARGETS to_fprtn_parsing FILE to_fprtn_parsingConfig.cmake)

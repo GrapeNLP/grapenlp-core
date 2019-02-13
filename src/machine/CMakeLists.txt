@@ -41,7 +41,7 @@ target_link_libraries(machine
         )
 
 install(TARGETS machine EXPORT machineConfig
-        ARCHIVE DESTINATION ${CMAKE_INSTALL_LIBDIR} COMPONENT libgrapenlpdev)
+        ARCHIVE DESTINATION ${CMAKE_INSTALL_LIBDIR}/grapenlp COMPONENT libgrapenlpdev)
 install(DIRECTORY include/ DESTINATION ${CMAKE_INSTALL_INCLUDEDIR} COMPONENT libgrapenlpdev)
 install(EXPORT machineConfig DESTINATION share/grapenlp/machine/cmake COMPONENT libgrapenlpdev)
 export(TARGETS machine FILE machineConfig.cmake)

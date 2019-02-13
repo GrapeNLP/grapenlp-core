@@ -36,7 +36,7 @@ target_link_libraries(stats
         )
 
 install(TARGETS stats EXPORT statsConfig
-        ARCHIVE DESTINATION ${CMAKE_INSTALL_LIBDIR} COMPONENT libgrapenlpdev)
+        ARCHIVE DESTINATION ${CMAKE_INSTALL_LIBDIR}/grapenlp COMPONENT libgrapenlpdev)
 install(DIRECTORY include/ DESTINATION ${CMAKE_INSTALL_INCLUDEDIR} COMPONENT libgrapenlpdev)
 install(EXPORT statsConfig DESTINATION share/grapenlp/stats/cmake COMPONENT libgrapenlpdev)
 export(TARGETS stats FILE statsConfig.cmake)

@@ -38,7 +38,7 @@ target_link_libraries(fst
         )
 
 install(TARGETS fst EXPORT fstConfig
-        ARCHIVE DESTINATION ${CMAKE_INSTALL_LIBDIR} COMPONENT libgrapenlpdev)
+        ARCHIVE DESTINATION ${CMAKE_INSTALL_LIBDIR}/grapenlp COMPONENT libgrapenlpdev)
 install(DIRECTORY include/ DESTINATION ${CMAKE_INSTALL_INCLUDEDIR} COMPONENT libgrapenlpdev)
 install(EXPORT fstConfig DESTINATION share/grapenlp/fst/cmake COMPONENT libgrapenlpdev)
 export(TARGETS fst FILE fstConfig.cmake)

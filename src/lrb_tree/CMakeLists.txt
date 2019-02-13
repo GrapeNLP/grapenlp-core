@@ -45,7 +45,7 @@ target_link_libraries(lrb_tree
         )
 
 install(TARGETS lrb_tree EXPORT lrb_treeConfig
-        ARCHIVE DESTINATION ${CMAKE_INSTALL_LIBDIR} COMPONENT libgrapenlpdev)
+        ARCHIVE DESTINATION ${CMAKE_INSTALL_LIBDIR}/grapenlp COMPONENT libgrapenlpdev)
 install(DIRECTORY include/ DESTINATION ${CMAKE_INSTALL_INCLUDEDIR} COMPONENT libgrapenlpdev)
 install(EXPORT lrb_treeConfig DESTINATION share/grapenlp/lrb_tree/cmake COMPONENT libgrapenlpdev)
 export(TARGETS lrb_tree FILE lrb_treeConfig.cmake)

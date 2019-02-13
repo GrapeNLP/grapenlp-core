@@ -45,7 +45,7 @@ target_link_libraries(output_fprtn_top_prune
         )
 
 install(TARGETS output_fprtn_top_prune EXPORT output_fprtn_top_pruneConfig
-        ARCHIVE DESTINATION ${CMAKE_INSTALL_LIBDIR} COMPONENT libgrapenlpdev)
+        ARCHIVE DESTINATION ${CMAKE_INSTALL_LIBDIR}/grapenlp COMPONENT libgrapenlpdev)
 install(DIRECTORY include/ DESTINATION ${CMAKE_INSTALL_INCLUDEDIR} COMPONENT libgrapenlpdev)
 install(EXPORT output_fprtn_top_pruneConfig DESTINATION share/grapenlp/output_fprtn_top_prune/cmake COMPONENT libgrapenlpdev)
 export(TARGETS output_fprtn_top_prune FILE output_fprtn_top_pruneConfig.cmake)

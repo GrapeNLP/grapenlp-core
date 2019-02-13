@@ -296,6 +296,7 @@ file(WRITE ${DEBIAN_RULES}
         "	mkdir $(BUILDDIR)\n"
         "	cd $(BUILDDIR); cmake -DCMAKE_BUILD_TYPE=Release -DJAVA_HOME=/usr/lib/jvm/java-8-openjdk-`/usr/bin/dpkg --print-architecture` ..\n"
         "	make -C $(BUILDDIR) preinstall\n"
+        "	make -C $(BUILDDIR) test\n"
         "	touch build\n"
         "\n"
         "binary: binary-indep binary-arch\n"
@@ -345,7 +346,7 @@ file(WRITE ${DEBIAN_SOURCE_DIR}/debian/compat "7")
 
 
 set(DEBIAN_CHANGELOG ${DEBIAN_SOURCE_DIR}/debian/changelog)
-#configure_file(${CMAKE_SOURCE_DIR}/CHANGES ${DEBIAN_CHANGELOG})
+#configure_file(${CMAKE_SOURCE_DIR}/CHANGES ${DEBIAN_CHANGELOG} COPYONLY)
 
 execute_process(COMMAND date -R  OUTPUT_VARIABLE DATE_TIME)
 

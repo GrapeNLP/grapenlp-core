@@ -51,7 +51,7 @@ target_link_libraries(output_fprtn_blackboard_set_expander
         )
 
 install(TARGETS output_fprtn_blackboard_set_expander EXPORT output_fprtn_blackboard_set_expanderConfig
-        ARCHIVE DESTINATION ${CMAKE_INSTALL_LIBDIR} COMPONENT libgrapenlpdev)
+        ARCHIVE DESTINATION ${CMAKE_INSTALL_LIBDIR}/grapenlp COMPONENT libgrapenlpdev)
 install(DIRECTORY include/ DESTINATION ${CMAKE_INSTALL_INCLUDEDIR} COMPONENT libgrapenlpdev)
 install(EXPORT output_fprtn_blackboard_set_expanderConfig DESTINATION share/grapenlp/output_fprtn_blackboard_set_expander/cmake COMPONENT libgrapenlpdev)
 export(TARGETS output_fprtn_blackboard_set_expander FILE output_fprtn_blackboard_set_expanderConfig.cmake)

@@ -24,9 +24,9 @@
 #
 
 configure_file(${CMAKE_SOURCE_DIR}/LICENSE
-        ${CMAKE_BINARY_DIR}/debian/copyright)
+        ${CMAKE_BINARY_DIR}/debian/copyright COPYONLY)
 configure_file(${CMAKE_SOURCE_DIR}/CHANGES
-        ${CMAKE_BINARY_DIR}/debian/changelog.Debian)
+        ${CMAKE_BINARY_DIR}/debian/changelog.Debian COPYONLY)
 execute_process(COMMAND gzip -9 -c ${CMAKE_BINARY_DIR}/debian/changelog.Debian
         WORKING_DIRECTORY ${CMAKE_BINARY_DIR}/debian
         OUTPUT_FILE "${CMAKE_BINARY_DIR}/debian/changelog.Debian.gz")

@@ -47,7 +47,7 @@ target_link_libraries(earley_parsing
         )
 
 install(TARGETS earley_parsing EXPORT earley_parsingConfig
-        ARCHIVE DESTINATION ${CMAKE_INSTALL_LIBDIR} COMPONENT libgrapenlpdev)
+        ARCHIVE DESTINATION ${CMAKE_INSTALL_LIBDIR}/grapenlp COMPONENT libgrapenlpdev)
 install(DIRECTORY include/ DESTINATION ${CMAKE_INSTALL_INCLUDEDIR} COMPONENT libgrapenlpdev)
 install(EXPORT earley_parsingConfig DESTINATION share/grapenlp/earley_parsing/cmake COMPONENT libgrapenlpdev)
 export(TARGETS earley_parsing FILE earley_parsingConfig.cmake)

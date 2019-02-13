@@ -56,7 +56,7 @@ target_link_libraries(unicode
 		)
 
 install(TARGETS unicode EXPORT unicodeConfig
-        ARCHIVE DESTINATION ${CMAKE_INSTALL_LIBDIR} COMPONENT libgrapenlpdev)
+        ARCHIVE DESTINATION ${CMAKE_INSTALL_LIBDIR}/grapenlp COMPONENT libgrapenlpdev)
 install(DIRECTORY include/ DESTINATION ${CMAKE_INSTALL_INCLUDEDIR} COMPONENT libgrapenlpdev)
 install(EXPORT unicodeConfig DESTINATION share/grapenlp/unicode/cmake COMPONENT libgrapenlpdev)
 export(TARGETS unicode FILE unicodeConfig.cmake)

@@ -35,7 +35,7 @@ target_link_libraries(to_canonical_form
         )
 
 install(TARGETS to_canonical_form EXPORT to_canonical_formConfig
-        ARCHIVE DESTINATION ${CMAKE_INSTALL_LIBDIR} COMPONENT libgrapenlpdev)
+        ARCHIVE DESTINATION ${CMAKE_INSTALL_LIBDIR}/grapenlp COMPONENT libgrapenlpdev)
 install(DIRECTORY include/ DESTINATION ${CMAKE_INSTALL_INCLUDEDIR} COMPONENT libgrapenlpdev)
 install(EXPORT to_canonical_formConfig DESTINATION share/grapenlp/to_canonical_form/cmake COMPONENT libgrapenlpdev)
 export(TARGETS to_canonical_form FILE to_canonical_formConfig.cmake)

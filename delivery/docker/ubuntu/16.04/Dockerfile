@@ -69,7 +69,7 @@ RUN apt-get install -y swig
 RUN apt-get install -y cmake
 
 # Install GoogleTest source
-RUN apt-get -y libgtest-dev
+RUN apt-get install -y libgtest-dev
 
 # Install GIT
 RUN apt-get install -y git

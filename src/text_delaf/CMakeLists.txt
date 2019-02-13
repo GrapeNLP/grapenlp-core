@@ -42,7 +42,7 @@ target_link_libraries(text_delaf
         )
 
 install(TARGETS text_delaf EXPORT text_delafConfig
-        ARCHIVE DESTINATION ${CMAKE_INSTALL_LIBDIR} COMPONENT libgrapenlpdev)
+        ARCHIVE DESTINATION ${CMAKE_INSTALL_LIBDIR}/grapenlp COMPONENT libgrapenlpdev)
 install(DIRECTORY include/ DESTINATION ${CMAKE_INSTALL_INCLUDEDIR} COMPONENT libgrapenlpdev)
 install(EXPORT text_delafConfig DESTINATION share/grapenlp/text_delaf/cmake COMPONENT libgrapenlpdev)
 export(TARGETS text_delaf FILE text_delafConfig.cmake)

@@ -35,7 +35,7 @@ target_link_libraries(rtno_to_dot_serializer
         )
 
 install(TARGETS rtno_to_dot_serializer EXPORT rtno_to_dot_serializerConfig
-        ARCHIVE DESTINATION ${CMAKE_INSTALL_LIBDIR} COMPONENT libgrapenlpdev)
+        ARCHIVE DESTINATION ${CMAKE_INSTALL_LIBDIR}/grapenlp COMPONENT libgrapenlpdev)
 install(DIRECTORY include/ DESTINATION ${CMAKE_INSTALL_INCLUDEDIR} COMPONENT libgrapenlpdev)
 install(EXPORT rtno_to_dot_serializerConfig DESTINATION share/grapenlp/rtno_to_dot_serializer/cmake COMPONENT libgrapenlpdev)
 export(TARGETS rtno_to_dot_serializer FILE rtno_to_dot_serializerConfig.cmake)

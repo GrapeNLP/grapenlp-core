@@ -25,9 +25,9 @@
 
 FROM alpine:3.6
 
-LABEL grape.alpine.3_6.docker.version="2.0"
+LABEL grape.alpine.3_6.docker.version="3.0"
 
-RUN apk --update add --no-cache dpkg g++ boost-dev boost-program_options make cmake swig python3-dev
+RUN apk --update add --no-cache bash dpkg g++ boost-dev boost-program_options make cmake swig python3-dev
 
 #Install Oracle JDK
 ADD https://github.com/sgerrand/alpine-pkg-glibc/releases/download/2.27-r0/glibc-2.27-r0.apk /tmp

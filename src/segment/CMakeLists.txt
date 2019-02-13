@@ -45,7 +45,7 @@ target_link_libraries(segment
         )
 
 install(TARGETS segment EXPORT segmentConfig
-        ARCHIVE DESTINATION ${CMAKE_INSTALL_LIBDIR} COMPONENT libgrapenlpdev)
+        ARCHIVE DESTINATION ${CMAKE_INSTALL_LIBDIR}/grapenlp COMPONENT libgrapenlpdev)
 install(DIRECTORY include/ DESTINATION ${CMAKE_INSTALL_INCLUDEDIR} COMPONENT libgrapenlpdev)
 install(EXPORT segmentConfig DESTINATION share/grapenlp/segment/cmake COMPONENT libgrapenlpdev)
 export(TARGETS segment FILE segmentConfig.cmake)

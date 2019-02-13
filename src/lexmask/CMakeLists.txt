@@ -44,7 +44,7 @@ target_link_libraries(lexmask
         )
 
 install(TARGETS lexmask EXPORT lexmaskConfig
-        ARCHIVE DESTINATION ${CMAKE_INSTALL_LIBDIR} COMPONENT libgrapenlpdev)
+        ARCHIVE DESTINATION ${CMAKE_INSTALL_LIBDIR}/grapenlp COMPONENT libgrapenlpdev)
 install(DIRECTORY include/ DESTINATION ${CMAKE_INSTALL_INCLUDEDIR} COMPONENT libgrapenlpdev)
 install(EXPORT lexmaskConfig DESTINATION share/grapenlp/lexmask/cmake COMPONENT libgrapenlpdev)
 export(TARGETS lexmask FILE lexmaskConfig.cmake)

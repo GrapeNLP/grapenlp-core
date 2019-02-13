@@ -40,7 +40,7 @@ target_link_libraries(pcfgla
         )
 
 install(TARGETS pcfgla EXPORT pcfglaConfig
-        ARCHIVE DESTINATION ${CMAKE_INSTALL_LIBDIR} COMPONENT libgrapenlpdev)
+        ARCHIVE DESTINATION ${CMAKE_INSTALL_LIBDIR}/grapenlp COMPONENT libgrapenlpdev)
 install(DIRECTORY include/ DESTINATION ${CMAKE_INSTALL_INCLUDEDIR} COMPONENT libgrapenlpdev)
 install(EXPORT pcfglaConfig DESTINATION share/grapenlp/pcfgla/cmake COMPONENT libgrapenlpdev)
 export(TARGETS pcfgla FILE pcfglaConfig.cmake)

@@ -59,6 +59,7 @@ set(CMAKE_TEST_RUNTIME_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/test_bin)
 # Must use GNUInstallDirs to install libraries into correct
 # locations on all platforms.
 include(GNUInstallDirs)
+string(REPLACE "grapenlp-core" "grapenlp" CMAKE_INSTALL_DOCDIR "${CMAKE_INSTALL_DOCDIR}")
 
 if (NOT ANDROID_NDK_TOOLCHAIN_INCLUDED)
     # Include system installed Boost as an imported target

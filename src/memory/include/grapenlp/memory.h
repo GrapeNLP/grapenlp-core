@@ -23,9 +23,33 @@
  *  @author Javier Sastre
  */
 
-#include <grapenlp/movistarbot_weighted_out_serializer.h>
+#ifndef GRAPENLP_MEMORY_H
+#define GRAPENLP_MEMORY_H
+
+#include <map>
+
+#include <grapenlp/u_array.h>
+#include <grapenlp/u_trie.h>
 
 namespace grapenlp
 {
-	//Up to now, everything declared inline: all definitions in the corresponding header file
+    class memory
+    {
+    public:
+        typedef trie_with_ptr_data<unichar, u_array> ua_trie;
+        typedef trie_with_ptr_data<unichar, u_array>::string ua_trie_string;
+        typedef trie_with_ptr_data<unichar, u_array>::string::const_ref ua_trie_string_const_ref;
+
+        void memory();
+//        u_trie_string get_key_const_ref(const u_array &key);
+//        ua_trie_const_ref get_value_const_ref(const u_array &value);
+//        ua_trie_const_ref get_register_value_const_ref(ua_trie_const_ref key);
+//        ua_trie_const_ref set_register_value_const_ref(ua_trie_const_ref key, ua_trie_const_ref value);
+//        void set_register(ua_trie_const_ref key, ua_trie_const_ref value);
+
+
+        void ~memory();
+    };
 } //namespace grapenlp
+
+#endif /*GRAPENLP_MEMORY_H*/

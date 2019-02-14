@@ -23,9 +23,21 @@
  *  @author Javier Sastre
  */
 
-#include <grapenlp/movistarbot_weighted_out_serializer.h>
+#include <grapenlp/memory.h>
 
 namespace grapenlp
 {
-	//Up to now, everything declared inline: all definitions in the corresponding header file
+    class memory
+    {
+        u_trie keys;
+        ua_trie values;
+        std::map<ua_trie_string_ref, ua_trie_string_ref> map;
+
+    public:
+        memory(): keys(), values(), map()
+        {}
+
+        ~memory()
+        {}
+    };
 } //namespace grapenlp

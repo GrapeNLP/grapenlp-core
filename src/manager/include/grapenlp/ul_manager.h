@@ -34,6 +34,7 @@
 
 #endif
 
+#include <map>
 #include <set>
 
 #include <grapenlp/disable_directives.h>
@@ -347,6 +348,7 @@ namespace grapenlp {
 
         void *grammar_ref;
         void *dico_ref;
+        Memory memory;
 #if !defined(DISABLE_TEXT_DICO) && !defined(DISABLE_COMPRESSED_DICO)
         bool dico_is_in_text_format;
 #endif
@@ -380,6 +382,7 @@ namespace grapenlp {
 #if !defined(DISABLE_TEXT_DICO) && !defined(DISABLE_COMPRESSED_DICO)
                 dico_is_in_text_format(false),
 #endif
+                memory(),
                 the_token_list(),
                 hasnt_white_at_begin(true),
                 hasnt_white_at_end(true),
@@ -408,6 +411,7 @@ namespace grapenlp {
 #if !defined(DISABLE_TEXT_DICO) && !defined(DISABLE_COMPRESSED_DICO)
                 dico_is_in_text_format(false),
 #endif
+                memory(),
                 the_token_list(),
                 hasnt_white_at_begin(true),
                 hasnt_white_at_end(true),
@@ -6054,8 +6058,14 @@ namespace grapenlp {
         { serialize(input_begin, input_end, to_canonical_form_mark.begin(), to_canonical_form_mark.end()); }
 #endif //defined(SERIALIZED_OUTPUT) && !(defined(DISABLE_LUX_GRAMMAR) && defined(DISABLE_LUXW_GRAMMAR))
 
+        void set_register(u_array &key, u_array &value)
+        {
+
+        }
+
         template<typename ToCanonicalFormMarkIterator>
         void process(InputIterator input_begin, InputIterator input_end,
+                     InputContext input_context,
                      ToCanonicalFormMarkIterator to_canonical_form_mark_begin,
                      ToCanonicalFormMarkIterator to_canonical_form_mark_end, rtno_parser_type the_rtno_parser_type,
                      bool trie_strings, bool no_output, assoc_container_impl_choice the_execution_state_set_impl_choice,

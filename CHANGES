@@ -1,3 +1,9 @@
+grapenlp-core (2.6.1) stable; urgency=medium
+
+  * Renamed default installation component as "trash" and removed it from the list of components to install in order to avoid GoogleTest files from been included in this project's packages
+
+ -- Javier Sastre <javier.sastre@telefonica.net>  Thu, 14 Feb 2019 12:35:01 +0100
+
 grapenlp-core (2.6.0) stable; urgency=medium
 
   * Added make targets package_source, package_ubuntu and dput for creating the source packages and uploading them to Launchpad

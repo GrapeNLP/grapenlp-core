@@ -41,6 +41,10 @@ set(CPACK_PACKAGE_DESCRIPTION_FILE "${CMAKE_HOME_DIRECTORY}/description.txt")
 set(CPACK_PACKAGE_VERSION "${CHANGELOG_VERSION}")
 set(CPACK_PACKAGE_VENDOR "GrapeNLP")
 set(CPACK_PACKAGE_CONTACT "Javier Sastre <javier.sastre@telefonica.net>")
+# Every file to install in this project belongs to a component; third party project files (e.g. GoogleTest) are to be
+# used as build tools but are not to be packed along with this project files, so they are to be put in a "trash"
+# component whose packaging is to be ommited
+set(CMAKE_INSTALL_DEFAULT_COMPONENT_NAME "trash")
 set(CPACK_SOURCE_IGNORE_FILES
     ${CPACK_SOURCE_IGNORE_FILES}
     "/test\\\\.txt"

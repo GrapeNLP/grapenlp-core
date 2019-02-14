@@ -164,6 +164,11 @@ add_subdirectory(unicode)
 
 # Packaging stuff
 if (UNIX AND NOT APPLE AND NOT ANDROID_NDK_TOOLCHAIN_INCLUDED)
+    get_cmake_property(CPACK_COMPONENTS_ALL COMPONENTS)
+    # Remove the "trash" component from the list of components to install; this avoids 3rd party components (e.g.
+    # GoogleTest) to be packaged along with the files of this project
+    list(REMOVE_ITEM CPACK_COMPONENTS_ALL "trash")
+    MESSAGE(STATUS "CPACK_COMPONENTS_ALL: ${CPACK_COMPONENTS_ALL}")
     set(CPACK_OUTPUT_FILE_PREFIX package)
     include(DebianPackaging)
     include(CPack)

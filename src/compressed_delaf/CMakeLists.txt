@@ -23,7 +23,7 @@
 # @author Javier Sastre
 #
 
-project(compressed_delaf VERSION ${GRAPENLP_VERSION_MAJOR}.${GRAPENLP_VERSION_MINOR}.${GRAPENLP_VERSION_PATCH} LANGUAGES CXX)
+project(compressed_delaf VERSION ${CHANGELOG_VERSION} LANGUAGES CXX)
 
 add_library(compressed_delaf STATIC
         src/bin_delaf.cpp
@@ -41,7 +41,7 @@ target_include_directories(compressed_delaf PUBLIC
         PRIVATE src)
 
 install(TARGETS compressed_delaf EXPORT compressed_delafConfig
-        ARCHIVE DESTINATION ${CMAKE_INSTALL_LIBDIR} COMPONENT libgrapenlpdev)
+        ARCHIVE DESTINATION ${CMAKE_INSTALL_LIBDIR}/grapenlp COMPONENT libgrapenlpdev)
 install(DIRECTORY include/ DESTINATION ${CMAKE_INSTALL_INCLUDEDIR} COMPONENT libgrapenlpdev)
 install(EXPORT compressed_delafConfig DESTINATION share/grapenlp/compressed_delaf/cmake COMPONENT libgrapenlpdev)
 export(TARGETS compressed_delaf FILE compressed_delafConfig.cmake)
@@ -57,5 +57,8 @@ add_executable(filter_compressed_delaf src/filter_compressed_delaf.cpp)
 target_link_libraries(filter_compressed_delaf compressed_delaf)
 
 #Test files
-add_executable(test_compressed_delaf test/test_compressed_delaf.cpp)
-target_link_libraries(test_compressed_delaf compressed_delaf)
+if (BUILD_TESTING)
+    add_executable(test_compressed_delaf test/test_compressed_delaf.cpp)
+    set_target_properties(test_compressed_delaf PROPERTIES RUNTIME_OUTPUT_DIRECTORY ${CMAKE_TEST_RUNTIME_OUTPUT_DIRECTORY})
+    target_link_libraries(test_compressed_delaf compressed_delaf)
+endif (BUILD_TESTING)

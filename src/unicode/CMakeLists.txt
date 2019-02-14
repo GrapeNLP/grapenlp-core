@@ -23,7 +23,7 @@
 # @author Javier Sastre
 #
 
-project(unicode VERSION ${GRAPENLP_VERSION_MAJOR}.${GRAPENLP_VERSION_MINOR}.${GRAPENLP_VERSION_PATCH} LANGUAGES CXX)
+project(unicode VERSION ${CHANGELOG_VERSION} LANGUAGES CXX)
 
 add_library(unicode STATIC
 		src/error.cpp
@@ -56,7 +56,7 @@ target_link_libraries(unicode
 		)
 
 install(TARGETS unicode EXPORT unicodeConfig
-        ARCHIVE DESTINATION ${CMAKE_INSTALL_LIBDIR} COMPONENT libgrapenlpdev)
+        ARCHIVE DESTINATION ${CMAKE_INSTALL_LIBDIR}/grapenlp COMPONENT libgrapenlpdev)
 install(DIRECTORY include/ DESTINATION ${CMAKE_INSTALL_INCLUDEDIR} COMPONENT libgrapenlpdev)
 install(EXPORT unicodeConfig DESTINATION share/grapenlp/unicode/cmake COMPONENT libgrapenlpdev)
 export(TARGETS unicode FILE unicodeConfig.cmake)
@@ -65,8 +65,12 @@ add_executable(dump_chars src/dump_chars.cpp)
 target_link_libraries(dump_chars unicode)
 
 # Test files
-add_executable(test_case test/test_case.cpp)
-target_link_libraries(test_case unicode)
+if (BUILD_TESTING)
+	add_executable(test_case test/test_case.cpp)
+	set_target_properties(test_case PROPERTIES RUNTIME_OUTPUT_DIRECTORY ${CMAKE_TEST_RUNTIME_OUTPUT_DIRECTORY})
+	target_link_libraries(test_case unicode)
 
-add_executable(u_trie_test test/u_trie_test.cpp)
-target_link_libraries(u_trie_test unicode)
+	add_executable(u_trie_test test/u_trie_test.cpp)
+	set_target_properties(u_trie_test PROPERTIES RUNTIME_OUTPUT_DIRECTORY ${CMAKE_TEST_RUNTIME_OUTPUT_DIRECTORY})
+	target_link_libraries(u_trie_test unicode)
+endif (BUILD_TESTING)

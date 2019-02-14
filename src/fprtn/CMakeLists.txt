@@ -23,7 +23,7 @@
 # @author Javier Sastre
 #
 
-project(fprtn VERSION ${GRAPENLP_VERSION_MAJOR}.${GRAPENLP_VERSION_MINOR}.${GRAPENLP_VERSION_PATCH} LANGUAGES CXX)
+project(fprtn VERSION ${CHANGELOG_VERSION} LANGUAGES CXX)
 
 add_library(fprtn STATIC
         src/fprtn.cpp
@@ -45,7 +45,7 @@ target_link_libraries(fprtn
         )
 
 install(TARGETS fprtn EXPORT fprtnConfig
-        ARCHIVE DESTINATION ${CMAKE_INSTALL_LIBDIR} COMPONENT libgrapenlpdev)
+        ARCHIVE DESTINATION ${CMAKE_INSTALL_LIBDIR}/grapenlp COMPONENT libgrapenlpdev)
 install(DIRECTORY include/ DESTINATION ${CMAKE_INSTALL_INCLUDEDIR} COMPONENT libgrapenlpdev)
 install(EXPORT fprtnConfig DESTINATION share/grapenlp/fprtn/cmake COMPONENT libgrapenlpdev)
 export(TARGETS fprtn FILE fprtnConfig.cmake)

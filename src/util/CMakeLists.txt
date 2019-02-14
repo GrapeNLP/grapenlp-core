@@ -1,4 +1,4 @@
-project(util VERSION ${GRAPENLP_VERSION_MAJOR}.${GRAPENLP_VERSION_MINOR}.${GRAPENLP_VERSION_PATCH} LANGUAGES CXX)
+project(util VERSION ${CHANGELOG_VERSION} LANGUAGES CXX)
 
 add_library(util STATIC
         src/algorithm.cpp
@@ -29,27 +29,28 @@ target_include_directories(util PUBLIC
         PRIVATE src)
 
 install(TARGETS util EXPORT utilConfig
-        ARCHIVE DESTINATION ${CMAKE_INSTALL_LIBDIR} COMPONENT libgrapenlpdev)
+        ARCHIVE DESTINATION ${CMAKE_INSTALL_LIBDIR}/grapenlp COMPONENT libgrapenlpdev)
 install(DIRECTORY include/ DESTINATION ${CMAKE_INSTALL_INCLUDEDIR} COMPONENT libgrapenlpdev)
 install(EXPORT utilConfig DESTINATION share/grapenlp/util/cmake COMPONENT libgrapenlpdev)
 export(TARGETS util FILE utilConfig.cmake)
 
 # Test files
-#add_executable(ansi_text_attribute_test
-#    test/ansi_text_attribute_test.cpp)
+if (BUILD_TESTING)
+	add_executable(ansi_text_attribute_test
+		test/ansi_text_attribute_test.cpp)
+	set_target_properties(ansi_text_attribute_test PROPERTIES RUNTIME_OUTPUT_DIRECTORY ${CMAKE_TEST_RUNTIME_OUTPUT_DIRECTORY})
+	target_link_libraries(ansi_text_attribute_test
+		util
+		gtest_main)
 
-#target_link_libraries(ansi_text_attribute_test
-#    util
-#	GTest::GTest
-#	GTest::Main)
+	add_test(NAME ansi_text_attribute_test COMMAND ansi_text_attribute_test)
 
-#add_test(ansi_text_attribute_test ansi_text_attribute_test)
+	#add_executable(trie_test
+	#		test/trie_test.cpp)
+	#set_target_properties(trie_test PROPERTIES RUNTIME_OUTPUT_DIRECTORY ${CMAKE_TEST_RUNTIME_OUTPUT_DIRECTORY})
+	#target_link_libraries(trie_test
+	#		util
+	#		GTest::GTest GTest::Main)
 
-#add_executable(trie_test
-#		test/trie_test.cpp)
-
-#target_link_libraries(trie_test
-#		util
-#		GTest::GTest GTest::Main)
-
-#add_test(trie_test trie_test)
+	#add_test(trie_test trie_test)
+endif (BUILD_TESTING)

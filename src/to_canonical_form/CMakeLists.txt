@@ -23,7 +23,7 @@
 # @author Javier Sastre
 #
 
-project(to_canonical_form VERSION ${GRAPENLP_VERSION_MAJOR}.${GRAPENLP_VERSION_MINOR}.${GRAPENLP_VERSION_PATCH} LANGUAGES CXX)
+project(to_canonical_form VERSION ${CHANGELOG_VERSION} LANGUAGES CXX)
 
 add_library(to_canonical_form STATIC src/to_canonical_form.cpp)
 target_include_directories(to_canonical_form PUBLIC
@@ -35,14 +35,17 @@ target_link_libraries(to_canonical_form
         )
 
 install(TARGETS to_canonical_form EXPORT to_canonical_formConfig
-        ARCHIVE DESTINATION ${CMAKE_INSTALL_LIBDIR} COMPONENT libgrapenlpdev)
+        ARCHIVE DESTINATION ${CMAKE_INSTALL_LIBDIR}/grapenlp COMPONENT libgrapenlpdev)
 install(DIRECTORY include/ DESTINATION ${CMAKE_INSTALL_INCLUDEDIR} COMPONENT libgrapenlpdev)
 install(EXPORT to_canonical_formConfig DESTINATION share/grapenlp/to_canonical_form/cmake COMPONENT libgrapenlpdev)
 export(TARGETS to_canonical_form FILE to_canonical_formConfig.cmake)
 
 # Test files
-add_executable(to_canonical_form_test test/to_canonical_form_test.cpp)
-target_link_libraries(to_canonical_form_test
-        to_canonical_form
-        token
-        )
+if (BUILD_TESTING)
+    add_executable(to_canonical_form_test test/to_canonical_form_test.cpp)
+    set_target_properties(to_canonical_form_test PROPERTIES RUNTIME_OUTPUT_DIRECTORY ${CMAKE_TEST_RUNTIME_OUTPUT_DIRECTORY})
+    target_link_libraries(to_canonical_form_test
+            to_canonical_form
+            token
+            )
+endif (BUILD_TESTING)

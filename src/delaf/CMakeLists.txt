@@ -23,7 +23,7 @@
 # @author Javier Sastre
 #
 
-project(delaf VERSION ${GRAPENLP_VERSION_MAJOR}.${GRAPENLP_VERSION_MINOR}.${GRAPENLP_VERSION_PATCH} LANGUAGES CXX)
+project(delaf VERSION ${CHANGELOG_VERSION} LANGUAGES CXX)
 
 add_library(delaf STATIC
         src/delaf_entry_filter_default_weight.cpp
@@ -40,7 +40,7 @@ target_link_libraries(delaf
         )
 
 install(TARGETS delaf EXPORT delafConfig
-        ARCHIVE DESTINATION ${CMAKE_INSTALL_LIBDIR} COMPONENT libgrapenlpdev)
+        ARCHIVE DESTINATION ${CMAKE_INSTALL_LIBDIR}/grapenlp COMPONENT libgrapenlpdev)
 install(DIRECTORY include/ DESTINATION ${CMAKE_INSTALL_INCLUDEDIR} COMPONENT libgrapenlpdev)
 install(EXPORT delafConfig DESTINATION share/grapenlp/delaf/cmake COMPONENT libgrapenlpdev)
 export(TARGETS delaf FILE delafConfig.cmake)

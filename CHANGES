@@ -1,3 +1,23 @@
+grapenlp-core (2.6.1) stable; urgency=medium
+
+  * Renamed default installation component as "trash" and removed it from the list of components to install in order to avoid GoogleTest files from been included in this project's packages
+
+ -- Javier Sastre <javier.sastre@telefonica.net>  Thu, 14 Feb 2019 12:35:01 +0100
+
+grapenlp-core (2.6.0) stable; urgency=medium
+
+  * Added make targets package_source, package_ubuntu and dput for creating the source packages and uploading them to Launchpad
+  * GoogleTest libraries are compiled as part of the project instead of expecting the static libraries to be preinstalled in the build environment (needed for compiling in Launchpad)
+  * Compilation of GoogleTest libraries removed from build dockers and Travis MacOS virtual machine
+  * Static libraries are installed in a subfolder "grapenlp" to avoid conflicts with other software packages
+  * Library version is no longer hardcoded in the main CMakeLists.txt file but CMake grabs it from the CHANGES file
+  * Upon build, executable files are put in folder bin, test executables in folder test_bin, libraries in folder lib and packages in folder package
+  * Folder "build" containing the build scripts and dockers renamed as "delivery"
+  * Folder "bin" containing the built files renamed as "build" (this is the typical convention)
+  * Boost library version is shown when executing either the build.sh script or the buildforandroid.sh one
+
+ -- Javier Sastre <javier.sastre@telefonica.net>  Fri, 08 Feb 2019 09:54:24 +0100
+
 grapenlp-core (2.5.0) stable; urgency=medium
 
   * Added DockerFile for building the Android version for platform 14

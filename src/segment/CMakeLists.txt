@@ -23,7 +23,7 @@
 # @author Javier Sastre
 #
 
-project(segment VERSION ${GRAPENLP_VERSION_MAJOR}.${GRAPENLP_VERSION_MINOR}.${GRAPENLP_VERSION_PATCH} LANGUAGES CXX)
+project(segment VERSION ${CHANGELOG_VERSION} LANGUAGES CXX)
 
 add_library(segment STATIC
         src/out_bound.cpp
@@ -45,7 +45,7 @@ target_link_libraries(segment
         )
 
 install(TARGETS segment EXPORT segmentConfig
-        ARCHIVE DESTINATION ${CMAKE_INSTALL_LIBDIR} COMPONENT libgrapenlpdev)
+        ARCHIVE DESTINATION ${CMAKE_INSTALL_LIBDIR}/grapenlp COMPONENT libgrapenlpdev)
 install(DIRECTORY include/ DESTINATION ${CMAKE_INSTALL_INCLUDEDIR} COMPONENT libgrapenlpdev)
 install(EXPORT segmentConfig DESTINATION share/grapenlp/segment/cmake COMPONENT libgrapenlpdev)
 export(TARGETS segment FILE segmentConfig.cmake)

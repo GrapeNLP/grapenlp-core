@@ -23,7 +23,7 @@
 # @author Javier Sastre
 #
 
-project(tokenization VERSION ${GRAPENLP_VERSION_MAJOR}.${GRAPENLP_VERSION_MINOR}.${GRAPENLP_VERSION_PATCH} LANGUAGES CXX)
+project(tokenization VERSION ${CHANGELOG_VERSION} LANGUAGES CXX)
 
 add_library(token STATIC
         src/token.cpp
@@ -38,7 +38,7 @@ target_link_libraries(token
         )
 
 install(TARGETS token EXPORT tokenConfig
-        ARCHIVE DESTINATION ${CMAKE_INSTALL_LIBDIR} COMPONENT libgrapenlpdev)
+        ARCHIVE DESTINATION ${CMAKE_INSTALL_LIBDIR}/grapenlp COMPONENT libgrapenlpdev)
 install(DIRECTORY include/ DESTINATION ${CMAKE_INSTALL_INCLUDEDIR} COMPONENT libgrapenlpdev)
 install(EXPORT tokenConfig DESTINATION share/grapenlp/token/cmake COMPONENT libgrapenlpdev)
 export(TARGETS token FILE tokenConfig.cmake)

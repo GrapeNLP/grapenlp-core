@@ -23,7 +23,7 @@
 # @author Javier Sastre
 #
 
-project(output_wfprtn_top_blackboard_extractor VERSION ${GRAPENLP_VERSION_MAJOR}.${GRAPENLP_VERSION_MINOR}.${GRAPENLP_VERSION_PATCH} LANGUAGES CXX)
+project(output_wfprtn_top_blackboard_extractor VERSION ${CHANGELOG_VERSION} LANGUAGES CXX)
 
 add_library(output_wfprtn_top_blackboard_extractor STATIC
         src/wfprtn_top_blackboard_extractor.cpp
@@ -45,7 +45,7 @@ target_link_libraries(output_wfprtn_top_blackboard_extractor
         )
 
 install(TARGETS output_wfprtn_top_blackboard_extractor EXPORT output_wfprtn_top_blackboard_extractorConfig
-        ARCHIVE DESTINATION ${CMAKE_INSTALL_LIBDIR} COMPONENT libgrapenlpdev)
+        ARCHIVE DESTINATION ${CMAKE_INSTALL_LIBDIR}/grapenlp COMPONENT libgrapenlpdev)
 install(DIRECTORY include/ DESTINATION ${CMAKE_INSTALL_INCLUDEDIR} COMPONENT libgrapenlpdev)
 install(EXPORT output_wfprtn_top_blackboard_extractorConfig DESTINATION share/grapenlp/output_wfprtn_top_blackboard_extractor/cmake COMPONENT libgrapenlpdev)
 export(TARGETS output_wfprtn_top_blackboard_extractor FILE output_wfprtn_top_blackboard_extractorConfig.cmake)

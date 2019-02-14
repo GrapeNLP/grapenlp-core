@@ -23,7 +23,7 @@
 # @author Javier Sastre
 #
 
-project(rb_tree VERSION ${GRAPENLP_VERSION_MAJOR}.${GRAPENLP_VERSION_MINOR}.${GRAPENLP_VERSION_PATCH} LANGUAGES CXX)
+project(rb_tree VERSION ${CHANGELOG_VERSION} LANGUAGES CXX)
 
 add_library(rb_tree STATIC
         src/rb_tree.cpp
@@ -45,36 +45,42 @@ target_link_libraries(rb_tree
         )
 
 install(TARGETS rb_tree EXPORT rb_treeConfig
-        ARCHIVE DESTINATION ${CMAKE_INSTALL_LIBDIR} COMPONENT libgrapenlpdev)
+        ARCHIVE DESTINATION ${CMAKE_INSTALL_LIBDIR}/grapenlp COMPONENT libgrapenlpdev)
 install(DIRECTORY include/ DESTINATION ${CMAKE_INSTALL_INCLUDEDIR} COMPONENT libgrapenlpdev)
 install(EXPORT rb_treeConfig DESTINATION share/grapenlp/rb_tree/cmake COMPONENT libgrapenlpdev)
 export(TARGETS rb_tree FILE rb_treeConfig.cmake)
 
 # Test files
-add_executable(rb_tree_set_test test/rb_tree_set_test.cpp)
-target_link_libraries(rb_tree_set_test
-        util
-        rb_tree_to_dot_serializer
-        ${Boost_PROGRAM_OPTIONS_LIBRARY}
-        )
+if (BUILD_TESTING)
+    add_executable(rb_tree_set_test test/rb_tree_set_test.cpp)
+    set_target_properties(rb_tree_set_test PROPERTIES RUNTIME_OUTPUT_DIRECTORY ${CMAKE_TEST_RUNTIME_OUTPUT_DIRECTORY})
+    target_link_libraries(rb_tree_set_test
+            util
+            rb_tree_to_dot_serializer
+            ${Boost_PROGRAM_OPTIONS_LIBRARY}
+            )
 
-add_executable(rb_tree_map_test test/rb_tree_map_test.cpp)
-target_link_libraries(rb_tree_map_test
-        util
-        rb_tree_to_dot_serializer
-        ${Boost_PROGRAM_OPTIONS_LIBRARY}
-        )
+    add_executable(rb_tree_map_test test/rb_tree_map_test.cpp)
+    set_target_properties(rb_tree_map_test PROPERTIES RUNTIME_OUTPUT_DIRECTORY ${CMAKE_TEST_RUNTIME_OUTPUT_DIRECTORY})
+    target_link_libraries(rb_tree_map_test
+            util
+            rb_tree_to_dot_serializer
+            ${Boost_PROGRAM_OPTIONS_LIBRARY}
+            )
 
-add_executable(rb_tree_multiset_test test/rb_tree_multiset_test.cpp)
-target_link_libraries(rb_tree_multiset_test
-        util
-        rb_tree_to_dot_serializer
-        ${Boost_PROGRAM_OPTIONS_LIBRARY}
-        )
+    add_executable(rb_tree_multiset_test test/rb_tree_multiset_test.cpp)
+    set_target_properties(rb_tree_multiset_test PROPERTIES RUNTIME_OUTPUT_DIRECTORY ${CMAKE_TEST_RUNTIME_OUTPUT_DIRECTORY})
+    target_link_libraries(rb_tree_multiset_test
+            util
+            rb_tree_to_dot_serializer
+            ${Boost_PROGRAM_OPTIONS_LIBRARY}
+            )
 
-add_executable(rb_tree_multimap_test test/rb_tree_multimap_test.cpp)
-target_link_libraries(rb_tree_multimap_test
-        util
-        rb_tree_to_dot_serializer
-        ${Boost_PROGRAM_OPTIONS_LIBRARY}
-        )
+    add_executable(rb_tree_multimap_test test/rb_tree_multimap_test.cpp)
+    set_target_properties(rb_tree_multimap_test PROPERTIES RUNTIME_OUTPUT_DIRECTORY ${CMAKE_TEST_RUNTIME_OUTPUT_DIRECTORY})
+    target_link_libraries(rb_tree_multimap_test
+            util
+            rb_tree_to_dot_serializer
+            ${Boost_PROGRAM_OPTIONS_LIBRARY}
+            )
+endif (BUILD_TESTING)

@@ -23,7 +23,7 @@
 # @author Javier Sastre
 #
 
-project(to_fprtn_top_parsing VERSION ${GRAPENLP_VERSION_MAJOR}.${GRAPENLP_VERSION_MINOR}.${GRAPENLP_VERSION_PATCH} LANGUAGES CXX)
+project(to_fprtn_top_parsing VERSION ${CHANGELOG_VERSION} LANGUAGES CXX)
 
 add_library(to_fprtn_top_parsing STATIC
         src/to_fprtn_top_parser.cpp
@@ -42,7 +42,7 @@ target_link_libraries(to_fprtn_top_parsing
         )
 
 install(TARGETS to_fprtn_top_parsing EXPORT to_fprtn_top_parsingConfig
-        ARCHIVE DESTINATION ${CMAKE_INSTALL_LIBDIR} COMPONENT libgrapenlpdev)
+        ARCHIVE DESTINATION ${CMAKE_INSTALL_LIBDIR}/grapenlp COMPONENT libgrapenlpdev)
 install(DIRECTORY include/ DESTINATION ${CMAKE_INSTALL_INCLUDEDIR} COMPONENT libgrapenlpdev)
 install(EXPORT to_fprtn_top_parsingConfig DESTINATION share/grapenlp/to_fprtn_top_parsing/cmake COMPONENT libgrapenlpdev)
 export(TARGETS to_fprtn_top_parsing FILE to_fprtn_top_parsingConfig.cmake)

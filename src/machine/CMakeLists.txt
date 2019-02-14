@@ -23,7 +23,7 @@
 # @author Javier Sastre
 #
 
-project(machine VERSION ${GRAPENLP_VERSION_MAJOR}.${GRAPENLP_VERSION_MINOR}.${GRAPENLP_VERSION_PATCH} LANGUAGES CXX)
+project(machine VERSION ${CHANGELOG_VERSION} LANGUAGES CXX)
 
 add_library(machine STATIC
         src/tag_input_traits.cpp
@@ -41,7 +41,7 @@ target_link_libraries(machine
         )
 
 install(TARGETS machine EXPORT machineConfig
-        ARCHIVE DESTINATION ${CMAKE_INSTALL_LIBDIR} COMPONENT libgrapenlpdev)
+        ARCHIVE DESTINATION ${CMAKE_INSTALL_LIBDIR}/grapenlp COMPONENT libgrapenlpdev)
 install(DIRECTORY include/ DESTINATION ${CMAKE_INSTALL_INCLUDEDIR} COMPONENT libgrapenlpdev)
 install(EXPORT machineConfig DESTINATION share/grapenlp/machine/cmake COMPONENT libgrapenlpdev)
 export(TARGETS machine FILE machineConfig.cmake)

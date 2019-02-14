@@ -23,7 +23,7 @@
 # @author Javier Sastre
 #
 
-project(cgrapenlp VERSION ${GRAPENLP_VERSION_MAJOR}.${GRAPENLP_VERSION_MINOR}.${GRAPENLP_VERSION_PATCH} LANGUAGES CXX)
+project(cgrapenlp VERSION ${CHANGELOG_VERSION} LANGUAGES CXX)
 
 add_executable(cgrapenlp src/grapenlp.cpp)
 SET_TARGET_PROPERTIES(cgrapenlp PROPERTIES OUTPUT_NAME grapenlp)

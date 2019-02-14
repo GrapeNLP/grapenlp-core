@@ -23,7 +23,7 @@
 # @author Javier Sastre
 #
 
-project(lrb_tree_to_dot_serializer VERSION ${GRAPENLP_VERSION_MAJOR}.${GRAPENLP_VERSION_MINOR}.${GRAPENLP_VERSION_PATCH} LANGUAGES CXX)
+project(lrb_tree_to_dot_serializer VERSION ${CHANGELOG_VERSION} LANGUAGES CXX)
 
 add_library(lrb_tree_to_dot_serializer STATIC
         src/lrb_tree_to_dot_serializer.cpp
@@ -38,7 +38,7 @@ target_link_libraries(lrb_tree_to_dot_serializer
         )
 
 install(TARGETS lrb_tree_to_dot_serializer EXPORT lrb_tree_to_dot_serializerConfig
-        ARCHIVE DESTINATION ${CMAKE_INSTALL_LIBDIR} COMPONENT libgrapenlpdev)
+        ARCHIVE DESTINATION ${CMAKE_INSTALL_LIBDIR}/grapenlp COMPONENT libgrapenlpdev)
 install(DIRECTORY include/ DESTINATION ${CMAKE_INSTALL_INCLUDEDIR} COMPONENT libgrapenlpdev)
 install(EXPORT lrb_tree_to_dot_serializerConfig DESTINATION share/grapenlp/lrb_tree_to_dot_serializer/cmake COMPONENT libgrapenlpdev)
 export(TARGETS lrb_tree_to_dot_serializer FILE lrb_tree_to_dot_serializerConfig.cmake)

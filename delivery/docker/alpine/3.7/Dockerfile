@@ -23,11 +23,11 @@
 # @author Javier Sastre
 #
 
-FROM alpine:3.6
+FROM alpine:3.7
 
-LABEL grape.alpine.docker.version="1.0"
+LABEL grape.alpine.3_7.docker.version="3.0"
 
-RUN apk --update add --no-cache dpkg g++ boost-dev boost-program_options make cmake swig python3-dev
+RUN apk --update add --no-cache bash dpkg g++ boost-dev boost-program_options make cmake swig python3-dev
 
 #Install Oracle JDK
 ADD https://github.com/sgerrand/alpine-pkg-glibc/releases/download/2.27-r0/glibc-2.27-r0.apk /tmp
@@ -57,12 +57,7 @@ RUN rm -rf *src.zip \
            jre/lib/amd64/libjfx*.so
 
 WORKDIR /usr/lib/jvm/java-8-openjdk-amd64/include
-RUN ln -s linux/jawt_md.h
-RUN ln -s linux/jni_md.h
 ENV JAVA_HOME=/usr/lib/jvm/java-1.8-openjdk
-
-# Install GTest
-RUN apk --update add --no-cache gtest gtest-dev
 
 # Install GIT
 RUN apk --update add --no-cache git
@@ -75,5 +70,5 @@ WORKDIR /home/build
 # su build
 # git clone git://github.com/GrapeNLP/grapenlp-core.git
 # cd grapenlp-core
-# build/scripts/build.sh release
+# delivery/scripts/build.sh release
 

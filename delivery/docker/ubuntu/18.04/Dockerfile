@@ -80,4 +80,4 @@ WORKDIR /home/build
 # su build
 # git clone git://github.com/GrapeNLP/grapenlp-core.git
 # cd grapenlp-core
-# build/scripts/build.sh release
+# delivery/scripts/build.sh release

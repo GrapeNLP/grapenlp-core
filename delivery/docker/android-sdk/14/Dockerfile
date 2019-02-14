@@ -142,4 +142,4 @@ WORKDIR /home/build
 # su build
 # git clone git://github.com/GrapeNLP/grapenlp-core.git
 # cd grapenlp-core
-# build/scripts/buildforandroid.sh release $ANDROID_ABI $ANDROID_PLATFORM_VERSION
+# delivery/scripts/buildforandroid.sh release $ANDROID_ABI $ANDROID_PLATFORM_VERSION

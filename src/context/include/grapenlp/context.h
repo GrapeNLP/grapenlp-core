@@ -23,8 +23,8 @@
  *  @author Javier Sastre
  */
 
-#ifndef GRAPENLP_MEMORY_H
-#define GRAPENLP_MEMORY_H
+#ifndef GRAPENLP_CONTEXT_H
+#define GRAPENLP_CONTEXT_H
 
 #include <map>
 
@@ -33,23 +33,34 @@
 
 namespace grapenlp
 {
-    class memory
+    class context
     {
     public:
         typedef trie_with_ptr_data<unichar, u_array> ua_trie;
         typedef trie_with_ptr_data<unichar, u_array>::string ua_trie_string;
         typedef trie_with_ptr_data<unichar, u_array>::string::const_ref ua_trie_string_const_ref;
+        typedef std::map<ua_trie_string_const_ref, ua_trie_string_const_ref> map;
+        typedef map::const_iterator map_const_iterator;
 
-        void memory();
-//        u_trie_string get_key_const_ref(const u_array &key);
-//        ua_trie_const_ref get_value_const_ref(const u_array &value);
-//        ua_trie_const_ref get_register_value_const_ref(ua_trie_const_ref key);
-//        ua_trie_const_ref set_register_value_const_ref(ua_trie_const_ref key, ua_trie_const_ref value);
-//        void set_register(ua_trie_const_ref key, ua_trie_const_ref value);
+    private:
+        ua_trie keys;
+        ua_trie values;
+        map the_map;
 
+    public:
+        context();
 
-        void ~memory();
+        std::size_t size() const;
+
+        ua_trie_string_const_ref get_key_const_ref(const u_array &key);
+        ua_trie_string_const_ref get_value_const_ref(const u_array &value);
+
+        bool set_context_value(ua_trie_string_const_ref key_const_ref, ua_trie_const_ref value_const_ref);
+        bool equals(ua_trie_string_const_ref key_const_ref, ua_trie_const_ref value_const_ref);
+        bool not_equals(ua_trie_string_const_ref key_const_ref, ua_trie_const_ref value_const_ref);
+
+        ~context();
     };
 } //namespace grapenlp
 
-#endif /*GRAPENLP_MEMORY_H*/
+#endif /*GRAPENLP_CONTEXT_H*/

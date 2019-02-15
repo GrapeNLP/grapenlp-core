@@ -23,21 +23,21 @@
 # @author Javier Sastre
 #
 
-project(memory VERSION ${CHANGELOG_VERSION} LANGUAGES CXX)
+project(context VERSION ${CHANGELOG_VERSION} LANGUAGES CXX)
 
-add_library(memory STATIC
-        src/memory.cpp
+add_library(context STATIC
+        src/context.cpp
         )
-target_include_directories(memory PUBLIC
+target_include_directories(context PUBLIC
         $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/include>
         $<INSTALL_INTERFACE:include>
         PRIVATE src)
-target_link_libraries(memory
+target_link_libraries(context
         unicode
         )
 
-install(TARGETS memory EXPORT memoryConfig
+install(TARGETS context EXPORT contextConfig
         ARCHIVE DESTINATION ${CMAKE_INSTALL_LIBDIR}/grapenlp COMPONENT libgrapenlpdev)
 install(DIRECTORY include/ DESTINATION ${CMAKE_INSTALL_INCLUDEDIR} COMPONENT libgrapenlpdev)
-install(EXPORT memoryConfig DESTINATION share/grapenlp/manager/cmake COMPONENT libgrapenlpdev)
-export(TARGETS memory FILE managerConfig.cmake)
+install(EXPORT contextConfig DESTINATION share/grapenlp/manager/cmake COMPONENT libgrapenlpdev)
+export(TARGETS context FILE managerConfig.cmake)

@@ -55,9 +55,9 @@ namespace grapenlp
         ua_trie_string_const_ref get_key_const_ref(const u_array &key);
         ua_trie_string_const_ref get_value_const_ref(const u_array &value);
 
-        bool set_context_value(ua_trie_string_const_ref key_const_ref, ua_trie_const_ref value_const_ref);
-        bool equals(ua_trie_string_const_ref key_const_ref, ua_trie_const_ref value_const_ref);
-        bool not_equals(ua_trie_string_const_ref key_const_ref, ua_trie_const_ref value_const_ref);
+        bool set_context_value(ua_trie_string_const_ref key_const_ref, ua_trie_string_const_ref value_const_ref);
+        bool equals(ua_trie_string_const_ref key_const_ref, ua_trie_string_const_ref value_const_ref);
+        bool not_equals(ua_trie_string_const_ref key_const_ref, ua_trie_string_const_ref value_const_ref);
 
         ~context();
     };

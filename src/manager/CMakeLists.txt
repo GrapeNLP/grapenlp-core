@@ -48,6 +48,7 @@ target_link_libraries(manager
         output_fprtn_breadth_first_expander
         output_fprtn_blackboard_set_expander
         output_wfprtn_top_blackboard_extractor
+        context
         out_serializer
         to_canonical_form
         to_decompressed_canonical_form

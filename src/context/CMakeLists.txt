@@ -41,3 +41,15 @@ install(TARGETS context EXPORT contextConfig
 install(DIRECTORY include/ DESTINATION ${CMAKE_INSTALL_INCLUDEDIR} COMPONENT libgrapenlpdev)
 install(EXPORT contextConfig DESTINATION share/grapenlp/manager/cmake COMPONENT libgrapenlpdev)
 export(TARGETS context FILE managerConfig.cmake)
+
+# Test files
+if (BUILD_TESTING)
+    add_executable(test_context
+            test/test_context.cpp)
+    set_target_properties(test_context PROPERTIES RUNTIME_OUTPUT_DIRECTORY ${CMAKE_TEST_RUNTIME_OUTPUT_DIRECTORY})
+    target_link_libraries(test_context
+            context
+            gtest_main)
+
+    add_test(NAME test_context COMMAND test_context)
+endif (BUILD_TESTING)

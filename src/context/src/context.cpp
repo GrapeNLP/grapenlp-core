@@ -43,18 +43,18 @@ namespace grapenlp
     ua_trie_string_const_ref context::get_value_const_ref(const u_array &value)
     {}
 
-    void context::set(ua_trie_string_const_ref key_const_ref, ua_trie_const_ref value_const_ref)
+    void context::set(ua_trie_string_const_ref key_const_ref, ua_trie_string_const_ref value_const_ref)
     {
         the_map[key_const_ref] = value_const_ref;
     }
 
-    bool context::equals(ua_trie_string_const_ref key_const_ref, ua_trie_const_ref value_const_ref)
+    bool context::equals(ua_trie_string_const_ref key_const_ref, ua_trie_string_const_ref value_const_ref)
     {
         map_const_iterator it(the_map.find(key_const_ref));
         return it != the_map.end() && *it == value_const_ref;
     }
 
-    bool context::not_equals(ua_trie_string_const_ref key_const_ref, ua_trie_const_ref value_const_ref)
+    bool context::not_equals(ua_trie_string_const_ref key_const_ref, ua_trie_string_const_ref value_const_ref)
     {
         map_const_iterator it(the_map.find(key_const_ref));
         return it == the_map.end() || *it != value_const_ref;

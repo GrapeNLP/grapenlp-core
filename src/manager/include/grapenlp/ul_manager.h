@@ -348,7 +348,7 @@ namespace grapenlp {
 
         void *grammar_ref;
         void *dico_ref;
-        Memory memory;
+        context the_context;
 #if !defined(DISABLE_TEXT_DICO) && !defined(DISABLE_COMPRESSED_DICO)
         bool dico_is_in_text_format;
 #endif
@@ -382,7 +382,7 @@ namespace grapenlp {
 #if !defined(DISABLE_TEXT_DICO) && !defined(DISABLE_COMPRESSED_DICO)
                 dico_is_in_text_format(false),
 #endif
-                memory(),
+                the_context(),
                 the_token_list(),
                 hasnt_white_at_begin(true),
                 hasnt_white_at_end(true),
@@ -411,7 +411,7 @@ namespace grapenlp {
 #if !defined(DISABLE_TEXT_DICO) && !defined(DISABLE_COMPRESSED_DICO)
                 dico_is_in_text_format(false),
 #endif
-                memory(),
+                the_context(),
                 the_token_list(),
                 hasnt_white_at_begin(true),
                 hasnt_white_at_end(true),

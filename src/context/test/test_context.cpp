@@ -48,18 +48,28 @@ protected:
 TEST_F(test_context_fixture, equals)
 {
     std::size_t s = c.size();
-    ASSERT_TRUE(c.equals(c.get_key_const_ref(k1), c.get_value_const_ref(v1)))
-    ASSERT_TRUE(c.equals(c.get_key_const_ref(k2), c.get_value_const_ref(v2)))
-    ASSERT_EQ(s, c.size())
+    grapenlp::u_trie_string_const_ref k1r = c.get_key_const_ref(k1);
+    grapenlp::u_trie_string_const_ref v1r = c.get_value_const_ref(v1);
+    grapenlp::u_trie_string_const_ref k2r = c.get_key_const_ref(k2);
+    grapenlp::u_trie_string_const_ref v2r = c.get_value_const_ref(v2);
+    ASSERT_TRUE(c.equals(k1r, v1r));
+    ASSERT_TRUE(c.equals(k2r, v2r));
+    ASSERT_EQ(s, c.size());
 }
 
 TEST_F(test_context_fixture, not_equals)
 {
     std::size_t s = c.size();
-    ASSERT_TRUE(c.equals(c.get_key_const_ref(k1), c.get_value_const_ref(v2)))
-    ASSERT_TRUE(c.equals(c.get_key_const_ref(k2), c.get_value_const_ref(v1)))
-    ASSERT_TRUE(c.equals(c.get_key_const_ref(k3), c.get_value_const_ref(v3)))
-    ASSERT_EQ(s, c.size())
+    grapenlp::u_trie_string_const_ref k1r = c.get_key_const_ref(k1);
+    grapenlp::u_trie_string_const_ref v1r = c.get_value_const_ref(v1);
+    grapenlp::u_trie_string_const_ref k2r = c.get_key_const_ref(k2);
+    grapenlp::u_trie_string_const_ref v2r = c.get_value_const_ref(v2);
+    grapenlp::u_trie_string_const_ref k3r = c.get_key_const_ref(k3);
+    grapenlp::u_trie_string_const_ref v3r = c.get_value_const_ref(v3);
+    ASSERT_TRUE(c.not_equals(k1r, v2r));
+    ASSERT_TRUE(c.not_equals(k2r, v1r));
+    ASSERT_TRUE(c.not_equals(k3r, v3r));
+    ASSERT_EQ(s, c.size());
 }
 
 int main(int argc, char **argv)

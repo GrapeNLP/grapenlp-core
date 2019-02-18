@@ -41,6 +41,7 @@
 #include <grapenlp/string.h>
 #include <grapenlp/u_array.h>
 #include <grapenlp/u_trie.h>
+#include <grapenlp/context.h>
 
 //Tokenization
 #include <grapenlp/tokenization.h>
@@ -6065,7 +6066,6 @@ namespace grapenlp {
 
         template<typename ToCanonicalFormMarkIterator>
         void process(InputIterator input_begin, InputIterator input_end,
-                     InputContext input_context,
                      ToCanonicalFormMarkIterator to_canonical_form_mark_begin,
                      ToCanonicalFormMarkIterator to_canonical_form_mark_end, rtno_parser_type the_rtno_parser_type,
                      bool trie_strings, bool no_output, assoc_container_impl_choice the_execution_state_set_impl_choice,

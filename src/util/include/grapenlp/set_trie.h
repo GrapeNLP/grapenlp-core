@@ -26,7 +26,7 @@
 #ifndef GRAPENLP_SET_TRIE_H
 #define GRAPENLP_SET_TRIE_H
 
-#include <grapenlp/trie.h>
+#include <grapenlp/trie_with_def_data.h>
 
 namespace grapenlp
 {

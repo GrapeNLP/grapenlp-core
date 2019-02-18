@@ -55,6 +55,8 @@ namespace grapenlp
         void set(u_trie_string_const_ref key_const_ref, u_trie_string_const_ref value_const_ref);
         bool equals(u_trie_string_const_ref key_const_ref, u_trie_string_const_ref value_const_ref) const;
         bool not_equals(u_trie_string_const_ref key_const_ref, u_trie_string_const_ref value_const_ref) const;
+        void clear_map();
+        void clear();
 
         ~context();
     };

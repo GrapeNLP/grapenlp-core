@@ -20,6 +20,9 @@ add_library(util STATIC
         src/stats.cpp
         src/string.cpp
         src/trie.cpp
+		src/trie_with_data.cpp
+		src/trie_with_def_data.cpp
+		src/trie_with_ptr_data.cpp
         src/trie_string_const_ref_x_weight.cpp
         src/vector.cpp)
 

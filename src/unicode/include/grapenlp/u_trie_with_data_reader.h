@@ -23,19 +23,30 @@
  *  @author Javier Sastre
  */
 
-#ifndef GRAPENLP_U_TRIE_READER_H
-#define GRAPENLP_U_TRIE_READER_H
+#ifndef GRAPENLP_U_TRIE_WITH_DATA_READER_H
+#define GRAPENLP_U_TRIE_WITH_DATA_READER_H
 
-#include <grapenlp/u_trie.h>
+#include <grapenlp/unicode.h>
+#include <grapenlp/trie_with_data.h>
 #include <grapenlp/algorithm.h>
 
 namespace grapenlp
 {
-	//u_trie string readers
-	unichar u_read(FILE *f, u_trie_string::ref &s_ref, unichar end_mark);
+	//u_trie_with_data string readers
+	template<typename Data>
+	unichar u_read(FILE *f, typename trie_with_data<unichar, Data>::string::ref &s_ref, unichar end_mark)
+	{
+		unichar next_char(u_fgetc(f));
+		while (!feof(f) && next_char != end_mark)
+		{
+			s_ref = &((*s_ref) + next_char);
+			next_char = u_fgetc(f);
+		}
+		return next_char;
+	}
 
-	template<typename Normalizer>
-	unichar u_read(FILE *f, u_trie_string::ref &s_ref, unichar end_mark, Normalizer normalizer)
+	template<typename Data, typename Normalizer>
+	unichar u_read(FILE *f, typename trie_with_data<unichar, Data>::string::ref &s_ref, unichar end_mark, Normalizer normalizer)
 	{
 		unichar next_char(u_fgetc(f));
 		while (!feof(f) && next_char != end_mark)
@@ -46,8 +57,8 @@ namespace grapenlp
 		return next_char;
 	}
 
-	template<typename Iterator>
-	unichar u_read(FILE *f, u_trie_string::ref &s_ref, Iterator end_mark_begin, Iterator end_mark_end)
+	template<typename Data, typename Iterator>
+	unichar u_read(FILE *f, typename trie_with_data<unichar, Data>::string::ref &s_ref, Iterator end_mark_begin, Iterator end_mark_end)
 	{
 		unichar next_char(u_fgetc(f));
 		while (!feof(f) && !includes(end_mark_begin, end_mark_end, next_char))
@@ -58,8 +69,8 @@ namespace grapenlp
 		return next_char;
 	}
 
-	template<typename Iterator, typename Normalizer>
-	unichar u_read(FILE *f, u_trie_string::ref &s_ref, Iterator end_mark_begin, Iterator end_mark_end, Normalizer normalizer)
+	template<typename Data, typename Iterator, typename Normalizer>
+	unichar u_read(FILE *f, typename trie_with_data<unichar, Data>::string::ref &s_ref, Iterator end_mark_begin, Iterator end_mark_end, Normalizer normalizer)
 	{
 		unichar next_char(u_fgetc(f));
 		while (!feof(f) && !includes(end_mark_begin, end_mark_end, next_char))
@@ -71,4 +82,4 @@ namespace grapenlp
 	}
 } //namespace grapenlp
 
-#endif /*GRAPENLP_U_TRIE_READER_H*/
+#endif /*GRAPENLP_U_TRIE_WITH_DATA_READER_H*/

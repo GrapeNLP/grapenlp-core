@@ -23,22 +23,24 @@
  *  @author Javier Sastre
  */
 
-#ifndef GRAPENLP_U_TRIE_H
-#define GRAPENLP_U_TRIE_H
+#ifndef GRAPENLP_U_TRIE_WITH_PTR_DATA_H
+#define GRAPENLP_U_TRIE_WITH_PTR_DATA_H
 
-#include <grapenlp/unicode.h>
-#include <grapenlp/trie.h>
+#include <grapenlp/u_trie.h>
+#include <grapenlp/trie_with_ptr_data.h>
 
 namespace grapenlp
 {
-	typedef trie<unichar> u_trie;
-	typedef u_trie::string u_trie_string;
-	typedef u_trie_string::ref u_trie_string_ref;
-	typedef u_trie_string::const_ref u_trie_string_const_ref;
+	template<typename Data>
+	struct u_trie_with_ptr_data
+	{
+	public:
+		typedef trie_with_ptr_data<unichar, Data> type;
 
-	template<typename CharT, typename Traits>
-	std::basic_ostream<CharT, Traits>& operator<< (std::basic_ostream<CharT, Traits> &out, const trie<unichar>::string &s)
-	{ return s.serialize(out); }
+	private:
+		u_trie_with_ptr_data()
+		{}
+	};
 } //namespace grapenlp
 
-#endif /*GRAPENLP_U_TRIE_H*/
+#endif /*GRAPENLP_U_TRIE_WITH_PTR_DATA_H*/

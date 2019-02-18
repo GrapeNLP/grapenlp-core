@@ -515,6 +515,11 @@ namespace grapenlp {
 
         void delete_compressed_delaf() { delete static_cast<compressed_delaf *>(dico_ref); }
 
+        context& get_context()
+        {
+            return the_context;
+        }
+
 #if defined(SERIALIZED_OUTPUT)
         my_compressed_delaf_entry_filter& get_compressed_v_pos_filter()
         { return *static_cast<my_compressed_delaf_entry_filter*>(v_pos_filter_ref); }
@@ -6058,11 +6063,6 @@ namespace grapenlp {
         void serialize(InputIterator input_begin, InputIterator input_end)
         { serialize(input_begin, input_end, to_canonical_form_mark.begin(), to_canonical_form_mark.end()); }
 #endif //defined(SERIALIZED_OUTPUT) && !(defined(DISABLE_LUX_GRAMMAR) && defined(DISABLE_LUXW_GRAMMAR))
-
-        void set_register(u_array &key, u_array &value)
-        {
-
-        }
 
         template<typename ToCanonicalFormMarkIterator>
         void process(InputIterator input_begin, InputIterator input_end,

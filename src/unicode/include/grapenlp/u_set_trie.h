@@ -28,7 +28,6 @@
 
 #include <grapenlp/set_trie.h>
 #include <grapenlp/u_trie.h>
-#include <grapenlp/unicode.h>
 
 namespace grapenlp
 {

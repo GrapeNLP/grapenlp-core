@@ -62,6 +62,18 @@ namespace grapenlp
         return it == the_map.end() || it->second != value_const_ref;
     }
 
+    void context::clear_map()
+    {
+        the_map.clear();
+    }
+
+    void context::clear()
+    {
+        clear_map();
+        keys.clear();
+        values.clear();
+    }
+
     context::~context()
     {}
 } //namespace grapenlp

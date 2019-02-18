@@ -29,7 +29,7 @@
 #include <grapenlp/error.h>
 #include <grapenlp/algorithm.h>
 #include <grapenlp/u_text_delaf.h>
-#include <grapenlp/u_trie_reader.h>
+#include <grapenlp/u_trie_with_ptr_data_reader.h>
 #include <grapenlp/u_set_trie_reader.h>
 #include <grapenlp/u_set_reader.h>
 

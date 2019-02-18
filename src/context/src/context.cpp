@@ -30,34 +30,32 @@ namespace grapenlp
     context::context(): keys(), values(), the_map()
     {}
 
-    std::size_t size()
+    std::size_t context::size() const
     {
         return the_map.size();
     }
 
-    ua_trie_string_const_ref context::get_key_const_ref(const u_array &key)
-    {
-
-    }
-
-    ua_trie_string_const_ref context::get_value_const_ref(const u_array &value)
+    context::ua_trie_string_const_ref context::get_key_const_ref(const u_array &key) const
     {}
 
-    void context::set(ua_trie_string_const_ref key_const_ref, ua_trie_string_const_ref value_const_ref)
+    context::ua_trie_string_const_ref context::get_value_const_ref(const u_array &value) const
+    {}
+
+    void context::set(context::ua_trie_string_const_ref key_const_ref, context::ua_trie_string_const_ref value_const_ref)
     {
         the_map[key_const_ref] = value_const_ref;
     }
 
-    bool context::equals(ua_trie_string_const_ref key_const_ref, ua_trie_string_const_ref value_const_ref)
+    bool context::equals(context::ua_trie_string_const_ref key_const_ref, context::ua_trie_string_const_ref value_const_ref) const
     {
         map_const_iterator it(the_map.find(key_const_ref));
-        return it != the_map.end() && *it == value_const_ref;
+        return it != the_map.end() && it->second == value_const_ref;
     }
 
-    bool context::not_equals(ua_trie_string_const_ref key_const_ref, ua_trie_string_const_ref value_const_ref)
+    bool context::not_equals(context::ua_trie_string_const_ref key_const_ref, context::ua_trie_string_const_ref value_const_ref) const
     {
         map_const_iterator it(the_map.find(key_const_ref));
-        return it == the_map.end() || *it != value_const_ref;
+        return it == the_map.end() || it->second != value_const_ref;
     }
 
     context::~context()

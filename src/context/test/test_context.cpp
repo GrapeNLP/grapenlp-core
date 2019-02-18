@@ -33,10 +33,10 @@ const std::array<unichar, 6> v1 = { {'v', 'a', 'l', 'u', 'e', '1'} };
 const std::array<unichar, 6> v2 = { {'v', 'a', 'l', 'u', 'e', '2'} };
 const std::array<unichar, 6> v3 = { {'v', 'a', 'l', 'u', 'e', '3'} };
 
-class test_context_fixture: public ::testing::test
+class test_context_fixture: public ::testing::Test
 {
 protected:
-    context c;
+    grapenlp::context c;
 
     void SetUp()
     {

@@ -30,18 +30,42 @@ set(CMAKE_SWIG_FLAGS ${CMAKE_SWIG_FLAGS} "-package" "com.grapenlp.core")
 set(CMAKE_SWIG_OUTDIR "${CMAKE_BINARY_DIR}/java/com/grapenlp/core")
 set_property(SOURCE swig/grapenlp/jgrapenlp.i PROPERTY CPLUSPLUS ON)
 set_property(SOURCE swig/grapenlp/jgrapenlp.i PROPERTY SWIG_FLAGS "-includeall")
+# Old swig_add_module command does not honor library VERSION property, so a workaround is needed to generate the
+# library with a version suffix and a symlink without the version suffix
 if (${CMAKE_VERSION} VERSION_LESS "3.8.0")
     swig_add_module(jgrapenlp java swig/grapenlp/jgrapenlp.i)
+    swig_link_libraries(jgrapenlp
+            manager
+            ${JNI_LIBRARIES}
+            )
+    # Make generated library to include version number after .so
+    set(CMAKE_MODULE_LINKER_FLAGS "${CMAKE_MODULE_LINKER_FLAGS} -Wl,-soname,libjgrapenlp.so.${CHANGELOG_VERSION}")
+    set_target_properties(jgrapenlp PROPERTIES SUFFIX ".so.${CHANGELOG_VERSION}")
+    # Create symlink libjgrapenlp.so to libjgrapenlp.so.VERSION
+    add_custom_command(OUTPUT "${CMAKE_LIBRARY_OUTPUT_DIRECTORY}/libjgrapenlp.so"
+            COMMAND ${CMAKE_COMMAND} -E create_symlink "libjgrapenlp.so.${CHANGELOG_VERSION}" "libjgrapenlp.so"
+            DEPENDS jgrapenlp
+            WORKING_DIRECTORY "${CMAKE_LIBRARY_OUTPUT_DIRECTORY}"
+            )
+    add_custom_target(jgrapenlp_link ALL DEPENDS "${CMAKE_LIBRARY_OUTPUT_DIRECTORY}/libjgrapenlp.so")
 else (${CMAKE_VERSION} VERSION_LESS "3.8.0")
     swig_add_library(jgrapenlp TYPE SHARED LANGUAGE java SOURCES swig/grapenlp/jgrapenlp.i)
+    target_link_libraries(jgrapenlp
+            manager
+            ${JNI_LIBRARIES}
+            )
 endif (${CMAKE_VERSION} VERSION_LESS "3.8.0")
-target_link_libraries(jgrapenlp
-        manager
-        ${JNI_LIBRARIES}
+set_target_properties (jgrapenlp PROPERTIES
+        VERSION "${CHANGELOG_VERSION}"
         )
 
 install(TARGETS jgrapenlp EXPORT jgrapenlpConfig
         LIBRARY DESTINATION ${CMAKE_INSTALL_LIBDIR} COMPONENT libjgrapenlp)
+# Workaround to install the libjgrapenlp.so symlink
+if (${CMAKE_VERSION} VERSION_LESS "3.8.0")
+    install(FILES "${CMAKE_LIBRARY_OUTPUT_DIRECTORY}/libjgrapenlp.so"
+            DESTINATION ${CMAKE_INSTALL_LIBDIR} COMPONENT libjgrapenlp)
+endif (${CMAKE_VERSION} VERSION_LESS "3.8.0")
 install(EXPORT jgrapenlpConfig DESTINATION share/grapenlp/jgrapenlp/cmake COMPONENT libjgrapenlp)
 install(FILES "${CMAKE_BINARY_DIR}/debian/copyright"
         "${CMAKE_BINARY_DIR}/debian/changelog.Debian.gz"

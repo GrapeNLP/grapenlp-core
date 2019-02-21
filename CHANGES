@@ -1,3 +1,12 @@
+grapenlp-core (2.6.5) stable; urgency=medium
+
+  * Improved generation of the source package for its publication in Launchpad
+  * Added script delivery/scripts/buildppa.sh for generating the source package to publish in Launchpad
+  * Library binary packages generated from the source package include a trigger for updating the system's library cache
+  * Binary packages either generated with CPack or from the source package include more complete dependency declaration (using dh_shlibdeps auto-discovery mechanism)
+
+ -- Javier Sastre <javier.sastre@telefonica.net>  Wed, 20 Feb 2019 17:33:56 +0100
+
 grapenlp-core (2.6.1) stable; urgency=medium
 
   * Renamed default installation component as "trash" and removed it from the list of components to install in order to avoid GoogleTest files from been included in this project's packages

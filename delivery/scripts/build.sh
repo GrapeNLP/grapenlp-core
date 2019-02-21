@@ -30,7 +30,7 @@ log_info_banner "Compiling"
 make
 success_or_exit
 
-# Compile
+# Test
 log_info_banner "Testing"
 make test
 success_or_exit

@@ -195,7 +195,7 @@ foreach(COMPONENT ${CPACK_COMPONENTS_ALL})
             "Package: ${CPACK_DEBIAN_${UPPER_COMPONENT}_PACKAGE_NAME}\n"
             "Section: ${CPACK_DEBIAN_${UPPER_COMPONENT}_PACKAGE_SECTION}\n"
             "Architecture: any\n"
-            "Depends: ${CPACK_DEBIAN_${UPPER_COMPONENT}_PACKAGE_DEPENDS}\n"
+            "Depends: ${CPACK_DEBIAN_${UPPER_COMPONENT}_PACKAGE_DEPENDS}, \${shlibs:Depends}, \${misc:Depends}\n"
             "Description: ${CPACK_PACKAGE_DESCRIPTION_SUMMARY}"
             ": ${CPACK_COMPONENT_${UPPER_COMPONENT}_DISPLAY_NAME}\n"
             "${DEB_LONG_DESCRIPTION}"
@@ -207,6 +207,7 @@ endforeach(COMPONENT ${CPACK_COMPONENTS_ALL})
 ##############################################################################
 # debian/copyright
 set(DEBIAN_COPYRIGHT ${DEBIAN_SOURCE_DIR}/debian/copyright)
+#configure_file(${CMAKE_SOURCE_DIR}/LICENSE ${DEBIAN_COPYRIGHT} COPYONLY)
 
 IF(NOT CPACK_DEBIAN_PACKAGE_LICENSE)
     set(CPACK_DEBIAN_PACKAGE_LICENSE gpl)
@@ -262,24 +263,24 @@ foreach(COMPONENT ${CPACK_COMPONENTS_ALL})
     string(TOUPPER ${COMPONENT} UPPER_COMPONENT)
 
     ##############################################################################
-    # debian/${CPACK_DEBIAN_PACKAGE_NAME}-${COMPONENT}.install
+    # debian/${CPACK_DEBIAN_${COMPONENT}_PACKAGE_NAME}.install
     set(DEBIAN_INSTALL_FILE ${DEBIAN_SOURCE_DIR}/debian/${CPACK_DEBIAN_${UPPER_COMPONENT}_PACKAGE_NAME}.install)
     foreach(INSTALL_UNIT ${CPACK_COMPONENT_${UPPER_COMPONENT}_INSTALL})
-        file(APPEND ${DEBIAN_INSTALL_FILE} "debian/tmp_${COMPONENT}${INSTALL_UNIT}\n")
+        file(APPEND ${DEBIAN_INSTALL_FILE} "${INSTALL_UNIT}\n")
     endforeach(INSTALL_UNIT ${CPACK_COMPONENT_${UPPER_COMPONENT}_INSTALL})
 
     ##############################################################################
-    # debian/${CPACK_DEBIAN_PACKAGE_NAME}-${COMPONENT}.docs
+    # debian/${CPACK_DEBIAN_${COMPONENT}_PACKAGE_NAME}.docs
     set(DEBIAN_DOCS_FILE ${DEBIAN_SOURCE_DIR}/debian/${CPACK_DEBIAN_${UPPER_COMPONENT}_PACKAGE_NAME}.docs)
     foreach(INSTALL_UNIT ${CPACK_COMPONENT_${UPPER_COMPONENT}_DOCS})
-        file(APPEND ${DEBIAN_DOCS_FILE} "debian/tmp_${COMPONENT}${INSTALL_UNIT}\n")
+        file(APPEND ${DEBIAN_DOCS_FILE} "${INSTALL_UNIT}\n")
     endforeach(INSTALL_UNIT ${CPACK_COMPONENT_${UPPER_COMPONENT}_DOCS})
 
     ##############################################################################
-    # debian/${CPACK_DEBIAN_PACKAGE_NAME}-${COMPONENT}.manpages
+    # debian/${CPACK_DEBIAN_${COMPONENT}_PACKAGE_NAME}.manpages
     set(DEBIAN_MANPAGES_FILE ${DEBIAN_SOURCE_DIR}/debian/${CPACK_DEBIAN_${UPPER_COMPONENT}_PACKAGE_NAME}.manpages)
     foreach(INSTALL_UNIT ${CPACK_COMPONENT_${UPPER_COMPONENT}_MANPAGES})
-        file(APPEND ${DEBIAN_MANPAGES_FILE} "debian/tmp_${COMPONENT}${INSTALL_UNIT}\n")
+        file(APPEND ${DEBIAN_MANPAGES_FILE} "${INSTALL_UNIT}\n")
     endforeach(INSTALL_UNIT ${CPACK_COMPONENT_${UPPER_COMPONENT}_MANPAGES})
 
 endforeach(COMPONENT ${CPACK_COMPONENTS_ALL})
@@ -289,57 +290,29 @@ endforeach(COMPONENT ${CPACK_COMPONENTS_ALL})
 set(DEBIAN_RULES ${DEBIAN_SOURCE_DIR}/debian/rules)
 file(WRITE ${DEBIAN_RULES}
         "#!/usr/bin/make -f\n"
+        "export DH_VERBOSE = 1"
         "\n"
-        "BUILDDIR = build_dir\n"
+        "%:\n"
+        "	dh $@ --buildsystem=cmake\n"
         "\n"
-        "build:\n"
-        "	mkdir $(BUILDDIR)\n"
-        "	cd $(BUILDDIR); cmake -DCMAKE_BUILD_TYPE=Release -DJAVA_HOME=/usr/lib/jvm/java-8-openjdk-`/usr/bin/dpkg --print-architecture` ..\n"
-        "	make -C $(BUILDDIR) preinstall\n"
-        "	make -C $(BUILDDIR) test\n"
-        "	touch build\n"
+        "override_dh_auto_configure:\n"
+        "	dh_auto_configure --buildsystem=cmake -- -DCMAKE_BUILD_TYPE=Release -DJAVA_HOME=/usr/lib/jvm/java-8-openjdk-`/usr/bin/dpkg --print-architecture` ..\n"
+        "override_dh_installchangelogs:\n"
         "\n"
-        "binary: binary-indep binary-arch\n"
-        "\n"
-        "binary-indep: build\n"
-        "\n"
-        "binary-arch: build\n"
         )
-
-foreach(COMPONENT ${CPACK_COMPONENTS_ALL})
-    string(TOUPPER ${COMPONENT} UPPER_COMPONENT)
-    set(PATH debian/tmp_${COMPONENT})
-    set(PACKAGE ${CPACK_DEBIAN_${UPPER_COMPONENT}_PACKAGE_NAME})
-    file(APPEND ${DEBIAN_RULES}
-            "	cd $(BUILDDIR); cmake -DCOMPONENT=${COMPONENT} -DCMAKE_INSTALL_PREFIX=../${PATH}/usr -P cmake_install.cmake\n"
-            "	mkdir -p ${PATH}/DEBIAN\n"
-            "	dpkg-gencontrol -p${PACKAGE} -P${PATH}\n"
-            "	dpkg --build ${PATH} ..\n"
-            )
-endforeach(COMPONENT ${CPACK_COMPONENTS_ALL})
-
-file(APPEND ${DEBIAN_RULES}
-        "\n"
-        "clean:\n"
-        "	rm -f build\n"
-        "	rm -rf $(BUILDDIR)\n"
-        "\n"
-        ".PHONY: binary binary-arch binary-indep clean\n"
-        )
-
 execute_process(COMMAND chmod +x ${DEBIAN_RULES})
 
 ##############################################################################
-# debian/compat - 5 is used to also support dapper
-file(WRITE ${DEBIAN_SOURCE_DIR}/debian/compat "7")
+# debian/compat - 9 is used for Multi-Arch support
+file(WRITE ${DEBIAN_SOURCE_DIR}/debian/compat "9")
 
 ##############################################################################
 # debian/source/format
-#IF(CPACK_DEBIAN_NATIVE_PACKAGE)
+IF(CPACK_DEBIAN_NATIVE_PACKAGE)
     file(WRITE ${DEBIAN_SOURCE_DIR}/debian/source/format "3.0 (native)")
-#ELSE(CPACK_DEBIAN_NATIVE_PACKAGE)
-#    file(WRITE ${DEBIAN_SOURCE_DIR}/debian/source/format "3.0 (quilt)")
-#ENDIF(CPACK_DEBIAN_NATIVE_PACKAGE)
+ELSE(CPACK_DEBIAN_NATIVE_PACKAGE)
+    file(WRITE ${DEBIAN_SOURCE_DIR}/debian/source/format "3.0 (quilt)")
+ENDIF(CPACK_DEBIAN_NATIVE_PACKAGE)
 
 ##############################################################################
 # debian/changelog
@@ -356,8 +329,6 @@ file(WRITE ${DEBIAN_CHANGELOG}
         "  * Package built with CMake\n\n"
         " -- ${CPACK_DEBIAN_PACKAGE_MAINTAINER}  ${DATE_TIME}"
         )
-
-#INSTALL(FILES ${CMAKE_CURRENT_BUILD_DIR}/*.so DESTINATION lib${LIB_SUFFIX})
 
 ##############################################################################
 # debuild -S

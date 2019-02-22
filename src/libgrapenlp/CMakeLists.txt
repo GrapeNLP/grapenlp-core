@@ -28,14 +28,15 @@ project(libgrapenlp VERSION ${CHANGELOG_VERSION} LANGUAGES CXX)
 add_library(grapenlp SHARED
         src/ualxiw_manager.cpp
         )
-
 target_include_directories(grapenlp PUBLIC
         $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/include>
         $<INSTALL_INTERFACE:include>
         PRIVATE src)
-
 target_link_libraries(grapenlp
         manager
+        )
+set_target_properties (grapenlp PROPERTIES
+        VERSION ${CHANGELOG_VERSION}
         )
 
 install(TARGETS grapenlp EXPORT grapenlpConfig

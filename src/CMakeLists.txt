@@ -55,15 +55,19 @@ endif (ANDROID_NDK_TOOLCHAIN_INCLUDED)
 set(CMAKE_CXX_FLAGS_DEBUG "${CMAKE_CXX_FLAGS_DEBUG} -O0 -DTRACE")
 MESSAGE(STATUS "CXX_FLAGS:" ${CMAKE_CXX_FLAGS})
 
+set(CMAKE_INSTALL_RPATH "${CMAKE_BINARY_DIR}/lib")
 set(CMAKE_ARCHIVE_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/lib)
 set(CMAKE_LIBRARY_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/lib)
 set(CMAKE_RUNTIME_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/bin)
 set(CMAKE_TEST_RUNTIME_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/test_bin)
 
-# Must use GNUInstallDirs to install libraries into correct
-# locations on all platforms.
+#Set install dirs for the running platform
 include(GNUInstallDirs)
 string(REPLACE "grapenlp-core" "grapenlp" CMAKE_INSTALL_DOCDIR "${CMAKE_INSTALL_DOCDIR}")
+MESSAGE(STATUS "Install bin folder: ${CMAKE_INSTALL_PREFIX}/${CMAKE_INSTALL_BINDIR}")
+MESSAGE(STATUS "Install lib folder: ${CMAKE_INSTALL_PREFIX}/${CMAKE_INSTALL_LIBDIR}")
+MESSAGE(STATUS "Install doc folder: ${CMAKE_INSTALL_PREFIX}/${CMAKE_INSTALL_DOCDIR}")
+
 
 if (NOT ANDROID_NDK_TOOLCHAIN_INCLUDED)
     # Include system installed Boost as an imported target

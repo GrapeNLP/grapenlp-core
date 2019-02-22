@@ -23,7 +23,11 @@
 # @author Javier Sastre
 #
 
-project(grapenlp-core VERSION ${CHANGELOG_VERSION} LANGUAGES CXX)
+project(grapenlp-core
+        VERSION ${CHANGELOG_VERSION}
+        LANGUAGES CXX)
+set(PROJECT_DESCRIPTION "GRAPENLP's grammar engine along with SWIG interfaces for Java and Python")
+
 configure_file (
         "${PROJECT_SOURCE_DIR}/config/include/grapenlp/config.h.in"
         "${PROJECT_BINARY_DIR}/config/include/grapenlp/config.h"
@@ -102,6 +106,13 @@ include_directories(${Boost_INCLUDE_DIR})
 if (BUILD_TESTING)
 include(GoogleTestDownload)
 endif (BUILD_TESTING)
+
+# Documentation stuff
+set(DOXYFILE_SOURCE_DIR "${CMAKE_SOURCE_DIR}/src")
+set(DOXYFILE_LATEX OFF)
+set(DOXYFILE_HTML_DIR html)
+set(DOXYFILE_LATEX_DIR latex)
+include(UseDoxygen)
 
 # Targets that we develop here
 add_subdirectory(assoc_container_impl_selector)

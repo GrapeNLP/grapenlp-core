@@ -326,6 +326,7 @@ namespace grapenlp
              * Add an outgoing blank generating transition to this state; these transitions do not consume input but
              * generate output and enforce that there is at least one white space between the last consumed input
              * token and the next one
+             * @param output the output tag of the trantision
              * @param target the pointer to the target state of the transition
              */
 			void add_blank_inserting_transition(const TagOutput& output, ref target)
@@ -344,9 +345,9 @@ namespace grapenlp
              * Add an outgoing blank generating transition to this state; these transitions do not consume input but
              * generate output and enforce that there is no white space between the last consumed input token and the
              * next one
+             * @param output the output tag of the trantision
              * @param target the pointer to the target state of the transition
              */
-			//Add outgoing no-blank generating transition to this state
 			void add_no_blank_inserting_transition(const TagOutput& output, ref target)
 			{ outgoing_no_blank_inserting_transitions.insert(outgoing_inserting_transition(output, target)); }
 

@@ -26,7 +26,7 @@
 FROM ubuntu:18.04
 
 # Version label to force docker image rebuild
-LABEL grapenlp.ubuntu.18_04.docker.version="2.0"
+LABEL grapenlp.ubuntu.18_04.docker.version="3.0"
 
 # This avoids some warning messages due to running in a headless environment
 RUN echo 'debconf debconf/frontend select Noninteractive' | debconf-set-selections
@@ -68,6 +68,9 @@ RUN apt-get install -y cmake
 
 # Install GoogleTest source
 RUN apt-get install -y googletest
+
+# Install Doxygen along with its optional dependencies
+RUN apt-get install -y doxygen graphviz
 
 # Install GIT
 RUN apt-get install -y git

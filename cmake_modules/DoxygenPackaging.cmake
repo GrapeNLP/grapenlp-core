@@ -1,0 +1,7 @@
+# Documentation stuff
+set(DOXYFILE_SOURCE_DIR "${CMAKE_SOURCE_DIR}/src")
+set(DOXYFILE_LATEX OFF)
+set(DOXYFILE_HTML_DIR html)
+set(DOXYFILE_LATEX_DIR latex)
+include(UseDoxygen)
+install(DIRECTORY ${CMAKE_BINARY_DIR}/doc DESTINATION ${CMAKE_INSTALL_DOCDIR} COMPONENT libgrapenlp-doc)

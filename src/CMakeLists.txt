@@ -111,13 +111,6 @@ if (BUILD_TESTING)
 include(GoogleTestDownload)
 endif (BUILD_TESTING)
 
-# Documentation stuff
-set(DOXYFILE_SOURCE_DIR "${CMAKE_SOURCE_DIR}/src")
-set(DOXYFILE_LATEX OFF)
-set(DOXYFILE_HTML_DIR html)
-set(DOXYFILE_LATEX_DIR latex)
-include(UseDoxygen)
-
 # Targets that we develop here
 add_subdirectory(assoc_container_impl_selector)
 add_subdirectory(breadth_first_parsing)
@@ -176,6 +169,9 @@ add_subdirectory(to_fprtn_zpps_parsing)
 add_subdirectory(tokenization)
 add_subdirectory(util)
 add_subdirectory(unicode)
+
+# Documentation stuff
+include(DoxygenPackaging)
 
 # Packaging stuff
 if (UNIX AND NOT APPLE AND NOT ANDROID_NDK_TOOLCHAIN_INCLUDED)

@@ -1,11 +1,11 @@
-grapenlp-core (2.8.0) stable; urgency=medium
+grapenlp-core (2.7.0) stable; urgency=medium
 
   * Added generation of code source documentation with Doxygen
   * Added documentation binary Debian package libgrapenlp-doc
   * Added generation of binary Debian package libgrapenlp-doc to source Debian package for its publication in PPA
   * Script buildppa.sh gets the Ubuntu distribution of the running platform and passes it to cmake in order to build the corresponding source package
 
- -- Javier Sastre <javier.sastre@telefonica.net>  Mon, 25 Feb 2019 08:43:50 +0100
+ -- Javier Sastre <javier.sastre@telefonica.net>  Mon, 25 Feb 2019 23:36:42 +0100
 
 grapenlp-core (2.6.2) stable; urgency=medium
 

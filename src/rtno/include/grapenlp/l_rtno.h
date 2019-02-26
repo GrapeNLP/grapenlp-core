@@ -31,7 +31,11 @@
 
 namespace grapenlp
 {
-	//RTNO having lexical mask/some output as input/output transition tags
+	/**
+	 * Recursive transition network with output (RTNO) having lexical masks as input tags
+	 * @tparam InputIterator the type of the iterator over the RTNO input (e.g. an unichar array iterator)
+	 * @tparam TagOutput the type of the RTNO output tags
+	 */
 	template<typename InputIterator, typename TagOutput>
 	struct l_rtno
 	{
@@ -41,6 +45,12 @@ namespace grapenlp
 		l_rtno(){}
 	};
 
+	/**
+	 * Partial instantiation of the recursive transition network with output and numbered states for lexical mask input
+	 * tags. This struct is not to be instantiated but it just serves for encapsulating the generic data type.
+	 * @tparam InputIterator the type of the iterator over the RTNO input (e.g. an unichar array iterator)
+	 * @tparam TagOutput the type of the RTNO output tags
+	 */
 	template<typename InputIterator, typename TagOutput>
 	struct lns_rtno
 	{

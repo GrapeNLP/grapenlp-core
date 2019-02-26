@@ -126,6 +126,8 @@ matrix:
         - cmake
         - swig
         - python
+        - doxygen
+        - graphviz
         update: true
     script: delivery/scripts/build.sh release
 

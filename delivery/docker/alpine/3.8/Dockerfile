@@ -59,6 +59,9 @@ RUN rm -rf *src.zip \
 WORKDIR /usr/lib/jvm/java-8-openjdk-amd64/include
 ENV JAVA_HOME=/usr/lib/jvm/java-1.8-openjdk
 
+# Install Doxygen along with its optional dependencies
+RUN apk --update add --no-cache doxygen graphviz
+
 # Install GIT
 RUN apk --update add --no-cache git
 

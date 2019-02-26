@@ -23,7 +23,11 @@
 # @author Javier Sastre
 #
 
-project(grapenlp-core VERSION ${CHANGELOG_VERSION} LANGUAGES CXX)
+project(grapenlp-core
+        VERSION ${CHANGELOG_VERSION}
+        LANGUAGES CXX)
+set(PROJECT_DESCRIPTION "GRAPENLP's grammar engine along with SWIG interfaces for Java and Python")
+
 configure_file (
         "${PROJECT_SOURCE_DIR}/config/include/grapenlp/config.h.in"
         "${PROJECT_BINARY_DIR}/config/include/grapenlp/config.h"
@@ -114,9 +118,9 @@ if (NOT ANDROID_NDK_TOOLCHAIN_INCLUDED)
     add_subdirectory(cgrapenlp)
 endif (NOT ANDROID_NDK_TOOLCHAIN_INCLUDED)
 add_subdirectory(compressed_delaf)
-add_subdirectory(libgrapenlp)
 add_subdirectory(delaf)
 add_subdirectory(depth_first_parsing)
+add_subdirectory(doc)
 add_subdirectory(earley_parsing)
 #add_subdirectory(fprtn)
 #add_subdirectory(fprtn_to_dot_serializer)
@@ -127,6 +131,7 @@ add_subdirectory(fst2_reader)
     add_subdirectory(jgrapenlp)
 #endif (CMAKE_BUILD_TYPE STREQUAL "Release")
 add_subdirectory(lexmask)
+add_subdirectory(libgrapenlp)
 add_subdirectory(lrb_tree)
 add_subdirectory(lrb_tree_to_dot_serializer)
 add_subdirectory(machine)

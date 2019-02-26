@@ -4,6 +4,7 @@ SCRIPTFOLDER="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )"
 . ${SCRIPTFOLDER}/util.sh
 
 TARGET="release"
+DISTRIBUTION=`lsb_release -cs`
 
 USAGE="Usage:\n"
 USAGE="${USAGE}`basename "$0"`"
@@ -18,7 +19,7 @@ cd "${BUILD_FOLDER}"
 
 # Create build subfolders and compilation scripts
 log_info_banner "Configuring"
-cmake -DCMAKE_BUILD_TYPE="$TARGET" ../..
+cmake -DCMAKE_BUILD_TYPE="$TARGET" -DCPACK_DEBIAN_PACKAGE_DISTRIBUTION=$DISTRIBUTION ../..
 success_or_exit
 
 # Package

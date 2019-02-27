@@ -33,32 +33,91 @@
 
 namespace grapenlp
 {
+    /**
+     * A conversation context given by a sort of key/value map. The map is optimized for evaluating whether a key is
+     * present and associated to a given value. Internally, keys and values are transformed into pointers to trie
+     * strings so that string comparisons are reduced to comparing 2 pointers instead of sequences of characters of
+     * arbitrary length. This data structure maintains a trie of keys (the key dictionary) and another of values (the
+     * value dictionary), and provides methods for obtaining the pointers to the trie strings corresponding to the
+     * desired keys and values. Upon loading a grammar, all the referred keys and values in the grammar are transformed
+     * once into the trie string pointers, thus this transformation can be reused for the analysis of multiple
+     * sentences. Upon loading the current conversation context, the corresponding keys and values must also be
+     * transformed into pointers to trie strings, though as long as the context is not modified it can be reused in
+     * further analysis, and as long as the context evolves by modifying a few mappings each time the conversion of the
+     * constant part of the context is reused as well in further analyses.
+     * @tparam Char the character type of the context keys and values (e.g. unichar)
+     */
+    template<typename KeyIterator, typename ValueIterator>
     class context
     {
     public:
-        typedef std::map<u_trie_string_const_ref, u_trie_string_const_ref> map;
-        typedef map::const_iterator map_const_iterator;
+        typedef KeyIterator key_iterator;
+        typedef ValueIterator value_iterator;
+        typedef typename std::iterator_traits<KeyIterator>::value_type key_char;
+        typedef typename std::iterator_traits<ValueIterator>::value_type value_char;
+        typedef trie<key_char> key_dictionary;
+        typedef trie<value_char> value_dictionary;
+        typedef typename key_dictionary::string::const_ref optimized_key;
+        typedef typename value_dictionary::string::const_ref optimized_value;
+        typedef std::map<optimized_key, optimized_value> map;
+        typedef typename map::const_iterator map_const_iterator;
+        typedef typename map::size_type size_type;
 
     private:
-        u_trie keys;
-        u_trie values;
+        key_dictionary keys;
+        value_dictionary values;
         map the_map;
 
     public:
-        context();
+        context(): keys(), values(), the_map()
+        {}
 
-        std::size_t size() const;
+        size_type size() const
+        {
+            return the_map.size();
+        }
 
-        u_trie_string_const_ref get_key_const_ref(const u_array &key);
-        u_trie_string_const_ref get_value_const_ref(const u_array &value);
+        optimized_key get_optimized_key(key_iterator k_begin, key_iterator k_end)
+        {
+            return &keys.epsilon().concat(k_begin, k_end);
+        }
 
-        void set(u_trie_string_const_ref key_const_ref, u_trie_string_const_ref value_const_ref);
-        bool equals(u_trie_string_const_ref key_const_ref, u_trie_string_const_ref value_const_ref) const;
-        bool not_equals(u_trie_string_const_ref key_const_ref, u_trie_string_const_ref value_const_ref) const;
-        void clear_map();
-        void clear();
+        optimized_value get_optimized_value(value_iterator v_begin, value_iterator v_end)
+        {
+            return &values.epsilon().concat(v_begin, v_end);
+        }
 
-        ~context();
+        void set(optimized_key k, optimized_value v)
+        {
+            the_map[k] = v;
+        }
+
+        bool equals(optimized_key k, optimized_value v) const
+        {
+            map_const_iterator it(the_map.find(k));
+            return it != the_map.end() && it->second == v;
+        }
+
+        bool not_equals(optimized_key k, optimized_value v) const
+        {
+            map_const_iterator it(the_map.find(k));
+            return it == the_map.end() || it->second != v;
+        }
+
+        void clear_map()
+        {
+            the_map.clear();
+        }
+
+        void clear()
+        {
+            clear_map();
+            keys.clear();
+            values.clear();
+        }
+
+        ~context()
+        {}
     };
 } //namespace grapenlp
 

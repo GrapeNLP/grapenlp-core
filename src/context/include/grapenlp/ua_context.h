@@ -23,9 +23,15 @@
  *  @author Javier Sastre
  */
 
+#ifndef GRAPENLP_UA_CONTEXT_H
+#define GRAPENLP_UA_CONTEXT_H
+
 #include <grapenlp/context.h>
+#include <grapenlp/u_array.h>
 
 namespace grapenlp
 {
-    //Up to now, everything declared inline: all definitions in the corresponding header file
+    typedef context<typename u_array::const_iterator, typename u_array::const_iterator> ua_context;
 } //namespace grapenlp
+
+#endif /*GRAPENLP_CONTEXT_H*/

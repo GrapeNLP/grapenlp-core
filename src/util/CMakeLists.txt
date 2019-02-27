@@ -39,14 +39,23 @@ export(TARGETS util FILE utilConfig.cmake)
 
 # Test files
 if (BUILD_TESTING)
-	add_executable(ansi_text_attribute_test
-		test/ansi_text_attribute_test.cpp)
-	set_target_properties(ansi_text_attribute_test PROPERTIES RUNTIME_OUTPUT_DIRECTORY ${CMAKE_TEST_RUNTIME_OUTPUT_DIRECTORY})
-	target_link_libraries(ansi_text_attribute_test
+	add_executable(test_ansi_text_attribute
+		test/test_ansi_text_attribute.cpp)
+	set_target_properties(test_ansi_text_attribute PROPERTIES RUNTIME_OUTPUT_DIRECTORY ${CMAKE_TEST_RUNTIME_OUTPUT_DIRECTORY})
+	target_link_libraries(test_ansi_text_attribute
 		util
 		gtest_main)
 
-	add_test(NAME ansi_text_attribute_test COMMAND ansi_text_attribute_test)
+	add_test(NAME test_ansi_text_attribute COMMAND test_ansi_text_attribute)
+
+	add_executable(test_array
+			test/test_array.cpp)
+	set_target_properties(test_array PROPERTIES RUNTIME_OUTPUT_DIRECTORY ${CMAKE_TEST_RUNTIME_OUTPUT_DIRECTORY})
+	target_link_libraries(test_array
+			util
+			gtest_main)
+
+	add_test(NAME test_array COMMAND test_array)
 
 	#add_executable(trie_test
 	#		test/trie_test.cpp)

@@ -39,12 +39,12 @@
 namespace grapenlp
 {
 	/**
-	 * Recursive transition network with context epsilon transitions and output
+	 * Recursive transition network with output
 	 * @tparam TagInput the type of the input tags (e.g. for letter RTNOs it would be unichar)
 	 * @tparam TagOutput the type of the output tags (e.g. for letter RTNOs it would be unichar)
 	 */
 	template<typename TagInput, typename TagOutput>
-	class rtno
+	class c_rtno:
 	{
 		public:
 			typedef rtno<TagInput, TagOutput> this_type;

@@ -27,6 +27,7 @@ project(context VERSION ${CHANGELOG_VERSION} LANGUAGES CXX)
 
 add_library(context STATIC
         src/context.cpp
+        src/ua_context.cpp
         )
 target_include_directories(context PUBLIC
         $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/include>
@@ -44,12 +45,12 @@ export(TARGETS context FILE managerConfig.cmake)
 
 # Test files
 if (BUILD_TESTING)
-    add_executable(test_context
-            test/test_context.cpp)
-    set_target_properties(test_context PROPERTIES RUNTIME_OUTPUT_DIRECTORY ${CMAKE_TEST_RUNTIME_OUTPUT_DIRECTORY})
-    target_link_libraries(test_context
+    add_executable(test_ua_context
+            test/test_ua_context.cpp)
+    set_target_properties(test_ua_context PROPERTIES RUNTIME_OUTPUT_DIRECTORY ${CMAKE_TEST_RUNTIME_OUTPUT_DIRECTORY})
+    target_link_libraries(test_ua_context
             context
             gtest_main)
 
-    add_test(NAME test_context COMMAND test_context)
+    add_test(NAME test_ua_context COMMAND test_ua_context)
 endif (BUILD_TESTING)

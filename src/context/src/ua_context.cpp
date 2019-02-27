@@ -23,7 +23,7 @@
  *  @author Javier Sastre
  */
 
-#include <grapenlp/context.h>
+#include <grapenlp/ua_context.h>
 
 namespace grapenlp
 {

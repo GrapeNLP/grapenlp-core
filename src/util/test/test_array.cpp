@@ -23,9 +23,21 @@
  *  @author Javier Sastre
  */
 
-#include <grapenlp/context.h>
+#include <gtest/gtest.h>
+#include <grapenlp/array.h>
 
-namespace grapenlp
+TEST(ansi_text_attribute_test, terminal_interprets_ansi_formatting_characters)
 {
-    //Up to now, everything declared inline: all definitions in the corresponding header file
-} //namespace grapenlp
+    const char c1[] = {'h', 'o', 'l', 'a'};
+    grapenlp::array<char> a1(c1);
+    std::cout << a1 << std::endl;
+    const char c2[] = "hola";
+    grapenlp::array<char> a2(c2);
+    std::cout << a2<< std::endl;
+}
+
+int main(int argc, char **argv)
+{
+    testing::InitGoogleTest(&argc, argv);
+    return RUN_ALL_TESTS();
+}

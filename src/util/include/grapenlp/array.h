@@ -52,7 +52,7 @@ namespace grapenlp {
         array() : elems(nullptr), count(0) {}
 
         template<std::size_t N>
-        array(const T elems_[N]): elems(new T[N]), count(N) { std::copy(elems_, elems_ + N, elems); }
+        array(const T (&elems_)[N]): elems(new T[N]), count(N) { std::copy(elems_, elems_ + N, elems); }
 
         array(T *elems_, size_type count_) : elems(elems_), count(count_) {}
 
@@ -141,7 +141,7 @@ namespace grapenlp {
         }
 
         template<std::size_t N>
-        array &reset(const T elems_[N]) {
+        array &reset(const T (&elems_)[N]) {
             if (elems) delete[] elems;
             elems = new T[N];
             count = N;

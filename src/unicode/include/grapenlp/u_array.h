@@ -40,6 +40,22 @@ namespace grapenlp
 	template<typename Sequence>
 	struct u_array_and_deref_sequence_concatenator
 	{ typedef array_and_deref_sequence_concatenator<unichar, Sequence> type; };
-}
 
+	template<std::size_t N>
+	u_array to_u_array_without_null(const char (&elems_)[N])
+	{
+		unichar *elems = new unichar[N-1];
+		std::copy(elems_, elems_ + N-1, elems);
+		u_array a(elems, N-1);
+		return a;
+	}
+
+	template<std::size_t N>
+	u_array to_u_array_without_null(const wchar_t (&elems_)[N])
+	{
+		unichar *elems = new unichar[N-1];
+		std::copy(elems_, elems_ + N-1, elems);
+		u_array a(elems, N-1);
+		return a;
+	}}
 #endif /*GRAPENLP_U_ARRAY_H*/

@@ -1,5 +1,0 @@
-#!/bin/bash
-cd `dirname $0`
-. paths
-$LATEX_HBAR_CHART -adepth-first,breadth-first,earley,to-fprtn,to-fprtn-zpps,to-fprtn-top,to-fprtn-bfe,to-fprtn-bse,to-fprtn-tbe -po#t?e?b? -c-o,depth-first-no-output-color.,depth-first-color:-o,breadth-first-no-output-color.,breadth-first-color:-o,earley-no-output-color.,earley-color:,to-fprtn-color:,to-fprtn-zpps-color:,to-fprtn-top-color:,to-fprtn-bfe-color:,to-fprtn-bse-color:,to-fprtn-tbe-color -h\\barchartrowheight -w\\parsernamewidth,\\owidth,\\twidth,\\ewidth,\\bwidth -v10000 -r31 -u"Parsed sentences per second" -n10 -t"Comparative graph of every parser and their variants for the flattened version of the online service grammar without keyword rules and the corresponding test corpus without keyword-based sentences" -lfig:stats_fst_no_keyword -i$STATS_FST_NO_KEYWORD_TXT -o$STATS_FST_NO_KEYWORD_TEX
-

@@ -1,7 +1,0 @@
-#!/bin/bash
-cd `dirname $0`
-. paths
-$SPEEDUP_CALCULATOR -adepth-first,breadth-first,earley,to-fprtn,to-fprtn-zpps,to-fprtn-top,to-fprtn-bfe,to-fprtn-bse,to-fprtn-tbe -po?t?e?b? -st -i$STATS_TXT
-$SPEEDUP_CALCULATOR -adepth-first,breadth-first,earley,to-fprtn,to-fprtn-zpps,to-fprtn-top,to-fprtn-bfe,to-fprtn-bse,to-fprtn-tbe -po?t?e?b? -st -i$STATS_NO_KEYWORD_TXT
-$SPEEDUP_CALCULATOR -adepth-first,breadth-first,earley,to-fprtn,to-fprtn-zpps,to-fprtn-top,to-fprtn-bfe,to-fprtn-bse,to-fprtn-tbe -po?t?e?b? -st -i$STATS_FST_NO_KEYWORD_TXT
-

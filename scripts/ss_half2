@@ -1,0 +1,66 @@
+#!/bin/bash
+cd `dirname $0`
+. paths
+
+RARG="10s100r"
+
+INPUT_GRAMMAR=$CHATBOT_GRAMMAR
+MY_STATS_TXT=$STATS_TXT
+MY_CORPUS=$CORPUS
+MY_CORPUS_NO_OUTPUT=$CORPUS_NO_OUTPUT
+if [ $# -gt 0 ]; then
+	MY_CORPUS=$1
+	MY_CORPUS_NO_OUTPUT=$2
+	INPUT_GRAMMAR=$3
+	MY_STATS_TXT=$4
+fi
+
+$RELEASE_NLP --desc-parser -sxwc -pearley -estd -bstd -r$RARG $INPUT_GRAMMAR $COMPRESSED_DICO $MY_CORPUS $OUTPUT | tee -a $MY_STATS_TXT
+$RELEASE_NLP --desc-parser -sxwc -pearley -estd -blrb-tree -r$RARG $INPUT_GRAMMAR $COMPRESSED_DICO $MY_CORPUS $OUTPUT | tee -a $MY_STATS_TXT
+$RELEASE_NLP --desc-parser -sxwc -pearley -estd -blrb-tree-3w -r$RARG $INPUT_GRAMMAR $COMPRESSED_DICO $MY_CORPUS $OUTPUT | tee -a $MY_STATS_TXT
+$RELEASE_NLP --desc-parser -sxwc -pearley -elrb-tree -bstd -r$RARG $INPUT_GRAMMAR $COMPRESSED_DICO $MY_CORPUS $OUTPUT | tee -a $MY_STATS_TXT
+$RELEASE_NLP --desc-parser -sxwc -pearley -elrb-tree -blrb-tree -r$RARG $INPUT_GRAMMAR $COMPRESSED_DICO $MY_CORPUS $OUTPUT | tee -a $MY_STATS_TXT
+$RELEASE_NLP --desc-parser -sxwc -pearley -elrb-tree -blrb-tree-3w -r$RARG $INPUT_GRAMMAR $COMPRESSED_DICO $MY_CORPUS $OUTPUT | tee -a $MY_STATS_TXT
+$RELEASE_NLP --desc-parser -sxwc -pearley -elrb-tree-3w -bstd -r$RARG $INPUT_GRAMMAR $COMPRESSED_DICO $MY_CORPUS $OUTPUT | tee -a $MY_STATS_TXT
+$RELEASE_NLP --desc-parser -sxwc -pearley -elrb-tree-3w -blrb-tree -r$RARG $INPUT_GRAMMAR $COMPRESSED_DICO $MY_CORPUS $OUTPUT | tee -a $MY_STATS_TXT
+$RELEASE_NLP --desc-parser -sxwc -pearley -elrb-tree-3w -blrb-tree-3w -r$RARG $INPUT_GRAMMAR $COMPRESSED_DICO $MY_CORPUS $OUTPUT | tee -a $MY_STATS_TXT
+
+$RELEASE_NLP --desc-parser -snxwc -pearley -estd -r$RARG $INPUT_GRAMMAR $COMPRESSED_DICO $MY_CORPUS_NO_OUTPUT $OUTPUT | tee -a $MY_STATS_TXT
+$RELEASE_NLP --desc-parser -snxwc -pearley -elrb-tree -r$RARG $INPUT_GRAMMAR $COMPRESSED_DICO $MY_CORPUS_NO_OUTPUT $OUTPUT | tee -a $MY_STATS_TXT
+$RELEASE_NLP --desc-parser -snxwc -pearley -elrb-tree-3w -r$RARG $INPUT_GRAMMAR $COMPRESSED_DICO $MY_CORPUS_NO_OUTPUT $OUTPUT | tee -a $MY_STATS_TXT
+
+$RELEASE_NLP --desc-parser -sxwc -pbreadth-first -estd -bstd -r$RARG $INPUT_GRAMMAR $COMPRESSED_DICO $MY_CORPUS $OUTPUT | tee -a $MY_STATS_TXT
+$RELEASE_NLP --desc-parser -sxwct -pbreadth-first -estd -bstd -r$RARG $INPUT_GRAMMAR $COMPRESSED_DICO $MY_CORPUS $OUTPUT | tee -a $MY_STATS_TXT
+$RELEASE_NLP --desc-parser -sxwc -pbreadth-first -estd -blrb-tree -r$RARG $INPUT_GRAMMAR $COMPRESSED_DICO $MY_CORPUS $OUTPUT | tee -a $MY_STATS_TXT
+$RELEASE_NLP --desc-parser -sxwct -pbreadth-first -estd -blrb-tree -r$RARG $INPUT_GRAMMAR $COMPRESSED_DICO $MY_CORPUS $OUTPUT | tee -a $MY_STATS_TXT
+$RELEASE_NLP --desc-parser -sxwc -pbreadth-first -estd -blrb-tree-3w -r$RARG $INPUT_GRAMMAR $COMPRESSED_DICO $MY_CORPUS $OUTPUT | tee -a $MY_STATS_TXT
+$RELEASE_NLP --desc-parser -sxwct -pbreadth-first -estd -blrb-tree-3w -r$RARG $INPUT_GRAMMAR $COMPRESSED_DICO $MY_CORPUS $OUTPUT | tee -a $MY_STATS_TXT
+$RELEASE_NLP --desc-parser -sxwc -pbreadth-first -elrb-tree -bstd -r$RARG $INPUT_GRAMMAR $COMPRESSED_DICO $MY_CORPUS $OUTPUT | tee -a $MY_STATS_TXT
+$RELEASE_NLP --desc-parser -sxwct -pbreadth-first -elrb-tree -bstd -r$RARG $INPUT_GRAMMAR $COMPRESSED_DICO $MY_CORPUS $OUTPUT | tee -a $MY_STATS_TXT
+$RELEASE_NLP --desc-parser -sxwc -pbreadth-first -elrb-tree -blrb-tree -r$RARG $INPUT_GRAMMAR $COMPRESSED_DICO $MY_CORPUS $OUTPUT | tee -a $MY_STATS_TXT
+$RELEASE_NLP --desc-parser -sxwct -pbreadth-first -elrb-tree -blrb-tree -r$RARG $INPUT_GRAMMAR $COMPRESSED_DICO $MY_CORPUS $OUTPUT | tee -a $MY_STATS_TXT
+$RELEASE_NLP --desc-parser -sxwc -pbreadth-first -elrb-tree -blrb-tree-3w -r$RARG $INPUT_GRAMMAR $COMPRESSED_DICO $MY_CORPUS $OUTPUT | tee -a $MY_STATS_TXT
+$RELEASE_NLP --desc-parser -sxwct -pbreadth-first -elrb-tree -blrb-tree-3w -r$RARG $INPUT_GRAMMAR $COMPRESSED_DICO $MY_CORPUS $OUTPUT | tee -a $MY_STATS_TXT
+$RELEASE_NLP --desc-parser -sxwc -pbreadth-first -elrb-tree-3w -bstd -r$RARG $INPUT_GRAMMAR $COMPRESSED_DICO $MY_CORPUS $OUTPUT | tee -a $MY_STATS_TXT
+$RELEASE_NLP --desc-parser -sxwct -pbreadth-first -elrb-tree-3w -bstd -r$RARG $INPUT_GRAMMAR $COMPRESSED_DICO $MY_CORPUS $OUTPUT | tee -a $MY_STATS_TXT
+$RELEASE_NLP --desc-parser -sxwc -pbreadth-first -elrb-tree-3w -blrb-tree -r$RARG $INPUT_GRAMMAR $COMPRESSED_DICO $MY_CORPUS $OUTPUT | tee -a $MY_STATS_TXT
+$RELEASE_NLP --desc-parser -sxwct -pbreadth-first -elrb-tree-3w -blrb-tree -r$RARG $INPUT_GRAMMAR $COMPRESSED_DICO $MY_CORPUS $OUTPUT | tee -a $MY_STATS_TXT
+$RELEASE_NLP --desc-parser -sxwc -pbreadth-first -elrb-tree-3w -blrb-tree-3w -r$RARG $INPUT_GRAMMAR $COMPRESSED_DICO $MY_CORPUS $OUTPUT | tee -a $MY_STATS_TXT
+$RELEASE_NLP --desc-parser -sxwct -pbreadth-first -elrb-tree-3w -blrb-tree-3w -r$RARG $INPUT_GRAMMAR $COMPRESSED_DICO $MY_CORPUS $OUTPUT | tee -a $MY_STATS_TXT
+
+$RELEASE_NLP --desc-parser -sxwc -pdepth-first -bstd -r$RARG $INPUT_GRAMMAR $COMPRESSED_DICO $MY_CORPUS $OUTPUT | tee -a $MY_STATS_TXT
+$RELEASE_NLP --desc-parser -sxwct -pdepth-first -bstd -r$RARG $INPUT_GRAMMAR $COMPRESSED_DICO $MY_CORPUS $OUTPUT | tee -a $MY_STATS_TXT
+$RELEASE_NLP --desc-parser -sxwc -pdepth-first -blrb-tree -r$RARG $INPUT_GRAMMAR $COMPRESSED_DICO $MY_CORPUS $OUTPUT | tee -a $MY_STATS_TXT
+$RELEASE_NLP --desc-parser -sxwct -pdepth-first -blrb-tree -r$RARG $INPUT_GRAMMAR $COMPRESSED_DICO $MY_CORPUS $OUTPUT | tee -a $MY_STATS_TXT
+$RELEASE_NLP --desc-parser -sxwc -pdepth-first -blrb-tree-3w -r$RARG $INPUT_GRAMMAR $COMPRESSED_DICO $MY_CORPUS $OUTPUT | tee -a $MY_STATS_TXT
+$RELEASE_NLP --desc-parser -sxwct -pdepth-first -blrb-tree-3w -r$RARG $INPUT_GRAMMAR $COMPRESSED_DICO $MY_CORPUS $OUTPUT | tee -a $MY_STATS_TXT
+
+$RELEASE_NLP --desc-parser -snxwc -pbreadth-first -estd -r$RARG $INPUT_GRAMMAR $COMPRESSED_DICO $MY_CORPUS_NO_OUTPUT $OUTPUT | tee -a $MY_STATS_TXT
+$RELEASE_NLP --desc-parser -snxwct -pbreadth-first -estd -r$RARG $INPUT_GRAMMAR $COMPRESSED_DICO $MY_CORPUS_NO_OUTPUT $OUTPUT | tee -a $MY_STATS_TXT
+$RELEASE_NLP --desc-parser -snxwc -pbreadth-first -elrb-tree -r$RARG $INPUT_GRAMMAR $COMPRESSED_DICO $MY_CORPUS_NO_OUTPUT $OUTPUT | tee -a $MY_STATS_TXT
+$RELEASE_NLP --desc-parser -snxwct -pbreadth-first -elrb-tree -r$RARG $INPUT_GRAMMAR $COMPRESSED_DICO $MY_CORPUS_NO_OUTPUT $OUTPUT | tee -a $MY_STATS_TXT
+$RELEASE_NLP --desc-parser -snxwc -pbreadth-first -elrb-tree-3w -r$RARG $INPUT_GRAMMAR $COMPRESSED_DICO $MY_CORPUS_NO_OUTPUT $OUTPUT | tee -a $MY_STATS_TXT
+$RELEASE_NLP --desc-parser -snxwct -pbreadth-first -elrb-tree-3w -r$RARG $INPUT_GRAMMAR $COMPRESSED_DICO $MY_CORPUS_NO_OUTPUT $OUTPUT | tee -a $MY_STATS_TXT
+
+$RELEASE_NLP --desc-parser -snxwc -pdepth-first -r$RARG $INPUT_GRAMMAR $COMPRESSED_DICO $MY_CORPUS_NO_OUTPUT $OUTPUT | tee -a $MY_STATS_TXT
+$RELEASE_NLP --desc-parser -snxwct -pdepth-first -r$RARG $INPUT_GRAMMAR $COMPRESSED_DICO $MY_CORPUS_NO_OUTPUT $OUTPUT | tee -a $MY_STATS_TXT

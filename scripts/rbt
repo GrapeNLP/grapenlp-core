@@ -1,0 +1,6 @@
+#!/bin/bash
+cd `dirname $0`
+. paths
+
+dot -Tsvg -o$SVGRBTREE $DOTRBTREE
+dot -Tsvg -o$SVGRBTREEDELETED $DOTRBTREEDELETED

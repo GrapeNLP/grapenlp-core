@@ -1,0 +1,31 @@
+#!/bin/bash
+cd `dirname $0`
+. paths
+
+UNIT="Translated sentences per second"
+CAPTION1="Translated sentences per second for the pseudo-determinized MovistarBot grammar and test corpus; \`-o' stands for no output, \`+t' for trie optimization (chapter~\ref{chp:trie}) and \`-e' for the implementation of sets of ESs (chapter~\ref{chp:set}), namely \`std' (standard), \`lrb' (double-linked red-black trees) and \`lrb-3w' (double-linked red-black trees with 3-way comparison)."
+CAPTION2="Translated sentences per second for the pseudo-determinized MovistarBot grammar and test corpus; \`-o' stands for no output, \`+t' for trie optimization (chapter~\ref{chp:trie}) and \`-e' for the implementation of sets of ESs (chapter~\ref{chp:set}), namely \`std' (standard), \`lrb' (double-linked red-black trees) and \`lrb-3w' (double-linked red-black trees with 3-way comparison)."
+CAPTION3="Translated sentences per second for the flattened and pseudo-determinized MovistarBot grammar and test corpus; \`-o' stands for no output, \`+t' for trie optimization (chapter~\ref{chp:trie}) and \`-e' for the implementation of sets of ESs (chapter~\ref{chp:set}), namely \`std' (standard), \`lrb' (double-linked red-black trees) and \`lrb-3w' (double-linked red-black trees with 3-way comparison)."
+MAX_VALUE1=4000
+MAX_VALUE2=4000
+MAX_VALUE3=10000
+MAX_ROWS=32
+NUMBER_OF_TICS1=8
+NUMBER_OF_TICS2=8
+NUMBER_OF_TICS3=10
+FIGURE_POSITION=""
+#FIGURE_POSITION="--position=t"
+
+#######
+# RTN #
+#######
+
+$LATEX_HBAR_CHART -adepth-first,breadth-first,earley -po#t?e?b? -mo -c-o,depth-first-no-output-color:-o,breadth-first-no-output-color:-o,earley-no-output-color -h\\barchartrowheight -w\\parsernamewidth,\\owidth,\\twidth,\\ewidth,\\bwidth -v$MAX_VALUE1 -r$MAX_ROWS -u"$UNIT" -n$NUMBER_OF_TICS1 $FIGURE_POSITION -t"$CAPTION1" -lfig:stats -i$STATS_TXT -o$THESIS_FOLDER/rtn/stats.tex
+
+$LATEX_HBAR_CHART -adepth-first,breadth-first,earley -po#t?e?b? -mo -c-o,depth-first-no-output-color:-o,breadth-first-no-output-color:-o,earley-no-output-color -h\\barchartrowheight -w\\parsernamewidth,\\owidth,\\twidth,\\ewidth,\\bwidth -v$MAX_VALUE2 -r$MAX_ROWS -u"$UNIT" -n$NUMBER_OF_TICS2 $FIGURE_POSITION -t"$CAPTION2" -lfig:stats_no_keyword -i$STATS_NO_KEYWORD_TXT -o$THESIS_FOLDER/rtn/stats_no_keyword.tex
+
+$LATEX_HBAR_CHART -adepth-first,breadth-first,earley -po#t?e?b? -mo -c-o,depth-first-no-output-color:-o,breadth-first-no-output-color:-o,earley-no-output-color -h\\barchartrowheight -w\\parsernamewidth,\\owidth,\\twidth,\\ewidth,\\bwidth -v$MAX_VALUE3 -r$MAX_ROWS -u"$UNIT" -n$NUMBER_OF_TICS3 $FIGURE_POSITION -t"$CAPTION3" -lfig:stats_no_keyword -i$STATS_FST_NO_KEYWORD_TXT -o$THESIS_FOLDER/rtn/stats_fst_no_keyword.tex
+
+#$LATEX_HBAR_CHART -adepth-first,breadth-first,earley,to-fprtn,to-fprtn-zpps,to-fprtn-top,to-fprtn-bfe,to-fprtn-bse,to-fprtn-tbe -po#t?e?b? -c-o,depth-first-no-output-color.,depth-first-color:-o,breadth-first-no-output-color.,breadth-first-color:-o,earley-no-output-color.,earley-color:,to-fprtn-color:,to-fprtn-zpps-color:,to-fprtn-top-color:,to-fprtn-bfe-color:,to-fprtn-bse-color:,to-fprtn-tbe-color -h\\barchartrowheight -w\\parsernamewidth,\\owidth,\\twidth,\\ewidth,\\bwidth -v$MAX_VALUE -r$MAX_ROWS -u"$UNIT" -n$NUMBER_OF_TICS $FIGURE_POSITION -t"$CAPTION1" -lfig:stats -i$STATS_TXT -o$THESIS_FOLDER/rtn/stats.tex
+
+

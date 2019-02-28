@@ -1,0 +1,23 @@
+LAST_PARSER=""
+FLAG=0
+
+#cat ass.txt | grep -E "\* |Average sentences per second" | sed 's/Average sentences per second://g' | sed 's/^.*\*\ //g' | sed 's/\ \*.*$//g' | sed 's/^\x1B.* //g' | sed 's/\x1B.*$//g' | while read line
+#cat ass.txt | grep -E "\* |Average seconds per sentence" | sed 's/Average seconds per sentence://g' | sed 's/^.*\*\ //g' | sed 's/\ \*.*$//g' | sed 's/^\x1B.* //g' | sed 's/\x1B.*$//g' | while read line
+ cat ass.txt | grep -E "\* |SD, CV%, P%, min, max" | sed 's/SD, CV%, P%, min, max: [^,]*,[^,]*,[^,]*, //g' | sed 's/,.*$//g' | sed 's/^.*\*\ //g' | sed 's/\ \*.*$//g' | sed 's/^\x1B.* //g' | sed 's/\x1B.*$//g' | while read line
+do
+	if [ $FLAG = 0 ]; then
+		if [ "$LAST_PARSER" != "$line" ]; then
+			echo
+			echo -n $line
+			LAST_PARSER=$line
+		fi
+		FLAG=1
+	elif [ $FLAG = 1 ]; then
+		FLAG=2
+	else
+		echo -ne "\t$line"
+		FLAG=0
+	fi
+done
+echo
+

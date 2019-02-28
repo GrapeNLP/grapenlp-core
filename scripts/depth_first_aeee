@@ -1,0 +1,10 @@
+#!/bin/bash
+cd `dirname $0`
+. paths
+
+if [ $# -gt 0 ]
+then
+$DEBUG_NLP -sl -pdepth-first -r$2 $AEEE_GRAMMAR $COMPRESSED_DICO $A_INPUT $OUTPUT
+else
+$DEBUG_NLP -sl -pdepth-first $AEEE_GRAMMAR $COMPRESSED_DICO $A_INPUT $OUTPUT
+fi

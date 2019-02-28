@@ -1,0 +1,15 @@
+#!/bin/bash
+cd `dirname $0`
+. paths
+
+RARG="10s10r"
+
+MIN_N=$1
+MAX_N=$2
+EXTRA_ARGS=$3
+MY_STATS_TXT=$4
+
+for (( n=$MIN_N; n<=$MAX_N ; n++))
+do
+	$RELEASE_NLP --desc-parser -slw -r$RARG -a$n $EXTRA_ARGS -o$OUTPUT $ANBN_GRAMMAR $COMPRESSED_DICO | tee -a $MY_STATS_TXT
+done

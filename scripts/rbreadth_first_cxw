@@ -1,0 +1,5 @@
+#!/bin/bash
+cd `dirname $0`
+. paths
+
+$RELEASE_NLP -xws -pbreadth-first $CHATBOT_GRAMMAR $COMPRESSED_DICO $TEST_INPUT $OUTPUT

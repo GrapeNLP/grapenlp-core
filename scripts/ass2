@@ -1,0 +1,39 @@
+#!/bin/bash
+cd `dirname $0`
+. paths
+
+. ass 0 15 "-pbreadth-first -elrb-tree-3w -blrb-tree-3w" ass.txt
+
+. ass 0 15 "-t -pbreadth-first -estd -bstd" ass.txt
+. ass 0 15 "-t -pbreadth-first -estd -blrb-tree" ass.txt
+. ass 0 15 "-t -pbreadth-first -estd -blrb-tree-3w" ass.txt
+
+. ass 0 15 "-t -pbreadth-first -elrb-tree -bstd" ass.txt
+. ass 0 15 "-t -pbreadth-first -elrb-tree -blrb-tree" ass.txt
+. ass 0 15 "-t -pbreadth-first -elrb-tree -blrb-tree-3w" ass.txt
+. ass 0 15 "-t -pbreadth-first -elrb-tree-3w -bstd" ass.txt
+. ass 0 15 "-t -pbreadth-first -elrb-tree-3w -blrb-tree" ass.txt
+. ass 0 15 "-t -pbreadth-first -elrb-tree-3w -blrb-tree-3w" ass.txt
+
+. ass 0 15 "-n -pearley -estd" ass.txt
+. ass 0 15 "-n -pearley -elrb-tree" ass.txt
+. ass 0 15 "-n -pearley -elrb-tree-3w" ass.txt
+
+. ass 0 15 "-pearley -estd -bstd" ass.txt
+. ass 0 15 "-pearley -estd -blrb-tree" ass.txt
+. ass 0 15 "-pearley -estd -blrb-tree-3w" ass.txt
+. ass 0 15 "-pearley -elrb-tree -bstd" ass.txt
+. ass 0 15 "-pearley -elrb-tree -blrb-tree" ass.txt
+. ass 0 15 "-pearley -elrb-tree -blrb-tree-3w" ass.txt
+. ass 0 15 "-pearley -elrb-tree-3w -bstd" ass.txt
+. ass 0 15 "-pearley -elrb-tree-3w -blrb-tree" ass.txt
+. ass 0 15 "-pearley -elrb-tree-3w -blrb-tree-3w" ass.txt
+
+. ass 0 15 "-t -pearley -estd -bstd" ass.txt
+. ass 0 15 "-t -pearley -estd -blrb-tree" ass.txt
+. ass 0 15 "-t -pearley -estd -blrb-tree-3w" ass.txt
+. ass 0 15 "-t -pearley -elrb-tree -bstd" ass.txt
+. ass 0 15 "-t -pearley -elrb-tree -blrb-tree" ass.txt
+. ass 0 15 "-t -pearley -elrb-tree -blrb-tree-3w" ass.txt
+. ass 0 15 "-t -pearley -elrb-tree-3w -bstd" ass.txt
+. ass 0 15 "-t -pearley -elrb-tree-3w -blrb-tree" ass.txt

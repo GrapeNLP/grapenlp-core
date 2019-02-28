@@ -1,0 +1,5 @@
+#!/bin/bash
+cd `dirname $0`
+. paths
+$LATEX_HBAR_CHART -adepth-first,breadth-first,earley,to-fprtn,to-fprtn-zpps,to-fprtn-top,to-fprtn-bfe,to-fprtn-bse,to-fprtn-tbe -po#t?e?b? -c-o,depth-first-no-output-color.,depth-first-color:-o,breadth-first-no-output-color.,breadth-first-color:-o,earley-no-output-color.,earley-color:,to-fprtn-color:,to-fprtn-zpps-color:,to-fprtn-top-color:,to-fprtn-bfe-color:,to-fprtn-bse-color:,to-fprtn-tbe-color -h\\barchartrowheight -w\\parsernamewidth,\\owidth,\\twidth,\\ewidth,\\bwidth -v4000 -r32 -u"Parsed sentences per second" -n8 --position="t" -t"Comparative graph of every parser and their variants for the original online service grammar and test corpus" -lfig:stats -i$STATS_TXT -o$STATS_TEX
+

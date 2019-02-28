@@ -1,0 +1,10 @@
+#!/bin/bash
+cd `dirname $0`
+. paths
+
+if [ $# -gt 0 ]
+then
+$DEBUG_NLP -sxcwtn -pbreadth-first -r$1 $CHATBOT_GRAMMAR $COMPRESSED_DICO $CORPUS $OUTPUT
+else
+$DEBUG_NLP -sxcwtn -pbreadth-first $CHATBOT_GRAMMAR $COMPRESSED_DICO $CORPUS $OUTPUT
+fi

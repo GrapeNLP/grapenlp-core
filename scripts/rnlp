@@ -1,0 +1,6 @@
+#!/bin/bash
+cd `dirname $0`
+. paths
+
+. paths
+$RELEASE_NLP $@

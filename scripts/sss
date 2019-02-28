@@ -1,0 +1,8 @@
+#!/bin/bash
+. ss1
+. ss2
+. ss3
+. l1
+. l2
+. l3
+

@@ -1,0 +1,10 @@
+#!/bin/bash
+cd `dirname $0`
+. paths
+
+if [ "$1" = "m" ]
+then
+$MTRACE_NLP -l -pearley $AEEE_GRAMMAR $COMPRESSED_DICO $A_INPUT $OUTPUT
+else
+$DEBUG_NLP -l -pearley $AEEE_GRAMMAR $COMPRESSED_DICO $A_INPUT $OUTPUT
+fi

@@ -37,6 +37,7 @@ target_include_directories(to_fprtn_top_parsing PUBLIC
         $<INSTALL_INTERFACE:include>
         PRIVATE src)
 target_link_libraries(to_fprtn_top_parsing
+        context
         rtno
         output_fprtn_top_prune
         )

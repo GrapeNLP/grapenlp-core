@@ -32,7 +32,7 @@
 namespace grapenlp
 {
 #ifdef TRACE
-	template<typename InputIterator, typename SourceRef, typename StateConstRefStackPool, assoc_container_impl_choice execution_state_set_impl_choice>
+	template<typename InputIterator, typename SourceRef, typename ContextKeyIterator, typename ContextValueIterator, typename StateConstRefStackPool, assoc_container_impl_choice execution_state_set_impl_choice>
 	struct lua_breadth_first_parser_no_output: public breadth_first_parser_no_output<typename luans_rtno<InputIterator>::type::tag_input, typename luans_rtno<InputIterator>::type::tag_output, SourceRef, StateConstRefStackPool, execution_state_set_impl_choice>
 	{
 		typedef breadth_first_parser_no_output<typename luans_rtno<InputIterator>::type::tag_input, typename luans_rtno<InputIterator>::type::tag_output, SourceRef, StateConstRefStackPool, execution_state_set_impl_choice> base_type;

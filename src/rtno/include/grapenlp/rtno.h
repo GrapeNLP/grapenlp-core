@@ -43,13 +43,15 @@ namespace grapenlp
 	 * @tparam TagInput the type of the input tags (e.g. for letter RTNOs it would be unichar)
 	 * @tparam TagOutput the type of the output tags (e.g. for letter RTNOs it would be unichar)
 	 */
-	template<typename TagInput, typename TagOutput>
+	template<typename TagInput, typename TagOutput, typename ContextKey, typename ContextValue>
 	class rtno
 	{
 		public:
-			typedef rtno<TagInput, TagOutput> this_type;
+			typedef rtno<TagInput, TagOutput, ContextKey,ContextValue> this_type;
 			typedef TagInput tag_input;
 			typedef TagOutput tag_output;
+			typedef ContextKey context_key;
+			typedef ContextValue context_value;
 
 		class state;
 
@@ -118,6 +120,76 @@ namespace grapenlp
 		typedef	typename outgoing_inserting_transition::set outgoing_inserting_transition_set;
 		typedef	typename outgoing_inserting_transition_set::iterator outgoing_inserting_transition_set_iterator;
 		typedef	typename outgoing_inserting_transition_set::const_iterator outgoing_inserting_transition_set_const_iterator;
+
+		/**
+         * Outgoing transition without input consumption or output generation but verifying that a context variable is equal to a given value
+         */
+		struct outgoing_epsilon_context_transition
+		{
+			typedef	lrb_tree_set<outgoing_epsilon_context_transition> set;
+
+            context_key key;
+            context_value value;
+			state* target;
+
+			/**
+             * Constructor
+             * @param target_ the pointer to the target state of this context_transition
+             */
+			outgoing_epsilon_context_transition(context_key key_, context_value value_, state* target_): key(key_), value(value_), target(target_)
+			{}
+
+			/**
+             * Default "less than" operator used for building sets of outgoing epsilon context_transitions
+             * @param other the outgoing epsilon context_transition to compare this context_transition with
+             * @return whether this context_transition is less than the other one or not
+             */
+			bool operator< (const outgoing_epsilon_context_transition &other) const
+			{ return target < other.target; }
+		};
+
+		typedef	typename outgoing_epsilon_context_transition::set outgoing_epsilon_context_transition_set;
+		typedef	typename outgoing_epsilon_context_transition_set::iterator outgoing_epsilon_context_transition_set_iterator;
+		typedef	typename outgoing_epsilon_context_transition_set::const_iterator outgoing_epsilon_context_transition_set_const_iterator;
+
+		/**
+         * Outgoing context transitions without input consumption but with output generation
+         */
+		struct outgoing_inserting_context_transition
+		{
+			typedef	lrb_tree_set<outgoing_inserting_context_transition> set;
+
+			context_key key;
+			context_value value;
+			TagOutput output;
+			state* target;
+
+			/**
+             * Constructor
+             * @param output_ the output tag of this context_transition
+             * @param target_ the pointer to the target state of this context_transition
+             */
+			outgoing_inserting_context_transition(context_key key_, context_value value_, const TagOutput &output_, state* target_): key(key_), value(value_), output(output_), target(target_)
+			{}
+
+			/**
+             * Default "less than" operator used for building sets of outgoing inserting context_transitions
+             * @param other the outgoing inserting context_transition to compare this context_transition with
+             * @return whether this context_transition is less than the other one or not
+             */
+			bool operator< (const outgoing_inserting_context_transition &other) const
+			{
+				if (output < other.output)
+					return true;
+				if (other.output < output)
+					return false;
+				return target < other.target;
+			}
+		};
+
+		typedef	typename outgoing_inserting_context_transition::set outgoing_inserting_context_transition_set;
+		typedef	typename outgoing_inserting_context_transition_set::iterator outgoing_inserting_context_transition_set_iterator;
+		typedef	typename outgoing_inserting_context_transition_set::const_iterator outgoing_inserting_context_transition_set_const_iterator;
 
         /**
          * Outgoing transitions with input consumption but without output generation
@@ -464,8 +536,8 @@ namespace grapenlp
      * @param q2 another state of this RTNO
      * @return whether q1 and q2 are the same state (the same state object)
      */
-	template<typename TagInput, typename TagOutput>
-	bool operator== (const typename rtno<TagInput, TagOutput>::state& q1, const typename rtno<TagInput, TagOutput>::state& q2)
+	template<typename TagInput, typename TagOutput, typename ContextKey, typename ContextValue>
+	bool operator== (const typename rtno<TagInput, TagOutput, ContextKey, ContextValue>::state& q1, const typename rtno<TagInput, TagOutput, ContextKey, ContextValue>::state& q2)
 	{
 		return &q1 == &q2;
 	}
@@ -479,8 +551,8 @@ namespace grapenlp
      * @param q2 another state of this RTNO
      * @return whether q1 is less than q2 (q1's pointer is less than q2's)
      */
-	template<typename TagInput, typename TagOutput>
-	bool operator< (const typename rtno<TagInput, TagOutput>::state& q1, const typename rtno<TagInput, TagOutput>::state& q2)
+	template<typename TagInput, typename TagOutput, typename ContextKey, typename ContextValue>
+	bool operator< (const typename rtno<TagInput, TagOutput, ContextKey, ContextValue>::state& q1, const typename rtno<TagInput, TagOutput, ContextKey, ContextValue>::state& q2)
 	{
 		return &q1 < &q2;
 	}
@@ -492,12 +564,12 @@ namespace grapenlp
 	 * @tparam TagInput the type of the input tags (e.g. for letter RTNOs it would be unichar)
 	 * @tparam TagOutput the type of the output tags (e.g. for letter RTNOs it would be unichar)
 	 */
-	template<typename TagInput, typename TagOutput>
-	class ns_rtno: public rtno<TagInput, TagOutput>
+	template<typename TagInput, typename TagOutput, typename ContextKey, typename ContextValue>
+	class ns_rtno: public rtno<TagInput, TagOutput, ContextKey, ContextValue>
 	{
 		public:
-			typedef ns_rtno<TagInput, TagOutput> this_type;
-			typedef rtno<TagInput, TagOutput> base_type;
+			typedef ns_rtno<TagInput, TagOutput, ContextKey, ContextValue> this_type;
+			typedef rtno<TagInput, TagOutput, ContextKey, ContextValue> base_type;
 //			typedef TagInput tag_input;
 //			typedef TagOutput tag_output;
 
@@ -798,14 +870,14 @@ namespace grapenlp
 		}
 	};
 /*
-	template<typename TagInput, typename TagOutput>
-	bool operator== (const typename ns_rtno<TagInput, TagOutput>::state& q1, const typename ns_rtno<TagInput, TagOutput>::state& q2)
+	template<typename TagInput, typename TagOutput, typename ContextKey, typename ContextValue>
+	bool operator== (const typename ns_rtno<TagInput, TagOutput, ContextKey, ContextValue>::state& q1, const typename ns_rtno<TagInput, TagOutput, ContextKey, ContextValue>::state& q2)
 	{
 		return &q1 == &q2;
 	}
 
-	template<typename TagInput, typename TagOutput>
-	bool operator< (const typename ns_rtno<TagInput, TagOutput>::state& q1, const typename ns_rtno<TagInput, TagOutput>::state& q2)
+	template<typename TagInput, typename TagOutput, typename ContextKey, typename ContextValue>
+	bool operator< (const typename ns_rtno<TagInput, TagOutput, ContextKey, ContextValue>::state& q1, const typename ns_rtno<TagInput, TagOutput, ContextKey, ContextValue>::state& q2)
 	{
 		return &q1 < &q2;
 	}

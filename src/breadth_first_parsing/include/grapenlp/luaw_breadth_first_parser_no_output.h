@@ -31,7 +31,7 @@
 
 namespace grapenlp
 {
-	template<typename InputIterator, typename SourceRef, typename Weight, typename StateConstRefStackPool, assoc_container_impl_choice execution_state_set_impl_choice>
+	template<typename InputIterator, typename SourceRef, typename ContextKeyIterator, typename ContextValueIterator, typename Weight, typename StateConstRefStackPool, assoc_container_impl_choice execution_state_set_impl_choice>
 #ifdef TRACE
 	struct luaw_breadth_first_parser_no_output: public breadth_first_parser_no_output<typename luawns_rtno<InputIterator, Weight>::type::tag_input, typename luawns_rtno<InputIterator, Weight>::type::tag_output, SourceRef, StateConstRefStackPool, execution_state_set_impl_choice>
 	{

@@ -43,6 +43,7 @@ target_include_directories(earley_parsing PUBLIC
         PRIVATE src)
 target_link_libraries(earley_parsing
         assoc_container_impl_selector
+        context
         rtno
         )
 

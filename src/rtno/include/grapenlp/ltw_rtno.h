@@ -43,10 +43,10 @@ namespace grapenlp
 	 * @tparam Id the character type of the output strings (e.g. unichar)
 	 * @tparam Weight the type of the output score (e.g. int) or probability (e.g. float)
 	 */
-	template<typename InputIterator, typename Id, typename Weight>
+	template<typename InputIterator, typename Id, typename Weight, typename ContextKey, typename ContextValue>
 	struct ltw_rtno
 	{
-		typedef typename l_rtno<InputIterator, trie_string_const_ref_x_weight<Id, Weight> >::type type;
+		typedef typename l_rtno<InputIterator, trie_string_const_ref_x_weight<Id, Weight>, ContextKey, ContextValue>::type type;
 	private:
 		ltw_rtno(){}
 	};
@@ -59,10 +59,10 @@ namespace grapenlp
 	 * @tparam Id the character type of the output strings (e.g. unichar)
 	 * @tparam Weight the type of the output score (e.g. int) or probability (e.g. float)
 	 */
-	template<typename InputIterator, typename Id, typename Weight>
+	template<typename InputIterator, typename Id, typename Weight, typename ContextKey, typename ContextValue>
 	struct ltwns_rtno
 	{
-		typedef typename lns_rtno<InputIterator, trie_string_const_ref_x_weight<Id, Weight> >::type type;
+		typedef typename lns_rtno<InputIterator, trie_string_const_ref_x_weight<Id, Weight>, ContextKey, ContextValue>::type type;
 	private:
 		ltwns_rtno(){}
 	};

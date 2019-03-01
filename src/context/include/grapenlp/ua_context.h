@@ -31,7 +31,7 @@
 
 namespace grapenlp
 {
-    typedef context<typename u_array::const_iterator, typename u_array::const_iterator> ua_context;
+    typedef context<u_array, u_array> ua_context;
 } //namespace grapenlp
 
 #endif /*GRAPENLP_CONTEXT_H*/

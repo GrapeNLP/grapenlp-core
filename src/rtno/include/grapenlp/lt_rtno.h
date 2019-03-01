@@ -40,10 +40,10 @@ namespace grapenlp
 	 * @tparam InputIterator the type of the iterator over the RTNO input (e.g. an unichar array iterator)
 	 * @tparam Id the character type of the output strings (e.g. unichar)
 	 */
-	template<typename InputIterator, typename Id>
+	template<typename InputIterator, typename Id, typename ContextKey, typename ContextValue>
 	struct lt_rtno
 	{
-		typedef typename l_rtno<InputIterator, typename trie<Id>::string::const_ref>::type type;
+		typedef typename l_rtno<InputIterator, typename trie<Id>::string::const_ref, ContextKey, ContextValue>::type type;
 	private:
 		lt_rtno(){}
 	};
@@ -55,10 +55,10 @@ namespace grapenlp
 	 * @tparam InputIterator the type of the iterator over the RTNO input (e.g. an unichar array iterator)
 	 * @tparam Id the character type of the output strings (e.g. unichar)
 	 */
-	template<typename InputIterator, typename Id>
+	template<typename InputIterator, typename Id, typename ContextKey, typename ContextValue>
 	struct ltns_rtno
 	{
-		typedef typename lns_rtno<InputIterator, typename trie<Id>::string::const_ref>::type type;
+		typedef typename lns_rtno<InputIterator, typename trie<Id>::string::const_ref, ContextKey, ContextValue>::type type;
 	private:
 		ltns_rtno(){}
 	};

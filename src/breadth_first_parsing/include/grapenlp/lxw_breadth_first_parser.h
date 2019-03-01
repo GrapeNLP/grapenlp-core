@@ -33,7 +33,7 @@
 
 namespace grapenlp
 {
-	template<typename InputIterator, typename SourceRef, typename Id, typename WeightTransformer, typename StateConstRefStackPool, assoc_container_impl_choice execution_state_set_impl_choice, assoc_container_impl_choice output_set_impl_choice>
+	template<typename InputIterator, typename SourceRef, typename ContextKeyIterator, typename ContextValueIterator, typename Id, typename WeightTransformer, typename StateConstRefStackPool, assoc_container_impl_choice execution_state_set_impl_choice, assoc_container_impl_choice output_set_impl_choice>
 #ifdef TRACE
 	struct lxw_breadth_first_parser: public breadth_first_parser<typename lxwns_rtno<InputIterator, Id, typename WeightTransformer::result_type>::type::tag_input, typename lxwns_rtno<InputIterator, Id, typename WeightTransformer::result_type>::type::tag_output, SourceRef, segment_map_x_weight<SourceRef, Id, typename WeightTransformer::result_type, output_set_impl_choice>, serializer<segment_map_x_weight<SourceRef, Id, typename WeightTransformer::result_type, output_set_impl_choice> >, segment_map_x_weight_transformer<SourceRef, Id, WeightTransformer, output_set_impl_choice>, StateConstRefStackPool, execution_state_set_impl_choice, output_set_impl_choice>
 	{

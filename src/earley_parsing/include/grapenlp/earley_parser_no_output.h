@@ -38,24 +38,30 @@
 #include <grapenlp/sequence_impl_choice.h>
 #include <grapenlp/set_impl_selector.h>
 #include <grapenlp/tag_input_traits.h>
+#include <grapenlp/context.h>
 #include <grapenlp/rtno.h>
 
 namespace grapenlp
 {
-	template<typename TagInput, typename TagOutput, typename SourceRef, assoc_container_impl_choice execution_state_set_impl_choice>
+	template<typename TagInput, typename TagOutput, typename SourceRef, typename ContextKey, typename ContextValue, assoc_container_impl_choice execution_state_set_impl_choice>
 	struct earley_parser_no_output
 	{
 		typedef TagInput tag_input;
 		typedef TagOutput tag_output;
 		typedef SourceRef source_ref;
 		typedef typename source_ref::value_type input;
+		typedef ContextKey context_key;
+		typedef ContextValue context_value;
+		typedef context<context_key, context_value> context_type;
+		typedef typename context_type::optimized_key optimized_context_key;
+		typedef typename context_type::optimized_value optimized_context_value;
 #ifdef TRACE
 		typedef typename tag_serializer<input>::type input_serializer;
 		typedef typename tag_serializer<tag_input>::type tag_input_serializer;
 		typedef typename tag_serializer<tag_output>::type tag_output_serializer;
-		typedef ns_rtno<tag_input, tag_output> machine;
+		typedef ns_rtno<tag_input, tag_output, context_key, context_value> machine;
 #else
-		typedef rtno<tag_input, tag_output> machine;
+		typedef rtno<tag_input, tag_output, context_key, context_value> machine;
 #endif
 		typedef typename tag_input_traits<tag_input>::match match;
 		typedef typename machine::state state;
@@ -67,6 +73,11 @@ namespace grapenlp
 		typedef	typename machine::outgoing_epsilon_transition_set outgoing_epsilon_transition_set;
 		typedef typename outgoing_epsilon_transition_set::iterator outgoing_epsilon_transition_set_iterator;
 		typedef typename outgoing_epsilon_transition_set::const_iterator outgoing_epsilon_transition_set_const_iterator;
+
+		typedef	typename machine::outgoing_epsilon_context_transition outgoing_epsilon_context_transition;
+		typedef	typename machine::outgoing_epsilon_context_transition_set outgoing_epsilon_context_transition_set;
+		typedef typename outgoing_epsilon_context_transition_set::iterator outgoing_epsilon_context_transition_set_iterator;
+		typedef typename outgoing_epsilon_context_transition_set::const_iterator outgoing_epsilon_context_transition_set_const_iterator;
 
 		typedef	typename machine::outgoing_deleting_transition outgoing_deleting_transition;
 		typedef	typename machine::outgoing_deleting_transition_set outgoing_deleting_transition_set;
@@ -82,6 +93,11 @@ namespace grapenlp
 		typedef	typename machine::outgoing_inserting_transition_set outgoing_inserting_transition_set;
 		typedef typename outgoing_inserting_transition_set::iterator outgoing_inserting_transition_set_iterator;
 		typedef typename outgoing_inserting_transition_set::const_iterator outgoing_inserting_transition_set_const_iterator;
+
+		typedef	typename machine::outgoing_inserting_context_transition outgoing_inserting_context_transition;
+		typedef	typename machine::outgoing_inserting_context_transition_set outgoing_inserting_context_transition_set;
+		typedef typename outgoing_inserting_context_transition_set::iterator outgoing_inserting_context_transition_set_iterator;
+		typedef typename outgoing_inserting_context_transition_set::const_iterator outgoing_inserting_context_transition_set_const_iterator;
 
 		typedef	typename machine::outgoing_call_transition outgoing_call_transition;
 		typedef	typename machine::outgoing_call_transition_set outgoing_call_transition_set;
@@ -323,6 +339,33 @@ namespace grapenlp
 		}
 
 		template<typename ExtraInsertOp>
+		void process_epsilon_context_transitions(const active_execution_state &x_s, outgoing_epsilon_context_transition_set_iterator epsilon_context_transition_begin, outgoing_epsilon_context_transition_set_iterator epsilon_context_transition_end, chart_item &v, const context_type &c, ExtraInsertOp op)
+		{
+			for (; epsilon_context_transition_begin != epsilon_context_transition_end; ++epsilon_context_transition_begin)
+			{
+				if (c.equals(epsilon_context_transition_begin->key, epsilon_context_transition_begin->value))
+				{
+					std::pair<active_execution_state_set_const_iterator, bool> result(v.aess.insert(
+							active_execution_state(static_cast<state_const_ref>(epsilon_context_transition_begin->target),
+												   x_s.q_h, x_s.i)));
+					if (result.second) {
+#ifdef TRACE
+						result.first->serialize(std::wcout) <<
+															L" (<@" <<
+															*(epsilon_context_transition_begin->key) <<
+															L"=" <<
+															*(epsilon_context_transition_begin->value) <<
+															L"> : <E>)" <<
+															std::endl;
+#endif
+						e.push(&(*result.first));
+						op(*result.first);
+					}
+				}
+			}
+		}
+
+		template<typename ExtraInsertOp>
 #ifdef TRACE
 		void process_inserting_transitions(const active_execution_state &x_s, outgoing_inserting_transition_set_iterator inserting_transition_begin, outgoing_inserting_transition_set_iterator inserting_transition_end, chart_item &v, SourceRef in, ExtraInsertOp op, const std::wstring &inserting_transition_type = L"")
 #else
@@ -340,6 +383,35 @@ namespace grapenlp
 #endif
 					e.push(&(*result.first));
 					op(*result.first);
+				}
+			}
+		}
+
+		template<typename ExtraInsertOp>
+		void process_inserting_context_context_transitions(const active_execution_state &x_s, outgoing_inserting_context_transition_set_iterator inserting_context_transition_begin, outgoing_inserting_context_transition_set_iterator inserting_context_transition_end, chart_item &v, SourceRef in, const context_type &c, ExtraInsertOp op)
+		{
+			for (; inserting_context_transition_begin != inserting_context_transition_end; ++inserting_context_transition_begin)
+			{
+				if (c.equals(inserting_context_transition_begin->key, inserting_context_transition_begin->value)) {
+					std::pair<active_execution_state_set_const_iterator, bool> result(v.aess.insert(
+							active_execution_state(
+									static_cast<state_const_ref>(inserting_context_transition_begin->target), x_s.q_h,
+									x_s.i)));
+					if (result.second) {
+#ifdef TRACE
+						result.first->serialize(std::wcout) <<
+							L" (<@" <<
+							*(inserting_context_transition_begin->key) <<
+							L"=" <<
+							*(inserting_context_transition_begin->value) <<
+							L"> : " <<
+							tag_output_serializer()(std::wcout, inserting_context_transition_begin->output) <<
+							L')' <<
+							std::endl;
+#endif
+						e.push(&(*result.first));
+						op(*result.first);
+					}
 				}
 			}
 		}

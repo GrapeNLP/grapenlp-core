@@ -38,14 +38,15 @@
 #include <grapenlp/sequence_impl_choice.h>
 #include <grapenlp/set_impl_selector.h>
 #include <grapenlp/tag_input_traits.h>
+#include <grapenlp/context.h>
 #include <grapenlp/rtno.h>
 
 namespace grapenlp
 {
 #ifdef TRACE
-	template<typename TagInput, typename TagOutput, typename SourceRef, typename Blackboard, typename BlackboardSerializer, typename Transformer, typename Composer, assoc_container_impl_choice execution_state_set_impl_choice, assoc_container_impl_choice output_set_impl_choice>
+	template<typename TagInput, typename TagOutput, typename SourceRef, typename ContextKey, typename ContextValue, typename Blackboard, typename BlackboardSerializer, typename Transformer, typename Composer, assoc_container_impl_choice execution_state_set_impl_choice, assoc_container_impl_choice output_set_impl_choice>
 #else
-	template<typename TagInput, typename TagOutput, typename SourceRef, typename Blackboard, typename Transformer, typename Composer, assoc_container_impl_choice execution_state_set_impl_choice, assoc_container_impl_choice output_set_impl_choice>
+	template<typename TagInput, typename TagOutput, typename SourceRef, typename ContextKey, typename ContextValue, typename Blackboard, typename Transformer, typename Composer, assoc_container_impl_choice execution_state_set_impl_choice, assoc_container_impl_choice output_set_impl_choice>
 #endif
 	struct earley_parser
 	{
@@ -53,6 +54,11 @@ namespace grapenlp
 		typedef TagOutput tag_output;
 		typedef SourceRef source_ref;
 		typedef typename source_ref::value_type input;
+        typedef ContextKey context_key;
+        typedef ContextValue context_value;
+        typedef context<context_key, context_value> context_type;
+        typedef typename context_type::optimized_key optimized_context_key;
+        typedef typename context_type::optimized_value optimized_context_value;
 		typedef Blackboard blackboard;
 #ifdef TRACE
 		typedef BlackboardSerializer blackboard_serializer;
@@ -66,9 +72,9 @@ namespace grapenlp
 		typedef Composer composer;
 
 #ifdef TRACE
-		typedef ns_rtno<tag_input, tag_output> machine;
+		typedef ns_rtno<tag_input, tag_output, context_key, context_value> machine;
 #else
-		typedef rtno<tag_input, tag_output> machine;
+		typedef rtno<tag_input, tag_output, context_key, context_value> machine;
 #endif
 		typedef typename tag_input_traits<tag_input>::match match;
 		typedef typename machine::state state;
@@ -80,6 +86,11 @@ namespace grapenlp
 		typedef	typename machine::outgoing_epsilon_transition_set outgoing_epsilon_transition_set;
 		typedef typename outgoing_epsilon_transition_set::iterator outgoing_epsilon_transition_set_iterator;
 		typedef typename outgoing_epsilon_transition_set::const_iterator outgoing_epsilon_transition_set_const_iterator;
+
+        typedef	typename machine::outgoing_epsilon_context_transition outgoing_epsilon_context_transition;
+        typedef	typename machine::outgoing_epsilon_context_transition_set outgoing_epsilon_context_transition_set;
+        typedef typename outgoing_epsilon_context_transition_set::iterator outgoing_epsilon_context_transition_set_iterator;
+        typedef typename outgoing_epsilon_context_transition_set::const_iterator outgoing_epsilon_context_transition_set_const_iterator;
 
 		typedef	typename machine::outgoing_deleting_transition outgoing_deleting_transition;
 		typedef	typename machine::outgoing_deleting_transition_set outgoing_deleting_transition_set;
@@ -95,6 +106,11 @@ namespace grapenlp
 		typedef	typename machine::outgoing_inserting_transition_set outgoing_inserting_transition_set;
 		typedef typename outgoing_inserting_transition_set::iterator outgoing_inserting_transition_set_iterator;
 		typedef typename outgoing_inserting_transition_set::const_iterator outgoing_inserting_transition_set_const_iterator;
+
+        typedef	typename machine::outgoing_inserting_context_transition outgoing_inserting_context_transition;
+        typedef	typename machine::outgoing_inserting_context_transition_set outgoing_inserting_context_transition_set;
+        typedef typename outgoing_inserting_context_transition_set::iterator outgoing_inserting_context_transition_set_iterator;
+        typedef typename outgoing_inserting_context_transition_set::const_iterator outgoing_inserting_context_transition_set_const_iterator;
 
 		typedef	typename machine::outgoing_call_transition outgoing_call_transition;
 		typedef	typename machine::outgoing_call_transition_set outgoing_call_transition_set;
@@ -388,6 +404,32 @@ namespace grapenlp
 			}
 		}
 
+        template<typename ExtraInsertOp>
+        void process_epsilon_context_transitions(const active_execution_state &x_s, outgoing_epsilon_context_transition_set_iterator epsilon_context_transition_begin, outgoing_epsilon_context_transition_set_iterator epsilon_context_transition_end, chart_item &v, const context_type &c, ExtraInsertOp op)
+        {
+            for (; epsilon_context_transition_begin != epsilon_context_transition_end; ++epsilon_context_transition_begin)
+            {
+                if (c.equals(epsilon_context_transition_begin->key, epsilon_context_transition_begin->value)) {
+                    std::pair<active_execution_state_set_const_iterator, bool> result(v.aess.insert(
+                            active_execution_state(static_cast<state_const_ref>(epsilon_context_transition_begin->target),
+                                                   x_s.b, x_s.q_h, x_s.i)));
+                    if (result.second) {
+#ifdef TRACE
+                        result.first->serialize(std::wcout) <<
+                                                            L" (<@" <<
+                                                            *(epsilon_context_transition_begin->key) <<
+                                                            L"=" <<
+                                                            *(epsilon_context_transition_begin->value) <<
+                                                            L"> : <E>)" <<
+                                                            std::endl;
+#endif
+                        e.push(&(*result.first));
+                        op(*result.first);
+                    }
+                }
+            }
+        }
+
 		template<typename ExtraInsertOp>
 #ifdef TRACE
 		void process_inserting_transitions(const active_execution_state &x_s, outgoing_inserting_transition_set_iterator inserting_transition_begin, outgoing_inserting_transition_set_iterator inserting_transition_end, chart_item &v, SourceRef in, ExtraInsertOp op, const std::wstring &inserting_transition_type = L"")
@@ -411,9 +453,39 @@ namespace grapenlp
 			}
 		}
 
-		//Increment parsing chart with the epsilon-closure of the last active set of execution states
+        template<typename ExtraInsertOp>
+        void process_inserting_context_transitions(const active_execution_state &x_s, outgoing_inserting_context_transition_set_iterator inserting_context_transition_begin, outgoing_inserting_context_transition_set_iterator inserting_context_transition_end, chart_item &v, SourceRef in, const context_type &c, ExtraInsertOp op)
+        {
+            for (; inserting_context_transition_begin != inserting_context_transition_end; ++inserting_context_transition_begin)
+            {
+                if (c.equals(inserting_context_transition_begin->key, inserting_context_transition_begin->value)) {
+                    blackboard b_t(x_s.b);
+                    std::pair<active_execution_state_set_const_iterator, bool> result(v.aess.insert(
+                            active_execution_state(
+                                    static_cast<state_const_ref>(inserting_context_transition_begin->target),
+                                    gamma(b_t, in, inserting_context_transition_begin->output), x_s.q_h, x_s.i)));
+                    if (result.second) {
+#ifdef TRACE
+                        result.first->serialize(std::wcout) <<
+                                                            L" (<@" <<
+                                                            *(inserting_context_transition_begin->key) <<
+                                                            L"=" <<
+                                                            *(inserting_context_transition_begin->value) <<
+                                                            L"> : " <<
+                                                            tag_output_serializer()(std::wcout, inserting_context_transition_begin->output) <<
+                                                            L')' <<
+                                                            std::endl;
+#endif
+                        e.push(&(*result.first));
+                        op(*result.first);
+                    }
+                }
+            }
+        }
+
+        //Increment parsing chart with the epsilon-closure of the last active set of execution states
 		template<typename ExtraInsertOp>
-		void eclosure(std::size_t idx, SourceRef in, bool next_token_isnt_white_separated, ExtraInsertOp op, const blackboard &empty_blackboard)
+		void eclosure(std::size_t idx, SourceRef in, bool next_token_isnt_white_separated, const context_type &c, ExtraInsertOp op, const blackboard &empty_blackboard)
 		{
 			chart_item &v = the_chart[idx];
 			epsilon_completion_set t;
@@ -428,6 +500,10 @@ namespace grapenlp
 				//Process epsilon and inserting transitions
 				process_epsilon_transitions(x_s, x_s.q->outgoing_epsilon_transitions.begin(), x_s.q->outgoing_epsilon_transitions.end(), v, op);
 				process_inserting_transitions(x_s, x_s.q->outgoing_inserting_transitions.begin(), x_s.q->outgoing_inserting_transitions.end(), v, in, op);
+
+                //Process epsilon and inserting context transitions
+                process_epsilon_context_transitions(x_s, x_s.q->outgoing_epsilon_context_transitions.begin(), x_s.q->outgoing_epsilon_context_transitions.end(), v, op);
+                process_inserting_context_transitions(x_s, x_s.q->outgoing_inserting_context_transitions.begin(), x_s.q->outgoing_inserting_context_transitions.end(), v, in, op);
 
 				//Process no-blank epsilon and inserting transitions
 				//if there are no whites between the current (or input begin) and the next token (or input end)
@@ -616,7 +692,7 @@ namespace grapenlp
 		}
 
 		//Compute the r-translations of the input range [input_being, input_end) and add them to the set t
-		blackboard_set& operator()(const machine& grammar, SourceRef input_begin, SourceRef input_end, bool hasnt_white_at_begin, bool hasnt_white_at_end, blackboard_set& t, const blackboard &empty_blackboard = blackboard())
+		blackboard_set& operator()(const machine& grammar, SourceRef input_begin, SourceRef input_end, bool hasnt_white_at_begin, bool hasnt_white_at_end, const context_type &c, blackboard_set& t, const blackboard &empty_blackboard = blackboard())
 		{
 #ifdef TRACE
 			std::wcout << L"Begin parsing\n";
@@ -634,14 +710,14 @@ namespace grapenlp
 			{
 				build_initial_ses(grammar.initial_state(), hasnt_white_at_begin, ins_op, empty_blackboard);
 				//First token is white separated if there are trailing whites at the beginning
-				eclosure(0, input_begin, hasnt_white_at_begin, ins_op, empty_blackboard);
+				eclosure(0, input_begin, hasnt_white_at_begin, c, ins_op, empty_blackboard);
 			}
 			//Else build initial V[0] and the remaining V[i]
 			else
 			{
 				build_initial_ses(grammar.initial_state(), hasnt_white_at_begin, no_op, empty_blackboard);
 				//First token is white separated if there are trailing whites at the beginning
-				eclosure(0, input_begin, hasnt_white_at_begin, no_op, empty_blackboard);
+				eclosure(0, input_begin, hasnt_white_at_begin, c, no_op, empty_blackboard);
 
 				std::size_t idx(0);
 				//While the last chart item active set of execution states is not empty and there are input symbols left, compute the next chart item
@@ -655,7 +731,7 @@ namespace grapenlp
 					++input_begin_plus_1;
 					translate_symbol(idx, input_begin, no_op);
 					++idx;
-					eclosure(idx, input_begin_plus_1, (*input_begin)->end == (*input_begin_plus_1)->begin, no_op, empty_blackboard);
+					eclosure(idx, input_begin_plus_1, (*input_begin)->end == (*input_begin_plus_1)->begin, c, no_op, empty_blackboard);
 					++input_begin;
 				}
 
@@ -669,7 +745,7 @@ namespace grapenlp
 					translate_symbol(idx, input_begin, ins_op);
 					++idx;
 					//Next token is the input end... it is white separated if there are trailing whites at the end
-					eclosure(idx, input_begin_plus_1, hasnt_white_at_end, ins_op, empty_blackboard);
+					eclosure(idx, input_begin_plus_1, hasnt_white_at_end, c, ins_op, empty_blackboard);
 					++input_begin;
 				}
 			}

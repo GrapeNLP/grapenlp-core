@@ -36,10 +36,10 @@ namespace grapenlp
 	 * @tparam InputIterator the type of the iterator over the RTNO input (e.g. an unichar array iterator)
 	 * @tparam TagOutput the type of the RTNO output tags
 	 */
-	template<typename InputIterator, typename TagOutput>
+	template<typename InputIterator, typename TagOutput, typename ContextKey, typename ContextValue>
 	struct l_rtno
 	{
-		typedef rtno<typename lexmask<InputIterator>::const_ref, TagOutput> type;
+		typedef rtno<typename lexmask<InputIterator>::const_ref, TagOutput, ContextKey, ContextValue> type;
 
 	private:
 		l_rtno(){}
@@ -51,10 +51,10 @@ namespace grapenlp
 	 * @tparam InputIterator the type of the iterator over the RTNO input (e.g. an unichar array iterator)
 	 * @tparam TagOutput the type of the RTNO output tags
 	 */
-	template<typename InputIterator, typename TagOutput>
+	template<typename InputIterator, typename TagOutput, typename ContextKey, typename ContextValue>
 	struct lns_rtno
 	{
-		typedef ns_rtno<typename lexmask<InputIterator>::const_ref, TagOutput> type;
+		typedef ns_rtno<typename lexmask<InputIterator>::const_ref, TagOutput, ContextKey, ContextValue> type;
 
 	private:
 		lns_rtno(){}

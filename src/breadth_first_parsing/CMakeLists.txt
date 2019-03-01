@@ -43,6 +43,7 @@ target_include_directories(breadth_first_parsing PUBLIC
         PRIVATE src)
 target_link_libraries(breadth_first_parsing
         assoc_container_impl_selector
+        context
         rtno
         )
 

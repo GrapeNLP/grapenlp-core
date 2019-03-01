@@ -44,18 +44,18 @@ protected:
 
     void SetUp()
     {
-        c.set(c.get_optimized_key(k1.begin(), k1.end()), c.get_optimized_value(v1.begin(), v1.end()));
-        c.set(c.get_optimized_key(k2.begin(), k2.end()), c.get_optimized_value(v2.begin(), v2.end()));
+        c.set(c.get_optimized_key(k1), c.get_optimized_value(v1));
+        c.set(c.get_optimized_key(k2), c.get_optimized_value(v2));
     }
 };
 
 TEST_F(test_ua_context_fixture, equals)
 {
     size_type s = c.size();
-    optimized_key ok1 = c.get_optimized_key(k1.begin(), k1.end());
-    optimized_value ov1 = c.get_optimized_value(v1.begin(), v1.end());
-    optimized_key ok2 = c.get_optimized_key(k2.begin(), k2.end());
-    optimized_value ov2 = c.get_optimized_value(v2.begin(), v2.end());
+    optimized_key ok1 = c.get_optimized_key(k1);
+    optimized_value ov1 = c.get_optimized_value(v1);
+    optimized_key ok2 = c.get_optimized_key(k2);
+    optimized_value ov2 = c.get_optimized_value(v2);
     ASSERT_TRUE(c.equals(ok1, ov1));
     ASSERT_TRUE(c.equals(ok2, ov2));
     ASSERT_EQ(s, c.size());
@@ -64,12 +64,12 @@ TEST_F(test_ua_context_fixture, equals)
 TEST_F(test_ua_context_fixture, not_equals)
 {
     std::size_t s = c.size();
-    optimized_key ok1 = c.get_optimized_key(k1.begin(), k1.end());
-    optimized_value ov1 = c.get_optimized_value(v1.begin(), v1.end());
-    optimized_key ok2 = c.get_optimized_key(k2.begin(), k2.end());
-    optimized_value ov2 = c.get_optimized_value(v2.begin(), v2.end());
-    optimized_key ok3 = c.get_optimized_key(k3.begin(), k3.end());
-    optimized_value ov3 = c.get_optimized_value(v3.begin(), v3.end());
+    optimized_key ok1 = c.get_optimized_key(k1);
+    optimized_value ov1 = c.get_optimized_value(v1);
+    optimized_key ok2 = c.get_optimized_key(k2);
+    optimized_value ov2 = c.get_optimized_value(v2);
+    optimized_key ok3 = c.get_optimized_key(k3);
+    optimized_value ov3 = c.get_optimized_value(v3);
     ASSERT_TRUE(c.not_equals(ok1, ov2));
     ASSERT_TRUE(c.not_equals(ok2, ov1));
     ASSERT_TRUE(c.not_equals(ok3, ov3));

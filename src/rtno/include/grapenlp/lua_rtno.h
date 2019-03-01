@@ -32,19 +32,19 @@
 namespace grapenlp
 {
 	//RTNO having lexical mask/unicode array as input/output transition tags
-	template<typename InputIterator>
+	template<typename InputIterator, typename ContextKey, typename ContextValue>
 	struct lua_rtno
 	{
-		typedef typename l_rtno<InputIterator, const u_array*>::type type;
+		typedef typename l_rtno<InputIterator, const u_array*, ContextKey, ContextValue>::type type;
 	private:
 		lua_rtno(){}
 	};
 
 	//RTNO having lexical mask/unicode array as input/output transition tags
-	template<typename InputIterator>
+	template<typename InputIterator, typename ContextKey, typename ContextValue>
 	struct luans_rtno
 	{
-		typedef typename lns_rtno<InputIterator, const u_array*>::type type;
+		typedef typename lns_rtno<InputIterator, const u_array*, ContextKey, ContextValue>::type type;
 	private:
 		luans_rtno(){}
 	};

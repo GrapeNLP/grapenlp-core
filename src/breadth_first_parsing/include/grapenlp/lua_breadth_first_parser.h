@@ -36,8 +36,18 @@
 namespace grapenlp
 {
 #ifdef TRACE
-	template<typename InputIterator, typename SourceRef, typename StateConstRefStackPool, typename OutputUArrayPool, typename OutputUArraySerializer, assoc_container_impl_choice execution_state_set_impl_choice, assoc_container_impl_choice output_set_impl_choice>
-	struct lua_breadth_first_parser: public breadth_first_parser<typename luans_rtno<InputIterator>::type::tag_input, typename luans_rtno<InputIterator>::type::tag_output, SourceRef, typename OutputUArrayPool::value_type, OutputUArraySerializer, typename OutputUArrayPool::concatenator, StateConstRefStackPool, execution_state_set_impl_choice, output_set_impl_choice>
+	template<typename InputIterator, typename SourceRef, typename ContextKey, typename ContextValue, typename StateConstRefStackPool, typename OutputUArrayPool, typename OutputUArraySerializer, assoc_container_impl_choice execution_state_set_impl_choice, assoc_container_impl_choice output_set_impl_choice>
+	struct lua_breadth_first_parser: public breadth_first_parser<
+	        typename luans_rtno<InputIterator, typename context<ContextKey, ContextValue>::optimized_key, typename context<ContextKey, ContextValue>::optimized_value>::type::tag_input,
+	        typename luans_rtno<InputIterator, typename context<ContextKey, ContextValue>::optimized_key, typename context<ContextKey, ContextValue>::optimized_value>::type::tag_output,
+	        SourceRef,
+	        ContextKey,
+	        ContextValue,
+	        typename OutputUArrayPool::value_type,
+	        OutputUArraySerializer,
+	        typename OutputUArrayPool::concatenator,
+	        StateConstRefStackPool,
+	        execution_state_set_impl_choice, output_set_impl_choice>
 	{
 		typedef breadth_first_parser<typename luans_rtno<InputIterator>::type::tag_input, typename luans_rtno<InputIterator>::type::tag_output, SourceRef, typename OutputUArrayPool::value_type, OutputUArraySerializer, typename OutputUArrayPool::concatenator, StateConstRefStackPool, execution_state_set_impl_choice, output_set_impl_choice> base_type;
 #else
@@ -48,6 +58,13 @@ namespace grapenlp
 #endif
 		typedef typename base_type::machine machine;
 		typedef typename base_type::source_ref source_ref;
+
+		typedef ContextKeyIterator context_key_iterator;
+		typedef ContextValueIterator context_value_iterator;
+		typedef context<context_key_iterator, context_value_iterator> context_type;
+		typedef typename context_type::optimized_key context_key;
+		typedef typename context_type::optimized_value context_value;
+
 		typedef typename base_type::match match;
 		typedef typename base_type::transformer transformer;
 		typedef typename base_type::blackboard blackboard;

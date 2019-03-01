@@ -47,14 +47,14 @@ namespace grapenlp
      * constant part of the context is reused as well in further analyses.
      * @tparam Char the character type of the context keys and values (e.g. unichar)
      */
-    template<typename KeyIterator, typename ValueIterator>
+    template<typename Key, typename Value>
     class context
     {
     public:
-        typedef KeyIterator key_iterator;
-        typedef ValueIterator value_iterator;
-        typedef typename std::iterator_traits<KeyIterator>::value_type key_char;
-        typedef typename std::iterator_traits<ValueIterator>::value_type value_char;
+        typedef Key key;
+        typedef Value value;
+        typedef typename key::value_type key_char;
+        typedef typename value::value_type value_char;
         typedef trie<key_char> key_dictionary;
         typedef trie<value_char> value_dictionary;
         typedef typename key_dictionary::string::const_ref optimized_key;
@@ -77,14 +77,15 @@ namespace grapenlp
             return the_map.size();
         }
 
-        optimized_key get_optimized_key(key_iterator k_begin, key_iterator k_end)
+
+        optimized_key get_optimized_key(const key &k)
         {
-            return &keys.epsilon().concat(k_begin, k_end);
+            return &keys.epsilon().concat(k.begin(), k.end());
         }
 
-        optimized_value get_optimized_value(value_iterator v_begin, value_iterator v_end)
+        optimized_value get_optimized_value(const value &v)
         {
-            return &values.epsilon().concat(v_begin, v_end);
+            return &values.epsilon().concat(v.begin(), v.end());
         }
 
         void set(optimized_key k, optimized_value v)

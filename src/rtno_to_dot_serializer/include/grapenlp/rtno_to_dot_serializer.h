@@ -195,7 +195,7 @@ namespace grapenlp
 	};
 
 	template<typename TagInput, typename TagOutput, typename CharT, typename Traits>
-	std::basic_ostream<CharT, Traits>& rtno_to_dot_serialize(std::basic_ostream<CharT, Traits>& out, const char *rtno_name, CharT state_letter, const ns_rtno<TagInput, TagOutput> &the_rtno)
+	std::basic_ostream<CharT, Traits>& rtno_to_dot_serialize(std::basic_ostream<CharT, Traits>& out, const char *rtno_name, CharT state_letter, const ns_rtno<TagInput, TagOutput, ContextKeyIterator, ContextValueIterator> &the_rtno)
 	{ return rtno_to_dot_serializer<typename tag_serializer<TagInput>::type, typename tag_serializer<TagOutput>::type>()(out, rtno_name, state_letter, the_rtno);	}
 
 	template<typename TagInputSerializer, typename TagOutputSerializer, typename CharT, typename Traits>

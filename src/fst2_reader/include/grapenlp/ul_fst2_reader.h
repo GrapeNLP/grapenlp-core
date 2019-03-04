@@ -33,6 +33,7 @@
 #include <grapenlp/u_compressed_dico_word_meta_mask_factory.h>
 #include <grapenlp/u_lexmask_factory.h>
 #include <grapenlp/tag_reader_traits.h>
+#include <grapenlp/ua_context.h>
 #include <grapenlp/u_fst2_constants.h>
 #include <grapenlp/l_rtno.h>
 
@@ -56,9 +57,9 @@ namespace grapenlp
 		typedef TagOutputReader tag_output_reader;
 		typedef typename tag_reader_traits<TagOutputReader>::tag tag_output;
 #ifdef TRACE
-		typedef typename lns_rtno<InputIterator, tag_output>::type machine;
+		typedef typename lns_rtno<InputIterator, tag_output, u_trie_string_const_ref, u_trie_string_const_ref>::type machine;
 #else
-		typedef typename l_rtno<InputIterator, tag_output>::type machine;
+		typedef typename l_rtno<InputIterator, tag_output, u_trie_string_const_ref, u_trie_string_const_ref>::type machine;
 #endif
 		typedef typename machine::state state;
 		typedef typename state::ref state_ref;

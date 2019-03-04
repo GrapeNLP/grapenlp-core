@@ -31,10 +31,10 @@
 
 namespace grapenlp
 {
-	template<typename SourceRef, typename RTNOTagInput, assoc_container_impl_choice execution_state_set_impl_choice, output_fprtn_incoming_filtered_pop_transition_extra_data_choice edc = NO_OUTPUT_FPRTN_INCOMING_FILTERED_POP_TRANSITION_EXTRA_DATA, typename StateMappedExtraData = empty_class>
+	template<typename ContextKey, typename ContextValue, typename SourceRef, typename RTNOTagInput, assoc_container_impl_choice execution_state_set_impl_choice, output_fprtn_incoming_filtered_pop_transition_extra_data_choice edc = NO_OUTPUT_FPRTN_INCOMING_FILTERED_POP_TRANSITION_EXTRA_DATA, typename StateMappedExtraData = empty_class>
 	struct ux_output_fprtn
 	{
-		typedef typename x_output_fprtn<SourceRef, unichar, RTNOTagInput, execution_state_set_impl_choice, edc, StateMappedExtraData>::type type;
+		typedef typename x_output_fprtn<ContextKey, ContextValue, SourceRef, unichar, RTNOTagInput, execution_state_set_impl_choice, edc, StateMappedExtraData>::type type;
 
 	private:
 		ux_output_fprtn()

@@ -31,10 +31,10 @@
 
 namespace grapenlp
 {
-	template<typename InputIterator, typename SourceRef, typename Id, assoc_container_impl_choice execution_state_set_impl_choice>
+	template<typename InputIterator, typename SourceRef, typename ContextKey, typename ContextValue, typename Id, assoc_container_impl_choice execution_state_set_impl_choice>
 	struct lx_to_fprtn_top_parser_impl_selector
 	{
-		typedef to_fprtn_top_parser<typename lx_rtno<InputIterator, Id>::type::tag_input, typename lx_rtno<InputIterator, Id>::type::tag_output, SourceRef, execution_state_set_impl_choice> type;
+		typedef to_fprtn_top_parser<typename lx_rtno<InputIterator, Id, typename context<ContextKey, ContextValue>::optimized_key, typename context<ContextKey, ContextValue>::optimized_value>::type::tag_input, typename lx_rtno<InputIterator, Id, typename context<ContextKey, ContextValue>::optimized_key, typename context<ContextKey, ContextValue>::optimized_value>::type::tag_output, SourceRef, ContextKey, ContextValue, execution_state_set_impl_choice> type;
 	};
 } //namespace grapenlp
 

@@ -37,11 +37,11 @@
 
 namespace grapenlp
 {
-	template<typename InputIterator, typename SourceRef, typename Id, typename WeightTransformer, assoc_container_impl_choice execution_state_set_impl_choice, assoc_container_impl_choice output_set_impl_choice>
+	template<typename InputIterator, typename SourceRef, typename ContextKey, typename ContextValue, typename Id, typename WeightTransformer, assoc_container_impl_choice execution_state_set_impl_choice, assoc_container_impl_choice output_set_impl_choice>
 #ifdef TRACE
-	struct lxw_earley_parser: public earley_parser<typename lxwns_rtno<InputIterator, Id, typename WeightTransformer::result_type>::type::tag_input, typename lxwns_rtno<InputIterator, Id, typename WeightTransformer::result_type>::type::tag_output, SourceRef, segment_map_x_weight<SourceRef, Id, typename WeightTransformer::result_type, output_set_impl_choice>, serializer<segment_map_x_weight<SourceRef, Id, typename WeightTransformer::result_type, output_set_impl_choice> >, segment_map_x_weight_transformer<SourceRef, Id, WeightTransformer, output_set_impl_choice>, segment_map_x_weight_composer<SourceRef, Id, WeightTransformer, output_set_impl_choice>, execution_state_set_impl_choice, output_set_impl_choice>
+	struct lxw_earley_parser: public earley_parser<typename lxwns_rtno<InputIterator, Id, typename WeightTransformer::result_type, typename context<ContextKey, ContextValue>::optimized_key, typename context<ContextKey, ContextValue>::optimized_value>::type::tag_input, typename lxwns_rtno<InputIterator, Id, typename WeightTransformer::result_type, typename context<ContextKey, ContextValue>::optimized_key, typename context<ContextKey, ContextValue>::optimized_value>::type::tag_output, SourceRef, ContextKey, ContextValue, segment_map_x_weight<SourceRef, Id, typename WeightTransformer::result_type, output_set_impl_choice>, serializer<segment_map_x_weight<SourceRef, Id, typename WeightTransformer::result_type, output_set_impl_choice> >, segment_map_x_weight_transformer<SourceRef, Id, WeightTransformer, output_set_impl_choice>, segment_map_x_weight_composer<SourceRef, Id, WeightTransformer, output_set_impl_choice>, execution_state_set_impl_choice, output_set_impl_choice>
 	{
-		typedef earley_parser<typename lxwns_rtno<InputIterator, Id, typename WeightTransformer::result_type>::type::tag_input, typename lxwns_rtno<InputIterator, Id, typename WeightTransformer::result_type>::type::tag_output, SourceRef, segment_map_x_weight<SourceRef, Id, typename WeightTransformer::result_type, output_set_impl_choice>, serializer<segment_map_x_weight<SourceRef, Id, typename WeightTransformer::result_type, output_set_impl_choice> >, segment_map_x_weight_transformer<SourceRef, Id, WeightTransformer, output_set_impl_choice>, segment_map_x_weight_composer<SourceRef, Id, WeightTransformer, output_set_impl_choice>, execution_state_set_impl_choice, output_set_impl_choice> base_type;
+		typedef earley_parser<typename lxwns_rtno<InputIterator, Id, typename WeightTransformer::result_type, typename context<ContextKey, ContextValue>::optimized_key, typename context<ContextKey, ContextValue>::optimized_value>::type::tag_input, typename lxwns_rtno<InputIterator, Id, typename WeightTransformer::result_type, typename context<ContextKey, ContextValue>::optimized_key, typename context<ContextKey, ContextValue>::optimized_value>::type::tag_output, SourceRef, ContextKey, ContextValue, segment_map_x_weight<SourceRef, Id, typename WeightTransformer::result_type, output_set_impl_choice>, serializer<segment_map_x_weight<SourceRef, Id, typename WeightTransformer::result_type, output_set_impl_choice> >, segment_map_x_weight_transformer<SourceRef, Id, WeightTransformer, output_set_impl_choice>, segment_map_x_weight_composer<SourceRef, Id, WeightTransformer, output_set_impl_choice>, execution_state_set_impl_choice, output_set_impl_choice> base_type;
 #else
 	struct lxw_earley_parser: public earley_parser<typename lxw_rtno<InputIterator, Id, typename WeightTransformer::result_type>::type::tag_input, typename lxw_rtno<InputIterator, Id, typename WeightTransformer::result_type>::type::tag_output, SourceRef, segment_map_x_weight<SourceRef, Id, typename WeightTransformer::result_type, output_set_impl_choice>, segment_map_x_weight_transformer<SourceRef, Id, WeightTransformer, output_set_impl_choice>, segment_map_x_weight_composer<SourceRef, Id, WeightTransformer, output_set_impl_choice>, execution_state_set_impl_choice, output_set_impl_choice>
 	{
@@ -49,6 +49,7 @@ namespace grapenlp
 #endif
 		typedef typename base_type::machine machine;
 		typedef typename base_type::source_ref source_ref;
+		typedef typename base_type::context_type context_type;
 		typedef typename base_type::match match;
 		typedef typename base_type::transformer transformer;
 		typedef typename base_type::composer composer;
@@ -63,17 +64,17 @@ namespace grapenlp
 		lxw_earley_parser(match input_match_, transformer gamma_, composer circ_): base_type(input_match_, gamma_, circ_)
 		{}
 
-		blackboard_set& operator() (const machine& m, source_ref input_begin, source_ref input_end, bool hasnt_white_at_begin, bool hasnt_white_at_end, blackboard_set &result)
+		blackboard_set& operator() (const machine& m, source_ref input_begin, source_ref input_end, bool hasnt_white_at_begin, bool hasnt_white_at_end, const context_type &c, blackboard_set &result)
 		{
 			base_type::gamma.set(input_begin, input_end);
-			return base_type::operator()(m, input_begin, input_end, hasnt_white_at_begin, hasnt_white_at_end, result, blackboard(the_weight_transformer_traits::identity()));
+			return base_type::operator()(m, input_begin, input_end, hasnt_white_at_begin, hasnt_white_at_end, c, result, blackboard(the_weight_transformer_traits::identity()));
 		}
 	};
 
 	//This is just for homogeneity
-	template<typename InputIterator, typename SourceRef, typename Id, typename WeightTransformer, assoc_container_impl_choice execution_state_set_impl_choice, assoc_container_impl_choice output_set_impl_choice>
+	template<typename InputIterator, typename SourceRef, typename ContextKey, typename ContextValue, typename Id, typename WeightTransformer, assoc_container_impl_choice execution_state_set_impl_choice, assoc_container_impl_choice output_set_impl_choice>
 	struct lxw_earley_parser_impl_selector
-	{ typedef lxw_earley_parser<InputIterator, SourceRef, Id, WeightTransformer, execution_state_set_impl_choice, output_set_impl_choice> type; };
+	{ typedef lxw_earley_parser<InputIterator, SourceRef, ContextKey, ContextValue, Id, WeightTransformer, execution_state_set_impl_choice, output_set_impl_choice> type; };
 } //namespace grapenlp
 
 #endif /*GRAPENLP_LXW_EARLEY_PARSER_H*/

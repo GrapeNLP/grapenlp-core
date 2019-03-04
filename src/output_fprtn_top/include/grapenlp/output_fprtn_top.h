@@ -57,10 +57,12 @@ namespace grapenlp
 		{}
 	};
 
-	template<typename SourceRef, typename TagInput, typename RTNOTagInput, assoc_container_impl_choice execution_state_set_impl_choice>
+	template<typename ContextKey, typename ContextValue, typename SourceRef, typename TagInput, typename RTNOTagInput, assoc_container_impl_choice execution_state_set_impl_choice>
 	struct output_fprtn_top
 	{
 		typedef output_fprtn<
+			ContextKey,
+			ContextValue,
 			SourceRef,
 			TagInput,
 			RTNOTagInput,

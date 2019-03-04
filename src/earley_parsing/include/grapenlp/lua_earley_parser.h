@@ -37,15 +37,15 @@
 namespace grapenlp
 {
 #ifdef TRACE
-	template<typename InputIterator, typename SourceRef, typename OutputUArrayPool, typename OutputUArraySerializer, assoc_container_impl_choice execution_state_set_impl_choice, assoc_container_impl_choice output_state_set_impl_choice>
-	struct lua_earley_parser: public earley_parser<typename luans_rtno<InputIterator>::type::tag_input, typename luans_rtno<InputIterator>::type::tag_output, SourceRef, typename OutputUArrayPool::value_type, OutputUArraySerializer, typename OutputUArrayPool::concatenator, typename OutputUArrayPool::concatenator2, execution_state_set_impl_choice, output_state_set_impl_choice>
+	template<typename InputIterator, typename SourceRef, typename ContextKey, typename ContextValue, typename OutputUArrayPool, typename OutputUArraySerializer, assoc_container_impl_choice execution_state_set_impl_choice, assoc_container_impl_choice output_state_set_impl_choice>
+	struct lua_earley_parser: public earley_parser<typename luans_rtno<InputIterator, typename context<ContextKey, ContextValue>::optimized_key, typename context<ContextKey, ContextValue>::optimized_value>::type::tag_input, typename luans_rtno<InputIterator, typename context<ContextKey, ContextValue>::optimized_key, typename context<ContextKey, ContextValue>::optimized_value>::type::tag_output, SourceRef, ContextKey, ContextValue, typename OutputUArrayPool::value_type, OutputUArraySerializer, typename OutputUArrayPool::concatenator, typename OutputUArrayPool::concatenator2, execution_state_set_impl_choice, output_state_set_impl_choice>
 	{
-		typedef earley_parser<typename luans_rtno<InputIterator>::type::tag_input, typename luans_rtno<InputIterator>::type::tag_output, SourceRef, typename OutputUArrayPool::value_type, OutputUArraySerializer, typename OutputUArrayPool::concatenator, typename OutputUArrayPool::concatenator2, execution_state_set_impl_choice, output_state_set_impl_choice> base_type;
+		typedef earley_parser<typename luans_rtno<InputIterator, typename context<ContextKey, ContextValue>::optimized_key, typename context<ContextKey, ContextValue>::optimized_value>::type::tag_input, typename luans_rtno<InputIterator, typename context<ContextKey, ContextValue>::optimized_key, typename context<ContextKey, ContextValue>::optimized_value>::type::tag_output, SourceRef, ContextKey, ContextValue, typename OutputUArrayPool::value_type, OutputUArraySerializer, typename OutputUArrayPool::concatenator, typename OutputUArrayPool::concatenator2, execution_state_set_impl_choice, output_state_set_impl_choice> base_type;
 #else
-	template<typename InputIterator, typename SourceRef, typename OutputUArrayPool, assoc_container_impl_choice execution_state_set_impl_choice, assoc_container_impl_choice output_state_set_impl_choice>
-	struct lua_earley_parser: public earley_parser<typename lua_rtno<InputIterator>::type::tag_input, typename lua_rtno<InputIterator>::type::tag_output, SourceRef, typename OutputUArrayPool::value_type, typename OutputUArrayPool::concatenator, typename OutputUArrayPool::concatenator2, execution_state_set_impl_choice, output_state_set_impl_choice>
+	template<typename InputIterator, typename SourceRef, typename ContextKey, typename ContextValue, typename OutputUArrayPool, assoc_container_impl_choice execution_state_set_impl_choice, assoc_container_impl_choice output_state_set_impl_choice>
+	struct lua_earley_parser: public earley_parser<typename lua_rtno<InputIterator, typename context<ContextKey, ContextValue>::optimized_key, typename context<ContextKey, ContextValue>::optimized_value>::type::tag_input, typename lua_rtno<InputIterator, typename context<ContextKey, ContextValue>::optimized_key, typename context<ContextKey, ContextValue>::optimized_value>::type::tag_output, SourceRef, ContextKey, ContextValue, typename OutputUArrayPool::value_type, typename OutputUArrayPool::concatenator, typename OutputUArrayPool::concatenator2, execution_state_set_impl_choice, output_state_set_impl_choice>
 	{
-		typedef earley_parser<typename lua_rtno<InputIterator>::type::tag_input, typename lua_rtno<InputIterator>::type::tag_output, SourceRef, typename OutputUArrayPool::value_type, typename OutputUArrayPool::concatenator, typename OutputUArrayPool::concatenator2, execution_state_set_impl_choice, output_state_set_impl_choice> base_type;
+		typedef earley_parser<typename lua_rtno<InputIterator, typename context<ContextKey, ContextValue>::optimized_key, typename context<ContextKey, ContextValue>::optimized_value>::type::tag_input, typename lua_rtno<InputIterator, typename context<ContextKey, ContextValue>::optimized_key, typename context<ContextKey, ContextValue>::optimized_value>::type::tag_output, SourceRef, ContextKey, ContextValue, typename OutputUArrayPool::value_type, typename OutputUArrayPool::concatenator, typename OutputUArrayPool::concatenator2, execution_state_set_impl_choice, output_state_set_impl_choice> base_type;
 #endif
 		typedef typename base_type::machine machine;
 		typedef typename base_type::source_ref source_ref;
@@ -60,27 +60,27 @@ namespace grapenlp
 		{}
 	};
 
-	template<typename InputIterator, typename SourceRef, sequence_impl_choice sic, assoc_container_impl_choice execution_state_set_impl_choice, assoc_container_impl_choice output_set_impl_choice>
+	template<typename InputIterator, typename SourceRef, typename ContextKey, typename ContextValue, sequence_impl_choice sic, assoc_container_impl_choice execution_state_set_impl_choice, assoc_container_impl_choice output_set_impl_choice>
 	struct lua_earley_parser_impl_selector
 	{};
 
-	template<typename InputIterator, typename SourceRef, assoc_container_impl_choice execution_state_set_impl_choice, assoc_container_impl_choice output_set_impl_choice>
-	struct lua_earley_parser_impl_selector<InputIterator, SourceRef, ARRAYS, execution_state_set_impl_choice, output_set_impl_choice>
+	template<typename InputIterator, typename SourceRef, typename ContextKey, typename ContextValue, assoc_container_impl_choice execution_state_set_impl_choice, assoc_container_impl_choice output_set_impl_choice>
+	struct lua_earley_parser_impl_selector<InputIterator, SourceRef, ContextKey, ContextValue, ARRAYS, execution_state_set_impl_choice, output_set_impl_choice>
 	{
 #ifdef TRACE
-		typedef lua_earley_parser<InputIterator, SourceRef, array_fake_pool<unichar>, serializer<array_fake_pool<unichar>::value_type>, execution_state_set_impl_choice, output_set_impl_choice> type;
+		typedef lua_earley_parser<InputIterator, SourceRef, ContextKey, ContextValue, array_fake_pool<unichar>, serializer<array_fake_pool<unichar>::value_type>, execution_state_set_impl_choice, output_set_impl_choice> type;
 #else
-		typedef lua_earley_parser<InputIterator, SourceRef, array_fake_pool<unichar>, execution_state_set_impl_choice, output_set_impl_choice> type;
+		typedef lua_earley_parser<InputIterator, SourceRef, ContextKey, ContextValue, array_fake_pool<unichar>, execution_state_set_impl_choice, output_set_impl_choice> type;
 #endif
 	};
 
-	template<typename InputIterator, typename SourceRef, assoc_container_impl_choice execution_state_set_impl_choice, assoc_container_impl_choice output_set_impl_choice>
-	struct lua_earley_parser_impl_selector<InputIterator, SourceRef, TRIE_STRINGS, execution_state_set_impl_choice, output_set_impl_choice>
+	template<typename InputIterator, typename SourceRef, typename ContextKey, typename ContextValue, assoc_container_impl_choice execution_state_set_impl_choice, assoc_container_impl_choice output_set_impl_choice>
+	struct lua_earley_parser_impl_selector<InputIterator, SourceRef, ContextKey, ContextValue, TRIE_STRINGS, execution_state_set_impl_choice, output_set_impl_choice>
 	{
 #ifdef TRACE
-		typedef lua_earley_parser<InputIterator, SourceRef, trie_string_ref_pool<unichar>, const_deref_serializer<typename trie_string_ref_pool<unichar>::base_type>, execution_state_set_impl_choice, output_set_impl_choice> type;
+		typedef lua_earley_parser<InputIterator, SourceRef, ContextKey, ContextValue, trie_string_ref_pool<unichar>, const_deref_serializer<typename trie_string_ref_pool<unichar>::base_type>, execution_state_set_impl_choice, output_set_impl_choice> type;
 #else
-		typedef lua_earley_parser<InputIterator, SourceRef, trie_string_ref_pool<unichar>, execution_state_set_impl_choice, output_set_impl_choice> type;
+		typedef lua_earley_parser<InputIterator, SourceRef, ContextKey, ContextValue, trie_string_ref_pool<unichar>, execution_state_set_impl_choice, output_set_impl_choice> type;
 #endif
 	};
 } //namespace grapenlp

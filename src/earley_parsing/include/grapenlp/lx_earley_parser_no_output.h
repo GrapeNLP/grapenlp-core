@@ -31,18 +31,19 @@
 
 namespace grapenlp
 {
-	template<typename InputIterator, typename SourceRef, typename Id, assoc_container_impl_choice execution_state_set_impl_choice>
+	template<typename InputIterator, typename SourceRef, typename ContextKey, typename ContextValue, typename Id, assoc_container_impl_choice execution_state_set_impl_choice>
 #ifdef TRACE
-	struct lx_earley_parser_no_output: public earley_parser_no_output<typename lxns_rtno<InputIterator, Id>::type::tag_input, typename lxns_rtno<InputIterator, Id>::type::tag_output, SourceRef, execution_state_set_impl_choice>
+	struct lx_earley_parser_no_output: public earley_parser_no_output<typename lxns_rtno<InputIterator, Id, typename context<ContextKey, ContextValue>::optimized_key, typename context<ContextKey, ContextValue>::optimized_value>::type::tag_input, typename lxns_rtno<InputIterator, Id, typename context<ContextKey, ContextValue>::optimized_key, typename context<ContextKey, ContextValue>::optimized_value>::type::tag_output, SourceRef, ContextKey, ContextValue, execution_state_set_impl_choice>
 	{
-		typedef earley_parser_no_output<typename lxns_rtno<InputIterator, Id>::type::tag_input, typename lxns_rtno<InputIterator, Id>::type::tag_output, SourceRef, execution_state_set_impl_choice> base_type;
+		typedef earley_parser_no_output<typename lxns_rtno<InputIterator, Id, typename context<ContextKey, ContextValue>::optimized_key, typename context<ContextKey, ContextValue>::optimized_value>::type::tag_input, typename lxns_rtno<InputIterator, Id, typename context<ContextKey, ContextValue>::optimized_key, typename context<ContextKey, ContextValue>::optimized_value>::type::tag_output, SourceRef, ContextKey, ContextValue, execution_state_set_impl_choice> base_type;
 #else
-	struct lx_earley_parser_no_output: public earley_parser_no_output<typename lx_rtno<InputIterator, Id>::type::tag_input, typename lx_rtno<InputIterator, Id>::type::tag_output, SourceRef, execution_state_set_impl_choice>
+	struct lx_earley_parser_no_output: public earley_parser_no_output<typename lx_rtno<InputIterator, Id, typename context<ContextKey, ContextValue>::optimized_key, typename context<ContextKey, ContextValue>::optimized_value>::type::tag_input, typename lx_rtno<InputIterator, Id, typename context<ContextKey, ContextValue>::optimized_key, typename context<ContextKey, ContextValue>::optimized_value>::type::tag_output, SourceRef, ContextKey, ContextValue, execution_state_set_impl_choice>
 	{
-		typedef earley_parser_no_output<typename lx_rtno<InputIterator, Id>::type::tag_input, typename lx_rtno<InputIterator, Id>::type::tag_output, SourceRef, execution_state_set_impl_choice> base_type;
+		typedef earley_parser_no_output<typename lx_rtno<InputIterator, Id, typename context<ContextKey, ContextValue>::optimized_key, typename context<ContextKey, ContextValue>::optimized_value>::type::tag_input, typename lx_rtno<InputIterator, Id, typename context<ContextKey, ContextValue>::optimized_key, typename context<ContextKey, ContextValue>::optimized_value>::type::tag_output, SourceRef, ContextKey, ContextValue, execution_state_set_impl_choice> base_type;
 #endif
 		typedef typename base_type::machine machine;
 		typedef typename base_type::source_ref source_ref;
+		typedef typename base_type::context_type context_type;
 		typedef typename base_type::match match;
 
 		lx_earley_parser_no_output(): base_type()
@@ -50,14 +51,14 @@ namespace grapenlp
 		lx_earley_parser_no_output(match input_match_): base_type(input_match_)
 		{}
 
-		bool operator() (const machine& m, source_ref input_begin, source_ref input_end, bool hasnt_white_at_begin, bool hasnt_white_at_end)
-		{ return base_type::operator()(m, input_begin, input_end, hasnt_white_at_begin, hasnt_white_at_end); }
+		bool operator() (const machine& m, source_ref input_begin, source_ref input_end, bool hasnt_white_at_begin, bool hasnt_white_at_end, const context_type &c)
+		{ return base_type::operator()(m, input_begin, input_end, hasnt_white_at_begin, hasnt_white_at_end, c); }
 	};
 
 	//This is just for homogeneity
-	template<typename InputIterator, typename SourceRef, typename Id, assoc_container_impl_choice execution_state_set_impl_choice>
+	template<typename InputIterator, typename SourceRef, typename ContextKey, typename ContextValue, typename Id, assoc_container_impl_choice execution_state_set_impl_choice>
 	struct lx_earley_parser_no_output_impl_selector
-	{ typedef lx_earley_parser_no_output<InputIterator, SourceRef, Id, execution_state_set_impl_choice> type; };
+	{ typedef lx_earley_parser_no_output<InputIterator, SourceRef, ContextKey, ContextValue, Id, execution_state_set_impl_choice> type; };
 } //namespace grapenlp
 
 #endif /*GRAPENLP_LX_EARLEY_PARSER_NO_OUTPUT_H*/

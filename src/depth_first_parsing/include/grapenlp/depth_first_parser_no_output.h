@@ -36,26 +36,32 @@
 
 #include <grapenlp/sequence_impl_choice.h>
 #include <grapenlp/tag_input_traits.h>
+#include <grapenlp/context.h>
 #include <grapenlp/pool.h>
 #include <grapenlp/rtno.h>
 
 namespace grapenlp
 {
-	template<typename TagInput, typename TagOutput, typename SourceRef, typename StateConstRefStackPool>
+	template<typename TagInput, typename TagOutput, typename SourceRef, typename ContextKey, typename ContextValue, typename StateConstRefStackPool>
 	struct depth_first_parser_no_output
 	{
 		typedef TagInput tag_input;
 		typedef TagOutput tag_output;
 		typedef SourceRef source_ref;
 		typedef typename source_ref::value_type input;
+		typedef ContextKey context_key;
+		typedef ContextValue context_value;
+		typedef context<context_key, context_value> context_type;
+		typedef typename context_type::optimized_key optimized_context_key;
+		typedef typename context_type::optimized_value optimized_context_value;
 
 #ifdef TRACE
-		typedef ns_rtno<tag_input, tag_output> machine;
+		typedef ns_rtno<tag_input, tag_output, typename context<ContextKey, ContextValue>::optimized_context_key, typename context<ContextKey, ContextValue>::optimized_context_value> machine;
 		typedef typename tag_serializer<input>::type input_serializer;
 		typedef typename tag_serializer<tag_input>::type tag_input_serializer;
 		typedef typename tag_serializer<tag_output>::type tag_output_serializer;
 #else
-		typedef rtno<tag_input, tag_output> machine;
+		typedef rtno<tag_input, tag_output, typename context<ContextKey, ContextValue>::optimized_context_key, typename context<ContextKey, ContextValue>::optimized_context_value> machine;
 #endif
 		typedef typename tag_input_traits<tag_input>::match match;
 		typedef typename machine::state state;
@@ -65,6 +71,10 @@ namespace grapenlp
 		typedef	typename machine::outgoing_epsilon_transition outgoing_epsilon_transition;
 		typedef	typename machine::outgoing_epsilon_transition_set outgoing_epsilon_transition_set;
 		typedef typename outgoing_epsilon_transition_set::const_iterator outgoing_epsilon_transition_set_const_iterator;
+
+        typedef	typename machine::outgoing_epsilon_context_transition outgoing_epsilon_context_transition;
+        typedef	typename machine::outgoing_epsilon_context_transition_set outgoing_epsilon_context_transition_set;
+        typedef typename outgoing_epsilon_context_transition_set::const_iterator outgoing_epsilon_context_transition_set_const_iterator;
 
 		typedef	typename machine::outgoing_deleting_transition outgoing_deleting_transition;
 		typedef	typename machine::outgoing_deleting_transition_set outgoing_deleting_transition_set;
@@ -77,6 +87,10 @@ namespace grapenlp
 		typedef	typename machine::outgoing_inserting_transition outgoing_inserting_transition;
 		typedef	typename machine::outgoing_inserting_transition_set outgoing_inserting_transition_set;
 		typedef typename outgoing_inserting_transition_set::const_iterator outgoing_inserting_transition_set_const_iterator;
+
+        typedef	typename machine::outgoing_inserting_context_transition outgoing_inserting_context_transition;
+        typedef	typename machine::outgoing_inserting_context_transition_set outgoing_inserting_context_transition_set;
+        typedef typename outgoing_inserting_context_transition_set::const_iterator outgoing_inserting_context_transition_set_const_iterator;
 
 		typedef	typename machine::outgoing_call_transition outgoing_call_transition;
 		typedef	typename machine::outgoing_call_transition_set outgoing_call_transition_set;
@@ -139,7 +153,7 @@ namespace grapenlp
 		{}
 
 		//Develop first execution state of the queue of pending execution states
-		bool traverse(execution_state &x_s, source_ref input_end, bool next_token_isnt_white_separated, bool hasnt_white_at_end)
+		bool traverse(execution_state &x_s, source_ref input_end, bool next_token_isnt_white_separated, bool hasnt_white_at_end, const context_type &c)
 		{
 			//If this execution state is complete (it corresponds to a final state with no pending calls after having consumed the whole input)
 			//add its blackboard to the result set
@@ -167,7 +181,7 @@ namespace grapenlp
 #else
 						execution_state x_t(odt_it->target, x_s.pi, in_plus_1);
 #endif
-						if (traverse(x_t, input_end, next_next_token_isnt_white_separated, hasnt_white_at_end))
+						if (traverse(x_t, input_end, next_next_token_isnt_white_separated, hasnt_white_at_end, c))
 							return true;
 #ifdef TRACE
 						x_s.serialize(std::wcout << "back to ") << std::endl;
@@ -186,7 +200,7 @@ namespace grapenlp
 #else
 						execution_state x_t(ott_it->target, x_s.pi, in_plus_1);
 #endif
-						if (traverse(x_t, input_end, next_next_token_isnt_white_separated, hasnt_white_at_end))
+						if (traverse(x_t, input_end, next_next_token_isnt_white_separated, hasnt_white_at_end, c))
 							return true;
 #ifdef TRACE
 						x_s.serialize(std::wcout << "back to ") << std::endl;
@@ -203,12 +217,30 @@ namespace grapenlp
 #else
 				execution_state x_t(oet_it->target, x_s.pi, x_s.in);
 #endif
-				if (traverse(x_t, input_end, next_token_isnt_white_separated, hasnt_white_at_end))
+				if (traverse(x_t, input_end, next_token_isnt_white_separated, hasnt_white_at_end, c))
 					return true;
 #ifdef TRACE
 				x_s.serialize(std::wcout << "back to ") << std::endl;
 #endif
 			}
+            outgoing_epsilon_context_transition_set_const_iterator oect_it(x_s.q->outgoing_epsilon_context_transitions.begin());
+            for (; oect_it != x_s.q->outgoing_epsilon_context_transitions.end(); ++oect_it)
+            {
+                if (c.equals(oect_it->key, oect_it->value))
+                {
+#ifdef TRACE
+                    execution_state x_t(static_cast<state_const_ref>(oect_it->target), x_s.pi, x_s.in, x_s.i);
+                    x_t.serialize(std::wcout) << L" (<E> : <E>)" << std::endl;
+#else
+                    execution_state x_t(oect_it->target, x_s.pi, x_s.in);
+#endif
+                    if (traverse(x_t, input_end, next_token_isnt_white_separated, hasnt_white_at_end, c))
+                        return true;
+#ifdef TRACE
+                    x_s.serialize(std::wcout << "back to ") << std::endl;
+#endif
+                }
+            }
 			outgoing_inserting_transition_set_const_iterator oit_it(x_s.q->outgoing_inserting_transitions.begin());
 			for (; oit_it != x_s.q->outgoing_inserting_transitions.end(); ++oit_it)
 			{
@@ -219,12 +251,31 @@ namespace grapenlp
 #else
 				execution_state x_t(oit_it->target, x_s.pi, x_s.in);
 #endif
-				if (traverse(x_t, input_end, next_token_isnt_white_separated, hasnt_white_at_end))
+				if (traverse(x_t, input_end, next_token_isnt_white_separated, hasnt_white_at_end, c))
 					return true;
 #ifdef TRACE
 				x_s.serialize(std::wcout << "back to ") << std::endl;
 #endif
 			}
+            outgoing_inserting_context_transition_set_const_iterator oict_it(x_s.q->outgoing_inserting_context_transitions.begin());
+            for (; oict_it != x_s.q->outgoing_inserting_context_transitions.end(); ++oict_it)
+            {
+                if (c.equals(oict_it->key, oict_it->value))
+                {
+#ifdef TRACE
+                    execution_state x_t(static_cast<state_const_ref>(oict_it->target), x_s.pi, x_s.in, x_s.i);
+                    x_t.serialize(std::wcout) << L" (<E> : ";
+                    tag_output_serializer()(std::wcout, oict_it->output) << L')' << std::endl;
+#else
+                    execution_state x_t(oict_it->target, x_s.pi, x_s.in);
+#endif
+                    if (traverse(x_t, input_end, next_token_isnt_white_separated, hasnt_white_at_end, c))
+                        return true;
+#ifdef TRACE
+                    x_s.serialize(std::wcout << "back to ") << std::endl;
+#endif
+                }
+            }
 			if (next_token_isnt_white_separated)
 			{
 				for (oet_it = x_s.q->outgoing_no_blank_epsilon_transitions.begin(); oet_it != x_s.q->outgoing_no_blank_epsilon_transitions.end(); ++oet_it)
@@ -235,7 +286,7 @@ namespace grapenlp
 #else
 					execution_state x_t(oet_it->target, x_s.pi, x_s.in);
 #endif
-					if (traverse(x_t, input_end, next_token_isnt_white_separated, hasnt_white_at_end))
+					if (traverse(x_t, input_end, next_token_isnt_white_separated, hasnt_white_at_end, c))
 						return true;
 #ifdef TRACE
 					x_s.serialize(std::wcout << "back to ") << std::endl;
@@ -249,7 +300,7 @@ namespace grapenlp
 #else
 					execution_state x_t(oit_it->target, x_s.pi, x_s.in);
 #endif
-					if (traverse(x_t, input_end, next_token_isnt_white_separated, hasnt_white_at_end))
+					if (traverse(x_t, input_end, next_token_isnt_white_separated, hasnt_white_at_end, c))
 						return true;
 #ifdef TRACE
 					x_s.serialize(std::wcout << "back to ") << std::endl;
@@ -266,7 +317,7 @@ namespace grapenlp
 #else
 					execution_state x_t(oet_it->target, x_s.pi, x_s.in);
 #endif
-					if (traverse(x_t, input_end, next_token_isnt_white_separated, hasnt_white_at_end))
+					if (traverse(x_t, input_end, next_token_isnt_white_separated, hasnt_white_at_end, c))
 						return true;
 #ifdef TRACE
 					x_s.serialize(std::wcout << "back to ") << std::endl;
@@ -281,7 +332,7 @@ namespace grapenlp
 #else
 					execution_state x_t(oit_it->target, x_s.pi, x_s.in);
 #endif
-					if (traverse(x_t, input_end, next_token_isnt_white_separated, hasnt_white_at_end))
+					if (traverse(x_t, input_end, next_token_isnt_white_separated, hasnt_white_at_end, c))
 						return true;
 #ifdef TRACE
 					x_s.serialize(std::wcout << "back to ") << std::endl;
@@ -297,7 +348,7 @@ namespace grapenlp
 #else
 				execution_state x_t(ocallt_it->called, x_s.pi + target, x_s.in);
 #endif
-				if (traverse(x_t, input_end, next_token_isnt_white_separated, hasnt_white_at_end))
+				if (traverse(x_t, input_end, next_token_isnt_white_separated, hasnt_white_at_end, c))
 					return true;
 #ifdef TRACE
 				x_s.serialize(std::wcout << "back to ") << std::endl;
@@ -311,7 +362,7 @@ namespace grapenlp
 #else
 				execution_state x_t(x_s.pi.back(), x_s.pi.prefix(), x_s.in);
 #endif
-				if (traverse(x_t, input_end, next_token_isnt_white_separated, hasnt_white_at_end))
+				if (traverse(x_t, input_end, next_token_isnt_white_separated, hasnt_white_at_end, c))
 					return true;
 #ifdef TRACE
 				x_s.serialize(std::wcout << "back to ") << std::endl;
@@ -321,7 +372,7 @@ namespace grapenlp
 		}
 
 		//Compute the r-translations of the input range [input_being, input_end) and add them to the set t
-		bool operator()(const machine& grammar, SourceRef input_begin, SourceRef input_end, bool hasnt_white_at_begin, bool hasnt_white_at_end)
+		bool operator()(const machine& grammar, SourceRef input_begin, SourceRef input_end, bool hasnt_white_at_begin, bool hasnt_white_at_end, const context_type &c)
 		{
 #ifdef TRACE
 			std::wcout << L"Begin parsing\n";
@@ -336,7 +387,7 @@ namespace grapenlp
 #else
 			execution_state x_i(grammar.initial_state(), scrsp.empty(), input_begin);
 #endif
-			if (traverse(x_i, input_end, hasnt_white_at_begin, hasnt_white_at_end))
+			if (traverse(x_i, input_end, hasnt_white_at_begin, hasnt_white_at_end, c))
 			{
 #ifdef TRACE
 				std::wcout << L"Input accepted\n";

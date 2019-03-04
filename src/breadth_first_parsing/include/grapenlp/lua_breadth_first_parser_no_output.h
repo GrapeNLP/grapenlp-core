@@ -32,18 +32,34 @@
 namespace grapenlp
 {
 #ifdef TRACE
-	template<typename InputIterator, typename SourceRef, typename ContextKeyIterator, typename ContextValueIterator, typename StateConstRefStackPool, assoc_container_impl_choice execution_state_set_impl_choice>
-	struct lua_breadth_first_parser_no_output: public breadth_first_parser_no_output<typename luans_rtno<InputIterator>::type::tag_input, typename luans_rtno<InputIterator>::type::tag_output, SourceRef, StateConstRefStackPool, execution_state_set_impl_choice>
+	template<typename InputIterator, typename SourceRef, typename ContextKey, typename ContextValue, typename StateConstRefStackPool, assoc_container_impl_choice execution_state_set_impl_choice>
+	struct lua_breadth_first_parser_no_output: public breadth_first_parser_no_output<typename luans_rtno<InputIterator, typename context<ContextKey, ContextValue>::optimized_context_key, typename context<ContextKey, ContextValue>::optimized_context_value>::type::tag_input, typename luans_rtno<InputIterator, typename context<ContextKey, ContextValue>::optimized_context_key, typename context<ContextKey, ContextValue>::optimized_context_value>::type::tag_output, SourceRef, ContextKey, ContextValue, StateConstRefStackPool, execution_state_set_impl_choice>
 	{
-		typedef breadth_first_parser_no_output<typename luans_rtno<InputIterator>::type::tag_input, typename luans_rtno<InputIterator>::type::tag_output, SourceRef, StateConstRefStackPool, execution_state_set_impl_choice> base_type;
+		typedef breadth_first_parser_no_output<
+		        typename luans_rtno<InputIterator, typename context<ContextKey, ContextValue>::optimized_context_key, typename context<ContextKey, ContextValue>::optimized_context_value>::type::tag_input,
+		        typename luans_rtno<InputIterator, typename context<ContextKey, ContextValue>::optimized_context_key, typename context<ContextKey, ContextValue>::optimized_context_value>::type::tag_output,
+		        SourceRef,
+		        ContextKey,
+		        ContextValue,
+		        StateConstRefStackPool,
+		        execution_state_set_impl_choice
+		        > base_type;
 #else
-	template<typename InputIterator, typename SourceRef, typename StateConstRefStackPool, assoc_container_impl_choice execution_state_set_impl_choice>
-	struct lua_breadth_first_parser_no_output: public breadth_first_parser_no_output<typename lua_rtno<InputIterator>::type::tag_input, typename lua_rtno<InputIterator>::type::tag_output, SourceRef, StateConstRefStackPool, execution_state_set_impl_choice>
+	template<typename InputIterator, typename SourceRef, typename ContextKey, typename ContextValue, typename StateConstRefStackPool, assoc_container_impl_choice execution_state_set_impl_choice>
+	struct lua_breadth_first_parser_no_output: public breadth_first_parser_no_output<
+	        typename lua_rtno<InputIterator, typename context<ContextKey, ContextValue>::optimized_context_key, typename context<ContextKey, ContextValue>::optimized_context_value>::type::tag_input,
+	        typename lua_rtno<InputIterator, typename context<ContextKey, ContextValue>::optimized_context_key, typename context<ContextKey, ContextValue>::optimized_context_value>::type::tag_output,
+	        SourceRef,
+	        ContextKey,
+	        ContextValue,
+	        StateConstRefStackPool,
+	        execution_state_set_impl_choice>
 	{
 		typedef breadth_first_parser_no_output<typename lua_rtno<InputIterator>::type::tag_input, typename lua_rtno<InputIterator>::type::tag_output, SourceRef, StateConstRefStackPool, execution_state_set_impl_choice> base_type;
 #endif
 		typedef typename base_type::machine machine;
 		typedef typename base_type::source_ref source_ref;
+		typedef typename base_type::context_type context_type;
 		typedef typename base_type::match match;
 
 		lua_breadth_first_parser_no_output(): base_type()
@@ -51,31 +67,31 @@ namespace grapenlp
 		lua_breadth_first_parser_no_output(match input_match_): base_type(input_match_)
 		{}
 
-		bool operator() (const machine& m, source_ref input_begin, source_ref input_end, bool hasnt_white_at_begin, bool hasnt_white_at_end)
-		{ return base_type::operator()(m, input_begin, input_end, hasnt_white_at_begin, hasnt_white_at_end); }
+		bool operator() (const machine& m, source_ref input_begin, source_ref input_end, bool hasnt_white_at_begin, bool hasnt_white_at_end, const context_type &c)
+		{ return base_type::operator()(m, input_begin, input_end, hasnt_white_at_begin, hasnt_white_at_end, c); }
 	};
 
-	template<typename InputIterator, typename SourceRef, sequence_impl_choice sic, assoc_container_impl_choice execution_state_set_impl_choice>
+	template<typename InputIterator, typename SourceRef, typename ContextKey, typename ContextValue, sequence_impl_choice sic, assoc_container_impl_choice execution_state_set_impl_choice>
 	struct lua_breadth_first_parser_no_output_impl_selector
 	{};
 
-	template<typename InputIterator, typename SourceRef, assoc_container_impl_choice execution_state_set_impl_choice>
-	struct lua_breadth_first_parser_no_output_impl_selector<InputIterator, SourceRef, ARRAYS, execution_state_set_impl_choice>
+	template<typename InputIterator, typename SourceRef, typename ContextKey, typename ContextValue, assoc_container_impl_choice execution_state_set_impl_choice>
+	struct lua_breadth_first_parser_no_output_impl_selector<InputIterator, SourceRef, ContextKey, ContextValue, ARRAYS, execution_state_set_impl_choice>
 	{
 #ifdef TRACE
-		typedef lua_breadth_first_parser_no_output<InputIterator, SourceRef, array_fake_pool<typename luans_rtno<InputIterator>::type::state_const_ref>, execution_state_set_impl_choice> type;
+		typedef lua_breadth_first_parser_no_output<InputIterator, SourceRef, ContextKey, ContextValue, array_fake_pool<typename luans_rtno<InputIterator, typename context<ContextKey, ContextValue>::optimized_key, typename context<ContextKey, ContextValue>::optimized_value>::type::state_const_ref>, execution_state_set_impl_choice> type;
 #else
-		typedef lua_breadth_first_parser_no_output<InputIterator, SourceRef, array_fake_pool<typename lua_rtno<InputIterator>::type::state_const_ref>, execution_state_set_impl_choice> type;
+		typedef lua_breadth_first_parser_no_output<InputIterator, SourceRef, ContextKey, ContextValue, array_fake_pool<typename lua_rtno<InputIterator, typename context<ContextKey, ContextValue>::optimized_key, typename context<ContextKey, ContextValue>::optimized_value>::type::state_const_ref>, execution_state_set_impl_choice> type;
 #endif
 	};
 
-	template<typename InputIterator, typename SourceRef, assoc_container_impl_choice execution_state_set_impl_choice>
-	struct lua_breadth_first_parser_no_output_impl_selector<InputIterator, SourceRef, TRIE_STRINGS, execution_state_set_impl_choice>
+	template<typename InputIterator, typename SourceRef, typename ContextKey, typename ContextValue, assoc_container_impl_choice execution_state_set_impl_choice>
+	struct lua_breadth_first_parser_no_output_impl_selector<InputIterator, SourceRef, ContextKey, ContextValue, TRIE_STRINGS, execution_state_set_impl_choice>
 	{
 #ifdef TRACE
-		typedef lua_breadth_first_parser_no_output<InputIterator, SourceRef, trie_string_pool<typename luans_rtno<InputIterator>::type::state_const_ref>, execution_state_set_impl_choice> type;
+		typedef lua_breadth_first_parser_no_output<InputIterator, SourceRef, ContextKey, ContextValue, trie_string_pool<typename luans_rtno<InputIterator, typename context<ContextKey, ContextValue>::optimized_key, typename context<ContextKey, ContextValue>::optimized_value>::type::state_const_ref>, execution_state_set_impl_choice> type;
 #else
-		typedef lua_breadth_first_parser_no_output<InputIterator, SourceRef, trie_string_pool<typename lua_rtno<InputIterator>::type::state_const_ref>, execution_state_set_impl_choice> type;
+		typedef lua_breadth_first_parser_no_output<InputIterator, SourceRef, ContextKey, ContextValue, trie_string_pool<typename lua_rtno<InputIterator, typename context<ContextKey, ContextValue>::optimized_key, typename context<ContextKey, ContextValue>::optimized_value>::type::state_const_ref>, execution_state_set_impl_choice> type;
 #endif
 	};
 } //namespace grapenlp

@@ -31,10 +31,10 @@
 
 namespace grapenlp
 {
-	template<typename SourceRef, typename Weight, typename RTNOTagInput, assoc_container_impl_choice execution_state_set_impl_choice>
+	template<typename ContextKey, typename ContextValue, typename SourceRef, typename Weight, typename RTNOTagInput, assoc_container_impl_choice execution_state_set_impl_choice>
 	struct uaw_output_fprtn_top
 	{
-		typedef typename aw_output_fprtn_top<SourceRef, unichar, Weight, RTNOTagInput, execution_state_set_impl_choice>::type type;
+		typedef typename aw_output_fprtn_top<ContextKey, ContextValue, SourceRef, unichar, Weight, RTNOTagInput, execution_state_set_impl_choice>::type type;
 
 	private:
 		uaw_output_fprtn_top()

@@ -38,10 +38,10 @@ namespace grapenlp
 	/*
 	 * Given a set of states of a OUTPUT_FPRTN, removes the ones that are marked as useless
 	 */
-	template<typename SourceRef, typename TagInput, typename RTNOTagInput, assoc_container_impl_choice execution_state_set_impl_choice, output_fprtn_incoming_filtered_pop_transition_extra_data_choice edc, typename StateMappedExtraData>
-	void remove_unreachable_states(output_fprtn<SourceRef, TagInput, RTNOTagInput, execution_state_set_impl_choice, edc, StateMappedExtraData> &m)
+	template<typename ContextKey, typename ContextValue, typename SourceRef, typename TagInput, typename RTNOTagInput, assoc_container_impl_choice execution_state_set_impl_choice, output_fprtn_incoming_filtered_pop_transition_extra_data_choice edc, typename StateMappedExtraData>
+	void remove_unreachable_states(output_fprtn<ContextKey, ContextValue, SourceRef, TagInput, RTNOTagInput, execution_state_set_impl_choice, edc, StateMappedExtraData> &m)
 	{
-		typedef output_fprtn<SourceRef, TagInput, RTNOTagInput, execution_state_set_impl_choice, edc, StateMappedExtraData> machine;
+		typedef output_fprtn<ContextKey, ContextValue, SourceRef, TagInput, RTNOTagInput, execution_state_set_impl_choice, edc, StateMappedExtraData> machine;
 		typedef typename machine::chart_iterator chart_iterator;
 		typedef typename machine::state state;
 		typedef typename machine::state_iterator state_iterator;
@@ -79,10 +79,10 @@ namespace grapenlp
 	/*
 	 * Marks as useless every state of the output FPRTN that is not reversely reachable from the global acceptor state
 	 */
-	template<typename SourceRef, typename TagInput, typename RTNOTagInput, assoc_container_impl_choice execution_state_set_impl_choice, output_fprtn_incoming_filtered_pop_transition_extra_data_choice edc, typename StateMappedExtraData>
-	void mark_unreachable_states(output_fprtn<SourceRef, TagInput, RTNOTagInput, execution_state_set_impl_choice, edc, StateMappedExtraData> &m)
+	template<typename ContextKey, typename ContextValue, typename SourceRef, typename TagInput, typename RTNOTagInput, assoc_container_impl_choice execution_state_set_impl_choice, output_fprtn_incoming_filtered_pop_transition_extra_data_choice edc, typename StateMappedExtraData>
+	void mark_unreachable_states(output_fprtn<ContextKey, ContextValue, SourceRef, TagInput, RTNOTagInput, execution_state_set_impl_choice, edc, StateMappedExtraData> &m)
 	{
-		typedef output_fprtn<SourceRef, TagInput, RTNOTagInput, execution_state_set_impl_choice, edc, StateMappedExtraData> machine;
+		typedef output_fprtn<ContextKey, ContextValue, SourceRef, TagInput, RTNOTagInput, execution_state_set_impl_choice, edc, StateMappedExtraData> machine;
 		typedef typename machine::state_ref state_ref;
 		typedef typename machine::state_ref_queue state_ref_queue;
 		typedef typename machine::outgoing_epsilon_transition_iterator outgoing_epsilon_transition_iterator;
@@ -169,8 +169,8 @@ namespace grapenlp
 	//the ones belonging to uncompleted calls, and that the algorithm creates a single
 	//global final state, thus by specifying this final state as argument for this method
 	//the OUTPUT_FPRTN will be pruned (every useless path will be deleted)
-	template<typename SourceRef, typename TagInput, typename RTNOTagInput, assoc_container_impl_choice execution_state_set_impl_choice, output_fprtn_incoming_filtered_pop_transition_extra_data_choice edc, typename StateMappedExtraData>
-	bool prune(output_fprtn<SourceRef, TagInput, RTNOTagInput, execution_state_set_impl_choice, edc, StateMappedExtraData> &m)
+	template<typename ContextKey, typename ContextValue, typename SourceRef, typename TagInput, typename RTNOTagInput, assoc_container_impl_choice execution_state_set_impl_choice, output_fprtn_incoming_filtered_pop_transition_extra_data_choice edc, typename StateMappedExtraData>
+	bool prune(output_fprtn<ContextKey, ContextValue, SourceRef, TagInput, RTNOTagInput, execution_state_set_impl_choice, edc, StateMappedExtraData> &m)
 	{
 #ifdef TRACE
 		std::wcout << "Begin removing unused paths\n";

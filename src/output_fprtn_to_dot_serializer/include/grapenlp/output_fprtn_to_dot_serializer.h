@@ -32,14 +32,14 @@
 
 namespace grapenlp
 {
-	template<typename SourceRef, typename TagInputSerializer, typename RTNOTagInput, assoc_container_impl_choice execution_state_set_impl_choice, output_fprtn_incoming_filtered_pop_transition_extra_data_choice edc, typename StateMappedExtraData>
+	template<typename ContextKey, typename ContextValue, typename SourceRef, typename TagInputSerializer, typename RTNOTagInput, assoc_container_impl_choice execution_state_set_impl_choice, output_fprtn_incoming_filtered_pop_transition_extra_data_choice edc, typename StateMappedExtraData>
 	struct output_fprtn_to_dot_serializer
 	{
 		typedef StateMappedExtraData state_mapped_extra_data;
 		typedef TagInputSerializer tag_input_serializer;
 
 		typedef typename serializer_traits<tag_input_serializer>::elem_type tag_input;
-		typedef output_fprtn<SourceRef, tag_input, RTNOTagInput, execution_state_set_impl_choice, edc, state_mapped_extra_data> elem_type;
+		typedef output_fprtn<ContextKey, ContextValue, SourceRef, tag_input, RTNOTagInput, execution_state_set_impl_choice, edc, state_mapped_extra_data> elem_type;
 
 		typedef elem_type machine;
 		typedef typename machine::state state;
@@ -163,17 +163,17 @@ namespace grapenlp
 		}
 	};
 
-	template<typename SourceRef, typename TagInput, typename RTNOTagInput, assoc_container_impl_choice execution_state_set_impl_choice, output_fprtn_incoming_filtered_pop_transition_extra_data_choice edc, typename StateMappedExtraData, typename CharT, typename Traits>
-	std::basic_ostream<CharT, Traits>& output_fprtn_to_dot_serialize(std::basic_ostream<CharT, Traits>& out, const char *output_fprtn_name, const output_fprtn<SourceRef, TagInput, RTNOTagInput, execution_state_set_impl_choice, edc, StateMappedExtraData> &the_output_fprtn)
-	{ return output_fprtn_to_dot_serializer<SourceRef, typename tag_serializer<TagInput>::type, RTNOTagInput, execution_state_set_impl_choice, edc, StateMappedExtraData>()(out, output_fprtn_name, the_output_fprtn); }
+	template<typename ContextKey, typename ContextValue, typename SourceRef, typename TagInput, typename RTNOTagInput, assoc_container_impl_choice execution_state_set_impl_choice, output_fprtn_incoming_filtered_pop_transition_extra_data_choice edc, typename StateMappedExtraData, typename CharT, typename Traits>
+	std::basic_ostream<CharT, Traits>& output_fprtn_to_dot_serialize(std::basic_ostream<CharT, Traits>& out, const char *output_fprtn_name, const output_fprtn<ContextKey, ContextValue, SourceRef, TagInput, RTNOTagInput, execution_state_set_impl_choice, edc, StateMappedExtraData> &the_output_fprtn)
+	{ return output_fprtn_to_dot_serializer<ContextKey, ContextValue, SourceRef, typename tag_serializer<TagInput>::type, RTNOTagInput, execution_state_set_impl_choice, edc, StateMappedExtraData>()(out, output_fprtn_name, the_output_fprtn); }
 
-	template<typename SourceRef, typename TagInputSerializer, typename RTNOTagInput, assoc_container_impl_choice execution_state_set_impl_choice, output_fprtn_incoming_filtered_pop_transition_extra_data_choice edc, typename StateMappedExtraData, typename CharT, typename Traits>
-	std::basic_ostream<CharT, Traits>& output_fprtn_to_dot_serialize(std::basic_ostream<CharT, Traits>& out, const char *output_fprtn_name, const output_fprtn<SourceRef, typename serializer_traits<TagInputSerializer>::elem_type, RTNOTagInput, execution_state_set_impl_choice, edc, StateMappedExtraData> &the_output_fprtn, const TagInputSerializer &tis)
-	{ return output_fprtn_to_dot_serializer<SourceRef, TagInputSerializer, RTNOTagInput, execution_state_set_impl_choice, edc, StateMappedExtraData>(tis)(out, output_fprtn_name, the_output_fprtn); }
+	template<typename ContextKey, typename ContextValue, typename SourceRef, typename TagInputSerializer, typename RTNOTagInput, assoc_container_impl_choice execution_state_set_impl_choice, output_fprtn_incoming_filtered_pop_transition_extra_data_choice edc, typename StateMappedExtraData, typename CharT, typename Traits>
+	std::basic_ostream<CharT, Traits>& output_fprtn_to_dot_serialize(std::basic_ostream<CharT, Traits>& out, const char *output_fprtn_name, const output_fprtn<ContextKey, ContextValue, SourceRef, typename serializer_traits<TagInputSerializer>::elem_type, RTNOTagInput, execution_state_set_impl_choice, edc, StateMappedExtraData> &the_output_fprtn, const TagInputSerializer &tis)
+	{ return output_fprtn_to_dot_serializer<ContextKey, ContextValue, SourceRef, TagInputSerializer, RTNOTagInput, execution_state_set_impl_choice, edc, StateMappedExtraData>(tis)(out, output_fprtn_name, the_output_fprtn); }
 
 #ifdef TRACE
-	template<typename SourceRef, typename TagInput, typename RTNOTagInput, assoc_container_impl_choice execution_state_set_impl_choice, output_fprtn_incoming_filtered_pop_transition_extra_data_choice edc, typename StateMappedExtraData>
-	void write_fprtn_dot(const char *fprtn_name, const char *dot_fprtn_pathname, output_fprtn<SourceRef, TagInput, RTNOTagInput, execution_state_set_impl_choice, edc, StateMappedExtraData> &m)
+	template<typename ContextKey, typename ContextValue, typename SourceRef, typename TagInput, typename RTNOTagInput, assoc_container_impl_choice execution_state_set_impl_choice, output_fprtn_incoming_filtered_pop_transition_extra_data_choice edc, typename StateMappedExtraData>
+	void write_fprtn_dot(const char *fprtn_name, const char *dot_fprtn_pathname, output_fprtn<ContextKey, ContextValue, SourceRef, TagInput, RTNOTagInput, execution_state_set_impl_choice, edc, StateMappedExtraData> &m)
 	{
 		std::wofstream fout;
 		fout.imbue(std::locale(setlocale(LC_CTYPE, NULL)));

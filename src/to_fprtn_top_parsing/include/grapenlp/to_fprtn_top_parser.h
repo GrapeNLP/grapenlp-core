@@ -111,7 +111,7 @@ namespace grapenlp
 		typedef typename in_outgoing_call_transition_set::iterator in_outgoing_call_transition_set_iterator;
 		typedef typename in_outgoing_call_transition_set::const_iterator in_outgoing_call_transition_set_const_iterator;
 
-		typedef typename output_fprtn_top<SourceRef, TagOutput, TagInput, execution_state_set_impl_choice>::type out_machine;
+		typedef typename output_fprtn_top<ContextKey, ContextValue, SourceRef, TagOutput, TagInput, execution_state_set_impl_choice>::type out_machine;
 		typedef typename out_machine::chart_item chart_item;
 		typedef typename out_machine::state out_state;
 		typedef typename out_machine::state_ref out_state_ref;

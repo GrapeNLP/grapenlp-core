@@ -388,7 +388,7 @@ namespace grapenlp
 		}
 
 		template<typename ExtraInsertOp>
-		void process_inserting_context_context_transitions(const active_execution_state &x_s, outgoing_inserting_context_transition_set_iterator inserting_context_transition_begin, outgoing_inserting_context_transition_set_iterator inserting_context_transition_end, chart_item &v, SourceRef in, const context_type &c, ExtraInsertOp op)
+		void process_inserting_context_transitions(const active_execution_state &x_s, outgoing_inserting_context_transition_set_iterator inserting_context_transition_begin, outgoing_inserting_context_transition_set_iterator inserting_context_transition_end, chart_item &v, SourceRef in, const context_type &c, ExtraInsertOp op)
 		{
 			for (; inserting_context_transition_begin != inserting_context_transition_end; ++inserting_context_transition_begin)
 			{
@@ -418,7 +418,7 @@ namespace grapenlp
 
 		//Increment parsing chart with the epsilon-closure of the last active set of execution states
 		template<typename ExtraInsertOp>
-		void eclosure(std::size_t idx, SourceRef in, bool next_token_isnt_white_separated, ExtraInsertOp op)
+		void eclosure(std::size_t idx, SourceRef in, bool next_token_isnt_white_separated, const context_type &c, ExtraInsertOp op)
 		{
 			chart_item &v = the_chart[idx];
 			deletable_call_set t;
@@ -433,6 +433,10 @@ namespace grapenlp
 				//Process epsilon and inserting transitions
 				process_epsilon_transitions(x_s, x_s.q->outgoing_epsilon_transitions.begin(), x_s.q->outgoing_epsilon_transitions.end(), v, op);
 				process_inserting_transitions(x_s, x_s.q->outgoing_inserting_transitions.begin(), x_s.q->outgoing_inserting_transitions.end(), v, in, op);
+
+				//Process epsilon and inserting context transitions
+				process_epsilon_context_transitions(x_s, x_s.q->outgoing_epsilon_context_transitions.begin(), x_s.q->outgoing_epsilon_context_transitions.end(), v, c, op);
+				process_inserting_context_transitions(x_s, x_s.q->outgoing_inserting_context_transitions.begin(), x_s.q->outgoing_inserting_context_transitions.end(), v, in, c, op);
 
 				//Process no-blank epsilon and inserting transitions
 				//if there are no whites between the current (or input begin) and the next token (or input end)
@@ -599,7 +603,7 @@ namespace grapenlp
 		}
 
 		//Compute the r-translations of the input range [input_being, input_end) and add them to the set t
-		bool operator()(const machine& grammar, SourceRef input_begin, SourceRef input_end, bool hasnt_white_at_begin, bool hasnt_white_at_end)
+		bool operator()(const machine& grammar, SourceRef input_begin, SourceRef input_end, bool hasnt_white_at_begin, bool hasnt_white_at_end, const context_type &c)
 		{
 #ifdef TRACE
 			std::wcout << L"Begin parsing\n";
@@ -618,14 +622,14 @@ namespace grapenlp
 			{
 				build_initial_ses(grammar.initial_state(), hasnt_white_at_begin, ack_op);
 				//First token is white separated if there are trailing whites at the beginning
-				eclosure(0, input_begin, hasnt_white_at_begin, ack_op);
+				eclosure(0, input_begin, hasnt_white_at_begin, c, ack_op);
 			}
 			//Else build initial V[0] and the remaining V[i]
 			else
 			{
 				build_initial_ses(grammar.initial_state(), hasnt_white_at_begin, no_op);
 				//First token is white separated if there are trailing whites at the beginning
-				eclosure(0, input_begin, hasnt_white_at_begin, no_op);
+				eclosure(0, input_begin, hasnt_white_at_begin, c, no_op);
 
 				std::size_t idx(0);
 				//While the last chart item active set of execution states is not empty and there are input symbols left, compute the next chart item
@@ -639,7 +643,7 @@ namespace grapenlp
 					++input_begin_plus_1;
 					translate_symbol(idx, input_begin, no_op);
 					++idx;
-					eclosure(idx, input_begin_plus_1, (*input_begin)->end == (*input_begin_plus_1)->begin, no_op);
+					eclosure(idx, input_begin_plus_1, (*input_begin)->end == (*input_begin_plus_1)->begin, c, no_op);
 					++input_begin;
 				}
 
@@ -653,7 +657,7 @@ namespace grapenlp
 					translate_symbol(idx, input_begin, ack_op);
 					++idx;
 					//Next token is the input end... it is white separated if there are trailing whites at the end
-					eclosure(idx, input_begin_plus_1, hasnt_white_at_end, ack_op);
+					eclosure(idx, input_begin_plus_1, hasnt_white_at_end, c, ack_op);
 					++input_begin;
 				}
 			}

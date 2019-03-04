@@ -31,10 +31,10 @@
 
 namespace grapenlp
 {
-	template<typename InputIterator, typename SourceRef, assoc_container_impl_choice execution_state_set_impl_choice>
+	template<typename InputIterator, typename SourceRef, typename ContextKey, typename ContextValue, assoc_container_impl_choice execution_state_set_impl_choice>
 	struct lua_to_fprtn_top_parser_impl_selector
 	{
-		typedef to_fprtn_top_parser<typename lua_rtno<InputIterator>::type::tag_input, typename lua_rtno<InputIterator>::type::tag_output, SourceRef, execution_state_set_impl_choice> type;
+		typedef to_fprtn_top_parser<typename lua_rtno<InputIterator, typename context<ContextKey, ContextValue>::optimized_key, typename context<ContextKey, ContextValue>::optimized_value>::type::tag_input, typename lua_rtno<InputIterator, typename context<ContextKey, ContextValue>::optimized_key, typename context<ContextKey, ContextValue>::optimized_value>::type::tag_output, SourceRef, ContextKey, ContextValue, execution_state_set_impl_choice> type;
 
 	private:
 		//Constructor disabled; this is a typedef only struct

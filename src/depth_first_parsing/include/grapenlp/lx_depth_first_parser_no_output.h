@@ -32,18 +32,47 @@
 
 namespace grapenlp
 {
-	template<typename InputIterator, typename SourceRef, typename Id, typename StateConstRefStackPool>
+	template<typename InputIterator, typename SourceRef, typename ContextKey, typename ContextValue, typename Id, typename StateConstRefStackPool>
 #ifdef TRACE
-	struct lx_depth_first_parser_no_output: public depth_first_parser_no_output<typename lxns_rtno<InputIterator, Id>::type::tag_input, typename lx_rtno<InputIterator, Id>::type::tag_output, SourceRef, StateConstRefStackPool>
+	struct lx_depth_first_parser_no_output: public depth_first_parser_no_output<
+	        typename lxns_rtno<InputIterator, Id, typename context<ContextKey, ContextValue>::optimized_context_key, typename context<ContextKey, ContextValue>::optimized_context_value>::type::tag_input,
+	        typename lx_rtno<InputIterator, Id, typename context<ContextKey, ContextValue>::optimized_context_key, typename context<ContextKey, ContextValue>::optimized_context_value>::type::tag_output,
+	        SourceRef,
+	        ContextKey,
+	        ContextValue,
+	        StateConstRefStackPool
+	        >
 	{
-		typedef depth_first_parser_no_output<typename lxns_rtno<InputIterator, Id>::type::tag_input, typename lxns_rtno<InputIterator, Id>::type::tag_output, SourceRef, StateConstRefStackPool> base_type;
+		typedef depth_first_parser_no_output<
+                typename lxns_rtno<InputIterator, Id, typename context<ContextKey, ContextValue>::optimized_context_key, typename context<ContextKey, ContextValue>::optimized_context_value>::type::tag_input,
+                typename lx_rtno<InputIterator, Id, typename context<ContextKey, ContextValue>::optimized_context_key, typename context<ContextKey, ContextValue>::optimized_context_value>::type::tag_output,
+                SourceRef,
+                ContextKey,
+                ContextValue,
+                StateConstRefStackPool
+                > base_type;
 #else
-	struct lx_depth_first_parser_no_output: public depth_first_parser_no_output<typename lx_rtno<InputIterator, Id>::type::tag_input, typename lx_rtno<InputIterator, Id>::type::tag_output, SourceRef, StateConstRefStackPool>
+	struct lx_depth_first_parser_no_output: public depth_first_parser_no_output<
+	        typename lx_rtno<InputIterator, Id>::type::tag_input,
+	        typename lx_rtno<InputIterator, Id>::type::tag_output,
+	        SourceRef,
+	        ContextKey,
+	        ContextValue,
+	        StateConstRefStackPool
+	        >
 	{
-		typedef depth_first_parser_no_output<typename lx_rtno<InputIterator, Id>::type::tag_input, typename lx_rtno<InputIterator, Id>::type::tag_output, SourceRef, StateConstRefStackPool> base_type;
+		typedef depth_first_parser_no_output<
+	        typename lx_rtno<InputIterator, Id>::type::tag_input,
+	        typename lx_rtno<InputIterator, Id>::type::tag_output,
+	        SourceRef,
+	        ContextKey,
+	        ContextValue,
+	        StateConstRefStackPool
+	        > base_type;
 #endif
 		typedef typename base_type::machine machine;
 		typedef typename base_type::source_ref source_ref;
+        typedef typename base_type::context_type context_type;
 		typedef typename base_type::match match;
 
 		lx_depth_first_parser_no_output(): base_type()
@@ -51,31 +80,31 @@ namespace grapenlp
 		lx_depth_first_parser_no_output(match input_match_): base_type(input_match_)
 		{}
 
-		bool operator() (const machine& m, source_ref input_begin, source_ref input_end, bool hasnt_white_at_begin, bool hasnt_white_at_end)
-		{ return base_type::operator()(m, input_begin, input_end, hasnt_white_at_begin, hasnt_white_at_end); }
+		bool operator() (const machine& m, source_ref input_begin, source_ref input_end, bool hasnt_white_at_begin, bool hasnt_white_at_end, const context_type &c)
+		{ return base_type::operator()(m, input_begin, input_end, hasnt_white_at_begin, hasnt_white_at_end, c); }
 	};
 
-	template<typename InputIterator, typename SourceRef, typename Id, sequence_impl_choice sic>
+	template<typename InputIterator, typename SourceRef, typename ContextKey, typename ContextValue, typename Id, sequence_impl_choice sic>
 	struct lx_depth_first_parser_no_output_impl_selector
 	{};
 
-	template<typename InputIterator, typename SourceRef, typename Id>
-	struct lx_depth_first_parser_no_output_impl_selector<InputIterator, SourceRef, Id, ARRAYS>
+	template<typename InputIterator, typename SourceRef, typename ContextKey, typename ContextValue, typename Id>
+	struct lx_depth_first_parser_no_output_impl_selector<InputIterator, SourceRef, ContextKey, ContextValue, Id, ARRAYS>
 	{
 #ifdef TRACE
-		typedef lx_depth_first_parser_no_output<InputIterator, SourceRef, Id, array_fake_pool<typename lxns_rtno<InputIterator, Id>::type::state_const_ref> > type;
+		typedef lx_depth_first_parser_no_output<InputIterator, SourceRef, ContextKey, ContextValue, Id, array_fake_pool<typename lxns_rtno<InputIterator, Id, typename context<ContextKey, ContextValue>::optimized_context_key, typename context<ContextKey, ContextValue>::optimized_context_value>::type::state_const_ref> > type;
 #else
-		typedef lx_depth_first_parser_no_output<InputIterator, SourceRef, Id, array_fake_pool<typename lx_rtno<InputIterator, Id>::type::state_const_ref> > type;
+		typedef lx_depth_first_parser_no_output<InputIterator, SourceRef, ContextKey, ContextValue, Id, array_fake_pool<typename lx_rtno<InputIterator, Id, typename context<ContextKey, ContextValue>::optimized_context_key, typename context<ContextKey, ContextValue>::optimized_context_value>::type::state_const_ref> > type;
 #endif
 	};
 
-	template<typename InputIterator, typename SourceRef, typename Id>
-	struct lx_depth_first_parser_no_output_impl_selector<InputIterator, SourceRef, Id, TRIE_STRINGS>
+	template<typename InputIterator, typename SourceRef, typename ContextKey, typename ContextValue, typename Id>
+	struct lx_depth_first_parser_no_output_impl_selector<InputIterator, SourceRef, ContextKey, ContextValue, Id, TRIE_STRINGS>
 	{
 #ifdef TRACE
-		typedef lx_depth_first_parser_no_output<InputIterator, SourceRef, Id, trie_string_pool<typename lxns_rtno<InputIterator, Id>::type::state_const_ref> > type;
+		typedef lx_depth_first_parser_no_output<InputIterator, SourceRef, ContextKey, ContextValue, Id, trie_string_pool<typename lxns_rtno<InputIterator, Id, typename context<ContextKey, ContextValue>::optimized_context_key, typename context<ContextKey, ContextValue>::optimized_context_value>::type::state_const_ref> > type;
 #else
-		typedef lx_depth_first_parser_no_output<InputIterator, SourceRef, Id, trie_string_pool<typename lx_rtno<InputIterator, Id>::type::state_const_ref> > type;
+		typedef lx_depth_first_parser_no_output<InputIterator, SourceRef, ContextKey, ContextValue, Id, trie_string_pool<typename lx_rtno<InputIterator, Id, typename context<ContextKey, ContextValue>::optimized_context_key, typename context<ContextKey, ContextValue>::optimized_context_value>::type::state_const_ref> > type;
 #endif
 	};
 } //namespace grapenlp

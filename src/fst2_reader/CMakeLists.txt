@@ -51,6 +51,7 @@ target_include_directories(fst2_reader PUBLIC
 target_link_libraries(fst2_reader
         machine
         rtno
+        context
         fst2_constants
         )
 

@@ -251,7 +251,6 @@ namespace grapenlp
 		}
 
 		template<typename ExtraInsertOp>
-#ifdef TRACE
 		void process_epsilon_context_transitions(const execution_state &x_s, outgoing_epsilon_context_transition_set_iterator epsilon_context_transition_begin, outgoing_epsilon_context_transition_set_iterator epsilon_context_transition_end, const context_type &c, ExtraInsertOp op)
 		{
 			for (; epsilon_context_transition_begin != epsilon_context_transition_end; ++epsilon_context_transition_begin)
@@ -474,7 +473,7 @@ namespace grapenlp
 		}
 
 		//Compute the r-translations of the input range [input_being, input_end) and add them to the set t
-		blackboard_set& operator()(const machine& grammar, SourceRef input_begin, SourceRef input_end, bool hasnt_white_at_begin, bool hasnt_white_at_end, const context_type &c, blackboard_set &t, const context &c, const blackboard &empty_blackboard = blackboard())
+		blackboard_set& operator()(const machine& grammar, SourceRef input_begin, SourceRef input_end, bool hasnt_white_at_begin, bool hasnt_white_at_end, const context_type &c, blackboard_set &t, const blackboard &empty_blackboard = blackboard())
 		{
 #ifdef TRACE
 			std::wcout << L"Begin parsing\n";

@@ -272,7 +272,6 @@ namespace grapenlp
 		}
 
         template<typename ExtraInsertOp>
-#ifdef TRACE
         void process_inserting_context_transitions(const execution_state &x_s, outgoing_inserting_context_transition_set_iterator inserting_context_transition_begin, outgoing_inserting_context_transition_set_iterator inserting_context_transition_end, SourceRef in, const context_type &c, ExtraInsertOp op)
         {
             for (; inserting_context_transition_begin != inserting_context_transition_end; ++inserting_context_transition_begin)

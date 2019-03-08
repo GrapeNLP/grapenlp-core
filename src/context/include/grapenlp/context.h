@@ -47,16 +47,12 @@ namespace grapenlp
      * constant part of the context is reused as well in further analyses.
      * @tparam Char the character type of the context keys and values (e.g. unichar)
      */
-    template<typename Key, typename Value>
+    template<typename Char>
     class context
     {
     public:
-        typedef Key key;
-        typedef Value value;
-        typedef typename key::value_type key_char;
-        typedef typename value::value_type value_char;
-        typedef trie<key_char> key_dictionary;
-        typedef trie<value_char> value_dictionary;
+        typedef trie<Char> key_dictionary;
+        typedef trie<Char> value_dictionary;
         typedef typename key_dictionary::string::const_ref optimized_key;
         typedef typename value_dictionary::string::const_ref optimized_value;
         typedef std::map<optimized_key, optimized_value> map;
@@ -78,19 +74,27 @@ namespace grapenlp
         }
 
 
-        optimized_key get_optimized_key(const key &k)
+        template<typename KeyIterator>
+        optimized_key get_optimized_key(KeyIterator key_begin, KeyIterator key_end)
         {
-            return &keys.epsilon().concat(k.begin(), k.end());
+            return &keys.epsilon().concat(key_begin, key_end);
         }
 
-        optimized_value get_optimized_value(const value &v)
+        template<typename ValueIterator>
+        optimized_value get_optimized_value(ValueIterator value_begin, ValueIterator value_end)
         {
-            return &values.epsilon().concat(v.begin(), v.end());
+            return &values.epsilon().concat(value_begin, value_end);
         }
 
         void set(optimized_key k, optimized_value v)
         {
             the_map[k] = v;
+        }
+
+        template<typename KeyIterator, typename ValueIterator>
+        void set(KeyIterator key_begin, KeyIterator key_end, ValueIterator value_begin, ValueIterator value_end)
+        {
+            the_map[get_optimized_key(key_begin, key_end)] = get_optimized_value(value_begin, value_end);
         }
 
         bool equals(optimized_key k, optimized_value v) const
@@ -99,10 +103,22 @@ namespace grapenlp
             return it != the_map.end() && it->second == v;
         }
 
+        template<typename KeyIterator, typename ValueIterator>
+        bool equals(KeyIterator key_begin, KeyIterator key_end, ValueIterator value_begin, ValueIterator value_end)
+        {
+            return equals(get_optimized_key(key_begin, key_end), get_optimized_value(value_begin, value_end));
+        }
+
         bool not_equals(optimized_key k, optimized_value v) const
         {
             map_const_iterator it(the_map.find(k));
             return it == the_map.end() || it->second != v;
+        }
+
+        template<typename KeyIterator, typename ValueIterator>
+        bool not_equals(KeyIterator key_begin, KeyIterator key_end, ValueIterator value_begin, ValueIterator value_end)
+        {
+            return not_equals(get_optimized_key(key_begin, key_end), get_optimized_value(value_begin, value_end));
         }
 
         void clear_map()

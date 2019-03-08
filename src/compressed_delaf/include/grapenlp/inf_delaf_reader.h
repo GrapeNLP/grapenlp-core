@@ -63,7 +63,7 @@ namespace grapenlp
 	{
 		//Get entry count
 		std::size_t ambiguous_entry_count;
-//		std::wcout << "Reading ambiguous entry count: ";
+//		std::wcout << L"Reading ambiguous entry count: ";
 		u_fread_unsigned_int(f, ambiguous_entry_count);
 //		std::wcout << ambiguous_entry_count << std::endl;
 		//Reserve space for all the entries

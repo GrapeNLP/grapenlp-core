@@ -28,7 +28,6 @@ project(lexmask VERSION ${CHANGELOG_VERSION} LANGUAGES CXX)
 add_library(lexmask STATIC
         src/meta_code_dico.cpp
         src/lexmask.cpp
-        src/lexmask_and_coarse_type.cpp
         src/u_lexmask_factory.cpp
         src/lexmask_default_weight.cpp
         )

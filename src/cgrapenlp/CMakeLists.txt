@@ -28,6 +28,7 @@ project(cgrapenlp VERSION ${CHANGELOG_VERSION} LANGUAGES CXX)
 add_executable(cgrapenlp src/grapenlp.cpp)
 SET_TARGET_PROPERTIES(cgrapenlp PROPERTIES OUTPUT_NAME grapenlp)
 target_link_libraries(cgrapenlp
+        config
         grapenlp
         ${Boost_PROGRAM_OPTIONS_LIBRARY})
 

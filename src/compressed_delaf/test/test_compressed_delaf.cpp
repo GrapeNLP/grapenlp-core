@@ -66,7 +66,7 @@ int main(__attribute__((unused)) int argc, __attribute__((unused)) char **argv)
 
 	compressed_delaf dico;
 	u_read_compressed_dico(dico);
-	std::wcout << "Loaded compressed DELAF" << std::endl;
+	std::wcout << L"Loaded compressed DELAF" << std::endl;
 
 	print_ambiguous_entry(dico, a.begin(), a.end());
 	print_ambiguous_entry(dico, ame.begin(), ame.end());

@@ -81,13 +81,13 @@ int main(int argc, char **argv)
 	u_out_bound::trie uobt;
 	compressed_delaf dico;
 
-	std::wcout << "Reading dico" << std::endl;
+	std::wcout << L"Reading dico" << std::endl;
 	u_read_compressed_dico(dico);
-	std::wcout << "Reading grammar" << std::endl;
+	std::wcout << L"Reading grammar" << std::endl;
 	u_read_grammar(grammar, ualt, uobt, dico);
-	std::wcout << "Setting default weights" << std::endl;
+	std::wcout << L"Setting default weights" << std::endl;
 	lw_rtno_weight_tag<ua_input_iterator, ualuxiw_rtno::tag_output>(grammar);
-	std::wcout << "Converting grammar to dot" << std::endl;
+	std::wcout << L"Converting grammar to dot" << std::endl;
 
 	wofstream fout("../grammar.dot");
 	if (fout)

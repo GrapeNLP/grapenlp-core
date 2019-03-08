@@ -39,8 +39,8 @@ namespace grapenlp
 		u_text_dico_word_meta_mask_factory(u_text_delaf<CaseNormalizer> &dico_): dico(dico_)
 		{}
 
-		lexmask_and_coarse_type<InputIterator>* operator()(u_array::const_iterator meta_code_begin, u_array::const_iterator meta_code_end) const
-		{ return new lexmask_and_coarse_type<InputIterator>(new constrained_text_dico_word_meta_mask<InputIterator, CaseNormalizer>(dico, make_u_text_delaf_entry_filter<CaseNormalizer, u_array::const_iterator>(meta_code_begin, meta_code_end, dico)), CONSUMING); }
+		lexmask<InputIterator>* operator()(u_array::const_iterator meta_code_begin, u_array::const_iterator meta_code_end) const
+		{ return new constrained_text_dico_word_meta_mask<InputIterator, CaseNormalizer>(dico, make_u_text_delaf_entry_filter<CaseNormalizer, u_array::const_iterator>(meta_code_begin, meta_code_end, dico)); }
 	};
 } //namespace grapenlp
 

@@ -38,18 +38,17 @@ namespace grapenlp
      * is, the greater the weight. Transition weights that have been manually given are kept, enabling to manually
      * override the weight assignment.
      *
-     * @tparam InputIterator
-     * @tparam WeightedTagOutput
-     * @tparam ContextKey
-     * @tparam ContextValue
+     * @tparam InputIterator the type of the iterator over input characters
+     * @tparam WeightedTagOutput the type of the output part of weighted transition tags
+     * @tparam ContextMask the type of the context masks
      */
-	template<typename InputIterator, typename WeightedTagOutput, typename ContextKey, typename ContextValue>
+	template<typename InputIterator, typename WeightedTagOutput, typename ContextMask>
 	struct lw_rtno_weight_tagger
 	{
 		typedef	WeightedTagOutput weighted_tag_output;
 		typedef	typename weighted_tag_output_traits<weighted_tag_output>::weight weight;
 
-		typedef typename l_rtno<InputIterator, weighted_tag_output, ContextKey, ContextValue>::type machine;
+		typedef typename l_rtno<InputIterator, weighted_tag_output, ContextMask>::type machine;
 
 		typedef typename machine::state state;
 		typedef typename machine::state_ref_list state_ref_list;
@@ -71,9 +70,7 @@ namespace grapenlp
 #endif
 			lexmask_default_weight<InputIterator, weight> ldw;
 			state_ref_list_iterator s_ref_it;
-	//		typename outgoing_epsilon_transition_set::iterator outgoing_epsilon_transition_iterator;
 			typename outgoing_deleting_transition_set::iterator outgoing_deleting_transition_iterator;
-	//		typename outgoing_inserting_transition_set::iterator outgoing_inserting_transition_iterator;
 			typename outgoing_translating_transition_set::iterator outgoing_translating_transition_iterator;
 
 			//For each state
@@ -106,16 +103,16 @@ namespace grapenlp
 		}
 	};
 
-	template<typename InputIterator, typename WeightedTagOutput, typename ContextKey, typename ContextValue>
-	typename l_rtno<InputIterator, WeightedTagOutput, ContextKey, ContextValue>::type& lw_rtno_weight_tag(typename l_rtno<InputIterator, WeightedTagOutput, ContextKey, ContextValue>::type& machine)
+	template<typename InputIterator, typename WeightedTagOutput, typename ContextMask>
+	typename l_rtno<InputIterator, WeightedTagOutput, ContextMask>::type& lw_rtno_weight_tag(typename l_rtno<InputIterator, WeightedTagOutput, ContextMask>::type& machine)
 	{
-		return lw_rtno_weight_tagger<InputIterator, WeightedTagOutput, ContextKey, ContextValue>()(machine);
+		return lw_rtno_weight_tagger<InputIterator, WeightedTagOutput, ContextMask>()(machine);
 	}
 
-	template<typename InputIterator, typename WeightedTagOutput, typename ContextKey, typename ContextValue>
-	typename lns_rtno<InputIterator, WeightedTagOutput, ContextKey, ContextValue>::type& lwns_rtno_weight_tag(typename lns_rtno<InputIterator, WeightedTagOutput, ContextKey, ContextValue>::type& machine)
+	template<typename InputIterator, typename WeightedTagOutput, typename ContextMask>
+	typename lns_rtno<InputIterator, WeightedTagOutput, ContextMask>::type& lwns_rtno_weight_tag(typename lns_rtno<InputIterator, WeightedTagOutput, ContextMask>::type& machine)
 	{
-		return lw_rtno_weight_tagger<InputIterator, WeightedTagOutput, ContextKey, ContextValue>()(machine);
+		return lw_rtno_weight_tagger<InputIterator, WeightedTagOutput, ContextMask>()(machine);
 	}
 } //namespace grapenlp
 

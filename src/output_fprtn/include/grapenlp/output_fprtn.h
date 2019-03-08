@@ -47,16 +47,16 @@ namespace grapenlp
 {
 	enum output_fprtn_incoming_filtered_pop_transition_extra_data_choice {NO_OUTPUT_FPRTN_INCOMING_FILTERED_POP_TRANSITION_EXTRA_DATA, ZPPS_ITERATOR_OUTPUT_FPRTN_INCOMING_FILTERED_POP_TRANSITION_EXTRA_DATA};
 
-	template<typename ContextKey, typename ContextValue, typename SourceRef, typename TagInput, typename RTNOTagInput, assoc_container_impl_choice execution_state_set_impl_choice, output_fprtn_incoming_filtered_pop_transition_extra_data_choice edc, typename StateMappedExtraData>
+	template<typename ContextMask, typename SourceRef, typename TagInput, typename RTNOTagInput, assoc_container_impl_choice execution_state_set_impl_choice, output_fprtn_incoming_filtered_pop_transition_extra_data_choice edc, typename StateMappedExtraData>
 	class output_fprtn_state;
 
 	//Consuming transition types
-	template<typename ContextKey, typename ContextValue, typename SourceRef, typename TagInput, typename RTNOTagInput, assoc_container_impl_choice execution_state_set_impl_choice, output_fprtn_incoming_filtered_pop_transition_extra_data_choice edc, typename StateMappedExtraData>
+	template<typename ContextMask, typename SourceRef, typename TagInput, typename RTNOTagInput, assoc_container_impl_choice execution_state_set_impl_choice, output_fprtn_incoming_filtered_pop_transition_extra_data_choice edc, typename StateMappedExtraData>
 	struct output_fprtn_outgoing_consuming_transition
 	{
 		typedef StateMappedExtraData state_mapped_extra_data;
-		typedef output_fprtn_outgoing_consuming_transition<ContextKey, ContextValue, SourceRef, TagInput, RTNOTagInput, execution_state_set_impl_choice, edc, state_mapped_extra_data> this_type;
-		typedef output_fprtn_state<ContextKey, ContextValue, SourceRef, TagInput, RTNOTagInput, execution_state_set_impl_choice, edc, state_mapped_extra_data>* state_ref;
+		typedef output_fprtn_outgoing_consuming_transition<ContextMask, SourceRef, TagInput, RTNOTagInput, execution_state_set_impl_choice, edc, state_mapped_extra_data> this_type;
+		typedef output_fprtn_state<ContextMask, SourceRef, TagInput, RTNOTagInput, execution_state_set_impl_choice, edc, state_mapped_extra_data>* state_ref;
 
 		//We choose here a list instead of a set for optimization reasons;
 		//A set would ensure no consuming transitions are added twice;
@@ -88,12 +88,12 @@ namespace grapenlp
 */	};
 
 	//Epsilon transition types
-	template<typename ContextKey, typename ContextValue, typename SourceRef, typename TagInput, typename RTNOTagInput, assoc_container_impl_choice execution_state_set_impl_choice, output_fprtn_incoming_filtered_pop_transition_extra_data_choice edc, typename StateMappedExtraData>
+	template<typename ContextMask, typename SourceRef, typename TagInput, typename RTNOTagInput, assoc_container_impl_choice execution_state_set_impl_choice, output_fprtn_incoming_filtered_pop_transition_extra_data_choice edc, typename StateMappedExtraData>
 	struct output_fprtn_outgoing_epsilon_transition
 	{
 		typedef StateMappedExtraData state_mapped_extra_data;
-		typedef output_fprtn_outgoing_epsilon_transition<ContextKey, ContextValue, SourceRef, TagInput, RTNOTagInput, execution_state_set_impl_choice, edc, state_mapped_extra_data> this_type;
-		typedef output_fprtn_state<ContextKey, ContextValue, SourceRef, TagInput, RTNOTagInput, execution_state_set_impl_choice, edc, state_mapped_extra_data>* state_ref;
+		typedef output_fprtn_outgoing_epsilon_transition<ContextMask, SourceRef, TagInput, RTNOTagInput, execution_state_set_impl_choice, edc, state_mapped_extra_data> this_type;
+		typedef output_fprtn_state<ContextMask, SourceRef, TagInput, RTNOTagInput, execution_state_set_impl_choice, edc, state_mapped_extra_data>* state_ref;
 
 		//Epsilon transitions are never added twice; a list here is the best option
 		typedef std::list<this_type> set;
@@ -114,12 +114,12 @@ namespace grapenlp
 	};
 
 	//Call transition types
-	template<typename ContextKey, typename ContextValue, typename SourceRef, typename TagInput, typename RTNOTagInput, assoc_container_impl_choice execution_state_set_impl_choice, output_fprtn_incoming_filtered_pop_transition_extra_data_choice edc, typename StateMappedExtraData>
+	template<typename ContextMask, typename SourceRef, typename TagInput, typename RTNOTagInput, assoc_container_impl_choice execution_state_set_impl_choice, output_fprtn_incoming_filtered_pop_transition_extra_data_choice edc, typename StateMappedExtraData>
 	struct output_fprtn_outgoing_call_transition
 	{
 		typedef StateMappedExtraData state_mapped_extra_data;
-		typedef output_fprtn_outgoing_call_transition<ContextKey, ContextValue, SourceRef, TagInput, RTNOTagInput, execution_state_set_impl_choice, edc, state_mapped_extra_data> this_type;
-		typedef output_fprtn_state<ContextKey, ContextValue, SourceRef, TagInput, RTNOTagInput, execution_state_set_impl_choice, edc, state_mapped_extra_data>* state_ref;
+		typedef output_fprtn_outgoing_call_transition<ContextMask, SourceRef, TagInput, RTNOTagInput, execution_state_set_impl_choice, edc, state_mapped_extra_data> this_type;
+		typedef output_fprtn_state<ContextMask, SourceRef, TagInput, RTNOTagInput, execution_state_set_impl_choice, edc, state_mapped_extra_data>* state_ref;
 
 		//The parsing algorithm already ensures that no call transition is added twice; a list here is the best option
 		typedef std::list<this_type> set;
@@ -149,16 +149,16 @@ namespace grapenlp
 	//Instead of explicitly defining them, we deduce them from the presence of call transitions
 
 	//Filtered-pop transition types
-	template<typename ContextKey, typename ContextValue, typename SourceRef, typename TagInput, typename RTNOTagInput, assoc_container_impl_choice execution_state_set_impl_choice, output_fprtn_incoming_filtered_pop_transition_extra_data_choice edc, typename StateMappedExtraData>
+	template<typename ContextMask, typename SourceRef, typename TagInput, typename RTNOTagInput, assoc_container_impl_choice execution_state_set_impl_choice, output_fprtn_incoming_filtered_pop_transition_extra_data_choice edc, typename StateMappedExtraData>
 	struct output_fprtn_incoming_filtered_pop_transition;
 
-	template<typename ContextKey, typename ContextValue, typename SourceRef, typename TagInput, typename RTNOTagInput, assoc_container_impl_choice execution_state_set_impl_choice, output_fprtn_incoming_filtered_pop_transition_extra_data_choice edc, typename StateMappedExtraData>
+	template<typename ContextMask, typename SourceRef, typename TagInput, typename RTNOTagInput, assoc_container_impl_choice execution_state_set_impl_choice, output_fprtn_incoming_filtered_pop_transition_extra_data_choice edc, typename StateMappedExtraData>
 	struct output_fprtn_outgoing_filtered_pop_transition
 	{
 		typedef StateMappedExtraData state_mapped_extra_data;
-		typedef output_fprtn_outgoing_filtered_pop_transition<ContextKey, ContextValue, SourceRef, TagInput, RTNOTagInput, execution_state_set_impl_choice, edc, state_mapped_extra_data> this_type;
-		typedef output_fprtn_state<ContextKey, ContextValue, SourceRef, TagInput, RTNOTagInput, execution_state_set_impl_choice, edc, state_mapped_extra_data>* state_ref;
-		typedef output_fprtn_incoming_filtered_pop_transition<ContextKey, ContextValue, SourceRef, TagInput, RTNOTagInput, execution_state_set_impl_choice, edc, state_mapped_extra_data> incoming_filtered_pop_transition;
+		typedef output_fprtn_outgoing_filtered_pop_transition<ContextMask, SourceRef, TagInput, RTNOTagInput, execution_state_set_impl_choice, edc, state_mapped_extra_data> this_type;
+		typedef output_fprtn_state<ContextMask, SourceRef, TagInput, RTNOTagInput, execution_state_set_impl_choice, edc, state_mapped_extra_data>* state_ref;
+		typedef output_fprtn_incoming_filtered_pop_transition<ContextMask, SourceRef, TagInput, RTNOTagInput, execution_state_set_impl_choice, edc, state_mapped_extra_data> incoming_filtered_pop_transition;
 		typedef typename incoming_filtered_pop_transition::iterator incoming_filtered_pop_transition_iterator;
 		typedef std::list<this_type> set;
 		typedef typename set::iterator iterator;
@@ -177,17 +177,17 @@ namespace grapenlp
 //		{ return target < ofpt.target; }
 	};
 
-	template<typename ContextKey, typename ContextValue, typename SourceRef, typename TagInput, typename RTNOTagInput, assoc_container_impl_choice execution_state_set_impl_choice, output_fprtn_incoming_filtered_pop_transition_extra_data_choice edc, typename StateMappedExtraData>
+	template<typename ContextMask, typename SourceRef, typename TagInput, typename RTNOTagInput, assoc_container_impl_choice execution_state_set_impl_choice, output_fprtn_incoming_filtered_pop_transition_extra_data_choice edc, typename StateMappedExtraData>
 	struct output_fprtn_incoming_filtered_pop_transition
 	{};
 
-	template<typename ContextKey, typename ContextValue, typename SourceRef, typename TagInput, typename RTNOTagInput, assoc_container_impl_choice execution_state_set_impl_choice, typename StateMappedExtraData>
-	struct output_fprtn_incoming_filtered_pop_transition<ContextKey, ContextValue, SourceRef, TagInput, RTNOTagInput, execution_state_set_impl_choice, NO_OUTPUT_FPRTN_INCOMING_FILTERED_POP_TRANSITION_EXTRA_DATA, StateMappedExtraData>
+	template<typename ContextMask, typename SourceRef, typename TagInput, typename RTNOTagInput, assoc_container_impl_choice execution_state_set_impl_choice, typename StateMappedExtraData>
+	struct output_fprtn_incoming_filtered_pop_transition<ContextMask, SourceRef, TagInput, RTNOTagInput, execution_state_set_impl_choice, NO_OUTPUT_FPRTN_INCOMING_FILTERED_POP_TRANSITION_EXTRA_DATA, StateMappedExtraData>
 	{
 		typedef StateMappedExtraData state_mapped_extra_data;
-		typedef output_fprtn_incoming_filtered_pop_transition<ContextKey, ContextValue, SourceRef, TagInput, RTNOTagInput, execution_state_set_impl_choice, NO_OUTPUT_FPRTN_INCOMING_FILTERED_POP_TRANSITION_EXTRA_DATA, state_mapped_extra_data> this_type;
-		typedef output_fprtn_state<ContextKey, ContextValue, SourceRef, TagInput, RTNOTagInput, execution_state_set_impl_choice, NO_OUTPUT_FPRTN_INCOMING_FILTERED_POP_TRANSITION_EXTRA_DATA, state_mapped_extra_data>* state_ref;
-		typedef output_fprtn_outgoing_filtered_pop_transition<ContextKey, ContextValue, SourceRef, TagInput, RTNOTagInput, execution_state_set_impl_choice, NO_OUTPUT_FPRTN_INCOMING_FILTERED_POP_TRANSITION_EXTRA_DATA, state_mapped_extra_data> outgoing_filtered_pop_transition;
+		typedef output_fprtn_incoming_filtered_pop_transition<ContextMask, SourceRef, TagInput, RTNOTagInput, execution_state_set_impl_choice, NO_OUTPUT_FPRTN_INCOMING_FILTERED_POP_TRANSITION_EXTRA_DATA, state_mapped_extra_data> this_type;
+		typedef output_fprtn_state<ContextMask, SourceRef, TagInput, RTNOTagInput, execution_state_set_impl_choice, NO_OUTPUT_FPRTN_INCOMING_FILTERED_POP_TRANSITION_EXTRA_DATA, state_mapped_extra_data>* state_ref;
+		typedef output_fprtn_outgoing_filtered_pop_transition<ContextMask, SourceRef, TagInput, RTNOTagInput, execution_state_set_impl_choice, NO_OUTPUT_FPRTN_INCOMING_FILTERED_POP_TRANSITION_EXTRA_DATA, state_mapped_extra_data> outgoing_filtered_pop_transition;
 //		typedef typename outgoing_filtered_pop_transition::iterator outgoing_filtered_pop_transition_iterator;
 		typedef typename std::list<outgoing_filtered_pop_transition>::iterator outgoing_filtered_pop_transition_iterator;
 		typedef std::list<this_type> set;
@@ -207,29 +207,29 @@ namespace grapenlp
 //		{ return target < ofpt.target; }
 	};
 
-	template<typename ContextKey, typename ContextValue, typename SourceRef, typename TagInput, typename RTNOTagInput, assoc_container_impl_choice execution_state_set_impl_choice, output_fprtn_incoming_filtered_pop_transition_extra_data_choice edc, typename StateMappedExtraData>
+	template<typename ContextMask, typename SourceRef, typename TagInput, typename RTNOTagInput, assoc_container_impl_choice execution_state_set_impl_choice, output_fprtn_incoming_filtered_pop_transition_extra_data_choice edc, typename StateMappedExtraData>
 	struct output_fprtn_paused_execution_state_key;
 
-	template<typename ContextKey, typename ContextValue, typename SourceRef, typename TagInput, typename RTNOTagInput, assoc_container_impl_choice execution_state_set_impl_choice, output_fprtn_incoming_filtered_pop_transition_extra_data_choice edc, typename StateMappedExtraData>
+	template<typename ContextMask, typename SourceRef, typename TagInput, typename RTNOTagInput, assoc_container_impl_choice execution_state_set_impl_choice, output_fprtn_incoming_filtered_pop_transition_extra_data_choice edc, typename StateMappedExtraData>
 	struct output_fprtn_paused_execution_state_mapped;
 
-	template<typename ContextKey, typename ContextValue, typename SourceRef, typename TagInput, typename RTNOTagInput, assoc_container_impl_choice execution_state_set_impl_choice, output_fprtn_incoming_filtered_pop_transition_extra_data_choice edc, typename StateMappedExtraData>
+	template<typename ContextMask, typename SourceRef, typename TagInput, typename RTNOTagInput, assoc_container_impl_choice execution_state_set_impl_choice, output_fprtn_incoming_filtered_pop_transition_extra_data_choice edc, typename StateMappedExtraData>
 	struct output_fprtn_paused_execution_state;
 
-	template<typename ContextKey, typename ContextValue, typename SourceRef, typename TagInput, typename RTNOTagInput, assoc_container_impl_choice execution_state_set_impl_choice, typename StateMappedExtraData>
-	struct output_fprtn_incoming_filtered_pop_transition<ContextKey, ContextValue, SourceRef, TagInput, RTNOTagInput, execution_state_set_impl_choice, ZPPS_ITERATOR_OUTPUT_FPRTN_INCOMING_FILTERED_POP_TRANSITION_EXTRA_DATA, StateMappedExtraData>
+	template<typename ContextMask, typename SourceRef, typename TagInput, typename RTNOTagInput, assoc_container_impl_choice execution_state_set_impl_choice, typename StateMappedExtraData>
+	struct output_fprtn_incoming_filtered_pop_transition<ContextMask, SourceRef, TagInput, RTNOTagInput, execution_state_set_impl_choice, ZPPS_ITERATOR_OUTPUT_FPRTN_INCOMING_FILTERED_POP_TRANSITION_EXTRA_DATA, StateMappedExtraData>
 	{
 		typedef StateMappedExtraData state_mapped_extra_data;
-		typedef output_fprtn_incoming_filtered_pop_transition<ContextKey, ContextValue, SourceRef, TagInput, RTNOTagInput, execution_state_set_impl_choice, ZPPS_ITERATOR_OUTPUT_FPRTN_INCOMING_FILTERED_POP_TRANSITION_EXTRA_DATA, state_mapped_extra_data> this_type;
-		typedef output_fprtn_state<ContextKey, ContextValue, SourceRef, TagInput, RTNOTagInput, execution_state_set_impl_choice, ZPPS_ITERATOR_OUTPUT_FPRTN_INCOMING_FILTERED_POP_TRANSITION_EXTRA_DATA, state_mapped_extra_data>* state_ref;
-		typedef output_fprtn_outgoing_filtered_pop_transition<ContextKey, ContextValue, SourceRef, TagInput, RTNOTagInput, execution_state_set_impl_choice, ZPPS_ITERATOR_OUTPUT_FPRTN_INCOMING_FILTERED_POP_TRANSITION_EXTRA_DATA, state_mapped_extra_data> outgoing_filtered_pop_transition;
+		typedef output_fprtn_incoming_filtered_pop_transition<ContextMask, SourceRef, TagInput, RTNOTagInput, execution_state_set_impl_choice, ZPPS_ITERATOR_OUTPUT_FPRTN_INCOMING_FILTERED_POP_TRANSITION_EXTRA_DATA, state_mapped_extra_data> this_type;
+		typedef output_fprtn_state<ContextMask, SourceRef, TagInput, RTNOTagInput, execution_state_set_impl_choice, ZPPS_ITERATOR_OUTPUT_FPRTN_INCOMING_FILTERED_POP_TRANSITION_EXTRA_DATA, state_mapped_extra_data>* state_ref;
+		typedef output_fprtn_outgoing_filtered_pop_transition<ContextMask, SourceRef, TagInput, RTNOTagInput, execution_state_set_impl_choice, ZPPS_ITERATOR_OUTPUT_FPRTN_INCOMING_FILTERED_POP_TRANSITION_EXTRA_DATA, state_mapped_extra_data> outgoing_filtered_pop_transition;
 //		typedef typename outgoing_filtered_pop_transition::iterator outgoing_filtered_pop_transition_iterator;
 		typedef typename std::list<outgoing_filtered_pop_transition>::iterator outgoing_filtered_pop_transition_iterator;
 		typedef std::list<this_type> set;
 		typedef typename set::iterator iterator;
 
-		typedef output_fprtn_paused_execution_state_key<ContextKey, ContextValue, SourceRef, TagInput, RTNOTagInput, execution_state_set_impl_choice, ZPPS_ITERATOR_OUTPUT_FPRTN_INCOMING_FILTERED_POP_TRANSITION_EXTRA_DATA, state_mapped_extra_data> paused_execution_state_key;
-		typedef output_fprtn_paused_execution_state_mapped<ContextKey, ContextValue, SourceRef, TagInput, RTNOTagInput, execution_state_set_impl_choice, ZPPS_ITERATOR_OUTPUT_FPRTN_INCOMING_FILTERED_POP_TRANSITION_EXTRA_DATA, state_mapped_extra_data> paused_execution_state_mapped;
+		typedef output_fprtn_paused_execution_state_key<ContextMask, SourceRef, TagInput, RTNOTagInput, execution_state_set_impl_choice, ZPPS_ITERATOR_OUTPUT_FPRTN_INCOMING_FILTERED_POP_TRANSITION_EXTRA_DATA, state_mapped_extra_data> paused_execution_state_key;
+		typedef output_fprtn_paused_execution_state_mapped<ContextMask, SourceRef, TagInput, RTNOTagInput, execution_state_set_impl_choice, ZPPS_ITERATOR_OUTPUT_FPRTN_INCOMING_FILTERED_POP_TRANSITION_EXTRA_DATA, state_mapped_extra_data> paused_execution_state_mapped;
 		typedef typename map_impl_selector<execution_state_set_impl_choice, paused_execution_state_key, paused_execution_state_mapped>::type::iterator paused_execution_state_iterator;
 
 		TagInput input;
@@ -250,15 +250,15 @@ namespace grapenlp
 //		{ return target < ofpt.target; }
 	};
 
-	template<typename ContextKey, typename ContextValue, typename SourceRef, typename TagInput, typename RTNOTagInput, assoc_container_impl_choice execution_state_set_impl_choice>
-	struct output_fprtn_state_key: public earley_parser_no_output<RTNOTagInput, TagInput, SourceRef, ContextKey, ContextValue, execution_state_set_impl_choice>::active_execution_state
+	template<typename ContextMask, typename SourceRef, typename TagInput, typename RTNOTagInput, assoc_container_impl_choice execution_state_set_impl_choice>
+	struct output_fprtn_state_key: public earley_parser_no_output<RTNOTagInput, TagInput, SourceRef, execution_state_set_impl_choice>::active_execution_state
 	{
-		typedef typename earley_parser_no_output<RTNOTagInput, TagInput, SourceRef, ContextKey, ContextValue, execution_state_set_impl_choice>::active_execution_state base_type;
+		typedef typename earley_parser_no_output<RTNOTagInput, TagInput, SourceRef, execution_state_set_impl_choice>::active_execution_state base_type;
 
 #ifdef TRACE
-		typedef typename ns_rtno<RTNOTagInput, TagInput, typename context<ContextKey, ContextValue>::optimized_key, typename context<ContextKey, ContextValue>::optimized_value>::state::const_ref source_rtno_state_const_ref;
+		typedef typename ns_rtno<RTNOTagInput, TagInput, u_context_mask>::state::const_ref source_rtno_state_const_ref;
 #else
-		typedef typename rtno<RTNOTagInput, TagInput, typename context<ContextKey, ContextValue>::optimized_key, typename context<ContextKey, ContextValue>::optimized_value>::state::const_ref source_rtno_state_const_ref;
+		typedef typename rtno<RTNOTagInput, TagInput, u_context_mask>::state::const_ref source_rtno_state_const_ref;
 #endif
 
 		output_fprtn_state_key(): base_type()
@@ -279,21 +279,21 @@ namespace grapenlp
 		{ return base_type::q->is_final(); }
 	};
 
-	template<typename ContextKey, typename ContextValue, typename SourceRef, typename TagInput, typename RTNOTagInput, assoc_container_impl_choice execution_state_set_impl_choice, output_fprtn_incoming_filtered_pop_transition_extra_data_choice edc, typename StateMappedExtraData>
+	template<typename ContextMask, typename SourceRef, typename TagInput, typename RTNOTagInput, assoc_container_impl_choice execution_state_set_impl_choice, output_fprtn_incoming_filtered_pop_transition_extra_data_choice edc, typename StateMappedExtraData>
 	struct output_fprtn_state_mapped: public StateMappedExtraData
 	{
 		typedef StateMappedExtraData state_mapped_extra_data;
 		typedef state_mapped_extra_data base_type;
-		typedef typename output_fprtn_outgoing_consuming_transition<ContextKey, ContextValue, SourceRef, TagInput, RTNOTagInput, execution_state_set_impl_choice, edc, state_mapped_extra_data>::set outgoing_consuming_transition_set;
-		typedef typename output_fprtn_outgoing_consuming_transition<ContextKey, ContextValue, SourceRef, TagInput, RTNOTagInput, execution_state_set_impl_choice, edc, state_mapped_extra_data>::iterator outgoing_consuming_transition_iterator;
-		typedef typename output_fprtn_outgoing_epsilon_transition<ContextKey, ContextValue, SourceRef, TagInput, RTNOTagInput, execution_state_set_impl_choice, edc, state_mapped_extra_data>::set outgoing_epsilon_transition_set;
-		typedef typename output_fprtn_outgoing_epsilon_transition<ContextKey, ContextValue, SourceRef, TagInput, RTNOTagInput, execution_state_set_impl_choice, edc, state_mapped_extra_data>::iterator outgoing_epsilon_transition_iterator;
-		typedef typename output_fprtn_outgoing_call_transition<ContextKey, ContextValue, SourceRef, TagInput, RTNOTagInput, execution_state_set_impl_choice, edc, state_mapped_extra_data>::set outgoing_call_transition_set;
-		typedef typename output_fprtn_outgoing_call_transition<ContextKey, ContextValue, SourceRef, TagInput, RTNOTagInput, execution_state_set_impl_choice, edc, state_mapped_extra_data>::iterator outgoing_call_transition_iterator;
-		typedef typename output_fprtn_outgoing_filtered_pop_transition<ContextKey, ContextValue, SourceRef, TagInput, RTNOTagInput, execution_state_set_impl_choice, edc, state_mapped_extra_data>::set outgoing_filtered_pop_transition_set;
-		typedef typename output_fprtn_outgoing_filtered_pop_transition<ContextKey, ContextValue, SourceRef, TagInput, RTNOTagInput, execution_state_set_impl_choice, edc, state_mapped_extra_data>::iterator outgoing_filtered_pop_transition_iterator;
-		typedef typename output_fprtn_incoming_filtered_pop_transition<ContextKey, ContextValue, SourceRef, TagInput, RTNOTagInput, execution_state_set_impl_choice, edc, state_mapped_extra_data>::set incoming_filtered_pop_transition_set;
-		typedef typename output_fprtn_incoming_filtered_pop_transition<ContextKey, ContextValue, SourceRef, TagInput, RTNOTagInput, execution_state_set_impl_choice, edc, state_mapped_extra_data>::iterator incoming_filtered_pop_transition_iterator;
+		typedef typename output_fprtn_outgoing_consuming_transition<ContextMask, SourceRef, TagInput, RTNOTagInput, execution_state_set_impl_choice, edc, state_mapped_extra_data>::set outgoing_consuming_transition_set;
+		typedef typename output_fprtn_outgoing_consuming_transition<ContextMask, SourceRef, TagInput, RTNOTagInput, execution_state_set_impl_choice, edc, state_mapped_extra_data>::iterator outgoing_consuming_transition_iterator;
+		typedef typename output_fprtn_outgoing_epsilon_transition<ContextMask, SourceRef, TagInput, RTNOTagInput, execution_state_set_impl_choice, edc, state_mapped_extra_data>::set outgoing_epsilon_transition_set;
+		typedef typename output_fprtn_outgoing_epsilon_transition<ContextMask, SourceRef, TagInput, RTNOTagInput, execution_state_set_impl_choice, edc, state_mapped_extra_data>::iterator outgoing_epsilon_transition_iterator;
+		typedef typename output_fprtn_outgoing_call_transition<ContextMask, SourceRef, TagInput, RTNOTagInput, execution_state_set_impl_choice, edc, state_mapped_extra_data>::set outgoing_call_transition_set;
+		typedef typename output_fprtn_outgoing_call_transition<ContextMask, SourceRef, TagInput, RTNOTagInput, execution_state_set_impl_choice, edc, state_mapped_extra_data>::iterator outgoing_call_transition_iterator;
+		typedef typename output_fprtn_outgoing_filtered_pop_transition<ContextMask, SourceRef, TagInput, RTNOTagInput, execution_state_set_impl_choice, edc, state_mapped_extra_data>::set outgoing_filtered_pop_transition_set;
+		typedef typename output_fprtn_outgoing_filtered_pop_transition<ContextMask, SourceRef, TagInput, RTNOTagInput, execution_state_set_impl_choice, edc, state_mapped_extra_data>::iterator outgoing_filtered_pop_transition_iterator;
+		typedef typename output_fprtn_incoming_filtered_pop_transition<ContextMask, SourceRef, TagInput, RTNOTagInput, execution_state_set_impl_choice, edc, state_mapped_extra_data>::set incoming_filtered_pop_transition_set;
+		typedef typename output_fprtn_incoming_filtered_pop_transition<ContextMask, SourceRef, TagInput, RTNOTagInput, execution_state_set_impl_choice, edc, state_mapped_extra_data>::iterator incoming_filtered_pop_transition_iterator;
 
 #ifdef TRACE
 		char letter;
@@ -401,8 +401,8 @@ namespace grapenlp
 #endif
 	};
 
-	template<typename ContextKey, typename ContextValue, typename SourceRef, typename TagInput, typename RTNOTagInput, assoc_container_impl_choice execution_state_set_impl_choice, output_fprtn_incoming_filtered_pop_transition_extra_data_choice edc, typename StateMappedExtraData>
-	class output_fprtn_state: public std::pair<const output_fprtn_state_key<ContextKey, ContextValue, SourceRef, TagInput, RTNOTagInput, execution_state_set_impl_choice>, output_fprtn_state_mapped<ContextKey, ContextValue, SourceRef, TagInput, RTNOTagInput, execution_state_set_impl_choice, edc, StateMappedExtraData> >
+	template<typename ContextMask, typename SourceRef, typename TagInput, typename RTNOTagInput, assoc_container_impl_choice execution_state_set_impl_choice, output_fprtn_incoming_filtered_pop_transition_extra_data_choice edc, typename StateMappedExtraData>
+	class output_fprtn_state: public std::pair<const output_fprtn_state_key<ContextMask, SourceRef, TagInput, RTNOTagInput, execution_state_set_impl_choice>, output_fprtn_state_mapped<ContextMask, SourceRef, TagInput, RTNOTagInput, execution_state_set_impl_choice, edc, StateMappedExtraData> >
 	{
 	public:
 		typedef TagInput tag_input;
@@ -411,32 +411,32 @@ namespace grapenlp
 		typedef typename tag_serializer<tag_input>::type tag_input_serializer;
 #endif
 
-		typedef output_fprtn_outgoing_consuming_transition<ContextKey, ContextValue, SourceRef, TagInput, RTNOTagInput, execution_state_set_impl_choice, edc, state_mapped_extra_data> outgoing_consuming_transition;
+		typedef output_fprtn_outgoing_consuming_transition<ContextMask, SourceRef, TagInput, RTNOTagInput, execution_state_set_impl_choice, edc, state_mapped_extra_data> outgoing_consuming_transition;
 		typedef typename outgoing_consuming_transition::iterator outgoing_consuming_transition_iterator;
-		typedef output_fprtn_outgoing_epsilon_transition<ContextKey, ContextValue, SourceRef, TagInput, RTNOTagInput, execution_state_set_impl_choice, edc, state_mapped_extra_data> outgoing_epsilon_transition;
+		typedef output_fprtn_outgoing_epsilon_transition<ContextMask, SourceRef, TagInput, RTNOTagInput, execution_state_set_impl_choice, edc, state_mapped_extra_data> outgoing_epsilon_transition;
 		typedef typename outgoing_epsilon_transition::iterator outgoing_epsilon_transition_iterator;
-		typedef output_fprtn_outgoing_call_transition<ContextKey, ContextValue, SourceRef, TagInput, RTNOTagInput, execution_state_set_impl_choice, edc, state_mapped_extra_data> outgoing_call_transition;
+		typedef output_fprtn_outgoing_call_transition<ContextMask, SourceRef, TagInput, RTNOTagInput, execution_state_set_impl_choice, edc, state_mapped_extra_data> outgoing_call_transition;
 		typedef typename outgoing_call_transition::iterator outgoing_call_transition_iterator;
-		typedef output_fprtn_outgoing_filtered_pop_transition<ContextKey, ContextValue, SourceRef, TagInput, RTNOTagInput, execution_state_set_impl_choice, edc, state_mapped_extra_data> outgoing_filtered_pop_transition;
+		typedef output_fprtn_outgoing_filtered_pop_transition<ContextMask, SourceRef, TagInput, RTNOTagInput, execution_state_set_impl_choice, edc, state_mapped_extra_data> outgoing_filtered_pop_transition;
 		typedef typename outgoing_filtered_pop_transition::iterator outgoing_filtered_pop_transition_iterator;
-		typedef output_fprtn_incoming_filtered_pop_transition<ContextKey, ContextValue, SourceRef, TagInput, RTNOTagInput, execution_state_set_impl_choice, edc, state_mapped_extra_data> incoming_filtered_pop_transition;
+		typedef output_fprtn_incoming_filtered_pop_transition<ContextMask, SourceRef, TagInput, RTNOTagInput, execution_state_set_impl_choice, edc, state_mapped_extra_data> incoming_filtered_pop_transition;
 		typedef typename incoming_filtered_pop_transition::iterator incoming_filtered_pop_transition_iterator;
 
 #ifdef TRACE
-		typedef typename ns_rtno<RTNOTagInput, TagInput, typename context<ContextKey, ContextValue>::optimized_key, typename context<ContextKey, ContextValue>::optimized_value>::state::const_ref source_rtno_state_const_ref;
+		typedef typename ns_rtno<RTNOTagInput, TagInput, u_context_mask>::state::const_ref source_rtno_state_const_ref;
 #else
-		typedef typename rtno<RTNOTagInput, TagInput, typename context<ContextKey, ContextValue>::optimized_key, typename context<ContextKey, ContextValue>::optimized_value>::state::const_ref source_rtno_state_const_ref;
+		typedef typename rtno<RTNOTagInput, TagInput, u_context_mask>::state::const_ref source_rtno_state_const_ref;
 #endif
 		typedef output_fprtn_state* ref;
 		typedef const output_fprtn_state* const_ref;
-		typedef output_fprtn_state_key<ContextKey, ContextValue, SourceRef, TagInput, RTNOTagInput, execution_state_set_impl_choice> key;
-		typedef output_fprtn_state_mapped<ContextKey, ContextValue, SourceRef, TagInput, RTNOTagInput, execution_state_set_impl_choice, edc, state_mapped_extra_data> mapped;
+		typedef output_fprtn_state_key<ContextMask, SourceRef, TagInput, RTNOTagInput, execution_state_set_impl_choice> key;
+		typedef output_fprtn_state_mapped<ContextMask, SourceRef, TagInput, RTNOTagInput, execution_state_set_impl_choice, edc, state_mapped_extra_data> mapped;
 		typedef std::pair<const key, mapped> base_type;
 		typedef typename map_impl_selector<execution_state_set_impl_choice, key, mapped>::type map;
 
-		typedef output_fprtn_paused_execution_state_key<ContextKey, ContextValue, SourceRef, TagInput, RTNOTagInput, execution_state_set_impl_choice, edc, state_mapped_extra_data> paused_execution_state_key;
-		typedef output_fprtn_paused_execution_state_mapped<ContextKey, ContextValue, SourceRef, TagInput, RTNOTagInput, execution_state_set_impl_choice, edc, state_mapped_extra_data> paused_execution_state_mapped;
-		typedef output_fprtn_paused_execution_state<ContextKey, ContextValue, SourceRef, TagInput, RTNOTagInput, execution_state_set_impl_choice, edc, state_mapped_extra_data> paused_execution_state;
+		typedef output_fprtn_paused_execution_state_key<ContextMask, SourceRef, TagInput, RTNOTagInput, execution_state_set_impl_choice, edc, state_mapped_extra_data> paused_execution_state_key;
+		typedef output_fprtn_paused_execution_state_mapped<ContextMask, SourceRef, TagInput, RTNOTagInput, execution_state_set_impl_choice, edc, state_mapped_extra_data> paused_execution_state_mapped;
+		typedef output_fprtn_paused_execution_state<ContextMask, SourceRef, TagInput, RTNOTagInput, execution_state_set_impl_choice, edc, state_mapped_extra_data> paused_execution_state;
 		typedef typename map_impl_selector<execution_state_set_impl_choice, paused_execution_state_key, paused_execution_state_mapped>::type::iterator paused_execution_state_iterator;
 
 		output_fprtn_state(
@@ -685,16 +685,16 @@ namespace grapenlp
 #endif
 	};
 
-	template<typename ContextKey, typename ContextValue, typename SourceRef, typename TagInput, typename RTNOTagInput, assoc_container_impl_choice execution_state_set_impl_choice, output_fprtn_incoming_filtered_pop_transition_extra_data_choice edc, typename StateMappedExtraData>
-	struct output_fprtn_paused_execution_state_key: public earley_parser_no_output<RTNOTagInput, TagInput, SourceRef, ContextKey, ContextValue, execution_state_set_impl_choice>::paused_execution_state
+	template<typename ContextMask, typename SourceRef, typename TagInput, typename RTNOTagInput, assoc_container_impl_choice execution_state_set_impl_choice, output_fprtn_incoming_filtered_pop_transition_extra_data_choice edc, typename StateMappedExtraData>
+	struct output_fprtn_paused_execution_state_key: public earley_parser_no_output<RTNOTagInput, TagInput, SourceRef, execution_state_set_impl_choice>::paused_execution_state
 	{
 		typedef StateMappedExtraData state_mapped_extra_data;
-		typedef typename earley_parser_no_output<RTNOTagInput, TagInput, SourceRef, ContextKey, ContextValue, execution_state_set_impl_choice>::paused_execution_state base_type;
-		typedef output_fprtn_state<ContextKey, ContextValue, SourceRef, TagInput, RTNOTagInput, execution_state_set_impl_choice, edc, state_mapped_extra_data>* state_ref;
+		typedef typename earley_parser_no_output<RTNOTagInput, TagInput, SourceRef, execution_state_set_impl_choice>::paused_execution_state base_type;
+		typedef output_fprtn_state<ContextMask, SourceRef, TagInput, RTNOTagInput, execution_state_set_impl_choice, edc, state_mapped_extra_data>* state_ref;
 #ifdef TRACE
-		typedef typename ns_rtno<RTNOTagInput, TagInput, typename context<ContextKey, ContextValue>::optimized_key, typename context<ContextKey, ContextValue>::optimized_value>::state::const_ref source_rtno_state_const_ref;
+		typedef typename ns_rtno<RTNOTagInput, TagInput, u_context_mask>::state::const_ref source_rtno_state_const_ref;
 #else
-		typedef typename rtno<RTNOTagInput, TagInput, typename context<ContextKey, ContextValue>::optimized_key, typename context<ContextKey, ContextValue>::optimized_value>::state::const_ref source_rtno_state_const_ref;
+		typedef typename rtno<RTNOTagInput, TagInput, u_context_mask>::state::const_ref source_rtno_state_const_ref;
 #endif
 
 		state_ref r;
@@ -755,11 +755,11 @@ namespace grapenlp
 		}
 	};
 
-	template<typename ContextKey, typename ContextValue, typename SourceRef, typename TagInput, typename RTNOTagInput, assoc_container_impl_choice execution_state_set_impl_choice, output_fprtn_incoming_filtered_pop_transition_extra_data_choice edc, typename StateMappedExtraData>
+	template<typename ContextMask, typename SourceRef, typename TagInput, typename RTNOTagInput, assoc_container_impl_choice execution_state_set_impl_choice, output_fprtn_incoming_filtered_pop_transition_extra_data_choice edc, typename StateMappedExtraData>
 	struct output_fprtn_paused_execution_state_mapped
 	{
 		typedef StateMappedExtraData state_mapped_extra_data;
-		typedef output_fprtn_state<ContextKey, ContextValue, SourceRef, TagInput, RTNOTagInput, execution_state_set_impl_choice, edc, state_mapped_extra_data>* state_ref;
+		typedef output_fprtn_state<ContextMask, SourceRef, TagInput, RTNOTagInput, execution_state_set_impl_choice, edc, state_mapped_extra_data>* state_ref;
 
 		state_ref r_c;
 		std::size_t last_resumed_index;
@@ -775,18 +775,18 @@ namespace grapenlp
 
 	//7-tuple (q, r, q_c, r_c, q_h, i, last_resumed_index) in (Q X Q^prime X Q X Q^prime X Q X N X N)
 	//Earley_execution_state having a non-constant q_c field
-	template<typename ContextKey, typename ContextValue, typename SourceRef, typename TagInput, typename RTNOTagInput, assoc_container_impl_choice execution_state_set_impl_choice, output_fprtn_incoming_filtered_pop_transition_extra_data_choice edc, typename StateMappedExtraData>
-	struct output_fprtn_paused_execution_state: public std::pair<const output_fprtn_paused_execution_state_key<ContextKey, ContextValue, SourceRef, TagInput, RTNOTagInput, execution_state_set_impl_choice, edc, StateMappedExtraData>, output_fprtn_paused_execution_state_mapped<ContextKey, ContextValue, SourceRef, TagInput, RTNOTagInput, execution_state_set_impl_choice, edc, StateMappedExtraData> >
+	template<typename ContextMask, typename SourceRef, typename TagInput, typename RTNOTagInput, assoc_container_impl_choice execution_state_set_impl_choice, output_fprtn_incoming_filtered_pop_transition_extra_data_choice edc, typename StateMappedExtraData>
+	struct output_fprtn_paused_execution_state: public std::pair<const output_fprtn_paused_execution_state_key<ContextMask, SourceRef, TagInput, RTNOTagInput, execution_state_set_impl_choice, edc, StateMappedExtraData>, output_fprtn_paused_execution_state_mapped<ContextMask, SourceRef, TagInput, RTNOTagInput, execution_state_set_impl_choice, edc, StateMappedExtraData> >
 	{
 		typedef StateMappedExtraData state_mapped_extra_data;
-		typedef output_fprtn_state<ContextKey, ContextValue, SourceRef, TagInput, RTNOTagInput, execution_state_set_impl_choice, edc, state_mapped_extra_data>* state_ref;
+		typedef output_fprtn_state<ContextMask, SourceRef, TagInput, RTNOTagInput, execution_state_set_impl_choice, edc, state_mapped_extra_data>* state_ref;
 #ifdef TRACE
-		typedef typename ns_rtno<RTNOTagInput, TagInput, typename context<ContextKey, ContextValue>::optimized_key, typename context<ContextKey, ContextValue>::optimized_value>::state::const_ref source_rtno_state_const_ref;
+		typedef typename ns_rtno<RTNOTagInput, TagInput, u_context_mask>::state::const_ref source_rtno_state_const_ref;
 #else
-		typedef typename rtno<RTNOTagInput, TagInput, typename context<ContextKey, ContextValue>::optimized_key, typename context<ContextKey, ContextValue>::optimized_value>::state::const_ref source_rtno_state_const_ref;
+		typedef typename rtno<RTNOTagInput, TagInput, u_context_mask>::state::const_ref source_rtno_state_const_ref;
 #endif
-		typedef output_fprtn_paused_execution_state_key<ContextKey, ContextValue, SourceRef, TagInput, RTNOTagInput, execution_state_set_impl_choice, edc, state_mapped_extra_data> key;
-		typedef output_fprtn_paused_execution_state_mapped<ContextKey, ContextValue, SourceRef, TagInput, RTNOTagInput, execution_state_set_impl_choice, edc, state_mapped_extra_data> mapped;
+		typedef output_fprtn_paused_execution_state_key<ContextMask, SourceRef, TagInput, RTNOTagInput, execution_state_set_impl_choice, edc, state_mapped_extra_data> key;
+		typedef output_fprtn_paused_execution_state_mapped<ContextMask, SourceRef, TagInput, RTNOTagInput, execution_state_set_impl_choice, edc, state_mapped_extra_data> mapped;
 		typedef typename map_impl_selector<execution_state_set_impl_choice, key, mapped>::type map;
 		typedef std::pair<const key, mapped> base_type;
 		typedef output_fprtn_paused_execution_state* ref;
@@ -819,20 +819,20 @@ namespace grapenlp
 #endif
 	};
 
-	template<typename ContextKey, typename ContextValue, typename SourceRef, typename TagInput, typename RTNOTagInput, assoc_container_impl_choice execution_state_set_impl_choice, output_fprtn_incoming_filtered_pop_transition_extra_data_choice edc, typename StateMappedExtraData>
+	template<typename ContextMask, typename SourceRef, typename TagInput, typename RTNOTagInput, assoc_container_impl_choice execution_state_set_impl_choice, output_fprtn_incoming_filtered_pop_transition_extra_data_choice edc, typename StateMappedExtraData>
 	struct output_fprtn_chart_item
 	{
 		typedef StateMappedExtraData state_mapped_extra_data;
-		typedef output_fprtn_state<ContextKey, ContextValue, SourceRef, TagInput, RTNOTagInput, execution_state_set_impl_choice, edc, state_mapped_extra_data> state;
+		typedef output_fprtn_state<ContextMask, SourceRef, TagInput, RTNOTagInput, execution_state_set_impl_choice, edc, state_mapped_extra_data> state;
 		typedef typename state::map state_map;
 		typedef typename state_map::iterator state_iterator;
 		typedef typename state_map::const_iterator state_const_iterator;
-		typedef output_fprtn_paused_execution_state<ContextKey, ContextValue, SourceRef, TagInput, RTNOTagInput, execution_state_set_impl_choice, edc, state_mapped_extra_data> paused_execution_state;
+		typedef output_fprtn_paused_execution_state<ContextMask, SourceRef, TagInput, RTNOTagInput, execution_state_set_impl_choice, edc, state_mapped_extra_data> paused_execution_state;
 		typedef typename paused_execution_state::map paused_execution_state_map;
 #ifdef TRACE
-		typedef typename ns_rtno<RTNOTagInput, TagInput, typename context<ContextKey, ContextValue>::optimized_key, typename context<ContextKey, ContextValue>::optimized_value>::state::const_ref source_rtno_state_const_ref;
+		typedef typename ns_rtno<RTNOTagInput, TagInput, u_context_mask>::state::const_ref source_rtno_state_const_ref;
 #else
-		typedef typename rtno<RTNOTagInput, TagInput, typename context<ContextKey, ContextValue>::optimized_key, typename context<ContextKey, ContextValue>::optimized_value>::state::const_ref source_rtno_state_const_ref;
+		typedef typename rtno<RTNOTagInput, TagInput, u_context_mask>::state::const_ref source_rtno_state_const_ref;
 #endif
 
 		state_map other_states;
@@ -892,12 +892,12 @@ namespace grapenlp
 */
 	};
 
-	template<typename ContextKey, typename ContextValue, typename SourceRef, typename TagInput, typename RTNOTagInput, assoc_container_impl_choice execution_state_set_impl_choice, output_fprtn_incoming_filtered_pop_transition_extra_data_choice edc = NO_OUTPUT_FPRTN_INCOMING_FILTERED_POP_TRANSITION_EXTRA_DATA, typename StateMappedExtraData = empty_class>
+	template<typename ContextMask, typename SourceRef, typename TagInput, typename RTNOTagInput, assoc_container_impl_choice execution_state_set_impl_choice, output_fprtn_incoming_filtered_pop_transition_extra_data_choice edc = NO_OUTPUT_FPRTN_INCOMING_FILTERED_POP_TRANSITION_EXTRA_DATA, typename StateMappedExtraData = empty_class>
 	class output_fprtn
 	{
 	public:
 		typedef StateMappedExtraData state_mapped_extra_data;
-		typedef output_fprtn<ContextKey, ContextValue, SourceRef, TagInput, RTNOTagInput, execution_state_set_impl_choice, edc> this_type;
+		typedef output_fprtn<ContextMask, SourceRef, TagInput, RTNOTagInput, execution_state_set_impl_choice, edc> this_type;
 		typedef SourceRef source_ref;
 		typedef typename source_ref::value_type input;
 		typedef TagInput tag_input;
@@ -905,30 +905,30 @@ namespace grapenlp
 #ifdef TRACE
 		typedef typename tag_serializer<input>::type input_serializer;
 		typedef typename tag_serializer<tag_input>::type tag_input_serializer;
-		typedef ns_rtno<RTNOTagInput, TagInput, typename context<ContextKey, ContextValue>::optimized_key, typename context<ContextKey, ContextValue>::optimized_value> source_rtno;
+		typedef ns_rtno<RTNOTagInput, TagInput, u_context_mask> source_rtno;
 #else
-		typedef rtno<RTNOTagInput, TagInput, typename context<ContextKey, ContextValue>::optimized_key, typename context<ContextKey, ContextValue>::optimized_value> source_rtno;
+		typedef rtno<RTNOTagInput, TagInput, u_context_mask> source_rtno;
 #endif
 		typedef typename source_rtno::state source_rtno_state;
 		typedef typename source_rtno_state::const_ref source_rtno_state_const_ref;
 
-		typedef output_fprtn_outgoing_consuming_transition<ContextKey, ContextValue, SourceRef, TagInput, RTNOTagInput, execution_state_set_impl_choice, edc, state_mapped_extra_data> outgoing_consuming_transition;
+		typedef output_fprtn_outgoing_consuming_transition<ContextMask, SourceRef, TagInput, RTNOTagInput, execution_state_set_impl_choice, edc, state_mapped_extra_data> outgoing_consuming_transition;
 		typedef typename outgoing_consuming_transition::set outgoing_consuming_transition_set;
 		typedef typename outgoing_consuming_transition::iterator outgoing_consuming_transition_iterator;
-		typedef output_fprtn_outgoing_epsilon_transition<ContextKey, ContextValue, SourceRef, TagInput, RTNOTagInput, execution_state_set_impl_choice, edc, state_mapped_extra_data> outgoing_epsilon_transition;
+		typedef output_fprtn_outgoing_epsilon_transition<ContextMask, SourceRef, TagInput, RTNOTagInput, execution_state_set_impl_choice, edc, state_mapped_extra_data> outgoing_epsilon_transition;
 		typedef typename outgoing_epsilon_transition::set outgoing_epsilon_transition_set;
 		typedef typename outgoing_epsilon_transition::iterator outgoing_epsilon_transition_iterator;
-		typedef output_fprtn_outgoing_call_transition<ContextKey, ContextValue, SourceRef, TagInput, RTNOTagInput, execution_state_set_impl_choice, edc, state_mapped_extra_data> outgoing_call_transition;
+		typedef output_fprtn_outgoing_call_transition<ContextMask, SourceRef, TagInput, RTNOTagInput, execution_state_set_impl_choice, edc, state_mapped_extra_data> outgoing_call_transition;
 		typedef typename outgoing_call_transition::set outgoing_call_transition_set;
 		typedef typename outgoing_call_transition::iterator outgoing_call_transition_iterator;
-		typedef output_fprtn_outgoing_filtered_pop_transition<ContextKey, ContextValue, SourceRef, TagInput, RTNOTagInput, execution_state_set_impl_choice, edc, state_mapped_extra_data> outgoing_filtered_pop_transition;
+		typedef output_fprtn_outgoing_filtered_pop_transition<ContextMask, SourceRef, TagInput, RTNOTagInput, execution_state_set_impl_choice, edc, state_mapped_extra_data> outgoing_filtered_pop_transition;
 		typedef typename outgoing_filtered_pop_transition::set outgoing_filtered_pop_transition_set;
 		typedef typename outgoing_filtered_pop_transition::iterator outgoing_filtered_pop_transition_iterator;
-		typedef output_fprtn_incoming_filtered_pop_transition<ContextKey, ContextValue, SourceRef, TagInput, RTNOTagInput, execution_state_set_impl_choice, edc, state_mapped_extra_data> incoming_filtered_pop_transition;
+		typedef output_fprtn_incoming_filtered_pop_transition<ContextMask, SourceRef, TagInput, RTNOTagInput, execution_state_set_impl_choice, edc, state_mapped_extra_data> incoming_filtered_pop_transition;
 		typedef typename incoming_filtered_pop_transition::set incoming_filtered_pop_transition_set;
 		typedef typename incoming_filtered_pop_transition::iterator incoming_filtered_pop_transition_iterator;
 
-		typedef output_fprtn_state<ContextKey, ContextValue, SourceRef, TagInput, RTNOTagInput, execution_state_set_impl_choice, edc, state_mapped_extra_data> state;
+		typedef output_fprtn_state<ContextMask, SourceRef, TagInput, RTNOTagInput, execution_state_set_impl_choice, edc, state_mapped_extra_data> state;
 		typedef typename state::key state_key;
 		typedef typename state::mapped state_mapped;
 		typedef typename state::ref state_ref;
@@ -939,14 +939,14 @@ namespace grapenlp
 		typedef typename state_map::iterator state_iterator;
 		typedef typename state_map::const_iterator state_const_iterator;
 
-		typedef output_fprtn_paused_execution_state<ContextKey, ContextValue, SourceRef, TagInput, RTNOTagInput, execution_state_set_impl_choice, edc, state_mapped_extra_data> paused_execution_state;
+		typedef output_fprtn_paused_execution_state<ContextMask, SourceRef, TagInput, RTNOTagInput, execution_state_set_impl_choice, edc, state_mapped_extra_data> paused_execution_state;
 		typedef typename paused_execution_state::key paused_execution_state_key;
 		typedef typename paused_execution_state::mapped paused_execution_state_mapped;
 		typedef typename paused_execution_state::map paused_execution_state_map;
 		typedef typename paused_execution_state_map::iterator paused_execution_state_iterator;
 		typedef typename paused_execution_state_map::const_iterator paused_execution_state_const_iterator;
 
-		typedef output_fprtn_chart_item<ContextKey, ContextValue, SourceRef, TagInput, RTNOTagInput, execution_state_set_impl_choice, edc, state_mapped_extra_data> chart_item;
+		typedef output_fprtn_chart_item<ContextMask, SourceRef, TagInput, RTNOTagInput, execution_state_set_impl_choice, edc, state_mapped_extra_data> chart_item;
 
 		typedef array<chart_item> chart;
 		typedef typename chart::iterator chart_iterator;
@@ -1073,8 +1073,8 @@ namespace grapenlp
 		}*/
 	};
 
-	template<typename ContextKey, typename ContextValue, typename SourceRef, typename TagInput, typename RTNOTagInput, assoc_container_impl_choice execution_state_set_impl_choice>
-	bool operator== (const typename output_fprtn<ContextKey, ContextValue, SourceRef, TagInput, RTNOTagInput, execution_state_set_impl_choice>::state& q1, const typename output_fprtn<ContextKey, ContextValue, SourceRef, TagInput, RTNOTagInput, execution_state_set_impl_choice>::state& q2)
+	template<typename ContextMask, typename SourceRef, typename TagInput, typename RTNOTagInput, assoc_container_impl_choice execution_state_set_impl_choice>
+	bool operator== (const typename output_fprtn<ContextMask, SourceRef, TagInput, RTNOTagInput, execution_state_set_impl_choice>::state& q1, const typename output_fprtn<ContextMask, SourceRef, TagInput, RTNOTagInput, execution_state_set_impl_choice>::state& q2)
 	{ return &q1 == &q2; }
 
 /*	bool operator< (const typename output_fprtn<SourceRef, TagInput, RTNOTagInput>::state& q1, const typename output_fprtn<SourceRef, TagInput, RTNOTagInput>::state& q2)

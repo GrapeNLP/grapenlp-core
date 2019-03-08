@@ -43,15 +43,14 @@ namespace grapenlp
 	 * @tparam TagInput the type of the input tags (e.g. for letter RTNOs it would be unichar)
 	 * @tparam TagOutput the type of the output tags (e.g. for letter RTNOs it would be unichar)
 	 */
-	template<typename TagInput, typename TagOutput, typename ContextKey, typename ContextValue>
+	template<typename TagInput, typename TagOutput, typename ContextMask>
 	class rtno
 	{
 		public:
-			typedef rtno<TagInput, TagOutput, ContextKey,ContextValue> this_type;
+			typedef rtno<TagInput, TagOutput, ContextMask> this_type;
 			typedef TagInput tag_input;
 			typedef TagOutput tag_output;
-			typedef ContextKey context_key;
-			typedef ContextValue context_value;
+			typedef ContextMask context_mask;
 
 		class state;
 
@@ -128,15 +127,14 @@ namespace grapenlp
 		{
 			typedef	lrb_tree_set<outgoing_epsilon_context_transition> set;
 
-            context_key key;
-            context_value value;
+            const ContextMask &mask;
 			state* target;
 
 			/**
              * Constructor
              * @param target_ the pointer to the target state of this context_transition
              */
-			outgoing_epsilon_context_transition(context_key key_, context_value value_, state* target_): key(key_), value(value_), target(target_)
+			outgoing_epsilon_context_transition(const ContextMask &mask_, state* target_): mask(mask_), target(target_)
 			{}
 
 			/**
@@ -159,8 +157,7 @@ namespace grapenlp
 		{
 			typedef	lrb_tree_set<outgoing_inserting_context_transition> set;
 
-			context_key key;
-			context_value value;
+			const ContextMask &mask;
 			TagOutput output;
 			state* target;
 
@@ -169,7 +166,7 @@ namespace grapenlp
              * @param output_ the output tag of this context_transition
              * @param target_ the pointer to the target state of this context_transition
              */
-			outgoing_inserting_context_transition(context_key key_, context_value value_, const TagOutput &output_, state* target_): key(key_), value(value_), output(output_), target(target_)
+			outgoing_inserting_context_transition(const ContextMask &mask_, const TagOutput &output_, state* target_): mask(mask_), output(output_), target(target_)
 			{}
 
 			/**
@@ -179,6 +176,10 @@ namespace grapenlp
              */
 			bool operator< (const outgoing_inserting_context_transition &other) const
 			{
+				if (mask < other.mask)
+					return true;
+				if (other.mask < mask)
+					return false;
 				if (output < other.output)
 					return true;
 				if (other.output < output)
@@ -327,6 +328,9 @@ namespace grapenlp
 			outgoing_epsilon_transition_set outgoing_epsilon_transitions;
 			outgoing_inserting_transition_set outgoing_inserting_transitions;
 
+			outgoing_epsilon_context_transition_set outgoing_epsilon_context_transitions;
+			outgoing_inserting_context_transition_set outgoing_inserting_context_transitions;
+
 			outgoing_epsilon_transition_set outgoing_blank_epsilon_transitions;
 			outgoing_inserting_transition_set outgoing_blank_inserting_transitions;
 
@@ -346,6 +350,8 @@ namespace grapenlp
 				outgoing_translating_transitions(),
 				outgoing_epsilon_transitions(),
 				outgoing_inserting_transitions(),
+				outgoing_epsilon_context_transitions(),
+				outgoing_inserting_context_transitions(),
 				outgoing_blank_epsilon_transitions(),
 				outgoing_blank_inserting_transitions(),
 				outgoing_no_blank_epsilon_transitions(),
@@ -364,7 +370,7 @@ namespace grapenlp
             /**
              * Add an outgoing translating transition to this state
              * @param input the input tag of this transition
-             * @param output the output tag of the trantision
+             * @param output the output tag of the transition
              * @param target the pointer to the target state of the transition
              */
 			void add_translating_transition(const TagInput &input, const TagOutput &output, ref target)
@@ -378,12 +384,28 @@ namespace grapenlp
 			{ outgoing_epsilon_transitions.insert(target); }
 
             /**
-             * Add an inserting translating transition to this state
-             * @param output the output tag of the trantision
+             * Add an inserting transition to this state
+             * @param output the output tag of the transition
              * @param target the pointer to the target state of the transition
              */
 			void add_inserting_transition(const TagOutput& output, ref target)
 			{ outgoing_inserting_transitions.insert(outgoing_inserting_transition(output, target)); }
+
+			/**
+             * Add an outgoing epsilon context transition to this state
+             * @param target the output tag of the transition
+             */
+			void add_epsilon_context_transition(const ContextMask &mask, ref target)
+			{ outgoing_epsilon_context_transitions.insert(outgoing_epsilon_context_transition(mask, target)); }
+
+			/**
+             * Add an inserting context transition to this state
+             * @param mask the context mask of the transition
+             * @param output the output tag of the transition
+             * @param target the pointer to the target state of the transition
+             */
+			void add_inserting_context_transition(const ContextMask &mask, const TagOutput& output, ref target)
+			{ outgoing_inserting_context_transitions.insert(outgoing_inserting_context_transition(mask, output, target)); }
 
             /**
              * Add an outgoing blank epsilon transition to this state; these transitions do not consume input nor
@@ -398,7 +420,7 @@ namespace grapenlp
              * Add an outgoing blank generating transition to this state; these transitions do not consume input but
              * generate output and enforce that there is at least one white space between the last consumed input
              * token and the next one
-             * @param output the output tag of the trantision
+             * @param output the output tag of the transition
              * @param target the pointer to the target state of the transition
              */
 			void add_blank_inserting_transition(const TagOutput& output, ref target)
@@ -417,7 +439,7 @@ namespace grapenlp
              * Add an outgoing blank generating transition to this state; these transitions do not consume input but
              * generate output and enforce that there is no white space between the last consumed input token and the
              * next one
-             * @param output the output tag of the trantision
+             * @param output the output tag of the transition
              * @param target the pointer to the target state of the transition
              */
 			void add_no_blank_inserting_transition(const TagOutput& output, ref target)
@@ -446,6 +468,8 @@ namespace grapenlp
 					outgoing_translating_transitions.size() +
 					outgoing_epsilon_transitions.size() +
 					outgoing_inserting_transitions.size() +
+					outgoing_epsilon_context_transitions.size() +
+					outgoing_inserting_context_transitions.size() +
 					outgoing_blank_epsilon_transitions.size() +
 					outgoing_blank_inserting_transitions.size() +
 					outgoing_no_blank_epsilon_transitions.size() +
@@ -536,8 +560,8 @@ namespace grapenlp
      * @param q2 another state of this RTNO
      * @return whether q1 and q2 are the same state (the same state object)
      */
-	template<typename TagInput, typename TagOutput, typename ContextKey, typename ContextValue>
-	bool operator== (const typename rtno<TagInput, TagOutput, ContextKey, ContextValue>::state& q1, const typename rtno<TagInput, TagOutput, ContextKey, ContextValue>::state& q2)
+	template<typename TagInput, typename TagOutput, typename ContextMask>
+	bool operator== (const typename rtno<TagInput, TagOutput, ContextMask>::state& q1, const typename rtno<TagInput, TagOutput, ContextMask>::state& q2)
 	{
 		return &q1 == &q2;
 	}
@@ -551,8 +575,8 @@ namespace grapenlp
      * @param q2 another state of this RTNO
      * @return whether q1 is less than q2 (q1's pointer is less than q2's)
      */
-	template<typename TagInput, typename TagOutput, typename ContextKey, typename ContextValue>
-	bool operator< (const typename rtno<TagInput, TagOutput, ContextKey, ContextValue>::state& q1, const typename rtno<TagInput, TagOutput, ContextKey, ContextValue>::state& q2)
+	template<typename TagInput, typename TagOutput, typename ContextMask>
+	bool operator< (const typename rtno<TagInput, TagOutput, ContextMask>::state& q1, const typename rtno<TagInput, TagOutput, ContextMask>::state& q2)
 	{
 		return &q1 < &q2;
 	}
@@ -564,12 +588,12 @@ namespace grapenlp
 	 * @tparam TagInput the type of the input tags (e.g. for letter RTNOs it would be unichar)
 	 * @tparam TagOutput the type of the output tags (e.g. for letter RTNOs it would be unichar)
 	 */
-	template<typename TagInput, typename TagOutput, typename ContextKey, typename ContextValue>
-	class ns_rtno: public rtno<TagInput, TagOutput, ContextKey, ContextValue>
+	template<typename TagInput, typename TagOutput, typename ContextMask>
+	class ns_rtno: public rtno<TagInput, TagOutput, ContextMask>
 	{
 		public:
-			typedef ns_rtno<TagInput, TagOutput, ContextKey, ContextValue> this_type;
-			typedef rtno<TagInput, TagOutput, ContextKey, ContextValue> base_type;
+			typedef ns_rtno<TagInput, TagOutput, ContextMask> this_type;
+			typedef rtno<TagInput, TagOutput, ContextMask> base_type;
 //			typedef TagInput tag_input;
 //			typedef TagOutput tag_output;
 
@@ -870,14 +894,14 @@ namespace grapenlp
 		}
 	};
 /*
-	template<typename TagInput, typename TagOutput, typename ContextKey, typename ContextValue>
-	bool operator== (const typename ns_rtno<TagInput, TagOutput, ContextKey, ContextValue>::state& q1, const typename ns_rtno<TagInput, TagOutput, ContextKey, ContextValue>::state& q2)
+	template<typename TagInput, typename TagOutput, typename ContextMask>
+	bool operator== (const typename ns_rtno<TagInput, TagOutput, ContextMask>::state& q1, const typename ns_rtno<TagInput, TagOutput, ContextMask>::state& q2)
 	{
 		return &q1 == &q2;
 	}
 
-	template<typename TagInput, typename TagOutput, typename ContextKey, typename ContextValue>
-	bool operator< (const typename ns_rtno<TagInput, TagOutput, ContextKey, ContextValue>::state& q1, const typename ns_rtno<TagInput, TagOutput, ContextKey, ContextValue>::state& q2)
+	template<typename TagInput, typename TagOutput, typename ContextMask>
+	bool operator< (const typename ns_rtno<TagInput, TagOutput, ContextMask>::state& q1, const typename ns_rtno<TagInput, TagOutput, ContextMask>::state& q2)
 	{
 		return &q1 < &q2;
 	}

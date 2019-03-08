@@ -35,9 +35,9 @@ namespace grapenlp
 	 * Marks as useless every state of the output FPRTN that is not reversely reachable from the global acceptor state
 	 */
 	template<typename SourceRef, typename TagInput, typename RTNOTagInput, assoc_container_impl_choice execution_state_set_impl_choice>
-	std::size_t mark_unreachable_states_zpps(typename output_fprtn_zpps<SourceRef, TagInput, RTNOTagInput, execution_state_set_impl_choice>::type &m)
+	std::size_t mark_unreachable_states_zpps(typename output_fprtn_zpps<u_context_mask, SourceRef, TagInput, RTNOTagInput, execution_state_set_impl_choice>::type &m)
 	{
-		typedef typename output_fprtn_zpps<SourceRef, TagInput, RTNOTagInput, execution_state_set_impl_choice>::type machine;
+		typedef typename output_fprtn_zpps<u_context_mask, SourceRef, TagInput, RTNOTagInput, execution_state_set_impl_choice>::type machine;
 		typedef typename machine::state_ref state_ref;
 		typedef typename machine::state_ref_queue state_ref_queue;
 		typedef typename machine::outgoing_epsilon_transition_iterator outgoing_epsilon_transition_iterator;
@@ -54,7 +54,7 @@ namespace grapenlp
 		m.global_acceptor_state.second.idx = 0;
 		std::size_t useful_state_count(1);
 #ifdef TRACE
-		std::wcout << "start search of reversely reachable states from " << m.global_acceptor_state.second.wlabel() << std::endl;
+		std::wcout << L"start search of reversely reachable states from " << m.global_acceptor_state.second.wlabel() << std::endl;
 #endif
 		//And add the final state to the queue of states to process
 		pending_states.push(&m.global_acceptor_state);
@@ -72,7 +72,7 @@ namespace grapenlp
 				if (oconst_it->target->second.useless_flag)
 				{
 #ifdef TRACE
-					std::wcout << "reached state " << oconst_it->target->second.wlabel() << " from " << s->second.wlabel() << std::endl;
+					std::wcout << L"reached state " << oconst_it->target->second.wlabel() << " from " << s->second.wlabel() << std::endl;
 #endif
 					oconst_it->target->second.useless_flag = false;
 					oconst_it->target->second.ifptc = 0;
@@ -91,7 +91,7 @@ namespace grapenlp
 				if (oet_it->target->second.useless_flag)
 				{
 #ifdef TRACE
-					std::wcout << "reached state " << oet_it->target->second.wlabel() << " from " << s->second.wlabel() << std::endl;
+					std::wcout << L"reached state " << oet_it->target->second.wlabel() << " from " << s->second.wlabel() << std::endl;
 #endif
 					oet_it->target->second.useless_flag = false;
 					oet_it->target->second.ifptc = 0;
@@ -111,7 +111,7 @@ namespace grapenlp
 				{
 #ifdef TRACE
 
-					std::wcout << "reached state " << ocallt_it->target->second.wlabel() << " from " << s->second.wlabel() << std::endl;
+					std::wcout << L"reached state " << ocallt_it->target->second.wlabel() << " from " << s->second.wlabel() << std::endl;
 #endif
 					ocallt_it->target->second.useless_flag = false;
 					ocallt_it->target->second.ifptc = 0;
@@ -131,7 +131,7 @@ namespace grapenlp
 				{
 #ifdef TRACE
 
-					std::wcout << "reached state " << ifpt_it->target->second.wlabel() << " from " << s->second.wlabel() << std::endl;
+					std::wcout << L"reached state " << ifpt_it->target->second.wlabel() << " from " << s->second.wlabel() << std::endl;
 #endif
 					ifpt_it->target->second.useless_flag = false;
 					ifpt_it->target->second.ifptc = 0;
@@ -149,7 +149,7 @@ namespace grapenlp
 			}
 		}
 #ifdef TRACE
-		std::wcout << "Useful state count = " << useful_state_count << std::endl;
+		std::wcout << L"Useful state count = " << useful_state_count << std::endl;
 #endif
 		return useful_state_count;
 	}
@@ -160,10 +160,10 @@ namespace grapenlp
 	//global final state, thus by specifying this final state as argument for this method
 	//the OUTPUT_FPRTN will be pruned (every useless path will be deleted)
 	template<typename SourceRef, typename TagInput, typename RTNOTagInput, assoc_container_impl_choice execution_state_set_impl_choice>
-	std::size_t prune_zpps(typename output_fprtn_zpps<SourceRef, TagInput, RTNOTagInput, execution_state_set_impl_choice>::type &m)
+	std::size_t prune_zpps(typename output_fprtn_zpps<u_context_mask, SourceRef, TagInput, RTNOTagInput, execution_state_set_impl_choice>::type &m)
 	{
 #ifdef TRACE
-		std::wcout << "Begin removing unused paths\n";
+		std::wcout << L"Begin removing unused paths\n";
 #endif
 
 		//If there are no popping transitions towards the final state,
@@ -171,7 +171,7 @@ namespace grapenlp
 		if (m.global_acceptor_state.second.incoming_filtered_pop_transitions.empty())
 		{
 #ifdef TRACE
-			std::wcout << "OUTPUT_FPRTN cleared: no interpretations found\n";
+			std::wcout << L"OUTPUT_FPRTN cleared: no interpretations found\n";
 #endif
 			m.clear();
 #ifdef TRACE
@@ -181,11 +181,11 @@ namespace grapenlp
 			return 0;
 		}
 
-		std::size_t useful_state_count(mark_unreachable_states_zpps<SourceRef, TagInput, RTNOTagInput, execution_state_set_impl_choice>(m));
+		std::size_t useful_state_count(mark_unreachable_states_zpps<u_context_mask, SourceRef, TagInput, RTNOTagInput, execution_state_set_impl_choice>(m));
 		remove_unreachable_states(m);
 
 #ifdef TRACE
-		std::wcout << "End removing unused paths\n";
+		std::wcout << L"End removing unused paths\n";
 		write_fprtn_dot("parses", "../parses.dot", m);
 		write_inv_fprtn_dot("inv_parses", "../inv_parses.dot", m);
 #endif

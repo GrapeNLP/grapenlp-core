@@ -51,7 +51,7 @@ namespace grapenlp
 			if (i->sm.has_key(td.mms))
 			{
 #ifdef TRACE
-				std::wcout << "Discard MMS requests (not treated here but by the AIML rules)" << std::endl;
+				std::wcout << L"Discard MMS requests (not treated here but by the AIML rules)" << std::endl;
 #endif
 				return false;
 			}

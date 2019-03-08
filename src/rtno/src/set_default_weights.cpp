@@ -41,7 +41,7 @@ using namespace grapenlp;
 typedef u_array::const_iterator ua_input_iterator;
 typedef token<ua_input_iterator> ua_token;
 typedef ua_token::ref_list::const_iterator ua_token_iterator;
-typedef l_trie<unichar, ua_input_iterator> ual_trie;
+typedef ul_tag_input_trie<unichar, ua_input_iterator> ual_trie;
 typedef luxwns_rtno<ua_input_iterator, int>::type ualxiw_rtno;
 typedef ulxw_fst2_reader<ua_input_iterator, std::plus<int> > ualxiw_fst2_reader;
 
@@ -73,13 +73,13 @@ int main(__attribute__((unused)) int argc, __attribute__((unused)) char **argv)
 	u_out_bound::trie uobt;
 	tolower_u_text_delaf dico;
 
-	std::wcout << "Reading dico" << std::endl;
+	std::wcout << L"Reading dico" << std::endl;
 	u_read_dico(dico);
-	std::wcout << "Reading grammar" << std::endl;
+	std::wcout << L"Reading grammar" << std::endl;
 	u_read_grammar(grammar, ualt, uobt, dico);
-	std::wcout << "Setting default weights" << std::endl;
+	std::wcout << L"Setting default weights" << std::endl;
 	lw_rtno_weight_tag<ua_input_iterator, ualxiw_rtno::tag_output>(grammar);
-	std::wcout << "Converting grammar to dot" << std::endl;
+	std::wcout << L"Converting grammar to dot" << std::endl;
 
 	wofstream fout("../grammar.dot");
 	if (fout)

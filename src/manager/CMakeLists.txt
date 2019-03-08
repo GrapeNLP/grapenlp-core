@@ -35,7 +35,7 @@ target_include_directories(manager PUBLIC
 target_link_libraries(manager
         fst2_reader
         rtno_to_dot_serializer
-        parsing
+        common_parsing
         breadth_first_parsing
         earley_parsing
         to_fprtn_parsing

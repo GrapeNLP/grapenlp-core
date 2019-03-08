@@ -31,10 +31,10 @@
 
 namespace grapenlp
 {
-	template<typename SourceRef, typename Weight, typename InputIterator, assoc_container_impl_choice execution_state_set_impl_choice>
+	template<typename ContextMask, typename SourceRef, typename Weight, typename InputIterator, assoc_container_impl_choice execution_state_set_impl_choice>
 	struct luaw_output_fprtn_zpps
 	{
-		typedef typename uaw_output_fprtn_zpps<SourceRef, Weight, typename lexmask<InputIterator>::const_ref, execution_state_set_impl_choice>::type type;
+		typedef typename uaw_output_fprtn_zpps<ContextMask, SourceRef, Weight, typename lexmask<InputIterator>::const_ref, execution_state_set_impl_choice>::type type;
 
 	private:
 		luaw_output_fprtn_zpps()

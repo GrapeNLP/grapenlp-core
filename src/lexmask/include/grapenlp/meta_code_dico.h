@@ -33,7 +33,6 @@
 
 namespace grapenlp
 {
-	const std::array<unichar, 1> epsilon_meta_code = { {'E'} };
 	const std::array<unichar, 5> token_meta_code = { {'T', 'O', 'K', 'E', 'N'} };
 	const std::array<unichar, 3> word_meta_code = { {'M', 'O', 'T'} };
 	const std::array<unichar, 4> no_word_meta_code = { {'!', 'M', 'O', 'T'} };
@@ -54,7 +53,6 @@ namespace grapenlp
 		//Dictionary of lexical mask meta codes 
 		typedef u_trie base_type;
 
-		u_trie::string::ref epsilon_meta_code;
 		u_trie::string::ref token_meta_code;
 		u_trie::string::ref word_meta_code;
 		u_trie::string::ref no_word_meta_code;
@@ -70,7 +68,6 @@ namespace grapenlp
 		u_trie::string::ref no_dico_word_meta_code;
 
 		meta_code_dico(): base_type(),
-			epsilon_meta_code(&(base_type::epsilon_->concat(grapenlp::epsilon_meta_code.begin(), grapenlp::epsilon_meta_code.end()))),
 			token_meta_code(&(base_type::epsilon_->concat(grapenlp::token_meta_code.begin(), grapenlp::token_meta_code.end()))),
 			word_meta_code(&(base_type::epsilon_->concat(grapenlp::word_meta_code.begin(), grapenlp::word_meta_code.end()))),
 			no_word_meta_code(&(base_type::epsilon_->concat(grapenlp::no_word_meta_code.begin(), grapenlp::no_word_meta_code.end()))),
@@ -87,7 +84,7 @@ namespace grapenlp
 		{}
 	};
 
-	static meta_code_dico the_meta_code_dico = meta_code_dico();
+	static meta_code_dico the_meta_code_dico;
 } //namespace grapenlp
 
-#endif /*GRAPENLP_SRV_DICO_H*/
+#endif /*GRAPENLP_META_CODE_DICO_H*/

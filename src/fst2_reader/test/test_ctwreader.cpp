@@ -44,7 +44,7 @@ using namespace grapenlp;
 typedef u_array::const_iterator ua_input_iterator;
 typedef token<ua_input_iterator> ua_token;
 typedef ua_token::ref_list::const_iterator ua_token_iterator;
-typedef l_trie<unichar, ua_input_iterator> ual_trie;
+typedef ul_tag_input_trie<unichar, ua_input_iterator> ual_trie;
 #ifdef TRACE
 typedef lutwns_rtno<ua_input_iterator, float>::type ualutiw_rtno;
 #else
@@ -84,15 +84,15 @@ int main(__attribute__((unused)) int argc, __attribute__((unused)) char **argv)
 	u_trie ut;
 	compressed_delaf dico;
 
-	std::wcout << "Reading dico" << std::endl;
+	std::wcout << L"Reading dico" << std::endl;
 	u_read_compressed_dico(dico);
-	std::wcout << "Reading grammar" << std::endl;
+	std::wcout << L"Reading grammar" << std::endl;
 	u_read_grammar(grammar, ualt, ut, dico);
 
-    std::wcout << "Number of states: " << grammar.state_count() << std::endl;
-    std::wcout << "Number of transitions: " << grammar.transition_count() << std::endl;
+    std::wcout << L"Number of states: " << grammar.state_count() << std::endl;
+    std::wcout << L"Number of transitions: " << grammar.transition_count() << std::endl;
 #ifdef TRACE
-	wcout << "Converting grammar to dot" << std::endl;
+	wcout << L"Converting grammar to dot" << std::endl;
 	wofstream fout("../grammar.dot");
 
 	fout.imbue(std::locale(setlocale(LC_CTYPE, NULL)));

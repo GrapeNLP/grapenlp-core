@@ -313,7 +313,7 @@ namespace grapenlp
 					result.first->r_trans_it = target->incoming_consuming_transitions.insert(outgoing_consuming_transition(input, this, result.first)).first;
 				}
 #ifdef TRACE
-				else std::wcout << "Duplicated consuming\n";
+				else std::wcout << L"Duplicated consuming\n";
 #endif
 			}*/
 
@@ -323,7 +323,7 @@ namespace grapenlp
 #ifdef TRACE
 				std::wcout << L"add consuming transition (" << wlabel() << ", " << input << ", " << target->wlabel() << ")\n";
 				if (includes(outgoing_consuming_transitions.begin(), outgoing_consuming_transitions.end(), outgoing_consuming_transition(input, target)))
-						std::wcout << "Duplicated consuming transition\n";
+						std::wcout << L"Duplicated consuming transition\n";
 #endif
 
 				outgoing_consuming_transitions.push_back(outgoing_consuming_transition(input, target));
@@ -342,7 +342,7 @@ namespace grapenlp
 				if (result.second)
 					result.first->r_trans_it = target->incoming_epsilon_transitions.insert(outgoing_epsilon_transition(this, result.first)).first;
 #ifdef TRACE
-				else std::wcout << "Duplicated epsilon\n";
+				else std::wcout << L"Duplicated epsilon\n";
 #endif
 			}*/
 
@@ -352,7 +352,7 @@ namespace grapenlp
 #ifdef TRACE
 				std::wcout << L"add epsilon transition (" << wlabel() << ", <E>, " << target->wlabel() << ")\n";
 				if (includes(outgoing_epsilon_transitions.begin(), outgoing_epsilon_transitions.end(), outgoing_epsilon_transition(target)))
-						std::wcout << "Duplicated epsilon transition\n";
+						std::wcout << L"Duplicated epsilon transition\n";
 #endif
 				outgoing_epsilon_transitions.push_back(outgoing_epsilon_transition(target));
 				target->incoming_epsilon_transitions.push_back(outgoing_epsilon_transition(this, --outgoing_epsilon_transitions.end()));
@@ -369,7 +369,7 @@ namespace grapenlp
 				if (result.second)
 				{ result.first->r_trans_it = target->incoming_call_transitions.insert(outgoing_call_transition(called, this, result.first)).first; }
 #ifdef TRACE
-				else std::wcout << "Duplicated call\n";
+				else std::wcout << L"Duplicated call\n";
 #endif
 			}*/
 
@@ -378,7 +378,7 @@ namespace grapenlp
 #ifdef TRACE
 				std::wcout << L"add call transition (" << wlabel() << ", {" << called->wlabel() << "}, " << target->wlabel() << ")\n";
 				if (includes(outgoing_call_transitions.begin(), outgoing_call_transitions.end(), outgoing_call_transition(called, target)))
-						std::wcout << "Duplicated call transition\n";
+						std::wcout << L"Duplicated call transition\n";
 #endif
 				outgoing_call_transitions.push_back(outgoing_call_transition(called, target));
 				target->incoming_call_transitions.push_back(outgoing_call_transition(called, this, --outgoing_call_transitions.end()));
@@ -396,7 +396,7 @@ namespace grapenlp
 				if (result.second)
 					result.first->r_trans_it = target->incoming_filtered_pop_transitions.insert(outgoing_filtered_pop_transition(this, result.first)).first;
 #ifdef TRACE
-				else std::wcout << "Duplicated filtered pop\n";
+				else std::wcout << L"Duplicated filtered pop\n";
 #endif
 			}*/
 
@@ -407,7 +407,7 @@ namespace grapenlp
 				const wchar_t up_arrow(0x2191);
 				std::wcout << L"add filtered pop transition (" << wlabel() << ", " << target->wlabel() << up_arrow << ", " << target->wlabel() << ")\n";
 				if (includes(outgoing_filtered_pop_transitions.begin(), outgoing_filtered_pop_transitions.end(), outgoing_filtered_pop_transition(target)))
-						std::wcout << "Duplicated filtered_pop transition\n";
+						std::wcout << L"Duplicated filtered_pop transition\n";
 #endif
 				outgoing_filtered_pop_transitions.push_back(outgoing_filtered_pop_transition(target));
 				target->incoming_filtered_pop_transitions.push_back(incoming_filtered_pop_transition(this, --outgoing_filtered_pop_transitions.end()));

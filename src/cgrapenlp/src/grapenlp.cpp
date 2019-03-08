@@ -29,6 +29,7 @@
 #include <boost/lexical_cast.hpp>
 #include <boost/timer.hpp>
 
+#include <grapenlp/config.h>
 #include <grapenlp/ansi_text_attribute_codes.h>
 #include <grapenlp/stats.h>
 #include <grapenlp/ualxiw_manager.h>
@@ -472,6 +473,7 @@ int main(int argc, char **argv)
 	options_description desc("Options");
 	desc.add_options()
 		("help,h", "Display this information")
+		("version", "Print version number")
 		("desc-parser", "Print description of chosen parser")
 		("anbn,a", value<unsigned int>(), "-an take as input the sequence a^n b^n")
 		("corpus,c", "Input contains a set of sentences rather than a single one, an possibly other text to be omitted; each sentence must start and end by a '$' symbol (e.g.: [comment0]$sentence1$[comment1]$sentence2$[comment2]...")
@@ -540,9 +542,18 @@ int main(int argc, char **argv)
 
 	//Verify and extract arguments
 	if (argc == 1 || vm.count("help"))
-	{ help(program_name, desc); return 0; }
+	{
+	    help(program_name, desc);
+	    return 0;
+	}
 
-	bool is_anbn(vm.count("anbn"));
+    if (vm.count("version"))
+    {
+        std::cout << "GRAPENLP_VERSION_MAJOR.GRAPENLP_VERSION_MINOR.GRAPENLP_VERSION_PATCH" << std::endl;
+        return 0;
+    }
+
+    bool is_anbn(vm.count("anbn"));
 	bool is_corpus(vm.count("corpus"));
 	if (is_anbn && is_corpus)
 		fatal_error("Corpus input and a^n b^n input are mutually exclusive\n");
@@ -594,20 +605,20 @@ int main(int argc, char **argv)
 
 	if (!vm.count("grammar"))
 	{
-		std::wcout << "Unespecified grammar\n";
+		std::wcout << L"Unespecified grammar\n";
 		help(program_name, desc);
 		return 1;
 	}
 	if (!vm.count("dico"))
 	{
-		std::wcout << "Unespecified dictionary\n";
+		std::wcout << L"Unespecified dictionary\n";
 		help(program_name, desc);
 		return 1;
 	}
 	bool is_file_input(vm.count("input"));
 	if (!is_anbn && !is_file_input)
 	{
-		std::wcout << "Unespecified input\n";
+		std::wcout << L"Unespecified input\n";
 		help(program_name, desc);
 		return 1;
 	}
@@ -616,7 +627,7 @@ int main(int argc, char **argv)
 	else if (is_anbn)
 	if (!vm.count("output"))
 	{
-		std::wcout << "Unespecified output\n";
+		std::wcout << L"Unespecified output\n";
 		help(program_name, desc);
 		return 1;
 	}
@@ -714,7 +725,7 @@ int main(int argc, char **argv)
 
 	verify_requested_parser_is_not_disabled(grammar_type, the_parser_type, trie_strings, no_output, execution_state_set_impl_choice, output_set_impl_choice);
 	if (compute_fprtn_stats && !is_fprtn_based_parser(the_parser_type))
-		std::wcout << "The specified parser is not based on FPRTNs, so FPRTN sizes will not be computed\n";
+		std::wcout << L"The specified parser is not based on FPRTNs, so FPRTN sizes will not be computed\n";
 
 	if (vm.count("desc-parser"))
 	{
@@ -887,8 +898,8 @@ int main(int argc, char **argv)
 			if (invalid_sentence_count)
 			{
 				std::wcout << WANSI_BRIGHT_RED_FG << "*** Warning ***\n";
-				std::wcout << "Unexpected results obtained for " << invalid_sentence_count << " sentences of " << sentence_count << std::endl;
-				std::wcout << "Invalid sentences written in file " << validate_path_name.c_str() << WANSI_DEFAULT << std::endl;
+				std::wcout << L"Unexpected results obtained for " << invalid_sentence_count << " sentences of " << sentence_count << std::endl;
+				std::wcout << L"Invalid sentences written in file " << validate_path_name.c_str() << WANSI_DEFAULT << std::endl;
 			}
 			else std::wcout << WANSI_BRIGHT_GREEN_FG << "Validation 100% O.K." << WANSI_DEFAULT << std::endl;
 		}
@@ -969,54 +980,54 @@ int main(int argc, char **argv)
 		std::size_t total_sentences(sentence_count * total_repeats);
 		std::size_t total_parses(parse_count * total_repeats);
 		std::wcout.precision(12);
-		std::wcout << "Grammar states: " << the_manager.grammar_state_count() << std::endl;
-		std::wcout << "Grammar transitions: " << the_manager.grammar_transition_count() << std::endl;
+		std::wcout << L"Grammar states: " << the_manager.grammar_state_count() << std::endl;
+		std::wcout << L"Grammar transitions: " << the_manager.grammar_transition_count() << std::endl;
 		if (compute_fprtn_stats)
 		{
 			long double state_reduction_ratio(100.0L * pruned_output_fprtn_state_stats.mean() / output_fprtn_state_stats.mean());
 			long double transition_reduction_ratio(100.0L * pruned_output_fprtn_transition_stats.mean() / output_fprtn_transition_stats.mean());
 			if (is_corpus)
 			{
-				std::wcout << "Average FPRTN states " << output_fprtn_state_stats << std::endl;
-				std::wcout << "Average pruned FPRTN states " << pruned_output_fprtn_state_stats << std::endl;
-				std::wcout << "Average FPRTN transitions " << output_fprtn_transition_stats << std::endl;
-				std::wcout << "Average pruned FPRTN transitions " << pruned_output_fprtn_transition_stats << std::endl;
-				std::wcout << "Reduction ratio (states, transitions): (" << state_reduction_ratio << ", " << transition_reduction_ratio << ")\n";
+				std::wcout << L"Average FPRTN states " << output_fprtn_state_stats << std::endl;
+				std::wcout << L"Average pruned FPRTN states " << pruned_output_fprtn_state_stats << std::endl;
+				std::wcout << L"Average FPRTN transitions " << output_fprtn_transition_stats << std::endl;
+				std::wcout << L"Average pruned FPRTN transitions " << pruned_output_fprtn_transition_stats << std::endl;
+				std::wcout << L"Reduction ratio (states, transitions): (" << state_reduction_ratio << ", " << transition_reduction_ratio << ")\n";
 			}
 			else
 			{
-				std::wcout << "FPRTN states (before pruning, after pruning, reduction ratio): " << output_fprtn_state_stats.mean() << ", " << pruned_output_fprtn_state_stats.mean() << ", " << state_reduction_ratio << std::endl;
-				std::wcout << "FPRTN transitions (before pruning, after pruning, reduction ratio): " << output_fprtn_transition_stats.mean() << ", " << pruned_output_fprtn_transition_stats.mean() << ", " << transition_reduction_ratio << std::endl;
+				std::wcout << L"FPRTN states (before pruning, after pruning, reduction ratio): " << output_fprtn_state_stats.mean() << ", " << pruned_output_fprtn_state_stats.mean() << ", " << state_reduction_ratio << std::endl;
+				std::wcout << L"FPRTN transitions (before pruning, after pruning, reduction ratio): " << output_fprtn_transition_stats.mean() << ", " << pruned_output_fprtn_transition_stats.mean() << ", " << transition_reduction_ratio << std::endl;
 			}
 		}
-		std::wcout << "Input chars: " << sentence_char_count << std::endl;
-		std::wcout << "Input tokens: " << token_count << std::endl;
-		std::wcout << "Input sentences: " << sentence_count << std::endl;
-		std::wcout << "Input parses: " << parse_count << std::endl;
+		std::wcout << L"Input chars: " << sentence_char_count << std::endl;
+		std::wcout << L"Input tokens: " << token_count << std::endl;
+		std::wcout << L"Input sentences: " << sentence_count << std::endl;
+		std::wcout << L"Input parses: " << parse_count << std::endl;
 		if (token_count)
-			std::wcout << "Average chars per token: " << static_cast<long double>(sentence_char_count) / static_cast<long double>(token_count) << std::endl;
+			std::wcout << L"Average chars per token: " << static_cast<long double>(sentence_char_count) / static_cast<long double>(token_count) << std::endl;
 		if (is_corpus && sentence_count)
 		{
-			std::wcout << "Average tokens per sentence: " << static_cast<long double>(token_count) / static_cast<long double>(sentence_count) << std::endl;
-			std::wcout << "Average chars per sentence: " << static_cast<long double>(sentence_char_count) / static_cast<long double>(sentence_count) << std::endl;
-			std::wcout << "Average parses per sentence: " << static_cast<long double>(parse_count) / static_cast<long double>(sentence_count) << std::endl;
+			std::wcout << L"Average tokens per sentence: " << static_cast<long double>(token_count) / static_cast<long double>(sentence_count) << std::endl;
+			std::wcout << L"Average chars per sentence: " << static_cast<long double>(sentence_char_count) / static_cast<long double>(sentence_count) << std::endl;
+			std::wcout << L"Average parses per sentence: " << static_cast<long double>(parse_count) / static_cast<long double>(sentence_count) << std::endl;
 		}
 		if (rerepeats > 0)
 		{
-			std::wcout << "Total chars (x" << total_repeats << "): " << total_chars << std::endl;
-			std::wcout << "Total tokens (x" << total_repeats << "): " << total_tokens << std::endl;
-			std::wcout << "Total sentences (x" << total_repeats << "): " << total_sentences << std::endl;
+			std::wcout << L"Total chars (x" << total_repeats << "): " << total_chars << std::endl;
+			std::wcout << L"Total tokens (x" << total_repeats << "): " << total_tokens << std::endl;
+			std::wcout << L"Total sentences (x" << total_repeats << "): " << total_sentences << std::endl;
 			if (the_parser_type == TO_FPRTN_RTNO_PARSER || the_parser_type == TO_FPRTN_ZPPS_RTNO_PARSER)
-				std::wcout << "Total parses: not computed for this parsing algorithm" << std::endl;
-			else std::wcout << "Total parses (x" << total_repeats << "): " << total_parses << std::endl;
-			std::wcout << "Total elapsed seconds: " << global_timer.elapsed() << std::endl;
+				std::wcout << L"Total parses: not computed for this parsing algorithm" << std::endl;
+			else std::wcout << L"Total parses (x" << total_repeats << "): " << total_parses << std::endl;
+			std::wcout << L"Total elapsed seconds: " << global_timer.elapsed() << std::endl;
 		}
 		if (sentence_count && rerepeats)
 		{
-			std::wcout << "Average seconds per sentence: " << seconds_per_sentence_stats.mean() << std::endl;
-			std::wcout << "SD, CV%, P%, min, max: " << seconds_per_sentence_stats.std_dev() << ", " << seconds_per_sentence_stats.cv() << ", " << seconds_per_sentence_stats.p() << ", " << seconds_per_sentence_stats.min() << ", " << seconds_per_sentence_stats.max() << std::endl;
-			std::wcout << "Average sentences per second:" << WANSI_BRIGHT_RED_FG << WANSI_BLACK_BG << ' ' << sentences_per_second_stats.mean() << WANSI_DEFAULT << std::endl;
-			std::wcout << "SD, CV%, P%, min, max: " << sentences_per_second_stats.std_dev() << ", " << sentences_per_second_stats.cv() << ", " << sentences_per_second_stats.p() << ", " << sentences_per_second_stats.min() << ", " << sentences_per_second_stats.max() << std::endl;
+			std::wcout << L"Average seconds per sentence: " << seconds_per_sentence_stats.mean() << std::endl;
+			std::wcout << L"SD, CV%, P%, min, max: " << seconds_per_sentence_stats.std_dev() << ", " << seconds_per_sentence_stats.cv() << ", " << seconds_per_sentence_stats.p() << ", " << seconds_per_sentence_stats.min() << ", " << seconds_per_sentence_stats.max() << std::endl;
+			std::wcout << L"Average sentences per second:" << WANSI_BRIGHT_RED_FG << WANSI_BLACK_BG << ' ' << sentences_per_second_stats.mean() << WANSI_DEFAULT << std::endl;
+			std::wcout << L"SD, CV%, P%, min, max: " << sentences_per_second_stats.std_dev() << ", " << sentences_per_second_stats.cv() << ", " << sentences_per_second_stats.p() << ", " << sentences_per_second_stats.min() << ", " << sentences_per_second_stats.max() << std::endl;
 		}
 	}
 	return 0;

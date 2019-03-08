@@ -32,14 +32,14 @@
 
 namespace grapenlp
 {
-	template<typename ContextKey, typename ContextValue, typename SourceRef, typename TagInputSerializer, typename RTNOTagInput, assoc_container_impl_choice execution_state_set_impl_choice, output_fprtn_incoming_filtered_pop_transition_extra_data_choice edc, typename StateMappedExtraData>
+	template<typename ContextMask, typename SourceRef, typename TagInputSerializer, typename RTNOTagInput, assoc_container_impl_choice execution_state_set_impl_choice, output_fprtn_incoming_filtered_pop_transition_extra_data_choice edc, typename StateMappedExtraData>
 	struct inv_output_fprtn_to_dot_serializer
 	{
 		typedef StateMappedExtraData state_mapped_extra_data;
 		typedef TagInputSerializer tag_input_serializer;
 
 		typedef typename serializer_traits<tag_input_serializer>::elem_type tag_input;
-		typedef output_fprtn<ContextKey, ContextValue, SourceRef, tag_input, RTNOTagInput, execution_state_set_impl_choice, edc, state_mapped_extra_data> elem_type;
+		typedef output_fprtn<ContextMask, SourceRef, tag_input, RTNOTagInput, execution_state_set_impl_choice, edc, state_mapped_extra_data> elem_type;
 
 		typedef elem_type machine;
 		typedef typename machine::state state;
@@ -163,17 +163,17 @@ namespace grapenlp
 		}
 	};
 
-	template<typename ContextKey, typename ContextValue, typename SourceRef, typename TagInput, typename RTNOTagInput, assoc_container_impl_choice execution_state_set_impl_choice, output_fprtn_incoming_filtered_pop_transition_extra_data_choice edc, typename StateMappedExtraData, typename CharT, typename Traits>
-	std::basic_ostream<CharT, Traits>& inv_output_fprtn_to_dot_serialize(std::basic_ostream<CharT, Traits>& out, const char *output_fprtn_name, const output_fprtn<ContextKey, ContextValue, SourceRef, TagInput, RTNOTagInput, execution_state_set_impl_choice, edc, StateMappedExtraData> &the_output_fprtn)
-	{ return inv_output_fprtn_to_dot_serializer<ContextKey, ContextValue, SourceRef, typename tag_serializer<TagInput>::type, RTNOTagInput, execution_state_set_impl_choice, edc, StateMappedExtraData>()(out, output_fprtn_name, the_output_fprtn); }
+	template<typename ContextMask, typename SourceRef, typename TagInput, typename RTNOTagInput, assoc_container_impl_choice execution_state_set_impl_choice, output_fprtn_incoming_filtered_pop_transition_extra_data_choice edc, typename StateMappedExtraData, typename CharT, typename Traits>
+	std::basic_ostream<CharT, Traits>& inv_output_fprtn_to_dot_serialize(std::basic_ostream<CharT, Traits>& out, const char *output_fprtn_name, const output_fprtn<ContextMask, SourceRef, TagInput, RTNOTagInput, execution_state_set_impl_choice, edc, StateMappedExtraData> &the_output_fprtn)
+	{ return inv_output_fprtn_to_dot_serializer<ContextMask, SourceRef, typename tag_serializer<TagInput>::type, RTNOTagInput, execution_state_set_impl_choice, edc, StateMappedExtraData>()(out, output_fprtn_name, the_output_fprtn); }
 
-	template<typename ContextKey, typename ContextValue, typename SourceRef, typename TagInputSerializer, typename RTNOTagInput, assoc_container_impl_choice execution_state_set_impl_choice, output_fprtn_incoming_filtered_pop_transition_extra_data_choice edc, typename StateMappedExtraData, typename CharT, typename Traits>
-	std::basic_ostream<CharT, Traits>& inv_output_fprtn_to_dot_serialize(std::basic_ostream<CharT, Traits>& out, const char *output_fprtn_name, const output_fprtn<ContextKey, ContextValue, SourceRef, typename serializer_traits<TagInputSerializer>::elem_type, RTNOTagInput, execution_state_set_impl_choice, edc, StateMappedExtraData> &the_output_fprtn, const TagInputSerializer &tis)
-	{ return inv_output_fprtn_to_dot_serializer<ContextKey, ContextValue, SourceRef, TagInputSerializer, RTNOTagInput, execution_state_set_impl_choice, edc, StateMappedExtraData>(tis)(out, output_fprtn_name, the_output_fprtn); }
+	template<typename ContextMask, typename SourceRef, typename TagInputSerializer, typename RTNOTagInput, assoc_container_impl_choice execution_state_set_impl_choice, output_fprtn_incoming_filtered_pop_transition_extra_data_choice edc, typename StateMappedExtraData, typename CharT, typename Traits>
+	std::basic_ostream<CharT, Traits>& inv_output_fprtn_to_dot_serialize(std::basic_ostream<CharT, Traits>& out, const char *output_fprtn_name, const output_fprtn<ContextMask, SourceRef, typename serializer_traits<TagInputSerializer>::elem_type, RTNOTagInput, execution_state_set_impl_choice, edc, StateMappedExtraData> &the_output_fprtn, const TagInputSerializer &tis)
+	{ return inv_output_fprtn_to_dot_serializer<ContextMask, SourceRef, TagInputSerializer, RTNOTagInput, execution_state_set_impl_choice, edc, StateMappedExtraData>(tis)(out, output_fprtn_name, the_output_fprtn); }
 
 #ifdef TRACE
-	template<typename ContextKey, typename ContextValue, typename SourceRef, typename TagInput, typename RTNOTagInput, assoc_container_impl_choice execution_state_set_impl_choice, output_fprtn_incoming_filtered_pop_transition_extra_data_choice edc, typename StateMappedExtraData>
-	void write_inv_fprtn_dot(const char *inv_fprtn_name, const char *dot_inv_fprtn_pathname, output_fprtn<ContextKey, ContextValue, SourceRef, TagInput, RTNOTagInput, execution_state_set_impl_choice, edc, StateMappedExtraData> &m)
+	template<typename ContextMask, typename SourceRef, typename TagInput, typename RTNOTagInput, assoc_container_impl_choice execution_state_set_impl_choice, output_fprtn_incoming_filtered_pop_transition_extra_data_choice edc, typename StateMappedExtraData>
+	void write_inv_fprtn_dot(const char *inv_fprtn_name, const char *dot_inv_fprtn_pathname, output_fprtn<ContextMask, SourceRef, TagInput, RTNOTagInput, execution_state_set_impl_choice, edc, StateMappedExtraData> &m)
 	{
 		std::wofstream fout;
 		fout.imbue(std::locale(setlocale(LC_CTYPE, NULL)));
@@ -184,7 +184,7 @@ namespace grapenlp
 			fout.close();
 		}
 		else std::wcerr << "Unable to open file \"" << dot_inv_fprtn_pathname << "\" for writing" << std::endl;
-		std::wcout << "Written \"" << dot_inv_fprtn_pathname << "\"\n";
+		std::wcout << L"Written \"" << dot_inv_fprtn_pathname << "\"\n";
 	}
 #endif
 } //namespace grapenlp

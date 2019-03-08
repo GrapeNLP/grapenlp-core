@@ -38,6 +38,7 @@
 #include <grapenlp/trie.h>
 #include <grapenlp/output_fprtn.h>
 #include <grapenlp/pool.h>
+#include <grapenlp/u_context_mask.h>
 
 namespace grapenlp
 {
@@ -62,7 +63,7 @@ namespace grapenlp
 		typedef typename blackboard_set::const_iterator blackboard_set_const_iterator;
 		typedef Transformer transformer;
 
-		typedef output_fprtn<source_ref, tag_input, RTNOTagInput, execution_state_set_impl_choice> machine;
+		typedef output_fprtn<u_context_mask, source_ref, tag_input, RTNOTagInput, execution_state_set_impl_choice> machine;
 		typedef typename machine::state state;
 		typedef typename machine::state_ref state_ref;
 		typedef typename machine::state_const_ref state_const_ref;

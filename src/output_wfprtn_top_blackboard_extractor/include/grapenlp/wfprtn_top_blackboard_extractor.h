@@ -38,6 +38,7 @@
 #include <grapenlp/weight_transformer_traits.h>
 #include <grapenlp/weighted_tag_output_traits.h>
 #include <grapenlp/output_fprtn_top.h>
+#include <grapenlp/u_context_mask.h>
 
 namespace grapenlp
 {
@@ -65,7 +66,7 @@ namespace grapenlp
 #endif
 		typedef UnweightedReverseTransformer unweighted_converse_transformer;
 
-		typedef typename output_fprtn_top<source_ref, tag_input, RTNOTagInput, execution_state_set_impl_choice>::type machine;
+		typedef typename output_fprtn_top<u_context_mask, source_ref, tag_input, RTNOTagInput, execution_state_set_impl_choice>::type machine;
 		typedef typename machine::state state;
 		typedef typename machine::state_ref state_ref;
 		typedef typename machine::state_const_ref state_const_ref;
@@ -115,7 +116,7 @@ namespace grapenlp
 				r_s = e.front();
 				e.pop();
 #ifdef TRACE
-				std::wcout << "pop " << r_s->second.wlabel() << std::endl;
+				std::wcout << L"pop " << r_s->second.wlabel() << std::endl;
 #endif
 				/**************************/
 				/* Blackboard composition */

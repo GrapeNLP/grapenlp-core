@@ -31,10 +31,10 @@
 
 namespace grapenlp
 {
-	template<typename ContextKey, typename ContextValue, typename SourceRef, typename Id, typename Weight, typename RTNOTagInput, assoc_container_impl_choice execution_state_set_impl_choice>
-	std::size_t xw_prune_top(typename xw_output_fprtn_top<ContextKey, ContextValue, SourceRef, Id, Weight, RTNOTagInput, execution_state_set_impl_choice>::type &m, Weight w_min)
+	template<typename ContextMask, typename SourceRef, typename Id, typename Weight, typename RTNOTagInput, assoc_container_impl_choice execution_state_set_impl_choice>
+	std::size_t xw_prune_top(typename xw_output_fprtn_top<ContextMask, SourceRef, Id, Weight, RTNOTagInput, execution_state_set_impl_choice>::type &m, Weight w_min)
 	{
-		return prune_top<ContextKey, ContextValue, SourceRef, out_bound_const_ref_x_weight<Id, Weight>, RTNOTagInput, execution_state_set_impl_choice>(m, w_min);
+		return prune_top<ContextMask, SourceRef, out_bound_const_ref_x_weight<Id, Weight>, RTNOTagInput, execution_state_set_impl_choice>(m, w_min);
 	}
 } //namespace grapenlp
 

@@ -32,7 +32,7 @@
 namespace grapenlp
 {
 	template<typename SourceRef, typename T, typename Weight, typename RTNOTagInput, assoc_container_impl_choice execution_state_set_impl_choice>
-	std::size_t aw_prune_zpps(typename aw_output_fprtn_zpps<SourceRef, T, Weight, RTNOTagInput, execution_state_set_impl_choice>::type &m)
+	std::size_t aw_prune_zpps(typename aw_output_fprtn_zpps<u_context_mask, SourceRef, T, Weight, RTNOTagInput, execution_state_set_impl_choice>::type &m)
 	{
 		return prune_zpps<SourceRef, array_const_ref_x_weight<T, Weight>, RTNOTagInput, execution_state_set_impl_choice>(m);
 	}

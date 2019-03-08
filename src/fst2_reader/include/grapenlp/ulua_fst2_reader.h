@@ -50,14 +50,14 @@ namespace grapenlp
 		ulua_fst2_reader(): base_type()
 		{}
 
-		int operator() (FILE *f, machine &grammar, l_trie<unichar, InputIterator> &ult, ua_trie &uat, u_text_delaf<CaseNormalizer> &dico)
+		int operator() (FILE *f, machine &grammar, ul_tag_input_trie<unichar, InputIterator> &ult, ua_trie &uat, u_text_delaf<CaseNormalizer> &dico)
 		{
 			ua_stop_char_evaluator is_stop_char;
 			my_ua_fst2_tag_output_reader tor(is_stop_char, uat);
 			return base_type::operator() (f, grammar, ult, tor, dico);
 		}
 
-		int operator() (FILE *f, machine &grammar, l_trie<unichar, InputIterator> &ult, ua_trie &uat, compressed_delaf &dico)
+		int operator() (FILE *f, machine &grammar, ul_tag_input_trie<unichar, InputIterator> &ult, ua_trie &uat, compressed_delaf &dico)
 		{
 			ua_stop_char_evaluator is_stop_char;
 			my_ua_fst2_tag_output_reader tor(is_stop_char, uat);

@@ -31,9 +31,9 @@
 #include <grapenlp/vector.h>
 #include <grapenlp/u_text_dico_word_meta_mask_factory.h>
 #include <grapenlp/u_compressed_dico_word_meta_mask_factory.h>
-#include <grapenlp/u_lexmask_factory.h>
+#include <grapenlp/ul_tag_input_factory.h>
 #include <grapenlp/tag_reader_traits.h>
-#include <grapenlp/ua_context.h>
+#include <grapenlp/u_context_mask.h>
 #include <grapenlp/u_fst2_constants.h>
 #include <grapenlp/l_rtno.h>
 
@@ -57,9 +57,9 @@ namespace grapenlp
 		typedef TagOutputReader tag_output_reader;
 		typedef typename tag_reader_traits<TagOutputReader>::tag tag_output;
 #ifdef TRACE
-		typedef typename lns_rtno<InputIterator, tag_output, u_trie_string_const_ref, u_trie_string_const_ref>::type machine;
+		typedef typename lns_rtno<InputIterator, tag_output, u_context_mask>::type machine;
 #else
-		typedef typename l_rtno<InputIterator, tag_output, u_trie_string_const_ref, u_trie_string_const_ref>::type machine;
+		typedef typename l_rtno<InputIterator, tag_output, u_context_mask>::type machine;
 #endif
 		typedef typename machine::state state;
 		typedef typename state::ref state_ref;
@@ -90,7 +90,7 @@ namespace grapenlp
 			}
 		};
 
-		typedef lexmask_and_coarse_type<InputIterator>* tag_input;
+		typedef ul_tag_input<InputIterator>* tag_input;
 
 		struct tag
 		{
@@ -111,19 +111,19 @@ namespace grapenlp
 		{}
 
 	public:
-		int operator() (FILE *f, machine &grammar, l_trie<unichar, InputIterator> &ult, tag_output_reader &tor, u_text_delaf<CaseNormalizer> &dico)
+		int operator() (FILE *f, machine &grammar, ul_tag_input_trie<unichar, InputIterator> &ult, tag_output_reader &tor, u_text_delaf<CaseNormalizer> &dico)
 		{
 			u_text_dico_word_meta_mask_factory<InputIterator, CaseNormalizer> dico_lexmask_factory(dico);
 			return operator() (f, grammar, ult, tor, dico_lexmask_factory);
 		}
 
-		int operator() (FILE *f, machine &grammar, l_trie<unichar, InputIterator> &ult, tag_output_reader &tor, compressed_delaf &dico)
+		int operator() (FILE *f, machine &grammar, ul_tag_input_trie<unichar, InputIterator> &ult, tag_output_reader &tor, compressed_delaf &dico)
 		{
 			u_compressed_dico_word_meta_mask_factory<InputIterator, CaseNormalizer> dico_lexmask_factory(dico);
 			return operator() (f, grammar, ult, tor, dico_lexmask_factory);
 		}
 	private:
-		int operator() (FILE *f, machine &grammar, l_trie<unichar, InputIterator> &ult, tag_output_reader &tor, u_dico_word_meta_mask_factory<InputIterator> &dico_lexmask_factory)
+		int operator() (FILE *f, machine &grammar, ul_tag_input_trie<unichar, InputIterator> &ult, tag_output_reader &tor, u_dico_word_meta_mask_factory<InputIterator> &dico_lexmask_factory)
 		{
 			if (!f) return 0;
 			int graph_count;
@@ -255,7 +255,7 @@ namespace grapenlp
 			return true;
 		}
 
-		void u_read_tags(FILE *f, tag_ref_vector &trv, l_trie<unichar, InputIterator> &ult, tag_output_reader &tor, u_dico_word_meta_mask_factory<InputIterator> &dico_lexmask_factory, unsigned int &line_count)
+		void u_read_tags(FILE *f, tag_ref_vector &trv, ul_tag_input_trie<unichar, InputIterator> &ult, tag_output_reader &tor, u_dico_word_meta_mask_factory<InputIterator> &dico_lexmask_factory, unsigned int &line_count)
 		{
 			tag* t_ref(u_read_tag(f, ult, tor, dico_lexmask_factory, line_count));
 			while (t_ref)
@@ -265,7 +265,7 @@ namespace grapenlp
 			}
 		}
 
-		tag* u_read_tag(FILE *f, l_trie<unichar, InputIterator> &ult, tag_output_reader &tor, u_dico_word_meta_mask_factory<InputIterator> &dico_lexmask_factory, unsigned int &line_count)
+		tag* u_read_tag(FILE *f, ul_tag_input_trie<unichar, InputIterator> &ult, tag_output_reader &tor, u_dico_word_meta_mask_factory<InputIterator> &dico_lexmask_factory, unsigned int &line_count)
 		{
 			unichar c = u_fgetc(f);
 			if (c == end_of_section_char)
@@ -278,13 +278,13 @@ namespace grapenlp
 			if (!(c == case_insensitive_char || c == case_sensitive_char))
 				fatal_error("In line %u of .fst2 file: unexpected character '%c' in place of tag header ('%c' or '%c')\n", line_count, c, case_insensitive_char, case_sensitive_char);
 
-			typename l_trie<unichar, InputIterator>::string::ref uls = &(ult.epsilon() + c);
+			typename ul_tag_input_trie<unichar, InputIterator>::string::ref uls = &(ult.epsilon() + c);
 
 			//Read tag input
 			if ((c = (unichar)u_fgetc(f)) == U_ENDL)
 				fatal_error("In line %u of .fst2 file: empty tag\n", line_count);
 	#ifdef TRACE
-			std::wcout << "Input: '";
+			std::wcout << L"Input: '";
 	#endif
 			do
 			{
@@ -299,14 +299,14 @@ namespace grapenlp
 
 			//Retrieve lexical mask, if already created, or create a new one corresponding to this lexical mask code
 			if (!uls->data)
-				uls->data = make_u_lexmask<InputIterator, CaseNormalizer>(*uls, dico_lexmask_factory);
+				uls->data = make_ul_tag_input<InputIterator, CaseNormalizer>(*uls, dico_lexmask_factory);
 
 			tag *t_ref;
 			//Load tag output, if defined, then build tag
 			if (c == in_out_separator_char)
 			{
 #ifdef TRACE
-				std::wcout << "Output: '";
+				std::wcout << L"Output: '";
 #endif
 				c = u_fgetc(f);
 				t_ref = new tag(uls->data, tor(f, c, line_count));
@@ -320,7 +320,7 @@ namespace grapenlp
 			else
 			{
 #ifdef TRACE
-				std::wcout << "Output: none" << std::endl;
+				std::wcout << L"Output: none" << std::endl;
 #endif
 				t_ref = new tag(uls->data);
 			}
@@ -376,7 +376,7 @@ namespace grapenlp
 			for (i = stv.begin(); i != stv.end(); ++i)
 			{
 #ifdef TRACE
-				std::wcout << "Adding outgoing transitions from state " << static_cast<state_const_ref>(i->q_ref)->wlabel(L'q') << std::endl;
+				std::wcout << L"Adding outgoing transitions from state " << static_cast<state_const_ref>(i->q_ref)->wlabel(L'q') << std::endl;
 #endif
 				//And for each outgoing transition
 				for (j = i->tv_ref->begin(); j != i->tv_ref->end(); ++j)
@@ -406,6 +406,12 @@ namespace grapenlp
 								else
 									i->q_ref->add_epsilon_transition(stv[j->target_index].q_ref);
 	 							break;
+                            case CONTEXT:
+                                if (trv[j->label_index]->has_non_default_output)
+                                    i->q_ref->add_inserting_context_transition(*trv[j->label_index]->input->context_ref, trv[j->label_index]->output, stv[j->target_index].q_ref);
+                                else
+                                    i->q_ref->add_epsilon_context_transition(*trv[j->label_index]->input->context_ref, stv[j->target_index].q_ref);
+                                break;
 							case NO_BLANK_EPSILON:
 								if (trv[j->label_index]->has_non_default_output)
 									i->q_ref->add_no_blank_inserting_transition(trv[j->label_index]->output, stv[j->target_index].q_ref);

@@ -31,10 +31,10 @@
 
 namespace grapenlp
 {
-	template<typename SourceRef, typename InputIterator, assoc_container_impl_choice execution_state_set_impl_choice>
+	template<typename ContextMask, typename SourceRef, typename InputIterator, assoc_container_impl_choice execution_state_set_impl_choice>
 	struct lux_output_fprtn_zpps
 	{
-		typedef typename ux_output_fprtn_zpps<SourceRef, typename lexmask<InputIterator>::const_ref, execution_state_set_impl_choice>::type type;
+		typedef typename ux_output_fprtn_zpps<ContextMask, SourceRef, typename lexmask<InputIterator>::const_ref, execution_state_set_impl_choice>::type type;
 
 	private:
 		lux_output_fprtn_zpps()

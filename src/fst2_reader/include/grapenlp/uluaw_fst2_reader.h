@@ -40,13 +40,13 @@ namespace grapenlp
 		typedef typename base_type::machine machine;
 		typedef typename uaw_fst2_tag_output_reader<WeightTransformer>::ua_trie ua_trie;
 
-		int operator() (FILE *f, machine &grammar, l_trie<unichar, InputIterator> &ult, ua_trie &uat, u_text_delaf<CaseNormalizer> &dico)
+		int operator() (FILE *f, machine &grammar, ul_tag_input_trie<unichar, InputIterator> &ult, ua_trie &uat, u_text_delaf<CaseNormalizer> &dico)
 		{
 			uaw_fst2_tag_output_reader<WeightTransformer> tor(uat);
 			return base_type::operator() (f, grammar, ult, tor, dico);
 		}
 
-		int operator() (FILE *f, machine &grammar, l_trie<unichar, InputIterator> &ult, ua_trie &uat, compressed_delaf &dico)
+		int operator() (FILE *f, machine &grammar, ul_tag_input_trie<unichar, InputIterator> &ult, ua_trie &uat, compressed_delaf &dico)
 		{
 			uaw_fst2_tag_output_reader<WeightTransformer> tor(uat);
 			return base_type::operator() (f, grammar, ult, tor, dico);

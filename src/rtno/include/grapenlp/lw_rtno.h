@@ -31,19 +31,19 @@
 namespace grapenlp
 {
 	//RTNO having lexical mask/weight as input/output transition tags
-	template<typename InputIterator, typename Weight, typename ContextKey, typename ContextValue>
+	template<typename InputIterator, typename Weight, typename ContextMask>
 	struct lw_rtno
 	{
-		typedef typename l_rtno<InputIterator, Weight, ContextKey, ContextValue>::type type;
+		typedef typename l_rtno<InputIterator, Weight, ContextMask>::type type;
 	private:
 		lw_rtno(){}
 	};
 
 	//RTNO having lexical mask/weight as input/output transition tags
-	template<typename InputIterator, typename Weight, typename ContextKey, typename ContextValue>
+	template<typename InputIterator, typename Weight, typename ContextMask>
 	struct lwns_rtno
 	{
-		typedef typename lns_rtno<InputIterator, Weight, ContextKey, ContextValue>::type type;
+		typedef typename lns_rtno<InputIterator, Weight, ContextMask>::type type;
 	private:
 		lwns_rtno(){}
 	};

@@ -27,7 +27,7 @@ project(context VERSION ${CHANGELOG_VERSION} LANGUAGES CXX)
 
 add_library(context STATIC
         src/context.cpp
-        src/ua_context.cpp
+        src/u_context.cpp
         )
 target_include_directories(context PUBLIC
         $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/include>
@@ -40,17 +40,17 @@ target_link_libraries(context
 install(TARGETS context EXPORT contextConfig
         ARCHIVE DESTINATION ${CMAKE_INSTALL_LIBDIR}/grapenlp COMPONENT libgrapenlpdev)
 install(DIRECTORY include/ DESTINATION ${CMAKE_INSTALL_INCLUDEDIR} COMPONENT libgrapenlpdev)
-install(EXPORT contextConfig DESTINATION share/grapenlp/manager/cmake COMPONENT libgrapenlpdev)
-export(TARGETS context FILE managerConfig.cmake)
+install(EXPORT contextConfig DESTINATION share/grapenlp/context/cmake COMPONENT libgrapenlpdev)
+export(TARGETS context FILE contextConfig.cmake)
 
 # Test files
 if (BUILD_TESTING)
-    add_executable(test_ua_context
-            test/test_ua_context.cpp)
-    set_target_properties(test_ua_context PROPERTIES RUNTIME_OUTPUT_DIRECTORY ${CMAKE_TEST_RUNTIME_OUTPUT_DIRECTORY})
-    target_link_libraries(test_ua_context
+    add_executable(test_u_context
+            test/test_u_context.cpp)
+    set_target_properties(test_u_context PROPERTIES RUNTIME_OUTPUT_DIRECTORY ${CMAKE_TEST_RUNTIME_OUTPUT_DIRECTORY})
+    target_link_libraries(test_u_context
             context
             gtest_main)
 
-    add_test(NAME test_ua_context COMMAND test_ua_context)
+    add_test(NAME test_u_context COMMAND test_u_context)
 endif (BUILD_TESTING)

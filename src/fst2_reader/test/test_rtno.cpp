@@ -45,7 +45,7 @@ typedef u_word_meta_mask<ua_input_iterator> ua_word_meta_mask;
 typedef u_digit_meta_mask<ua_input_iterator> ua_digit_meta_mask;
 typedef typename u_trie_with_ptr_data<u_array>::type ua_trie;
 typedef typename u_trie_with_ptr_data<ua_lexmask>::type ual_trie;
-typedef ul_rtno<ua_input_iterator> ual_rtno;
+typedef ul_rtno<ua_input_iterator, u_context_mask> ual_rtno;
 
 pair<unichar *, size_t> read_unichars(u_array &input)
 {

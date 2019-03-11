@@ -51,9 +51,9 @@ namespace grapenlp
 		typedef SourceRef source_ref;
 		typedef typename source_ref::value_type input;
 #ifdef TRACE
-		typedef typename tag_serializer<input>::type input_serializer;
-		typedef typename tag_serializer<tag_input>::type tag_input_serializer;
-		typedef typename tag_serializer<tag_output>::type tag_output_serializer;
+		typedef typename tag_serializer_traits<input>::type input_serializer;
+		typedef typename tag_serializer_traits<tag_input>::type tag_input_serializer;
+		typedef typename tag_serializer_traits<tag_output>::type tag_output_serializer;
 		typedef ns_rtno<tag_input, tag_output, u_context_mask> machine;
 #else
 		typedef rtno<tag_input, tag_output, u_context_mask> machine;
@@ -346,7 +346,7 @@ namespace grapenlp
 					if (result.second) {
 #ifdef TRACE
 						result.first->serialize(std::wcout) <<
-                            L" (" <<
+                            L" (";
                         epsilon_context_transition_begin->mask.wserialize_context_expression(std::wcout) <<
                             L" : <E>)" <<
                             std::endl;

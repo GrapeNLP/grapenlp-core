@@ -76,7 +76,7 @@ namespace grapenlp
 		}
 
 		//Otherwise make a lexical mask (there are no other kind of masks)
-		return new ul_tag_input<InputIterator>(make_u_lexmask(tag_input_code, dico_lexmask_factory));
+		return new ul_tag_input<InputIterator>(make_u_lexmask<InputIterator, CaseNormalizer>(tag_input_code, dico_lexmask_factory));
 	}
 } //namespace grapenlp
 

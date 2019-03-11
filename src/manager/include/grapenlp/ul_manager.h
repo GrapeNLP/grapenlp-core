@@ -871,13 +871,13 @@ namespace grapenlp {
 #else
                 grammar_ref = new my_lua_rtno;
 #ifdef DISABLE_TEXT_DICO
-                my_ulua_fst2_reader()(grammar_file, get_lua_grammar(), *ult_ref, *uat_ref, get_compressed_delaf());
+                my_ulua_fst2_reader()(grammar_file, get_lua_grammar(), *ult_ref, *uat_ref, get_compressed_delaf(), the_context);
 #elif defined(DISABLE_COMPRESSED_DICO)
-                my_ulua_fst2_reader()(grammar_file, get_lua_grammar(), *ult_ref, *uat_ref, get_text_delaf());
+                my_ulua_fst2_reader()(grammar_file, get_lua_grammar(), *ult_ref, *uat_ref, get_text_delaf(), the_context);
 #else
                 if (dico_is_in_text_format)
-                    my_ulua_fst2_reader()(grammar_file, get_lua_grammar(), *ult_ref, *uat_ref, get_text_delaf());
-                else my_ulua_fst2_reader()(grammar_file, get_lua_grammar(), *ult_ref, *uat_ref, get_compressed_delaf());
+                    my_ulua_fst2_reader()(grammar_file, get_lua_grammar(), *ult_ref, *uat_ref, get_text_delaf(), the_context);
+                else my_ulua_fst2_reader()(grammar_file, get_lua_grammar(), *ult_ref, *uat_ref, get_compressed_delaf(), the_context);
 #endif //DISABLE_TEXT_DICO
 #endif //DISABLE_LUA_GRAMMAR
                     break;
@@ -887,13 +887,13 @@ namespace grapenlp {
 #else
                 grammar_ref = new my_luaw_rtno;
 #ifdef DISABLE_TEXT_DICO
-                my_uluaw_fst2_reader()(grammar_file, get_luaw_grammar(), *ult_ref, *uat_ref, get_compressed_delaf());
+                my_uluaw_fst2_reader()(grammar_file, get_luaw_grammar(), *ult_ref, *uat_ref, get_compressed_delaf(), the_context);
 #elif defined(DISABLE_COMPRESSED_DICO)
-                my_uluaw_fst2_reader()(grammar_file, get_luaw_grammar(), *ult_ref, *uat_ref, get_text_delaf());
+                my_uluaw_fst2_reader()(grammar_file, get_luaw_grammar(), *ult_ref, *uat_ref, get_text_delaf(), the_context);
 #else
                 if (dico_is_in_text_format)
-                    my_uluaw_fst2_reader()(grammar_file, get_luaw_grammar(), *ult_ref, *uat_ref, get_text_delaf());
-                else my_uluaw_fst2_reader()(grammar_file, get_luaw_grammar(), *ult_ref, *uat_ref, get_compressed_delaf());
+                    my_uluaw_fst2_reader()(grammar_file, get_luaw_grammar(), *ult_ref, *uat_ref, get_text_delaf(), the_context);
+                else my_uluaw_fst2_reader()(grammar_file, get_luaw_grammar(), *ult_ref, *uat_ref, get_compressed_delaf(), the_context);
 #endif //DISABLE_TEXT_DICO
 #endif //DISABLE_LUAW_GRAMMAR
                     break;
@@ -903,13 +903,13 @@ namespace grapenlp {
 #else
                 grammar_ref = new my_lux_rtno;
 #ifdef DISABLE_TEXT_DICO
-                my_ulx_fst2_reader()(grammar_file, get_lux_grammar(), *ult_ref, *uobt_ref, get_compressed_delaf());
+                my_ulx_fst2_reader()(grammar_file, get_lux_grammar(), *ult_ref, *uobt_ref, get_compressed_delaf(), the_context);
 #elif defined(DISABLE_COMPRESSED_DICO)
-                my_ulx_fst2_reader()(grammar_file, get_lux_grammar(), *ult_ref, *uobt_ref, get_text_delaf());
+                my_ulx_fst2_reader()(grammar_file, get_lux_grammar(), *ult_ref, *uobt_ref, get_text_delaf(), the_context);
 #else
                 if (dico_is_in_text_format)
-                    my_ulx_fst2_reader()(grammar_file, get_lux_grammar(), *ult_ref, *uobt_ref, get_text_delaf());
-                else my_ulx_fst2_reader()(grammar_file, get_lux_grammar(), *ult_ref, *uobt_ref, get_compressed_delaf());
+                    my_ulx_fst2_reader()(grammar_file, get_lux_grammar(), *ult_ref, *uobt_ref, get_text_delaf(), the_context);
+                else my_ulx_fst2_reader()(grammar_file, get_lux_grammar(), *ult_ref, *uobt_ref, get_compressed_delaf(), the_context);
 #endif //DISABLE_TEXT_DICO
 #endif //DISABLE_LUX_GRAMMAR
                     break;
@@ -919,15 +919,15 @@ namespace grapenlp {
 #else
                     grammar_ref = new my_luxw_rtno;
 #ifdef DISABLE_TEXT_DICO
-                    my_ulxw_fst2_reader()(grammar_file, get_luxw_grammar(), *ult_ref, *uobt_ref, get_compressed_delaf());
+                    my_ulxw_fst2_reader()(grammar_file, get_luxw_grammar(), *ult_ref, *uobt_ref, get_compressed_delaf(), the_context);
 #elif defined(DISABLE_COMPRESSED_DICO)
-                    my_ulxw_fst2_reader()(grammar_file, get_luxw_grammar(), *ult_ref, *uobt_ref, get_text_delaf());
+                    my_ulxw_fst2_reader()(grammar_file, get_luxw_grammar(), *ult_ref, *uobt_ref, get_text_delaf(), the_context);
 #else
                     if (dico_is_in_text_format)
-                        my_ulxw_fst2_reader()(grammar_file, get_luxw_grammar(), *ult_ref, *uobt_ref, get_text_delaf());
+                        my_ulxw_fst2_reader()(grammar_file, get_luxw_grammar(), *ult_ref, *uobt_ref, get_text_delaf(), the_context);
                     else
                         my_ulxw_fst2_reader()(grammar_file, get_luxw_grammar(), *ult_ref, *uobt_ref,
-                                              get_compressed_delaf());
+                                              get_compressed_delaf(), the_context);
 #endif //DISABLE_TEXT_DICO
                     lw_rtno_weight_tag<InputIterator, typename my_luxw_rtno::tag_output, u_context_mask>(get_luxw_grammar());
 #endif //DISABLE_LUXW_GRAMMAR

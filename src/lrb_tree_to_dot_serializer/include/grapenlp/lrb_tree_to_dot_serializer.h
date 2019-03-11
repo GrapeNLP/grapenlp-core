@@ -126,7 +126,7 @@ namespace grapenlp
 
 	template<typename Key, typename Value, typename KeyGetter, typename Compare, typename Allocator, typename CharT, typename Traits>
 	std::basic_ostream<CharT, Traits>& lrb_tree_to_dot_serialize(std::basic_ostream<CharT, Traits>& out, const char *name, const lrb_tree<Key, Value, KeyGetter, Compare, Allocator> &t)
-	{ return lrb_tree_to_dot_serializer<Key, typename tag_serializer<Value>::type, KeyGetter, Compare, Allocator>()(out, name, t); }
+	{ return lrb_tree_to_dot_serializer<Key, typename tag_serializer_traits<Value>::type, KeyGetter, Compare, Allocator>()(out, name, t); }
 
 	template<typename Key, typename ValueSerializer, typename KeyGetter, typename Compare, typename Allocator, typename CharT, typename Traits>
 	std::basic_ostream<CharT, Traits>& lrb_tree_to_dot_serialize(std::basic_ostream<CharT, Traits>& out, const char *name, const lrb_tree<Key, typename serializer_traits<ValueSerializer>::elem_type, KeyGetter, Compare, Allocator> &t, const ValueSerializer &vs)

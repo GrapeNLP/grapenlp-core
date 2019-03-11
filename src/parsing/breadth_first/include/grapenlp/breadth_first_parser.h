@@ -58,9 +58,9 @@ namespace grapenlp
 		typedef Blackboard blackboard;
 #ifdef TRACE
 		typedef BlackboardSerializer blackboard_serializer;
-		typedef typename tag_serializer<input>::type input_serializer;
-		typedef typename tag_serializer<tag_input>::type tag_input_serializer;
-		typedef typename tag_serializer<tag_output>::type tag_output_serializer;
+		typedef typename tag_serializer_traits<input>::type input_serializer;
+		typedef typename tag_serializer_traits<tag_input>::type tag_input_serializer;
+		typedef typename tag_serializer_traits<tag_output>::type tag_output_serializer;
 #endif
 		typedef typename set_impl_selector<output_set_impl_choice, blackboard>::type blackboard_set;
 		typedef typename blackboard_set::const_iterator blackboard_set_const_iterator;
@@ -305,10 +305,10 @@ namespace grapenlp
 					if (result.second) {
 #ifdef TRACE
                         result.first->serialize(std::wcout) <<
-                            L" (" <<
-   						    inserting_context_transition_begin->mask.wserialize(std::wcout) <<
-                            L" : " <<
-                            tag_output_serializer()(std::wcout, inserting_context_transition_begin->output) <<
+                            L" (";
+						inserting_context_transition_begin->mask.wserialize(std::wcout) <<
+                            L" : ";
+						tag_output_serializer()(std::wcout, inserting_context_transition_begin->output) <<
                             L')' <<
                             std::endl;
 #endif

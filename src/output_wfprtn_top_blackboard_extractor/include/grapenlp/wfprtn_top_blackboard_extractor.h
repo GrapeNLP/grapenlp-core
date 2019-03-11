@@ -62,7 +62,7 @@ namespace grapenlp
 		typedef weight_transformer_traits<WeightTransformer> the_weight_transformer_traits;
 #ifdef TRACE
 		typedef BlackboardSerializer blackboard_serializer;
-		typedef typename tag_serializer<tag_input>::type tag_input_serializer;
+		typedef typename tag_serializer_traits<tag_input>::type tag_input_serializer;
 #endif
 		typedef UnweightedReverseTransformer unweighted_converse_transformer;
 

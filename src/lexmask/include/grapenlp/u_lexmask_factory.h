@@ -44,12 +44,12 @@ namespace grapenlp
 #ifdef TRACE
 				std::wcout << L"Creating case sensitive mask\n";
 #endif
-				return new case_sensitive_word_mask<InputIterator>(lexmask_code.begin() + 1, lexmask_code.size() - 1);
+				return new case_sensitive_word_mask<InputIterator>(lexmask_code.begin() + 1, lexmask_code.end() - 1);
 			}
 #ifdef TRACE
 			std::wcout << L"Creating case insensitive mask\n";
 #endif
-			return new case_insensitive_word_mask<InputIterator, CaseNormalizer>(lexmask_code.begin() + 1, lexmask_code.size() - 1);
+			return new case_insensitive_word_mask<InputIterator, CaseNormalizer>(lexmask_code.begin() + 1, lexmask_code.end() - 1);
 		}
 
 		//Meta mask
@@ -93,7 +93,7 @@ namespace grapenlp
 #ifdef TRACE
 				std::wcout << L"Creating upper word meta mask\n";
 #endif
-				return upper_word_meta_mask<InputIterator>();
+				return new upper_word_meta_mask<InputIterator>();
 			}
 			//Not an upper word meta mask
 			if (meta_code == the_meta_code_dico.no_upper_word_meta_code)

@@ -46,9 +46,9 @@ typedef token<ua_input_iterator> ua_token;
 typedef ua_token::ref_list::const_iterator ua_token_iterator;
 typedef ul_tag_input_trie<unichar, ua_input_iterator> ual_trie;
 #ifdef TRACE
-typedef lutwns_rtno<ua_input_iterator, float>::type ualutiw_rtno;
+typedef lutwns_rtno<ua_input_iterator, float, u_context_mask>::type ualutiw_rtno;
 #else
-typedef lutw_rtno<ua_input_iterator, float>::type ualutiw_rtno;
+typedef lutw_rtno<ua_input_iterator, float, u_context_mask>::type ualutiw_rtno;
 #endif
 typedef ultw_fst2_reader<ua_input_iterator, multiplies<float> > ualtfw_fst2_reader;
 
@@ -65,37 +65,35 @@ void u_read_compressed_dico(compressed_delaf &dico)
 	fclose(inf_delaf_file);
 }
 
-void u_read_grammar(ualutiw_rtno &grammar, ual_trie &ualt, u_trie &ut, compressed_delaf &dico)
+void u_read_grammar(ualutiw_rtno &grammar, ual_trie &ualt, u_trie &ut, compressed_delaf &dico, u_context &ctx)
 {
 	FILE *f(u_fopen("../Data/Unitex/Spanish/Graphs/pdico_test.fst2", U_READ));
 	if (f == NULL)
 		fatal_error("Unable to open grammar file to read\n");
-	ualtfw_fst2_reader()(f, grammar, ualt, ut, dico);
+	ualtfw_fst2_reader()(f, grammar, ualt, ut, dico, ctx);
 	u_fclose(f);
 }
 
 int main(__attribute__((unused)) int argc, __attribute__((unused)) char **argv)
 {
-#ifndef MTRACE
-	setlocale(LC_CTYPE,"");
-#endif
 	ualutiw_rtno grammar;
 	ual_trie ualt;
 	u_trie ut;
+	u_context ctx;
 	compressed_delaf dico;
 
-	std::wcout << L"Reading dico" << std::endl;
+	wcout << L"Reading dico" << std::endl;
 	u_read_compressed_dico(dico);
-	std::wcout << L"Reading grammar" << std::endl;
-	u_read_grammar(grammar, ualt, ut, dico);
+	wcout << L"Reading grammar" << std::endl;
+	u_read_grammar(grammar, ualt, ut, dico, ctx);
+	wcout << L"Number of states: " << grammar.state_count() << std::endl;
+    wcout << L"Number of transitions: " << grammar.transition_count() << std::endl;
 
-    std::wcout << L"Number of states: " << grammar.state_count() << std::endl;
-    std::wcout << L"Number of transitions: " << grammar.transition_count() << std::endl;
 #ifdef TRACE
 	wcout << L"Converting grammar to dot" << std::endl;
+	const locale l(setlocale(LC_CTYPE,""));
 	wofstream fout("../grammar.dot");
-
-	fout.imbue(std::locale(setlocale(LC_CTYPE, NULL)));
+	fout.imbue(l);
 	if (fout)
 	{
 		rtno_to_dot_serialize(fout, "axioma", L'q', grammar);

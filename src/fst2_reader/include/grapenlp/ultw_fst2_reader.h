@@ -39,16 +39,16 @@ namespace grapenlp
 		typedef ul_fst2_reader<InputIterator, tw_fst2_tag_output_reader<WeightTransformer>, CaseNormalizer> base_type;
 		typedef typename base_type::machine machine;
 
-		int operator() (FILE *f, machine &grammar, ul_tag_input_trie<unichar, InputIterator> &ult, u_trie &ut, u_text_delaf<CaseNormalizer> &dico)
+		int operator() (FILE *f, machine &grammar, ul_tag_input_trie<unichar, InputIterator> &ult, u_trie &ut, u_text_delaf<CaseNormalizer> &dico, u_context &ctx)
 		{
 			tw_fst2_tag_output_reader<WeightTransformer> tor(ut);
-			return base_type::operator() (f, grammar, ult, tor, dico);
+			return base_type::operator() (f, grammar, ult, tor, dico, ctx);
 		}
 
-		int operator() (FILE *f, machine &grammar, ul_tag_input_trie<unichar, InputIterator> &ult, u_trie &ut, compressed_delaf &dico)
+		int operator() (FILE *f, machine &grammar, ul_tag_input_trie<unichar, InputIterator> &ult, u_trie &ut, compressed_delaf &dico, u_context &ctx)
 		{
 			tw_fst2_tag_output_reader<WeightTransformer> tor(ut);
-			return base_type::operator() (f, grammar, ult, tor, dico);
+			return base_type::operator() (f, grammar, ult, tor, dico, ctx);
 		}
 	};
 } //namespace grapenlp

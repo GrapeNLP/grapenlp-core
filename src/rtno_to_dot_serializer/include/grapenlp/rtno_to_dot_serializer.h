@@ -65,7 +65,7 @@ namespace grapenlp
 		rtno_to_dot_serializer(): tis(), tos(), cms()
 		{}
 
-		rtno_to_dot_serializer(const TagInputSerializer &tis_, const TagOutputSerializer &tos_): tis(tis_), tos(tos_)
+		rtno_to_dot_serializer(const TagInputSerializer &tis_, const TagOutputSerializer &tos_, const ContextMaskSerializer &cms_): tis(tis_), tos(tos_), cms(cms_)
 		{}
 
 		template<typename CharT, typename Traits>
@@ -209,7 +209,7 @@ namespace grapenlp
 
 	template<typename TagInput, typename TagOutput, typename ContextMask, typename CharT, typename Traits>
 	std::basic_ostream<CharT, Traits>& rtno_to_dot_serialize(std::basic_ostream<CharT, Traits>& out, const char *rtno_name, CharT state_letter, const ns_rtno<TagInput, TagOutput, ContextMask> &the_rtno)
-	{ return rtno_to_dot_serializer<typename tag_serializer<TagInput>::type, typename tag_serializer<TagOutput>::type, tag_serializer<ContextMask> >()(out, rtno_name, state_letter, the_rtno);	}
+	{ return rtno_to_dot_serializer<typename tag_serializer_traits<TagInput>::type, typename tag_serializer_traits<TagOutput>::type, typename tag_serializer_traits<ContextMask>::type>()(out, rtno_name, state_letter, the_rtno);	}
 
 	template<typename TagInputSerializer, typename TagOutputSerializer, typename ContextMaskSerializer, typename CharT, typename Traits>
 	std::basic_ostream<CharT, Traits>& rtno_to_dot_serialize(std::basic_ostream<CharT, Traits>& out, const char *rtno_name, CharT state_letter, const ns_rtno<typename serializer_traits<TagInputSerializer>::elem_type, typename serializer_traits<TagOutputSerializer>::elem_type, typename serializer_traits<ContextMaskSerializer>::elem_type> &the_rtno, const TagInputSerializer &tis, const TagOutputSerializer &tos, const ContextMaskSerializer &cms)

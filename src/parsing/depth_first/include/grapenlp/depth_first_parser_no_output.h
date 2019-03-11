@@ -52,9 +52,9 @@ namespace grapenlp
 
 #ifdef TRACE
 		typedef ns_rtno<tag_input, tag_output, u_context_mask> machine;
-		typedef typename tag_serializer<input>::type input_serializer;
-		typedef typename tag_serializer<tag_input>::type tag_input_serializer;
-		typedef typename tag_serializer<tag_output>::type tag_output_serializer;
+		typedef typename tag_serializer_traits<input>::type input_serializer;
+		typedef typename tag_serializer_traits<tag_input>::type tag_input_serializer;
+		typedef typename tag_serializer_traits<tag_output>::type tag_output_serializer;
 #else
 		typedef rtno<tag_input, tag_output, u_context_mask> machine;
 #endif

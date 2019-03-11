@@ -43,16 +43,16 @@ namespace grapenlp
 
 		static const std::array<unichar, 1> tag_output_stop_chars;
 
-		int operator() (FILE *f, machine &grammar, ul_tag_input_trie<unichar, InputIterator> &ult, u_text_delaf<CaseNormalizer> &dico)
+		int operator() (FILE *f, machine &grammar, ul_tag_input_trie<unichar, InputIterator> &ult, u_text_delaf<CaseNormalizer> &dico, u_context &ctx)
 		{
 			my_w_fst2_tag_output_reader tor;
-			return base_type::operator() (f, grammar, ult, tor, dico);
+			return base_type::operator() (f, grammar, ult, tor, dico, ctx);
 		}
 
-		int operator() (FILE *f, machine &grammar, ul_tag_input_trie<unichar, InputIterator> &ult, compressed_delaf &dico)
+		int operator() (FILE *f, machine &grammar, ul_tag_input_trie<unichar, InputIterator> &ult, compressed_delaf &dico, u_context &ctx)
 		{
 			my_w_fst2_tag_output_reader tor;
-			return base_type::operator() (f, grammar, ult, tor, dico);
+			return base_type::operator() (f, grammar, ult, tor, dico, ctx);
 		}
 	};
 } //namespace grapenlp

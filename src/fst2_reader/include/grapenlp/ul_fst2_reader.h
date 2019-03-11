@@ -111,19 +111,19 @@ namespace grapenlp
 		{}
 
 	public:
-		int operator() (FILE *f, machine &grammar, ul_tag_input_trie<unichar, InputIterator> &ult, tag_output_reader &tor, u_text_delaf<CaseNormalizer> &dico, const u_context &ctx)
+		int operator() (FILE *f, machine &grammar, ul_tag_input_trie<unichar, InputIterator> &ult, tag_output_reader &tor, u_text_delaf<CaseNormalizer> &dico, u_context &ctx)
 		{
 			u_text_dico_word_meta_mask_factory<InputIterator, CaseNormalizer> dico_lexmask_factory(dico);
 			return operator() (f, grammar, ult, tor, dico_lexmask_factory, ctx);
 		}
 
-		int operator() (FILE *f, machine &grammar, ul_tag_input_trie<unichar, InputIterator> &ult, tag_output_reader &tor, compressed_delaf &dico, const u_context &ctx)
+		int operator() (FILE *f, machine &grammar, ul_tag_input_trie<unichar, InputIterator> &ult, tag_output_reader &tor, compressed_delaf &dico, u_context &ctx)
 		{
 			u_compressed_dico_word_meta_mask_factory<InputIterator, CaseNormalizer> dico_lexmask_factory(dico);
 			return operator() (f, grammar, ult, tor, dico_lexmask_factory, ctx);
 		}
 	private:
-		int operator() (FILE *f, machine &grammar, ul_tag_input_trie<unichar, InputIterator> &ult, tag_output_reader &tor, u_dico_word_meta_mask_factory<InputIterator> &dico_lexmask_factory, const u_context &ctx)
+		int operator() (FILE *f, machine &grammar, ul_tag_input_trie<unichar, InputIterator> &ult, tag_output_reader &tor, u_dico_word_meta_mask_factory<InputIterator> &dico_lexmask_factory, u_context &ctx)
 		{
 			if (!f) return 0;
 			int graph_count;
@@ -255,7 +255,7 @@ namespace grapenlp
 			return true;
 		}
 
-		void u_read_tags(FILE *f, tag_ref_vector &trv, ul_tag_input_trie<unichar, InputIterator> &ult, tag_output_reader &tor, u_dico_word_meta_mask_factory<InputIterator> &dico_lexmask_factory, const u_context &ctx, unsigned int &line_count)
+		void u_read_tags(FILE *f, tag_ref_vector &trv, ul_tag_input_trie<unichar, InputIterator> &ult, tag_output_reader &tor, u_dico_word_meta_mask_factory<InputIterator> &dico_lexmask_factory, u_context &ctx, unsigned int &line_count)
 		{
 			tag* t_ref(u_read_tag(f, ult, tor, dico_lexmask_factory, ctx, line_count));
 			while (t_ref)
@@ -265,7 +265,7 @@ namespace grapenlp
 			}
 		}
 
-		tag* u_read_tag(FILE *f, ul_tag_input_trie<unichar, InputIterator> &ult, tag_output_reader &tor, u_dico_word_meta_mask_factory<InputIterator> &dico_lexmask_factory, const u_context &ctx, unsigned int &line_count)
+		tag* u_read_tag(FILE *f, ul_tag_input_trie<unichar, InputIterator> &ult, tag_output_reader &tor, u_dico_word_meta_mask_factory<InputIterator> &dico_lexmask_factory, u_context &ctx, unsigned int &line_count)
 		{
 			unichar c = u_fgetc(f);
 			if (c == end_of_section_char)
@@ -299,7 +299,7 @@ namespace grapenlp
 
 			//Retrieve lexical mask, if already created, or create a new one corresponding to this lexical mask code
 			if (!uls->data)
-				uls->data = make_ul_tag_input<InputIterator, CaseNormalizer>(*uls, dico_lexmask_factory, c);
+				uls->data = make_ul_tag_input<InputIterator, CaseNormalizer>(*uls, dico_lexmask_factory, ctx);
 
 			tag *t_ref;
 			//Load tag output, if defined, then build tag

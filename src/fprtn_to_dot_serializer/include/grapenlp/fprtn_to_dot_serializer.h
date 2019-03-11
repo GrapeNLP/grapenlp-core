@@ -167,7 +167,7 @@ namespace grapenlp
 	template<typename SourceRef, typename TagInput, typename CharT, typename Traits>
 	std::basic_ostream<CharT, Traits>& fprtn_to_dot_serialize(std::basic_ostream<CharT, Traits>& out, const char *fprtn_name, const fprtn<SourceRef, TagInput> &the_fprtn, SourceRef source_begin)
 	{
-		return fprtn_to_dot_serializer<SourceRef, typename tag_serializer<TagInput>::type>()(out, fprtn_name, the_fprtn, source_begin);
+		return fprtn_to_dot_serializer<SourceRef, typename tag_serializer_traits<TagInput>::type>()(out, fprtn_name, the_fprtn, source_begin);
 	}
 
 	template<typename SourceRef, typename TagInputSerializer, typename CharT, typename Traits>

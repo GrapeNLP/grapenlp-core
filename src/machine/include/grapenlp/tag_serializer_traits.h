@@ -32,21 +32,21 @@
 namespace grapenlp
 {
 	template<typename Tag>
-	struct tag_serializer
+	struct tag_serializer_traits
 	{
 		typedef Tag tag;
 		typedef serializer<tag> type;
 	};
 
 	template<typename NoConstRefTag>
-	struct tag_serializer<const NoConstRefTag*>
+	struct tag_serializer_traits<const NoConstRefTag*>
 	{
 		typedef const NoConstRefTag* tag;
 		typedef const_deref_serializer<NoConstRefTag> type;
 	};
 
 	template<typename NoRefTag>
-	struct tag_serializer<NoRefTag*>
+	struct tag_serializer_traits<NoRefTag*>
 	{
 		typedef NoRefTag* tag;
 		typedef deref_serializer<NoRefTag> type;

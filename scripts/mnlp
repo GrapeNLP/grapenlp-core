@@ -2,4 +2,4 @@
 cd `dirname $0`
 . paths
 
-$MTRACE_NLP $@
+$MTRACE_GRAPENLP $@

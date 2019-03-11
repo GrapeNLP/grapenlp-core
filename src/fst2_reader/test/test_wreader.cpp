@@ -46,9 +46,9 @@ typedef ua_token::ref_list::const_iterator ua_token_iterator;
 typedef ul_tag_input_trie<unichar, ua_input_iterator> ual_trie;
 typedef trie_with_ptr_data<unichar, u_array> ua_trie;
 #ifdef TRACE
-typedef luawns_rtno<ua_input_iterator, int>::type ualuaw_rtno;
+typedef luawns_rtno<ua_input_iterator, int, u_context_mask>::type ualuaw_rtno;
 #else
-typedef luaw_rtno<ua_input_iterator, int>::type ualuaw_rtno;
+typedef luaw_rtno<ua_input_iterator, int, u_context_mask>::type ualuaw_rtno;
 #endif
 typedef uluaw_fst2_reader<ua_input_iterator, std::plus<int> > ualuaw_fst2_reader;
 
@@ -61,12 +61,12 @@ void u_read_dico(tolower_u_text_delaf &dico)
 	u_fclose(f);
 }
 
-void u_read_grammar(ualuaw_rtno &grammar, ual_trie &ualt, ua_trie &uat, tolower_u_text_delaf &dico)
+void u_read_grammar(ualuaw_rtno &grammar, ual_trie &ualt, ua_trie &uat, tolower_u_text_delaf &dico, u_context &ctx)
 {
 	FILE *f(u_fopen("../Data/Unitex/Spanish/Graphs/wdico_test.fst2", U_READ));
 	if (f == NULL)
 		fatal_error("Unable to open grammar file to read\n");
-	ualuaw_fst2_reader()(f, grammar, ualt, uat, dico);
+	ualuaw_fst2_reader()(f, grammar, ualt, uat, dico, ctx);
 	u_fclose(f);
 }
 
@@ -75,15 +75,16 @@ int main(__attribute__((unused)) int argc, __attribute__((unused)) char **argv)
 	ualuaw_rtno grammar;
 	ual_trie ualt;
 	ua_trie uat;
+	u_context ctx;
 	tolower_u_text_delaf dico;
 
 	wcout << L"Reading dico" << std::endl;
 	u_read_dico(dico);
 	wcout << L"Reading grammar" << std::endl;
-	u_read_grammar(grammar, ualt, uat, dico);
-
+	u_read_grammar(grammar, ualt, uat, dico, ctx);
     wcout << L"Number of states: " << grammar.state_count() << std::endl;
     wcout << L"Number of transitions: " << grammar.transition_count() << std::endl;
+
 #ifdef TRACE
 	wcout << L"Converting grammar to dot" << std::endl;
 	const locale l(setlocale(LC_CTYPE,""));

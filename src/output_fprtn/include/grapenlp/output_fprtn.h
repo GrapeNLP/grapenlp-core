@@ -408,7 +408,7 @@ namespace grapenlp
 		typedef TagInput tag_input;
 		typedef StateMappedExtraData state_mapped_extra_data;
 #ifdef TRACE
-		typedef typename tag_serializer<tag_input>::type tag_input_serializer;
+		typedef typename tag_serializer_traits<tag_input>::type tag_input_serializer;
 #endif
 
 		typedef output_fprtn_outgoing_consuming_transition<ContextMask, SourceRef, TagInput, RTNOTagInput, execution_state_set_impl_choice, edc, state_mapped_extra_data> outgoing_consuming_transition;
@@ -903,8 +903,8 @@ namespace grapenlp
 		typedef TagInput tag_input;
 
 #ifdef TRACE
-		typedef typename tag_serializer<input>::type input_serializer;
-		typedef typename tag_serializer<tag_input>::type tag_input_serializer;
+		typedef typename tag_serializer_traits<input>::type input_serializer;
+		typedef typename tag_serializer_traits<tag_input>::type tag_input_serializer;
 		typedef ns_rtno<RTNOTagInput, TagInput, u_context_mask> source_rtno;
 #else
 		typedef rtno<RTNOTagInput, TagInput, u_context_mask> source_rtno;

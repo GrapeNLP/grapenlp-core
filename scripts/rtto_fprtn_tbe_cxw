@@ -4,7 +4,7 @@ cd `dirname $0`
 
 if [ $# -gt 0 ]
 then
-$RELEASE_NLP -sxwt -r$1 -pto-fprtn-and-top-blackboard-extract $CHATBOT_GRAMMAR $COMPRESSED_DICO $TEST_INPUT $OUTPUT
+$RELEASE_GRAPENLP -sxwt -r$1 -pto-fprtn-and-top-blackboard-extract $CHATBOT_GRAMMAR $COMPRESSED_DICO $TEST_INPUT $OUTPUT
 else
-$RELEASE_NLP -sxwt -pto-fprtn-and-top-blackboard-extract $CHATBOT_GRAMMAR $COMPRESSED_DICO $TEST_INPUT $OUTPUT
+$RELEASE_GRAPENLP -sxwt -pto-fprtn-and-top-blackboard-extract $CHATBOT_GRAMMAR $COMPRESSED_DICO $TEST_INPUT $OUTPUT
 fi

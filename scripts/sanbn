@@ -9,45 +9,45 @@ if [ $# != 1 ]; then
 fi
 
 echo -n "to_fprtn & breadth-first expand: "
-$RELEASE_NLP -s -a$1 -r1 -o$OUTPUT $ANBN_GRAMMAR $COMPRESSED_DICO | grep 'sentences per second' | sed 's/Average processed sentences per second: //' 
+$RELEASE_GRAPENLP -s -a$1 -r1 -o$OUTPUT $ANBN_GRAMMAR $COMPRESSED_DICO | grep 'sentences per second' | sed 's/Average processed sentences per second: //'
 echo -n "to_fprtn & breadth-first expand with trie strings: "
-$RELEASE_NLP -st -a$1 -r1 -o$OUTPUT $ANBN_GRAMMAR $COMPRESSED_DICO | grep 'sentences per second' | sed 's/Average processed sentences per second: //'
+$RELEASE_GRAPENLP -st -a$1 -r1 -o$OUTPUT $ANBN_GRAMMAR $COMPRESSED_DICO | grep 'sentences per second' | sed 's/Average processed sentences per second: //'
 
 echo -n "earley: "
-$RELEASE_NLP -s -pearley -a$1 -r1 -o$OUTPUT $ANBN_GRAMMAR $COMPRESSED_DICO | grep 'sentences per second' | sed 's/Average processed sentences per second: //'
+$RELEASE_GRAPENLP -s -pearley -a$1 -r1 -o$OUTPUT $ANBN_GRAMMAR $COMPRESSED_DICO | grep 'sentences per second' | sed 's/Average processed sentences per second: //'
 echo -n "earley no output: "
-$RELEASE_NLP -sn -pearley -a$1 -r1 -o$OUTPUT $ANBN_GRAMMAR $COMPRESSED_DICO | grep 'sentences per second' | sed 's/Average processed sentences per second: //'
+$RELEASE_GRAPENLP -sn -pearley -a$1 -r1 -o$OUTPUT $ANBN_GRAMMAR $COMPRESSED_DICO | grep 'sentences per second' | sed 's/Average processed sentences per second: //'
 
 echo -n "breadth-first with standard sets: "
-$RELEASE_NLP -s -pbreadth-first -estd -a$1 -r1 -o$OUTPUT $ANBN_GRAMMAR $COMPRESSED_DICO | grep 'sentences per second' | sed 's/Average processed sentences per second: //'
+$RELEASE_GRAPENLP -s -pbreadth-first -estd -a$1 -r1 -o$OUTPUT $ANBN_GRAMMAR $COMPRESSED_DICO | grep 'sentences per second' | sed 's/Average processed sentences per second: //'
 echo -n "breadth-first with trie strings and standard sets: "
-$RELEASE_NLP -st -pbreadth-first -estd -a$1 -r1 -o$OUTPUT $ANBN_GRAMMAR $COMPRESSED_DICO | grep 'sentences per second' | sed 's/Average processed sentences per second: //'
+$RELEASE_GRAPENLP -st -pbreadth-first -estd -a$1 -r1 -o$OUTPUT $ANBN_GRAMMAR $COMPRESSED_DICO | grep 'sentences per second' | sed 's/Average processed sentences per second: //'
 echo -n "breadth-first with lrb-tree sets: "
-$RELEASE_NLP -s -pbreadth-first -elrb-tree -a$1 -r1 -o$OUTPUT $ANBN_GRAMMAR $COMPRESSED_DICO | grep 'sentences per second' | sed 's/Average processed sentences per second: //'
+$RELEASE_GRAPENLP -s -pbreadth-first -elrb-tree -a$1 -r1 -o$OUTPUT $ANBN_GRAMMAR $COMPRESSED_DICO | grep 'sentences per second' | sed 's/Average processed sentences per second: //'
 echo -n "breadth-first with trie strings and lrb-tree sets: "
-$RELEASE_NLP -st -pbreadth-first -elrb-tree -a$1 -r1 -o$OUTPUT $ANBN_GRAMMAR $COMPRESSED_DICO | grep 'sentences per second' | sed 's/Average processed sentences per second: //'
+$RELEASE_GRAPENLP -st -pbreadth-first -elrb-tree -a$1 -r1 -o$OUTPUT $ANBN_GRAMMAR $COMPRESSED_DICO | grep 'sentences per second' | sed 's/Average processed sentences per second: //'
 echo -n "breadth-first with lrb-tree-3w sets: "
-$RELEASE_NLP -s -pbreadth-first -elrb-tree-3w -a$1 -r1 -o$OUTPUT $ANBN_GRAMMAR $COMPRESSED_DICO | grep 'sentences per second' | sed 's/Average processed sentences per second: //'
+$RELEASE_GRAPENLP -s -pbreadth-first -elrb-tree-3w -a$1 -r1 -o$OUTPUT $ANBN_GRAMMAR $COMPRESSED_DICO | grep 'sentences per second' | sed 's/Average processed sentences per second: //'
 echo -n "breadth-first with trie strings and lrb-tree-3w sets: "
-$RELEASE_NLP -st -pbreadth-first -elrb-tree-3w -a$1 -r1 -o$OUTPUT $ANBN_GRAMMAR $COMPRESSED_DICO | grep 'sentences per second' | sed 's/Average processed sentences per second: //'
+$RELEASE_GRAPENLP -st -pbreadth-first -elrb-tree-3w -a$1 -r1 -o$OUTPUT $ANBN_GRAMMAR $COMPRESSED_DICO | grep 'sentences per second' | sed 's/Average processed sentences per second: //'
 echo -n "breadth-first with standard sets and no output: "
-$RELEASE_NLP -sn -pbreadth-first -estd -a$1 -r1 -o$OUTPUT $ANBN_GRAMMAR $COMPRESSED_DICO | grep 'sentences per second' | sed 's/Average processed sentences per second: //'
+$RELEASE_GRAPENLP -sn -pbreadth-first -estd -a$1 -r1 -o$OUTPUT $ANBN_GRAMMAR $COMPRESSED_DICO | grep 'sentences per second' | sed 's/Average processed sentences per second: //'
 echo -n "breadth-first with trie strings, standard sets and no output: "
-$RELEASE_NLP -snt -pbreadth-first -estd -a$1 -r1 -o$OUTPUT $ANBN_GRAMMAR $COMPRESSED_DICO | grep 'sentences per second' | sed 's/Average processed sentences per second: //'
+$RELEASE_GRAPENLP -snt -pbreadth-first -estd -a$1 -r1 -o$OUTPUT $ANBN_GRAMMAR $COMPRESSED_DICO | grep 'sentences per second' | sed 's/Average processed sentences per second: //'
 echo -n "breadth-first with lrb-tree sets and no output: "
-$RELEASE_NLP -sn -pbreadth-first -elrb-tree -a$1 -r1 -o$OUTPUT $ANBN_GRAMMAR $COMPRESSED_DICO | grep 'sentences per second' | sed 's/Average processed sentences per second: //'
+$RELEASE_GRAPENLP -sn -pbreadth-first -elrb-tree -a$1 -r1 -o$OUTPUT $ANBN_GRAMMAR $COMPRESSED_DICO | grep 'sentences per second' | sed 's/Average processed sentences per second: //'
 echo -n "breadth-first with trie strings, lrb-tree sets and no output: "
-$RELEASE_NLP -snt -pbreadth-first -elrb-tree -a$1 -r1 -o$OUTPUT $ANBN_GRAMMAR $COMPRESSED_DICO | grep 'sentences per second' | sed 's/Average processed sentences per second: //'
+$RELEASE_GRAPENLP -snt -pbreadth-first -elrb-tree -a$1 -r1 -o$OUTPUT $ANBN_GRAMMAR $COMPRESSED_DICO | grep 'sentences per second' | sed 's/Average processed sentences per second: //'
 echo -n "breadth-first with lrb-tree-3w sets and no output: "
-$RELEASE_NLP -sn -pbreadth-first -elrb-tree-3w -a$1 -r1 -o$OUTPUT $ANBN_GRAMMAR $COMPRESSED_DICO | grep 'sentences per second' | sed 's/Average processed sentences per second: //'
+$RELEASE_GRAPENLP -sn -pbreadth-first -elrb-tree-3w -a$1 -r1 -o$OUTPUT $ANBN_GRAMMAR $COMPRESSED_DICO | grep 'sentences per second' | sed 's/Average processed sentences per second: //'
 echo -n "breadth-first with trie strings, lrb-tree-3w sets and no output: "
-$RELEASE_NLP -snt -pbreadth-first -elrb-tree-3w -a$1 -r1 -o$OUTPUT $ANBN_GRAMMAR $COMPRESSED_DICO | grep 'sentences per second' | sed 's/Average processed sentences per second: //'
+$RELEASE_GRAPENLP -snt -pbreadth-first -elrb-tree-3w -a$1 -r1 -o$OUTPUT $ANBN_GRAMMAR $COMPRESSED_DICO | grep 'sentences per second' | sed 's/Average processed sentences per second: //'
 
 echo -n "depth-first: "
-$RELEASE_NLP -s -pdepth-first -a$1 -r1 -o$OUTPUT $ANBN_GRAMMAR $COMPRESSED_DICO | grep 'sentences per second' | sed 's/Average processed sentences per second: //'
+$RELEASE_GRAPENLP -s -pdepth-first -a$1 -r1 -o$OUTPUT $ANBN_GRAMMAR $COMPRESSED_DICO | grep 'sentences per second' | sed 's/Average processed sentences per second: //'
 echo -n "depth-first with trie strings: "
-$RELEASE_NLP -st -pdepth-first -a$1 -r1 -o$OUTPUT $ANBN_GRAMMAR $COMPRESSED_DICO | grep 'sentences per second' | sed 's/Average processed sentences per second: //'
+$RELEASE_GRAPENLP -st -pdepth-first -a$1 -r1 -o$OUTPUT $ANBN_GRAMMAR $COMPRESSED_DICO | grep 'sentences per second' | sed 's/Average processed sentences per second: //'
 echo -n "depth-first no output: "
-$RELEASE_NLP -sn -pdepth-first -a$1 -r1 -o$OUTPUT $ANBN_GRAMMAR $COMPRESSED_DICO | grep 'sentences per second' | sed 's/Average processed sentences per second: //'
+$RELEASE_GRAPENLP -sn -pdepth-first -a$1 -r1 -o$OUTPUT $ANBN_GRAMMAR $COMPRESSED_DICO | grep 'sentences per second' | sed 's/Average processed sentences per second: //'
 echo -n "depth-first with trie strings no output: "
-$RELEASE_NLP -snt -pdepth-first -a$1 -r1 -o$OUTPUT $ANBN_GRAMMAR $COMPRESSED_DICO | grep 'sentences per second' | sed 's/Average processed sentences per second: //'
+$RELEASE_GRAPENLP -snt -pdepth-first -a$1 -r1 -o$OUTPUT $ANBN_GRAMMAR $COMPRESSED_DICO | grep 'sentences per second' | sed 's/Average processed sentences per second: //'

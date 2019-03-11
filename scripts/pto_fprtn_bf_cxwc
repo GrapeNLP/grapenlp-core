@@ -4,14 +4,14 @@ cd `dirname $0`
 
 if [ $# -gt 0 ]
 then
-$PROFILE_NLP -sxcw -r$1 -pto-fprtn-and-breadth-first-expand $CHATBOT_GRAMMAR $COMPRESSED_DICO $CORPUS $OUTPUT
+$PROFILE_GRAPENLP -sxcw -r$1 -pto-fprtn-and-breadth-first-expand $CHATBOT_GRAMMAR $COMPRESSED_DICO $CORPUS $OUTPUT
 else
-$PROFILE_NLP -sxcw -pto-fprtn-and-breadth-first-expand $CHATBOT_GRAMMAR $COMPRESSED_DICO $CORPUS $OUTPUT
+$PROFILE_GRAPENLP -sxcw -pto-fprtn-and-breadth-first-expand $CHATBOT_GRAMMAR $COMPRESSED_DICO $CORPUS $OUTPUT
 fi
 echo \#\#\#\#\#\#\#\#\#\#\#\# > $TO_FPRTN_BF_PROFILE_TRACE
 echo \# To FPTRN \# >> $TO_FPRTN_BF_PROFILE_TRACE
 echo \#\#\#\#\#\#\#\#\#\#\#\# >> $TO_FPRTN_BF_PROFILE_TRACE
 echo >> $TO_FPRTN_BF_PROFILE_TRACE
-gprof $PROFILE_NLP | $SIMPLIFY_TEMPLATES >> $TO_FPRTN_BF_PROFILE_TRACE
+gprof $PROFILE_GRAPENLP | $SIMPLIFY_TEMPLATES >> $TO_FPRTN_BF_PROFILE_TRACE
 vi $TO_FPRTN_BF_PROFILE_TRACE
 

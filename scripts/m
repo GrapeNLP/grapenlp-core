@@ -2,5 +2,5 @@
 cd `dirname $0`
 . paths
 
-mtrace $MTRACE_NLP $MALLOC_TRACE > $LEAK_TRACE
+mtrace $MTRACE_GRAPENLP $MALLOC_TRACE > $LEAK_TRACE
 vi $LEAK_TRACE

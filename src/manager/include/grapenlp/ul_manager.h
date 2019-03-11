@@ -1738,7 +1738,7 @@ namespace grapenlp {
             typename luaw_output_fprtn_top<u_context_mask, token_iterator, weight, InputIterator, execution_state_set_impl_choice>::type out_fprtn_top(the_token_list.size(), the_token_list.begin(), the_token_list.end());
 #endif
             typename luaw_to_fprtn_top_parser_impl_selector<InputIterator, token_iterator, weight, execution_state_set_impl_choice>::type()(get_luaw_grammar(), hasnt_white_at_begin, hasnt_white_at_end, the_context, out_fprtn_top, std::numeric_limits<weight>::min());
-            luaw_prune_top<u_context_mask, token_iterator, weight, InputIterator, execution_state_set_impl_choice>(out_fprtn_top, std::numeric_limits<weight>::min());
+            luaw_prune_top<token_iterator, weight, InputIterator, execution_state_set_impl_choice>(out_fprtn_top, std::numeric_limits<weight>::min());
             return 0;
         }
         template<assoc_container_impl_choice execution_state_set_impl_choice>
@@ -1752,7 +1752,7 @@ namespace grapenlp {
             typename luaw_to_fprtn_top_parser_impl_selector<InputIterator, token_iterator, weight, execution_state_set_impl_choice>::type()(get_luaw_grammar(), hasnt_white_at_begin, hasnt_white_at_end, the_context, out_fprtn_top, std::numeric_limits<weight>::min());
             state_count = out_fprtn_top.state_count();
             transition_count = out_fprtn_top.transition_count();
-            luaw_prune_top<u_context_mask, token_iterator, weight, InputIterator, execution_state_set_impl_choice>(out_fprtn_top, std::numeric_limits<weight>::min());
+            luaw_prune_top<token_iterator, weight, InputIterator, execution_state_set_impl_choice>(out_fprtn_top, std::numeric_limits<weight>::min());
             pruned_state_count = out_fprtn_top.state_count();
             pruned_transition_count = out_fprtn_top.transition_count();
             return 0;
@@ -1768,7 +1768,7 @@ namespace grapenlp {
             typename luxw_output_fprtn_top<u_context_mask, token_iterator, weight, InputIterator, execution_state_set_impl_choice>::type out_fprtn_top(the_token_list.size(), the_token_list.begin(), the_token_list.end());
 #endif
             typename lxw_to_fprtn_top_parser_impl_selector<InputIterator, token_iterator, unichar, weight, execution_state_set_impl_choice>::type()(get_luxw_grammar(), hasnt_white_at_begin, hasnt_white_at_end, the_context, out_fprtn_top, std::numeric_limits<weight>::min());
-            luxw_prune_top<u_context_mask, token_iterator, weight, InputIterator, execution_state_set_impl_choice>(out_fprtn_top, std::numeric_limits<weight>::min());
+            luxw_prune_top<token_iterator, weight, InputIterator, execution_state_set_impl_choice>(out_fprtn_top, std::numeric_limits<weight>::min());
             return 0;
         }
         template<assoc_container_impl_choice execution_state_set_impl_choice>
@@ -1782,7 +1782,7 @@ namespace grapenlp {
             typename lxw_to_fprtn_top_parser_impl_selector<InputIterator, token_iterator, unichar, weight, execution_state_set_impl_choice>::type()(get_luxw_grammar(), hasnt_white_at_begin, hasnt_white_at_end, the_context, out_fprtn_top, std::numeric_limits<weight>::min());
             state_count = out_fprtn_top.state_count();
             transition_count = out_fprtn_top.transition_count();
-            luxw_prune_top<u_context_mask, token_iterator, weight, InputIterator, execution_state_set_impl_choice>(out_fprtn_top, std::numeric_limits<weight>::min());
+            luxw_prune_top<token_iterator, weight, InputIterator, execution_state_set_impl_choice>(out_fprtn_top, std::numeric_limits<weight>::min());
             pruned_state_count = out_fprtn_top.state_count();
             pruned_transition_count = out_fprtn_top.transition_count();
             return 0;
@@ -2307,7 +2307,7 @@ namespace grapenlp {
 #endif
             clear_output_u_array_set<STD>();
             typename luaw_to_fprtn_top_parser_impl_selector<InputIterator, token_iterator, weight, execution_state_set_impl_choice>::type()(get_luaw_grammar(), hasnt_white_at_begin, hasnt_white_at_end, the_context, out_fprtn_top, std::numeric_limits<weight>::min());
-            if (luaw_prune_top<u_context_mask, token_iterator, weight, InputIterator, execution_state_set_impl_choice>(out_fprtn_top, std::numeric_limits<weight>::min()))
+            if (luaw_prune_top<token_iterator, weight, InputIterator, execution_state_set_impl_choice>(out_fprtn_top, std::numeric_limits<weight>::min()))
             {
                 trie_string_ref_pool<unichar> tsrp;
                 pool_u_trie_string_x_weight empty_psxw(tsrp.empty(), the_weight_transformer_traits::identity());
@@ -2329,7 +2329,7 @@ namespace grapenlp {
             typename luaw_to_fprtn_top_parser_impl_selector<InputIterator, token_iterator, weight, execution_state_set_impl_choice>::type()(get_luaw_grammar(), hasnt_white_at_begin, hasnt_white_at_end, the_context, out_fprtn_top, std::numeric_limits<weight>::min());
             state_count = out_fprtn_top.state_count();
             transition_count = out_fprtn_top.transition_count();
-            bool accept(luaw_prune_top<u_context_mask, token_iterator, weight, InputIterator, execution_state_set_impl_choice>(out_fprtn_top, std::numeric_limits<weight>::min()));
+            bool accept(luaw_prune_top<token_iterator, weight, InputIterator, execution_state_set_impl_choice>(out_fprtn_top, std::numeric_limits<weight>::min()));
             pruned_state_count = out_fprtn_top.state_count();
             pruned_transition_count = out_fprtn_top.transition_count();
             if (accept)
@@ -2354,7 +2354,7 @@ namespace grapenlp {
 #endif
             clear_output_u_array_set<STD>();
             typename luaw_to_fprtn_top_parser_impl_selector<InputIterator, token_iterator, weight, execution_state_set_impl_choice>::type()(get_luaw_grammar(), hasnt_white_at_begin, hasnt_white_at_end, the_context, out_fprtn_top, std::numeric_limits<weight>::min());
-            if (luaw_prune_top<u_context_mask, token_iterator, weight, InputIterator, execution_state_set_impl_choice>(out_fprtn_top, std::numeric_limits<weight>::min()))
+            if (luaw_prune_top<token_iterator, weight, InputIterator, execution_state_set_impl_choice>(out_fprtn_top, std::numeric_limits<weight>::min()))
             {
                 typename set_impl_selector<STD, fake_pool_u_array_x_weight>::type psxws;
                 psxws.insert(typename luaw_fprtn_top_blackboard_extractor_impl_selector<token_iterator, weight_transformer, InputIterator, ARRAYS, execution_state_set_impl_choice>::type()(out_fprtn_top));
@@ -2374,7 +2374,7 @@ namespace grapenlp {
             typename luaw_to_fprtn_top_parser_impl_selector<InputIterator, token_iterator, weight, execution_state_set_impl_choice>::type()(get_luaw_grammar(), hasnt_white_at_begin, hasnt_white_at_end, the_context, out_fprtn_top, std::numeric_limits<weight>::min());
             state_count = out_fprtn_top.state_count();
             transition_count = out_fprtn_top.transition_count();
-            bool accept(luaw_prune_top<u_context_mask, token_iterator, weight, InputIterator, execution_state_set_impl_choice>(out_fprtn_top, std::numeric_limits<weight>::min()));
+            bool accept(luaw_prune_top<token_iterator, weight, InputIterator, execution_state_set_impl_choice>(out_fprtn_top, std::numeric_limits<weight>::min()));
             pruned_state_count = out_fprtn_top.state_count();
             pruned_transition_count = out_fprtn_top.transition_count();
             if (accept)
@@ -2401,7 +2401,7 @@ namespace grapenlp {
             typename lxw_to_fprtn_top_parser_impl_selector<InputIterator, token_iterator, unichar, weight, execution_state_set_impl_choice>::type()(
                     get_luxw_grammar(), hasnt_white_at_begin, hasnt_white_at_end, the_context, out_fprtn_top,
                     std::numeric_limits<weight>::min());
-            if (luxw_prune_top<u_context_mask, token_iterator, weight, InputIterator, execution_state_set_impl_choice>(out_fprtn_top,
+            if (luxw_prune_top<token_iterator, weight, InputIterator, execution_state_set_impl_choice>(out_fprtn_top,
                                                                                                        std::numeric_limits<weight>::min()))
                 get_output_segment_map_x_weight_set<output_set_impl_choice>().insert(
                         typename luxw_fprtn_top_blackboard_extractor_impl_selector<token_iterator, weight_transformer, InputIterator, sic, execution_state_set_impl_choice, output_set_impl_choice>::type()(
@@ -2426,7 +2426,7 @@ namespace grapenlp {
                     std::numeric_limits<weight>::min());
             state_count = out_fprtn_top.state_count();
             transition_count = out_fprtn_top.transition_count();
-            bool accept(luxw_prune_top<u_context_mask, token_iterator, weight, InputIterator, execution_state_set_impl_choice>(
+            bool accept(luxw_prune_top<token_iterator, weight, InputIterator, execution_state_set_impl_choice>(
                     out_fprtn_top, std::numeric_limits<weight>::min()));
             pruned_state_count = out_fprtn_top.state_count();
             pruned_transition_count = out_fprtn_top.transition_count();

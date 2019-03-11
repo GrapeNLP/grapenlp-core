@@ -231,7 +231,7 @@ namespace grapenlp
                     std::pair<out_state_map_iterator, bool> result(v.create_other_state(static_cast<in_state_const_ref>(epsilon_context_transition_begin->target), x_s.first.q_h, x_s.first.i, in));
 //	    			std::pair<out_state_map_iterator, bool> result(v.create_other_state(static_cast<in_state_const_ref>(epsilon_context_transition_begin->target), x_s.first.q_h, x_s.first.i));
                     //an e-trans from x_s to x_t can only be added once, since the RTNO has a unique e2-trans from q_s to q_t
-                    x_s.add_epsilon_context_transition(static_cast<out_state_ref>(&(*result.first)));
+                    x_s.add_epsilon_transition(static_cast<out_state_ref>(&(*result.first)));
                     if (result.second)
                     {
 //					    static_cast<out_state&>(*result.first).set_mapped(in);
@@ -294,7 +294,7 @@ namespace grapenlp
                     //The same consuming context_transition might be added twice due to two translating context_transitions from q_s to q_t having different input but the same output
                     //However, the probability is low and this does not break further processing, just will waste time repeating the same context_transition processing
                     //However, this time is meaningless in comparison with the time of storing context_transitions in set structures instead of lists
-                    x_s.add_consuming_context_transition(inserting_context_transition_begin->output, static_cast<out_state_ref>(&(*result.first)));
+                    x_s.add_consuming_transition(inserting_context_transition_begin->output, static_cast<out_state_ref>(&(*result.first)));
                     if (result.second)
                     {
 //	    				static_cast<out_state&>(*result.first).set_mapped(in);

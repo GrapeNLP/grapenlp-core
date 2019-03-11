@@ -181,7 +181,7 @@ namespace grapenlp
 			return 0;
 		}
 
-		std::size_t useful_state_count(mark_unreachable_states_zpps<u_context_mask, SourceRef, TagInput, RTNOTagInput, execution_state_set_impl_choice>(m));
+		std::size_t useful_state_count(mark_unreachable_states_zpps<SourceRef, TagInput, RTNOTagInput, execution_state_set_impl_choice>(m));
 		remove_unreachable_states(m);
 
 #ifdef TRACE

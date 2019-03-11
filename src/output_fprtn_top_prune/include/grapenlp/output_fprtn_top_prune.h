@@ -34,10 +34,10 @@ namespace grapenlp
 	/*
 	 * Marks as useless every state of the output FPRTN that is not reversely reachable from the global acceptor state
 	 */
-	template<typename ContextMask, typename SourceRef, typename TagInput, typename RTNOTagInput, assoc_container_impl_choice execution_state_set_impl_choice>
-	void mark_unreachable_states_top(typename output_fprtn_top<ContextMask, SourceRef, TagInput, RTNOTagInput, execution_state_set_impl_choice>::type &m, typename weighted_tag_output_traits<typename output_fprtn_top<ContextMask, SourceRef, TagInput, RTNOTagInput, execution_state_set_impl_choice>::type::tag_input>::weight w_min)
+	template<typename SourceRef, typename TagInput, typename RTNOTagInput, assoc_container_impl_choice execution_state_set_impl_choice>
+	void mark_unreachable_states_top(typename output_fprtn_top<u_context_mask, SourceRef, TagInput, RTNOTagInput, execution_state_set_impl_choice>::type &m, typename weighted_tag_output_traits<typename output_fprtn_top<u_context_mask, SourceRef, TagInput, RTNOTagInput, execution_state_set_impl_choice>::type::tag_input>::weight w_min)
 	{
-		typedef typename output_fprtn_top<ContextMask, SourceRef, TagInput, RTNOTagInput, execution_state_set_impl_choice>::type machine;
+		typedef typename output_fprtn_top<u_context_mask, SourceRef, TagInput, RTNOTagInput, execution_state_set_impl_choice>::type machine;
 		typedef typename machine::state_ref state_ref;
 		typedef typename machine::state_ref_queue state_ref_queue;
 		typedef typename machine::outgoing_epsilon_transition_iterator outgoing_epsilon_transition_iterator;
@@ -143,8 +143,8 @@ namespace grapenlp
 	//the ones belonging to uncompleted calls, and that the algorithm creates a single
 	//global final state, thus by specifying this final state as argument for this method
 	//the OUTPUT_FPRTN will be pruned (every useless path will be deleted)
-	template<typename ContextMask, typename SourceRef, typename TagInput, typename RTNOTagInput, assoc_container_impl_choice execution_state_set_impl_choice>
-	bool prune_top(typename output_fprtn_top<ContextMask, SourceRef, TagInput, RTNOTagInput, execution_state_set_impl_choice>::type &m, typename weighted_tag_output_traits<TagInput>::weight w_min)
+	template<typename SourceRef, typename TagInput, typename RTNOTagInput, assoc_container_impl_choice execution_state_set_impl_choice>
+	bool prune_top(typename output_fprtn_top<u_context_mask, SourceRef, TagInput, RTNOTagInput, execution_state_set_impl_choice>::type &m, typename weighted_tag_output_traits<TagInput>::weight w_min)
 	{
 #ifdef TRACE
 		std::wcout << L"Begin removing unused paths\n";
@@ -165,7 +165,7 @@ namespace grapenlp
 			return false;
 		}
 
-		mark_unreachable_states_top<ContextMask, SourceRef, TagInput, RTNOTagInput, execution_state_set_impl_choice>(m, w_min);
+		mark_unreachable_states_top<SourceRef, TagInput, RTNOTagInput, execution_state_set_impl_choice>(m, w_min);
 		remove_unreachable_states(m);
 
 #ifdef TRACE

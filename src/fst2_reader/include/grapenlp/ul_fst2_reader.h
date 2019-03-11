@@ -111,19 +111,19 @@ namespace grapenlp
 		{}
 
 	public:
-		int operator() (FILE *f, machine &grammar, ul_tag_input_trie<unichar, InputIterator> &ult, tag_output_reader &tor, u_text_delaf<CaseNormalizer> &dico)
+		int operator() (FILE *f, machine &grammar, ul_tag_input_trie<unichar, InputIterator> &ult, tag_output_reader &tor, u_text_delaf<CaseNormalizer> &dico, const u_context &ctx)
 		{
 			u_text_dico_word_meta_mask_factory<InputIterator, CaseNormalizer> dico_lexmask_factory(dico);
-			return operator() (f, grammar, ult, tor, dico_lexmask_factory);
+			return operator() (f, grammar, ult, tor, dico_lexmask_factory, ctx);
 		}
 
-		int operator() (FILE *f, machine &grammar, ul_tag_input_trie<unichar, InputIterator> &ult, tag_output_reader &tor, compressed_delaf &dico)
+		int operator() (FILE *f, machine &grammar, ul_tag_input_trie<unichar, InputIterator> &ult, tag_output_reader &tor, compressed_delaf &dico, const u_context &ctx)
 		{
 			u_compressed_dico_word_meta_mask_factory<InputIterator, CaseNormalizer> dico_lexmask_factory(dico);
-			return operator() (f, grammar, ult, tor, dico_lexmask_factory);
+			return operator() (f, grammar, ult, tor, dico_lexmask_factory, ctx);
 		}
 	private:
-		int operator() (FILE *f, machine &grammar, ul_tag_input_trie<unichar, InputIterator> &ult, tag_output_reader &tor, u_dico_word_meta_mask_factory<InputIterator> &dico_lexmask_factory)
+		int operator() (FILE *f, machine &grammar, ul_tag_input_trie<unichar, InputIterator> &ult, tag_output_reader &tor, u_dico_word_meta_mask_factory<InputIterator> &dico_lexmask_factory, const u_context &ctx)
 		{
 			if (!f) return 0;
 			int graph_count;
@@ -155,7 +155,7 @@ namespace grapenlp
 	#ifdef TRACE
 			std::wcout << L"Reading tags starting from line " << line_count << " of .fst2 file\n";
 	#endif
-			u_read_tags(f, trv, ult, tor, dico_lexmask_factory, line_count);
+			u_read_tags(f, trv, ult, tor, dico_lexmask_factory, ctx, line_count);
 
 	#ifdef TRACE
 			std::wcout << L"Adding transitions\n";
@@ -255,17 +255,17 @@ namespace grapenlp
 			return true;
 		}
 
-		void u_read_tags(FILE *f, tag_ref_vector &trv, ul_tag_input_trie<unichar, InputIterator> &ult, tag_output_reader &tor, u_dico_word_meta_mask_factory<InputIterator> &dico_lexmask_factory, unsigned int &line_count)
+		void u_read_tags(FILE *f, tag_ref_vector &trv, ul_tag_input_trie<unichar, InputIterator> &ult, tag_output_reader &tor, u_dico_word_meta_mask_factory<InputIterator> &dico_lexmask_factory, const u_context &ctx, unsigned int &line_count)
 		{
-			tag* t_ref(u_read_tag(f, ult, tor, dico_lexmask_factory, line_count));
+			tag* t_ref(u_read_tag(f, ult, tor, dico_lexmask_factory, ctx, line_count));
 			while (t_ref)
 			{
 				trv.push_back(t_ref);
-				t_ref = u_read_tag(f, ult, tor, dico_lexmask_factory, line_count);
+				t_ref = u_read_tag(f, ult, tor, dico_lexmask_factory, ctx, line_count);
 			}
 		}
 
-		tag* u_read_tag(FILE *f, ul_tag_input_trie<unichar, InputIterator> &ult, tag_output_reader &tor, u_dico_word_meta_mask_factory<InputIterator> &dico_lexmask_factory, unsigned int &line_count)
+		tag* u_read_tag(FILE *f, ul_tag_input_trie<unichar, InputIterator> &ult, tag_output_reader &tor, u_dico_word_meta_mask_factory<InputIterator> &dico_lexmask_factory, const u_context &ctx, unsigned int &line_count)
 		{
 			unichar c = u_fgetc(f);
 			if (c == end_of_section_char)
@@ -299,7 +299,7 @@ namespace grapenlp
 
 			//Retrieve lexical mask, if already created, or create a new one corresponding to this lexical mask code
 			if (!uls->data)
-				uls->data = make_ul_tag_input<InputIterator, CaseNormalizer>(*uls, dico_lexmask_factory);
+				uls->data = make_ul_tag_input<InputIterator, CaseNormalizer>(*uls, dico_lexmask_factory, c);
 
 			tag *t_ref;
 			//Load tag output, if defined, then build tag
@@ -408,9 +408,9 @@ namespace grapenlp
 	 							break;
                             case CONTEXT:
                                 if (trv[j->label_index]->has_non_default_output)
-                                    i->q_ref->add_inserting_context_transition(*trv[j->label_index]->input->context_ref, trv[j->label_index]->output, stv[j->target_index].q_ref);
+                                    i->q_ref->add_inserting_context_transition(*trv[j->label_index]->input->context_mask_ref, trv[j->label_index]->output, stv[j->target_index].q_ref);
                                 else
-                                    i->q_ref->add_epsilon_context_transition(*trv[j->label_index]->input->context_ref, stv[j->target_index].q_ref);
+                                    i->q_ref->add_epsilon_context_transition(*trv[j->label_index]->input->context_mask_ref, stv[j->target_index].q_ref);
                                 break;
 							case NO_BLANK_EPSILON:
 								if (trv[j->label_index]->has_non_default_output)

@@ -495,8 +495,8 @@ namespace grapenlp
 				process_inserting_transitions(x_s, x_s.q->outgoing_inserting_transitions.begin(), x_s.q->outgoing_inserting_transitions.end(), v, in, op);
 
                 //Process epsilon and inserting context transitions
-                process_epsilon_context_transitions(x_s, x_s.q->outgoing_epsilon_context_transitions.begin(), x_s.q->outgoing_epsilon_context_transitions.end(), v, op);
-                process_inserting_context_transitions(x_s, x_s.q->outgoing_inserting_context_transitions.begin(), x_s.q->outgoing_inserting_context_transitions.end(), v, in, op);
+                process_epsilon_context_transitions(x_s, x_s.q->outgoing_epsilon_context_transitions.begin(), x_s.q->outgoing_epsilon_context_transitions.end(), v, c, op);
+                process_inserting_context_transitions(x_s, x_s.q->outgoing_inserting_context_transitions.begin(), x_s.q->outgoing_inserting_context_transitions.end(), v, in, c, op);
 
 				//Process no-blank epsilon and inserting transitions
 				//if there are no whites between the current (or input begin) and the next token (or input end)

@@ -65,10 +65,10 @@ namespace grapenlp
         { return wserialize_context_expression(out << L"%"); }
 
         std::ostream& serialize_context_expression(std::ostream& out) const
-        { return out << "<@" << key << "=" << value << ">"; }
+        { return out << "<@" << *key << "=" << *value << ">"; }
 
         std::wostream& wserialize_context_expression(std::wostream& out) const
-        { return out << L"<@" << key << L"=" << value << L">"; }
+        { return out << L"<@" << *key << L"=" << *value << L">"; }
 
         void u_write(FILE *f) const
         {

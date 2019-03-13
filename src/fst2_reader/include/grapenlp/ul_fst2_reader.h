@@ -57,9 +57,9 @@ namespace grapenlp
 		typedef TagOutputReader tag_output_reader;
 		typedef typename tag_reader_traits<TagOutputReader>::tag tag_output;
 #ifdef TRACE
-		typedef typename lns_rtno<InputIterator, tag_output, u_context_mask>::type machine;
+		typedef lns_rtno<InputIterator, tag_output, u_context_mask> machine;
 #else
-		typedef typename l_rtno<InputIterator, tag_output, u_context_mask>::type machine;
+		typedef l_rtno<InputIterator, tag_output, u_context_mask> machine;
 #endif
 		typedef typename machine::state state;
 		typedef typename state::ref state_ref;

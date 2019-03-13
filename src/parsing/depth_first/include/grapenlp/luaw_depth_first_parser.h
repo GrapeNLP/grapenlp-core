@@ -40,8 +40,8 @@ namespace grapenlp
 #ifdef TRACE
 	template<typename InputIterator, typename SourceRef, typename WeightTransformer, typename StateConstRefStackPool, typename OutputUArrayPool, typename OutputUArraySerializer, assoc_container_impl_choice output_set_impl_choice>
 	struct luaw_depth_first_parser: public depth_first_parser<
-	        typename luawns_rtno<InputIterator, typename WeightTransformer::result_type, u_context_mask>::type::tag_input,
-	        typename luawns_rtno<InputIterator, typename WeightTransformer::result_type, u_context_mask>::type::tag_output,
+	        typename luawns_rtno<InputIterator, typename WeightTransformer::result_type, u_context_mask>::tag_input,
+	        typename luawns_rtno<InputIterator, typename WeightTransformer::result_type, u_context_mask>::tag_output,
 	        SourceRef,
 	        pool_sequence_x_weight<OutputUArrayPool, typename WeightTransformer::result_type>,
 	        pool_sequence_x_weight_serializer<OutputUArrayPool, typename WeightTransformer::result_type, OutputUArraySerializer>,
@@ -51,8 +51,8 @@ namespace grapenlp
 	        >
 	{
 		typedef depth_first_parser<
-				typename luawns_rtno<InputIterator, typename WeightTransformer::result_type, u_context_mask>::type::tag_input,
-				typename luawns_rtno<InputIterator, typename WeightTransformer::result_type, u_context_mask>::type::tag_output,
+				typename luawns_rtno<InputIterator, typename WeightTransformer::result_type, u_context_mask>::tag_input,
+				typename luawns_rtno<InputIterator, typename WeightTransformer::result_type, u_context_mask>::tag_output,
 				SourceRef,
 				pool_sequence_x_weight<OutputUArrayPool, typename WeightTransformer::result_type>,
 				pool_sequence_x_weight_serializer<OutputUArrayPool, typename WeightTransformer::result_type, OutputUArraySerializer>,
@@ -63,8 +63,8 @@ namespace grapenlp
 #else
 	template<typename InputIterator, typename SourceRef, typename WeightTransformer, typename StateConstRefStackPool, typename OutputUArrayPool, assoc_container_impl_choice output_set_impl_choice>
 	struct luaw_depth_first_parser: public depth_first_parser<
-	        typename luaw_rtno<InputIterator, typename WeightTransformer::result_type, u_context_mask>::type::tag_input,
-	        typename luaw_rtno<InputIterator, typename WeightTransformer::result_type, u_context_mask>::type::tag_output,
+	        typename luaw_rtno<InputIterator, typename WeightTransformer::result_type, u_context_mask>::tag_input,
+	        typename luaw_rtno<InputIterator, typename WeightTransformer::result_type, u_context_mask>::tag_output,
 	        SourceRef,
 	        pool_sequence_x_weight<OutputUArrayPool, typename WeightTransformer::result_type>,
 	        pool_sequence_x_weight_and_array_const_ref_x_weight_concatenator<OutputUArrayPool, WeightTransformer>,
@@ -72,8 +72,8 @@ namespace grapenlp
 	        output_set_impl_choice>
 	{
 		typedef depth_first_parser<
-				typename luaw_rtno<InputIterator, typename WeightTransformer::result_type, u_context_mask>::type::tag_input,
-				typename luaw_rtno<InputIterator, typename WeightTransformer::result_type, u_context_mask>::type::tag_output,
+				typename luaw_rtno<InputIterator, typename WeightTransformer::result_type, u_context_mask>::tag_input,
+				typename luaw_rtno<InputIterator, typename WeightTransformer::result_type, u_context_mask>::tag_output,
 				SourceRef,
 				pool_sequence_x_weight<OutputUArrayPool, typename WeightTransformer::result_type>,
 				pool_sequence_x_weight_and_array_const_ref_x_weight_concatenator<OutputUArrayPool, WeightTransformer>,
@@ -108,9 +108,9 @@ typedef typename base_type::match match;
 	struct luaw_depth_first_parser_impl_selector<InputIterator, SourceRef, WeightTransformer, ARRAYS, output_set_impl_choice>
 	{
 #ifdef TRACE
-		typedef luaw_depth_first_parser<InputIterator, SourceRef, WeightTransformer, array_fake_pool<typename luawns_rtno<InputIterator, typename WeightTransformer::result_type, u_context_mask>::type::state_const_ref>, array_fake_pool<unichar>, serializer<array_fake_pool<unichar>::value_type>, output_set_impl_choice> type;
+		typedef luaw_depth_first_parser<InputIterator, SourceRef, WeightTransformer, array_fake_pool<typename luawns_rtno<InputIterator, typename WeightTransformer::result_type, u_context_mask>::state_const_ref>, array_fake_pool<unichar>, serializer<array_fake_pool<unichar>::value_type>, output_set_impl_choice> type;
 #else
-		typedef luaw_depth_first_parser<InputIterator, SourceRef, WeightTransformer, array_fake_pool<typename luaw_rtno<InputIterator, typename WeightTransformer::result_type, u_context_mask>::type::state_const_ref>, array_fake_pool<unichar>, output_set_impl_choice> type;
+		typedef luaw_depth_first_parser<InputIterator, SourceRef, WeightTransformer, array_fake_pool<typename luaw_rtno<InputIterator, typename WeightTransformer::result_type, u_context_mask>::state_const_ref>, array_fake_pool<unichar>, output_set_impl_choice> type;
 #endif
 	};
 
@@ -118,9 +118,9 @@ typedef typename base_type::match match;
 	struct luaw_depth_first_parser_impl_selector<InputIterator, SourceRef, WeightTransformer, TRIE_STRINGS, output_set_impl_choice>
 	{
 #ifdef TRACE
-		typedef luaw_depth_first_parser<InputIterator, SourceRef, WeightTransformer, trie_string_pool<typename luawns_rtno<InputIterator, typename WeightTransformer::result_type, u_context_mask>::type::state_const_ref>, trie_string_ref_pool<unichar>, const_deref_serializer<typename trie_string_ref_pool<unichar>::base_type>, output_set_impl_choice> type;
+		typedef luaw_depth_first_parser<InputIterator, SourceRef, WeightTransformer, trie_string_pool<typename luawns_rtno<InputIterator, typename WeightTransformer::result_type, u_context_mask>::state_const_ref>, trie_string_ref_pool<unichar>, const_deref_serializer<typename trie_string_ref_pool<unichar>::base_type>, output_set_impl_choice> type;
 #else
-		typedef luaw_depth_first_parser<InputIterator, SourceRef, WeightTransformer, trie_string_pool<typename luaw_rtno<InputIterator, typename WeightTransformer::result_type, u_context_mask>::type::state_const_ref>, trie_string_ref_pool<unichar>, output_set_impl_choice> type;
+		typedef luaw_depth_first_parser<InputIterator, SourceRef, WeightTransformer, trie_string_pool<typename luaw_rtno<InputIterator, typename WeightTransformer::result_type, u_context_mask>::state_const_ref>, trie_string_ref_pool<unichar>, output_set_impl_choice> type;
 #endif
 	};
 } //namespace grapenlp

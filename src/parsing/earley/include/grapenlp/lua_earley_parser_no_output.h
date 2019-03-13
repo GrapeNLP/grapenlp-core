@@ -34,29 +34,29 @@ namespace grapenlp
 	template<typename InputIterator, typename SourceRef, assoc_container_impl_choice execution_state_set_impl_choice>
 #ifdef TRACE
 	struct lua_earley_parser_no_output: public earley_parser_no_output<
-	        typename luans_rtno<InputIterator, u_context_mask>::type::tag_input,
-	        typename luans_rtno<InputIterator, u_context_mask>::type::tag_output,
+	        typename luans_rtno<InputIterator, u_context_mask>::tag_input,
+	        typename luans_rtno<InputIterator, u_context_mask>::tag_output,
 	        SourceRef,
 	        execution_state_set_impl_choice
 	        >
 	{
 		typedef earley_parser_no_output<
-				typename luans_rtno<InputIterator, u_context_mask>::type::tag_input,
-				typename luans_rtno<InputIterator, u_context_mask>::type::tag_output,
+				typename luans_rtno<InputIterator, u_context_mask>::tag_input,
+				typename luans_rtno<InputIterator, u_context_mask>::tag_output,
 				SourceRef,
 				execution_state_set_impl_choice
 		        > base_type;
 #else
 	struct lua_earley_parser_no_output: public earley_parser_no_output<
-	        typename lua_rtno<InputIterator, u_context_mask>::type::tag_input,
-	        typename lua_rtno<InputIterator, u_context_mask>::type::tag_output,
+	        typename lua_rtno<InputIterator, u_context_mask>::tag_input,
+	        typename lua_rtno<InputIterator, u_context_mask>::tag_output,
 	        SourceRef,
 	        execution_state_set_impl_choice
 	        >
 	{
 		typedef earley_parser_no_output<
-		        typename lua_rtno<InputIterator, u_context_mask>::type::tag_input,
-		        typename lua_rtno<InputIterator, u_context_mask>::type::tag_output,
+		        typename lua_rtno<InputIterator, u_context_mask>::tag_input,
+		        typename lua_rtno<InputIterator, u_context_mask>::tag_output,
 		        SourceRef,
 		        execution_state_set_impl_choice
 		        > base_type;

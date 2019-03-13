@@ -34,29 +34,29 @@ namespace grapenlp
 	template<typename InputIterator, typename SourceRef, typename Weight, typename StateConstRefStackPool>
 #ifdef TRACE
 	struct luaw_depth_first_parser_no_output: public depth_first_parser_no_output<
-	        typename luawns_rtno<InputIterator, Weight, u_context_mask>::type::tag_input,
-	        typename luawns_rtno<InputIterator, Weight, u_context_mask>::type::tag_output,
+	        typename luawns_rtno<InputIterator, Weight, u_context_mask>::tag_input,
+	        typename luawns_rtno<InputIterator, Weight, u_context_mask>::tag_output,
 	        SourceRef,
 	        StateConstRefStackPool
 	        >
 	{
 		typedef depth_first_parser_no_output<
-				typename luawns_rtno<InputIterator, Weight, u_context_mask>::type::tag_input,
-				typename luawns_rtno<InputIterator, Weight, u_context_mask>::type::tag_output,
+				typename luawns_rtno<InputIterator, Weight, u_context_mask>::tag_input,
+				typename luawns_rtno<InputIterator, Weight, u_context_mask>::tag_output,
 				SourceRef,
 				StateConstRefStackPool
 		        > base_type;
 #else
 	struct luaw_depth_first_parser_no_output: public depth_first_parser_no_output<
-	        typename luaw_rtno<InputIterator, Weight, u_context_mask>::type::tag_input,
-	        typename luaw_rtno<InputIterator, Weight, u_context_mask>::type::tag_output,
+	        typename luaw_rtno<InputIterator, Weight, u_context_mask>::tag_input,
+	        typename luaw_rtno<InputIterator, Weight, u_context_mask>::tag_output,
 	        SourceRef,
 	        StateConstRefStackPool
 	        >
 	{
 		typedef depth_first_parser_no_output<
-		        typename luaw_rtno<InputIterator, Weight, u_context_mask>::type::tag_input,
-		        typename luaw_rtno<InputIterator, Weight, u_context_mask>::type::tag_output,
+		        typename luaw_rtno<InputIterator, Weight, u_context_mask>::tag_input,
+		        typename luaw_rtno<InputIterator, Weight, u_context_mask>::tag_output,
 		        SourceRef,
 		        StateConstRefStackPool
 		        > base_type;
@@ -82,9 +82,9 @@ typedef typename base_type::match match;
 	struct luaw_depth_first_parser_no_output_impl_selector<InputIterator, SourceRef, Weight, ARRAYS>
 	{
 #ifdef TRACE
-		typedef luaw_depth_first_parser_no_output<InputIterator, SourceRef, Weight, array_fake_pool<typename luawns_rtno<InputIterator, Weight, u_context_mask>::type::state_const_ref> > type;
+		typedef luaw_depth_first_parser_no_output<InputIterator, SourceRef, Weight, array_fake_pool<typename luawns_rtno<InputIterator, Weight, u_context_mask>::state_const_ref> > type;
 #else
-		typedef luaw_depth_first_parser_no_output<InputIterator, SourceRef, Weight, array_fake_pool<typename luaw_rtno<InputIterator, Weight, u_context_mask>::type::state_const_ref> > type;
+		typedef luaw_depth_first_parser_no_output<InputIterator, SourceRef, Weight, array_fake_pool<typename luaw_rtno<InputIterator, Weight, u_context_mask>::state_const_ref> > type;
 #endif
 	};
 
@@ -92,9 +92,9 @@ typedef typename base_type::match match;
 	struct luaw_depth_first_parser_no_output_impl_selector<InputIterator, SourceRef, Weight, TRIE_STRINGS>
 	{
 #ifdef TRACE
-		typedef luaw_depth_first_parser_no_output<InputIterator, SourceRef, Weight, trie_string_pool<typename luawns_rtno<InputIterator, Weight, u_context_mask>::type::state_const_ref> > type;
+		typedef luaw_depth_first_parser_no_output<InputIterator, SourceRef, Weight, trie_string_pool<typename luawns_rtno<InputIterator, Weight, u_context_mask>::state_const_ref> > type;
 #else
-		typedef luaw_depth_first_parser_no_output<InputIterator, SourceRef, Weight, trie_string_pool<typename luaw_rtno<InputIterator, Weight, u_context_mask>::type::state_const_ref> > type;
+		typedef luaw_depth_first_parser_no_output<InputIterator, SourceRef, Weight, trie_string_pool<typename luaw_rtno<InputIterator, Weight, u_context_mask>::state_const_ref> > type;
 #endif
 	};
 } //namespace grapenlp

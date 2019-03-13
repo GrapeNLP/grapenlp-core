@@ -35,13 +35,51 @@ namespace grapenlp
 {
 	template<typename SourceRef, typename Id, typename WeightTransformer, typename RTNOTagInput, assoc_container_impl_choice execution_state_set_impl_choice, assoc_container_impl_choice output_set_impl_choice>
 #ifdef TRACE
-	struct xw_fprtn_blackboard_set_expander: public fprtn_blackboard_set_expander<SourceRef, typename xw_output_fprtn_zpps<u_context_mask, SourceRef, Id, typename WeightTransformer::result_type, RTNOTagInput, execution_state_set_impl_choice>::type::tag_input, RTNOTagInput, segment_map_x_weight<SourceRef, Id, typename WeightTransformer::result_type, output_set_impl_choice>, serializer<segment_map_x_weight<SourceRef, Id, typename WeightTransformer::result_type, output_set_impl_choice> >, segment_map_x_weight_transformer<SourceRef, Id, WeightTransformer, output_set_impl_choice>, segment_map_x_weight_composer<SourceRef, Id, WeightTransformer, output_set_impl_choice>, execution_state_set_impl_choice, output_set_impl_choice>
+	struct xw_fprtn_blackboard_set_expander: public fprtn_blackboard_set_expander<
+        SourceRef,
+        typename xw_output_fprtn_zpps<u_context_mask, SourceRef, Id, typename WeightTransformer::result_type, RTNOTagInput, execution_state_set_impl_choice>::tag_input,
+        RTNOTagInput,
+        segment_map_x_weight<SourceRef, Id, typename WeightTransformer::result_type, output_set_impl_choice>,
+        serializer<segment_map_x_weight<SourceRef, Id, typename WeightTransformer::result_type, output_set_impl_choice> >,
+        segment_map_x_weight_transformer<SourceRef, Id, WeightTransformer, output_set_impl_choice>,
+        segment_map_x_weight_composer<SourceRef, Id, WeightTransformer, output_set_impl_choice>,
+        execution_state_set_impl_choice,
+        output_set_impl_choice
+        >
 	{
-		typedef fprtn_blackboard_set_expander<SourceRef, typename xw_output_fprtn_zpps<u_context_mask, SourceRef, Id, typename WeightTransformer::result_type, RTNOTagInput, execution_state_set_impl_choice>::type::tag_input, RTNOTagInput, segment_map_x_weight<SourceRef, Id, typename WeightTransformer::result_type, output_set_impl_choice>, serializer<segment_map_x_weight<SourceRef, Id, typename WeightTransformer::result_type, output_set_impl_choice> >, segment_map_x_weight_transformer<SourceRef, Id, WeightTransformer, output_set_impl_choice>, segment_map_x_weight_composer<SourceRef, Id, WeightTransformer, output_set_impl_choice>, execution_state_set_impl_choice, output_set_impl_choice> base_type;
+		typedef fprtn_blackboard_set_expander<
+			SourceRef,
+			typename xw_output_fprtn_zpps<u_context_mask, SourceRef, Id, typename WeightTransformer::result_type, RTNOTagInput, execution_state_set_impl_choice>::tag_input,
+			RTNOTagInput,
+			segment_map_x_weight<SourceRef, Id, typename WeightTransformer::result_type, output_set_impl_choice>,
+			serializer<segment_map_x_weight<SourceRef, Id, typename WeightTransformer::result_type, output_set_impl_choice> >,
+			segment_map_x_weight_transformer<SourceRef, Id, WeightTransformer, output_set_impl_choice>,
+			segment_map_x_weight_composer<SourceRef, Id, WeightTransformer, output_set_impl_choice>,
+			execution_state_set_impl_choice,
+			output_set_impl_choice
+		    > base_type;
 #else
-	struct xw_fprtn_blackboard_set_expander: public fprtn_blackboard_set_expander<SourceRef, typename xw_output_fprtn_zpps<u_context_mask, SourceRef, Id, typename WeightTransformer::result_type, RTNOTagInput, execution_state_set_impl_choice>::type::tag_input, RTNOTagInput, segment_map_x_weight<SourceRef, Id, typename WeightTransformer::result_type, output_set_impl_choice>, segment_map_x_weight_transformer<SourceRef, Id, WeightTransformer, output_set_impl_choice>, segment_map_x_weight_composer<SourceRef, Id, WeightTransformer, output_set_impl_choice>, execution_state_set_impl_choice, output_set_impl_choice>
+	struct xw_fprtn_blackboard_set_expander: public fprtn_blackboard_set_expander<
+        SourceRef,
+        typename xw_output_fprtn_zpps<u_context_mask, SourceRef, Id, typename WeightTransformer::result_type, RTNOTagInput, execution_state_set_impl_choice>::tag_input,
+        RTNOTagInput,
+        segment_map_x_weight<SourceRef, Id, typename WeightTransformer::result_type, output_set_impl_choice>,
+        segment_map_x_weight_transformer<SourceRef, Id, WeightTransformer, output_set_impl_choice>,
+        segment_map_x_weight_composer<SourceRef, Id, WeightTransformer, output_set_impl_choice>,
+        execution_state_set_impl_choice,
+        output_set_impl_choice
+        >
 	{
-		typedef fprtn_blackboard_set_expander<SourceRef, typename xw_output_fprtn_zpps<u_context_mask, SourceRef, Id, typename WeightTransformer::result_type, RTNOTagInput, execution_state_set_impl_choice>::type::tag_input, RTNOTagInput, segment_map_x_weight<SourceRef, Id, typename WeightTransformer::result_type, output_set_impl_choice>, segment_map_x_weight_transformer<SourceRef, Id, WeightTransformer, output_set_impl_choice>, segment_map_x_weight_composer<SourceRef, Id, WeightTransformer, output_set_impl_choice>, execution_state_set_impl_choice, output_set_impl_choice> base_type;
+		typedef fprtn_blackboard_set_expander<
+			SourceRef,
+			typename xw_output_fprtn_zpps<u_context_mask, SourceRef, Id, typename WeightTransformer::result_type, RTNOTagInput, execution_state_set_impl_choice>::tag_input,
+			RTNOTagInput,
+			segment_map_x_weight<SourceRef, Id, typename WeightTransformer::result_type, output_set_impl_choice>,
+			segment_map_x_weight_transformer<SourceRef, Id, WeightTransformer, output_set_impl_choice>,
+			segment_map_x_weight_composer<SourceRef, Id, WeightTransformer, output_set_impl_choice>,
+			execution_state_set_impl_choice,
+			output_set_impl_choice
+		    > base_type;
 #endif
 		typedef typename base_type::machine machine;
 		typedef typename base_type::tag_input tag_input;

@@ -37,14 +37,52 @@ namespace grapenlp
 {
 #ifdef TRACE
 	template<typename SourceRef, typename RTNOTagInput, typename StateConstRefStackRefPool, typename OutputArrayPool, typename OutputArraySerializer, assoc_container_impl_choice execution_state_set_impl_choice, assoc_container_impl_choice output_set_impl_choice>
-	struct a_fprtn_breadth_first_expander: public fprtn_breadth_first_expander<SourceRef, typename a_output_fprtn<u_context_mask, SourceRef, typename OutputArrayPool::char_type, RTNOTagInput, execution_state_set_impl_choice>::type::tag_input, RTNOTagInput, typename OutputArrayPool::value_type, OutputArraySerializer, typename OutputArrayPool::concatenator, StateConstRefStackRefPool, execution_state_set_impl_choice, output_set_impl_choice>
+	struct a_fprtn_breadth_first_expander: public fprtn_breadth_first_expander<
+		SourceRef,
+		typename a_output_fprtn<u_context_mask, SourceRef, typename OutputArrayPool::char_type, RTNOTagInput, execution_state_set_impl_choice>::tag_input,
+		RTNOTagInput,
+		typename OutputArrayPool::value_type,
+		OutputArraySerializer,
+		typename OutputArrayPool::concatenator,
+		StateConstRefStackRefPool,
+		execution_state_set_impl_choice,
+		output_set_impl_choice
+		>
 	{
-		typedef fprtn_breadth_first_expander<SourceRef, typename a_output_fprtn<u_context_mask, SourceRef, typename OutputArrayPool::char_type, RTNOTagInput, execution_state_set_impl_choice>::type::tag_input, RTNOTagInput, typename OutputArrayPool::value_type, OutputArraySerializer, typename OutputArrayPool::concatenator, StateConstRefStackRefPool, execution_state_set_impl_choice, output_set_impl_choice> base_type;
+		typedef fprtn_breadth_first_expander<
+			SourceRef,
+			typename a_output_fprtn<u_context_mask, SourceRef, typename OutputArrayPool::char_type, RTNOTagInput, execution_state_set_impl_choice>::tag_input,
+			RTNOTagInput,
+			typename OutputArrayPool::value_type,
+			OutputArraySerializer,
+			typename OutputArrayPool::concatenator,
+			StateConstRefStackRefPool,
+			execution_state_set_impl_choice,
+			output_set_impl_choice
+	        > base_type;
 #else
 	template<typename SourceRef, typename RTNOTagInput, typename StateConstRefStackRefPool, typename OutputArrayPool, assoc_container_impl_choice execution_state_set_impl_choice, assoc_container_impl_choice output_set_impl_choice>
-	struct a_fprtn_breadth_first_expander: public fprtn_breadth_first_expander<SourceRef, typename a_output_fprtn<u_context_mask, SourceRef, typename OutputArrayPool::char_type, RTNOTagInput, execution_state_set_impl_choice>::type::tag_input, RTNOTagInput, typename OutputArrayPool::value_type, typename OutputArrayPool::concatenator, StateConstRefStackRefPool, execution_state_set_impl_choice, output_set_impl_choice>
+	struct a_fprtn_breadth_first_expander: public fprtn_breadth_first_expander<
+		SourceRef,
+		typename a_output_fprtn<u_context_mask, SourceRef, typename OutputArrayPool::char_type, RTNOTagInput, execution_state_set_impl_choice>::tag_input,
+		RTNOTagInput,
+		typename OutputArrayPool::value_type,
+		typename OutputArrayPool::concatenator,
+		StateConstRefStackRefPool,
+		execution_state_set_impl_choice,
+		output_set_impl_choice
+		>
 	{
-		typedef fprtn_breadth_first_expander<SourceRef, typename a_output_fprtn<u_context_mask, SourceRef, typename OutputArrayPool::char_type, RTNOTagInput, execution_state_set_impl_choice>::type::tag_input, RTNOTagInput, typename OutputArrayPool::value_type, typename OutputArrayPool::concatenator, StateConstRefStackRefPool, execution_state_set_impl_choice, output_set_impl_choice> base_type;
+		typedef fprtn_breadth_first_expander<
+			SourceRef,
+			typename a_output_fprtn<u_context_mask, SourceRef, typename OutputArrayPool::char_type, RTNOTagInput, execution_state_set_impl_choice>::tag_input,
+			RTNOTagInput,
+			typename OutputArrayPool::value_type,
+			typename OutputArrayPool::concatenator,
+			StateConstRefStackRefPool,
+			execution_state_set_impl_choice,
+			output_set_impl_choice
+			> base_type;
 #endif
 		typedef typename base_type::machine machine;
 		typedef typename base_type::tag_input tag_input;
@@ -67,9 +105,9 @@ namespace grapenlp
 	struct a_fprtn_breadth_first_expander_impl_selector<SourceRef, OutputChar, RTNOTagInput, ARRAYS, execution_state_set_impl_choice, output_set_impl_choice>
 	{
 #ifdef TRACE
-		typedef a_fprtn_breadth_first_expander<SourceRef, RTNOTagInput, array_fake_ref_pool<typename a_output_fprtn<u_context_mask, SourceRef, OutputChar, RTNOTagInput, execution_state_set_impl_choice>::type::state_const_ref>, array_fake_pool<OutputChar>, serializer<typename array_fake_pool<OutputChar>::value_type>, execution_state_set_impl_choice, output_set_impl_choice> type;
+		typedef a_fprtn_breadth_first_expander<SourceRef, RTNOTagInput, array_fake_ref_pool<typename a_output_fprtn<u_context_mask, SourceRef, OutputChar, RTNOTagInput, execution_state_set_impl_choice>::state_const_ref>, array_fake_pool<OutputChar>, serializer<typename array_fake_pool<OutputChar>::value_type>, execution_state_set_impl_choice, output_set_impl_choice> type;
 #else
-		typedef a_fprtn_breadth_first_expander<SourceRef, RTNOTagInput, array_fake_ref_pool<typename a_output_fprtn<u_context_mask, SourceRef, OutputChar, RTNOTagInput, execution_state_set_impl_choice>::type::state_const_ref>, array_fake_pool<OutputChar>, execution_state_set_impl_choice, output_set_impl_choice> type;
+		typedef a_fprtn_breadth_first_expander<SourceRef, RTNOTagInput, array_fake_ref_pool<typename a_output_fprtn<u_context_mask, SourceRef, OutputChar, RTNOTagInput, execution_state_set_impl_choice>::state_const_ref>, array_fake_pool<OutputChar>, execution_state_set_impl_choice, output_set_impl_choice> type;
 #endif
 	};
 
@@ -77,9 +115,9 @@ namespace grapenlp
 	struct a_fprtn_breadth_first_expander_impl_selector<SourceRef, OutputChar, RTNOTagInput, TRIE_STRINGS, execution_state_set_impl_choice, output_set_impl_choice>
 	{
 #ifdef TRACE
-		typedef a_fprtn_breadth_first_expander<SourceRef, RTNOTagInput, trie_string_ref_pool<typename a_output_fprtn<u_context_mask, SourceRef, OutputChar, RTNOTagInput, execution_state_set_impl_choice>::type::state_const_ref>, trie_string_ref_pool<OutputChar>, const_deref_serializer<typename trie_string_ref_pool<OutputChar>::base_type>, execution_state_set_impl_choice, output_set_impl_choice> type;
+		typedef a_fprtn_breadth_first_expander<SourceRef, RTNOTagInput, trie_string_ref_pool<typename a_output_fprtn<u_context_mask, SourceRef, OutputChar, RTNOTagInput, execution_state_set_impl_choice>::state_const_ref>, trie_string_ref_pool<OutputChar>, const_deref_serializer<typename trie_string_ref_pool<OutputChar>::base_type>, execution_state_set_impl_choice, output_set_impl_choice> type;
 #else
-		typedef a_fprtn_breadth_first_expander<SourceRef, RTNOTagInput, trie_string_ref_pool<typename a_output_fprtn<u_context_mask, SourceRef, OutputChar, RTNOTagInput, execution_state_set_impl_choice>::type::state_const_ref>, trie_string_ref_pool<OutputChar>, execution_state_set_impl_choice, output_set_impl_choice> type;
+		typedef a_fprtn_breadth_first_expander<SourceRef, RTNOTagInput, trie_string_ref_pool<typename a_output_fprtn<u_context_mask, SourceRef, OutputChar, RTNOTagInput, execution_state_set_impl_choice>::state_const_ref>, trie_string_ref_pool<OutputChar>, execution_state_set_impl_choice, output_set_impl_choice> type;
 #endif
 	};
 }

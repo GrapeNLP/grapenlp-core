@@ -32,14 +32,7 @@
 namespace grapenlp
 {
 	template<typename ContextMask, typename SourceRef, typename T, typename Weight, typename RTNOTagInput, assoc_container_impl_choice execution_state_set_impl_choice>
-	struct aw_output_fprtn_zpps
-	{
-		typedef typename output_fprtn_zpps<ContextMask, SourceRef, array_const_ref_x_weight<T, Weight>, RTNOTagInput, execution_state_set_impl_choice>::type type;
-
-	private:
-		aw_output_fprtn_zpps()
-		{}
-	};
+	using aw_output_fprtn_zpps = output_fprtn_zpps<ContextMask, SourceRef, array_const_ref_x_weight<T, Weight>, RTNOTagInput, execution_state_set_impl_choice>;
 } //namespace grapenlp
 
 #endif /*GRAPENLP_AW_OUTPUT_FPRTN_ZPPS_H*/

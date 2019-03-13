@@ -23,19 +23,19 @@
  *  @author Javier Sastre
  */
 
-#ifndef GRAPENLP_UAW_OUTPUT_FPRTN_ZPPS_PRUNE_H
-#define GRAPENLP_UAW_OUTPUT_FPRTN_ZPPS_PRUNE_H
+#ifndef GRAPENLP_UX_OUTPUT_FPRTN_ZPPS_PRUNE_H
+#define GRAPENLP_UX_OUTPUT_FPRTN_ZPPS_PRUNE_H
 
-#include <grapenlp/aw_output_fprtn_zpps_prune.h>
-#include <grapenlp/uaw_output_fprtn_zpps.h>
+#include <grapenlp/x_output_fprtn_zpps_prune.h>
+#include <grapenlp/ux_output_fprtn_zpps.h>
 
 namespace grapenlp
 {
-	template<typename SourceRef, typename Weight, typename RTNOTagInput, assoc_container_impl_choice execution_state_set_impl_choice>
-	std::size_t uaw_prune_zpps(typename uaw_output_fprtn_zpps<u_context_mask, SourceRef, Weight, RTNOTagInput, execution_state_set_impl_choice>::type &m)
+	template<typename SourceRef, typename RTNOTagInput, assoc_container_impl_choice execution_state_set_impl_choice>
+	std::size_t ux_prune_zpps(ux_output_fprtn_zpps<u_context_mask, SourceRef, RTNOTagInput, execution_state_set_impl_choice> &m)
 	{
-		return aw_prune_zpps<SourceRef, unichar, Weight, RTNOTagInput, execution_state_set_impl_choice>(m);
+		return x_prune_zpps<SourceRef, unichar, RTNOTagInput, execution_state_set_impl_choice>(m);
 	}
 } //namespace grapenlp
 
-#endif /*GRAPENLP_UAW_OUTPUT_FPRTN_ZPPS_PRUNE_H*/
+#endif /*GRAPENLP_UX_OUTPUT_FPRTN_ZPPS_PRUNE_H*/

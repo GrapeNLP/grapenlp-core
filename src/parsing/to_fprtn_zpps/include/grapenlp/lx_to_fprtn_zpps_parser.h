@@ -35,8 +35,8 @@ namespace grapenlp
 	struct lx_to_fprtn_zpps_parser_impl_selector
 	{
 		typedef to_fprtn_zpps_parser<
-		        typename lx_rtno<InputIterator, Id, u_context_mask>::type::tag_input,
-		        typename lx_rtno<InputIterator, Id, u_context_mask>::type::tag_output,
+		        typename lx_rtno<InputIterator, Id, u_context_mask>::tag_input,
+		        typename lx_rtno<InputIterator, Id, u_context_mask>::tag_output,
 		        SourceRef,
 		        execution_state_set_impl_choice
 		        > type;

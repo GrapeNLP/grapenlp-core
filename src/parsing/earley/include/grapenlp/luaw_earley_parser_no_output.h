@@ -34,29 +34,29 @@ namespace grapenlp
 	template<typename InputIterator, typename SourceRef, typename Weight, assoc_container_impl_choice execution_state_set_impl_choice>
 #ifdef TRACE
 	struct luaw_earley_parser_no_output: public earley_parser_no_output<
-	        typename luawns_rtno<InputIterator, Weight, u_context_mask>::type::tag_input,
-	        typename luawns_rtno<InputIterator, Weight, u_context_mask>::type::tag_output,
+	        typename luawns_rtno<InputIterator, Weight, u_context_mask>::tag_input,
+	        typename luawns_rtno<InputIterator, Weight, u_context_mask>::tag_output,
 	        SourceRef,
 	        execution_state_set_impl_choice
 	        >
 	{
 		typedef earley_parser_no_output<
-				typename luawns_rtno<InputIterator, Weight, u_context_mask>::type::tag_input,
-				typename luawns_rtno<InputIterator, Weight, u_context_mask>::type::tag_output,
+				typename luawns_rtno<InputIterator, Weight, u_context_mask>::tag_input,
+				typename luawns_rtno<InputIterator, Weight, u_context_mask>::tag_output,
 				SourceRef,
 				execution_state_set_impl_choice
 		        > base_type;
 #else
 	struct luaw_earley_parser_no_output: public earley_parser_no_output<
-	        typename luaw_rtno<InputIterator, Weight, u_context_mask>::type::tag_input,
-	        typename luaw_rtno<InputIterator, Weight, u_context_mask>::type::tag_output,
+	        typename luaw_rtno<InputIterator, Weight, u_context_mask>::tag_input,
+	        typename luaw_rtno<InputIterator, Weight, u_context_mask>::tag_output,
 	        SourceRef,
 	        execution_state_set_impl_choice
 	        >
 	{
 		typedef earley_parser_no_output<
-				typename luaw_rtno<InputIterator, Weight, u_context_mask>::type::tag_input,
-				typename luaw_rtno<InputIterator, Weight, u_context_mask>::type::tag_output,
+				typename luaw_rtno<InputIterator, Weight, u_context_mask>::tag_input,
+				typename luaw_rtno<InputIterator, Weight, u_context_mask>::tag_output,
 				SourceRef,
 				execution_state_set_impl_choice
 		        > base_type;

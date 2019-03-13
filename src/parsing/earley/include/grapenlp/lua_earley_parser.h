@@ -39,8 +39,8 @@ namespace grapenlp
 #ifdef TRACE
 	template<typename InputIterator, typename SourceRef, typename OutputUArrayPool, typename OutputUArraySerializer, assoc_container_impl_choice execution_state_set_impl_choice, assoc_container_impl_choice output_state_set_impl_choice>
 	struct lua_earley_parser: public earley_parser<
-	        typename luans_rtno<InputIterator, u_context_mask>::type::tag_input,
-	        typename luans_rtno<InputIterator, u_context_mask>::type::tag_output,
+	        typename luans_rtno<InputIterator, u_context_mask>::tag_input,
+	        typename luans_rtno<InputIterator, u_context_mask>::tag_output,
 	        SourceRef,
 	        typename OutputUArrayPool::value_type,
 	        OutputUArraySerializer,
@@ -51,8 +51,8 @@ namespace grapenlp
 	        >
 	{
 		typedef earley_parser<
-                typename luans_rtno<InputIterator, u_context_mask>::type::tag_input,
-                typename luans_rtno<InputIterator, u_context_mask>::type::tag_output,
+                typename luans_rtno<InputIterator, u_context_mask>::tag_input,
+                typename luans_rtno<InputIterator, u_context_mask>::tag_output,
                 SourceRef,
                 typename OutputUArrayPool::value_type,
                 OutputUArraySerializer,
@@ -64,8 +64,8 @@ namespace grapenlp
 #else
 	template<typename InputIterator, typename SourceRef, typename OutputUArrayPool, assoc_container_impl_choice execution_state_set_impl_choice, assoc_container_impl_choice output_state_set_impl_choice>
 	struct lua_earley_parser: public earley_parser<
-	        typename lua_rtno<InputIterator, u_context_mask>::type::tag_input,
-	        typename lua_rtno<InputIterator, u_context_mask>::type::tag_output,
+	        typename lua_rtno<InputIterator, u_context_mask>::tag_input,
+	        typename lua_rtno<InputIterator, u_context_mask>::tag_output,
 	        SourceRef,
 	        typename OutputUArrayPool::value_type,
 	        typename OutputUArrayPool::concatenator,
@@ -75,8 +75,8 @@ namespace grapenlp
 	        >
 	{
 		typedef earley_parser<
-                typename lua_rtno<InputIterator, u_context_mask>::type::tag_input,
-                typename lua_rtno<InputIterator, u_context_mask>::type::tag_output,
+                typename lua_rtno<InputIterator, u_context_mask>::tag_input,
+                typename lua_rtno<InputIterator, u_context_mask>::tag_output,
                 SourceRef,
                 typename OutputUArrayPool::value_type,
                 typename OutputUArrayPool::concatenator,

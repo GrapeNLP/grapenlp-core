@@ -35,8 +35,8 @@ namespace grapenlp
 	struct luaw_to_fprtn_zpps_parser_impl_selector
 	{
 		typedef to_fprtn_zpps_parser<
-		        typename luaw_rtno<InputIterator, Weight, u_context_mask>::type::tag_input,
-		        typename luaw_rtno<InputIterator, Weight, u_context_mask>::type::tag_output,
+		        typename luaw_rtno<InputIterator, Weight, u_context_mask>::tag_input,
+		        typename luaw_rtno<InputIterator, Weight, u_context_mask>::tag_output,
 		        SourceRef,
 		        execution_state_set_impl_choice
 		        > type;

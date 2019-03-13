@@ -34,29 +34,29 @@ namespace grapenlp
 	template<typename InputIterator, typename SourceRef, typename StateConstRefStackPool>
 #ifdef TRACE
 	struct lua_depth_first_parser_no_output: public depth_first_parser_no_output<
-	        typename luans_rtno<InputIterator, u_context_mask>::type::tag_input,
-	        typename luans_rtno<InputIterator, u_context_mask>::type::tag_output,
+	        typename luans_rtno<InputIterator, u_context_mask>::tag_input,
+	        typename luans_rtno<InputIterator, u_context_mask>::tag_output,
 	        SourceRef,
 	        StateConstRefStackPool
 	        >
 	{
 		typedef depth_first_parser_no_output<
-				typename luans_rtno<InputIterator, u_context_mask>::type::tag_input,
-				typename luans_rtno<InputIterator, u_context_mask>::type::tag_output,
+				typename luans_rtno<InputIterator, u_context_mask>::tag_input,
+				typename luans_rtno<InputIterator, u_context_mask>::tag_output,
 				SourceRef,
 				StateConstRefStackPool
 		        > base_type;
 #else
 	struct lua_depth_first_parser_no_output: public depth_first_parser_no_output<
-	        typename lua_rtno<InputIterator, u_context_mask>::type::tag_input,
-	        typename lua_rtno<InputIterator, u_context_mask>::type::tag_output,
+	        typename lua_rtno<InputIterator, u_context_mask>::tag_input,
+	        typename lua_rtno<InputIterator, u_context_mask>::tag_output,
 	        SourceRef,
 	        StateConstRefStackPool
 	        >
 	{
 		typedef depth_first_parser_no_output<
-                typename lua_rtno<InputIterator, u_context_mask>::type::tag_input,
-                typename lua_rtno<InputIterator, u_context_mask>::type::tag_output,
+                typename lua_rtno<InputIterator, u_context_mask>::tag_input,
+                typename lua_rtno<InputIterator, u_context_mask>::tag_output,
                 SourceRef,
                 StateConstRefStackPool
                 > base_type;
@@ -82,9 +82,9 @@ namespace grapenlp
 	struct lua_depth_first_parser_no_output_impl_selector<InputIterator, SourceRef, ARRAYS>
 	{
 #ifdef TRACE
-		typedef lua_depth_first_parser_no_output<InputIterator, SourceRef, array_fake_pool<typename luans_rtno<InputIterator, u_context_mask>::type::state_const_ref> > type;
+		typedef lua_depth_first_parser_no_output<InputIterator, SourceRef, array_fake_pool<typename luans_rtno<InputIterator, u_context_mask>::state_const_ref> > type;
 #else
-		typedef lua_depth_first_parser_no_output<InputIterator, SourceRef, array_fake_pool<typename lua_rtno<InputIterator, u_context_mask>::type::state_const_ref> > type;
+		typedef lua_depth_first_parser_no_output<InputIterator, SourceRef, array_fake_pool<typename lua_rtno<InputIterator, u_context_mask>::state_const_ref> > type;
 #endif
 	};
 
@@ -92,9 +92,9 @@ namespace grapenlp
 	struct lua_depth_first_parser_no_output_impl_selector<InputIterator, SourceRef, TRIE_STRINGS>
 	{
 #ifdef TRACE
-		typedef lua_depth_first_parser_no_output<InputIterator, SourceRef, trie_string_pool<typename luans_rtno<InputIterator, u_context_mask>::type::state_const_ref> > type;
+		typedef lua_depth_first_parser_no_output<InputIterator, SourceRef, trie_string_pool<typename luans_rtno<InputIterator, u_context_mask>::state_const_ref> > type;
 #else
-		typedef lua_depth_first_parser_no_output<InputIterator, SourceRef, trie_string_pool<typename lua_rtno<InputIterator, u_context_mask>::type::state_const_ref> > type;
+		typedef lua_depth_first_parser_no_output<InputIterator, SourceRef, trie_string_pool<typename lua_rtno<InputIterator, u_context_mask>::state_const_ref> > type;
 #endif
 	};
 } //namespace grapenlp

@@ -35,29 +35,29 @@ namespace grapenlp
 	template<typename InputIterator, typename SourceRef, typename Id, typename Weight, typename StateConstRefStackPool>
 #ifdef TRACE
 	struct lxw_depth_first_parser_no_output: public depth_first_parser_no_output<
-	        typename lxwns_rtno<InputIterator, Id, Weight, u_context_mask>::type::tag_input,
-	        typename lxwns_rtno<InputIterator, Id, Weight, u_context_mask>::type::tag_output,
+	        typename lxwns_rtno<InputIterator, Id, Weight, u_context_mask>::tag_input,
+	        typename lxwns_rtno<InputIterator, Id, Weight, u_context_mask>::tag_output,
 	        SourceRef,
 	        StateConstRefStackPool
 	        >
 	{
 		typedef depth_first_parser_no_output<
-                typename lxwns_rtno<InputIterator, Id, Weight, u_context_mask>::type::tag_input,
-                typename lxwns_rtno<InputIterator, Id, Weight, u_context_mask>::type::tag_output,
+                typename lxwns_rtno<InputIterator, Id, Weight, u_context_mask>::tag_input,
+                typename lxwns_rtno<InputIterator, Id, Weight, u_context_mask>::tag_output,
                 SourceRef,
                 StateConstRefStackPool
 		        > base_type;
 #else
 	struct lxw_depth_first_parser_no_output: public depth_first_parser_no_output<
-	        typename lxw_rtno<InputIterator, Id, Weight, u_context_mask>::type::tag_input,
-	        typename lxw_rtno<InputIterator, Id, Weight, u_context_mask>::type::tag_output,
+	        typename lxw_rtno<InputIterator, Id, Weight, u_context_mask>::tag_input,
+	        typename lxw_rtno<InputIterator, Id, Weight, u_context_mask>::tag_output,
 	        SourceRef,
 	        StateConstRefStackPool
 	        >
 	{
 		typedef depth_first_parser_no_output<
-                typename lxw_rtno<InputIterator, Id, Weight, u_context_mask>::type::tag_input,
-                typename lxw_rtno<InputIterator, Id, Weight, u_context_mask>::type::tag_output,
+                typename lxw_rtno<InputIterator, Id, Weight, u_context_mask>::tag_input,
+                typename lxw_rtno<InputIterator, Id, Weight, u_context_mask>::tag_output,
                 SourceRef,
                 StateConstRefStackPool
 		        > base_type;
@@ -83,9 +83,9 @@ typedef typename base_type::match match;
 	struct lxw_depth_first_parser_no_output_impl_selector<InputIterator, SourceRef, Id, Weight, ARRAYS>
 	{
 #ifdef TRACE
-		typedef lxw_depth_first_parser_no_output<InputIterator, SourceRef, Id, Weight, array_fake_pool<typename lxwns_rtno<InputIterator, Id, Weight, u_context_mask>::type::state_const_ref> > type;
+		typedef lxw_depth_first_parser_no_output<InputIterator, SourceRef, Id, Weight, array_fake_pool<typename lxwns_rtno<InputIterator, Id, Weight, u_context_mask>::state_const_ref> > type;
 #else
-		typedef lxw_depth_first_parser_no_output<InputIterator, SourceRef, Id, Weight, array_fake_pool<typename lxw_rtno<InputIterator, Id, Weight, u_context_mask>::type::state_const_ref> > type;
+		typedef lxw_depth_first_parser_no_output<InputIterator, SourceRef, Id, Weight, array_fake_pool<typename lxw_rtno<InputIterator, Id, Weight, u_context_mask>::state_const_ref> > type;
 #endif
 	};
 
@@ -93,9 +93,9 @@ typedef typename base_type::match match;
 	struct lxw_depth_first_parser_no_output_impl_selector<InputIterator, SourceRef, Id, Weight, TRIE_STRINGS>
 	{
 #ifdef TRACE
-		typedef lxw_depth_first_parser_no_output<InputIterator, SourceRef, Id, Weight, trie_string_pool<typename lxwns_rtno<InputIterator, Id, Weight, u_context_mask>::type::state_const_ref> > type;
+		typedef lxw_depth_first_parser_no_output<InputIterator, SourceRef, Id, Weight, trie_string_pool<typename lxwns_rtno<InputIterator, Id, Weight, u_context_mask>::state_const_ref> > type;
 #else
-		typedef lxw_depth_first_parser_no_output<InputIterator, SourceRef, Id, Weight, trie_string_pool<typename lxw_rtno<InputIterator, Id, Weight, u_context_mask>::type::state_const_ref> > type;
+		typedef lxw_depth_first_parser_no_output<InputIterator, SourceRef, Id, Weight, trie_string_pool<typename lxw_rtno<InputIterator, Id, Weight, u_context_mask>::state_const_ref> > type;
 #endif
 	};
 } //namespace grapenlp

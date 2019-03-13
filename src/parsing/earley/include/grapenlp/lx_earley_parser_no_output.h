@@ -34,29 +34,29 @@ namespace grapenlp
 	template<typename InputIterator, typename SourceRef, typename Id, assoc_container_impl_choice execution_state_set_impl_choice>
 #ifdef TRACE
 	struct lx_earley_parser_no_output: public earley_parser_no_output<
-	        typename lxns_rtno<InputIterator, Id, u_context_mask>::type::tag_input,
-	        typename lxns_rtno<InputIterator, Id, u_context_mask>::type::tag_output,
+	        typename lxns_rtno<InputIterator, Id, u_context_mask>::tag_input,
+	        typename lxns_rtno<InputIterator, Id, u_context_mask>::tag_output,
 	        SourceRef,
 	        execution_state_set_impl_choice
 	        >
 	{
 		typedef earley_parser_no_output<
-                typename lxns_rtno<InputIterator, Id, u_context_mask>::type::tag_input,
-                typename lxns_rtno<InputIterator, Id, u_context_mask>::type::tag_output,
+                typename lxns_rtno<InputIterator, Id, u_context_mask>::tag_input,
+                typename lxns_rtno<InputIterator, Id, u_context_mask>::tag_output,
                 SourceRef,
                 execution_state_set_impl_choice
 		        > base_type;
 #else
 	struct lx_earley_parser_no_output: public earley_parser_no_output<
-	        typename lx_rtno<InputIterator, Id, u_context_mask>::type::tag_input,
-	        typename lx_rtno<InputIterator, Id, u_context_mask>::type::tag_output,
+	        typename lx_rtno<InputIterator, Id, u_context_mask>::tag_input,
+	        typename lx_rtno<InputIterator, Id, u_context_mask>::tag_output,
 	        SourceRef,
 	        execution_state_set_impl_choice
 	        >
 	{
 		typedef earley_parser_no_output<
-				typename lx_rtno<InputIterator, Id, u_context_mask>::type::tag_input,
-				typename lx_rtno<InputIterator, Id, u_context_mask>::type::tag_output,
+				typename lx_rtno<InputIterator, Id, u_context_mask>::tag_input,
+				typename lx_rtno<InputIterator, Id, u_context_mask>::tag_output,
 				SourceRef,
 				execution_state_set_impl_choice
 		        > base_type;

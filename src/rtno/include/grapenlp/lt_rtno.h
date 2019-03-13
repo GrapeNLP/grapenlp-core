@@ -41,12 +41,7 @@ namespace grapenlp
 	 * @tparam Id the character type of the output strings (e.g. unichar)
 	 */
 	template<typename InputIterator, typename Id, typename ContextMask>
-	struct lt_rtno
-	{
-		typedef typename l_rtno<InputIterator, typename trie<Id>::string::const_ref, ContextMask>::type type;
-	private:
-		lt_rtno(){}
-	};
+	using lt_rtno = l_rtno<InputIterator, typename trie<Id>::string::const_ref, ContextMask>;
 
 	/**
 	 * Partial instantiation of the recursive transition network with output and numbered states for lexical mask input
@@ -56,12 +51,7 @@ namespace grapenlp
 	 * @tparam Id the character type of the output strings (e.g. unichar)
 	 */
 	template<typename InputIterator, typename Id, typename ContextMask>
-	struct ltns_rtno
-	{
-		typedef typename lns_rtno<InputIterator, typename trie<Id>::string::const_ref, ContextMask>::type type;
-	private:
-		ltns_rtno(){}
-	};
+	using ltns_rtno = lns_rtno<InputIterator, typename trie<Id>::string::const_ref, ContextMask>;
 } //namespace grapenlp
 
 #endif /*GRAPENLP_LT_RTNO_H*/

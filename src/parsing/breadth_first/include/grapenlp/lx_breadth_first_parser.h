@@ -35,8 +35,8 @@ namespace grapenlp
 	template<typename InputIterator, typename SourceRef, typename Id, typename StateConstRefStackPool, assoc_container_impl_choice execution_state_set_impl_choice, assoc_container_impl_choice output_set_impl_choice>
 #ifdef TRACE
 	struct lx_breadth_first_parser: public breadth_first_parser<
-	        typename lxns_rtno<InputIterator, Id, u_context_mask>::type::tag_input,
-	        typename lxns_rtno<InputIterator, Id, u_context_mask>::type::tag_output,
+	        typename lxns_rtno<InputIterator, Id, u_context_mask>::tag_input,
+	        typename lxns_rtno<InputIterator, Id, u_context_mask>::tag_output,
 	        SourceRef,
 	        segment_map<SourceRef, Id, output_set_impl_choice>,
 	        serializer<segment_map<SourceRef, Id, output_set_impl_choice> >,
@@ -47,8 +47,8 @@ namespace grapenlp
 	        >
 	{
 		typedef breadth_first_parser<
-				typename lxns_rtno<InputIterator, Id, u_context_mask>::type::tag_input,
-				typename lxns_rtno<InputIterator, Id, u_context_mask>::type::tag_output,
+				typename lxns_rtno<InputIterator, Id, u_context_mask>::tag_input,
+				typename lxns_rtno<InputIterator, Id, u_context_mask>::tag_output,
 				SourceRef,
 				segment_map<SourceRef, Id, output_set_impl_choice>,
 				serializer<segment_map<SourceRef, Id, output_set_impl_choice> >,
@@ -59,8 +59,8 @@ namespace grapenlp
 		        > base_type;
 #else
 	struct lx_breadth_first_parser: public breadth_first_parser<
-	        typename lx_rtno<InputIterator, Id, u_context_mask>::type::tag_input,
-	        typename lx_rtno<InputIterator, Id, u_context_mask>::type::tag_output,
+	        typename lx_rtno<InputIterator, Id, u_context_mask>::tag_input,
+	        typename lx_rtno<InputIterator, Id, u_context_mask>::tag_output,
 	        SourceRef,
 	        segment_map<SourceRef, Id, output_set_impl_choice>,
 	        segment_map_transformer<SourceRef, Id, output_set_impl_choice>,
@@ -70,8 +70,8 @@ namespace grapenlp
 	        >
 	{
 		typedef breadth_first_parser<
-				typename lx_rtno<InputIterator, Id, u_context_mask>::type::tag_input,
-				typename lx_rtno<InputIterator, Id, u_context_mask>::type::tag_output,
+				typename lx_rtno<InputIterator, Id, u_context_mask>::tag_input,
+				typename lx_rtno<InputIterator, Id, u_context_mask>::tag_output,
 				SourceRef,
 				segment_map<SourceRef, Id, output_set_impl_choice>,
 				segment_map_transformer<SourceRef, Id, output_set_impl_choice>,
@@ -107,9 +107,9 @@ typedef typename base_type::match match;
 	struct lx_breadth_first_parser_impl_selector<InputIterator, SourceRef, Id, ARRAYS, execution_state_set_impl_choice, output_set_impl_choice>
 	{
 #ifdef TRACE
-		typedef lx_breadth_first_parser<InputIterator, SourceRef, Id, array_fake_pool<typename lxns_rtno<InputIterator, Id, u_context_mask>::type::state_const_ref>, execution_state_set_impl_choice, output_set_impl_choice> type;
+		typedef lx_breadth_first_parser<InputIterator, SourceRef, Id, array_fake_pool<typename lxns_rtno<InputIterator, Id, u_context_mask>::state_const_ref>, execution_state_set_impl_choice, output_set_impl_choice> type;
 #else
-		typedef lx_breadth_first_parser<InputIterator, SourceRef, Id, array_fake_pool<typename lx_rtno<InputIterator, Id, u_context_mask>::type::state_const_ref>, execution_state_set_impl_choice, output_set_impl_choice> type;
+		typedef lx_breadth_first_parser<InputIterator, SourceRef, Id, array_fake_pool<typename lx_rtno<InputIterator, Id, u_context_mask>::state_const_ref>, execution_state_set_impl_choice, output_set_impl_choice> type;
 #endif
 	};
 
@@ -117,9 +117,9 @@ typedef typename base_type::match match;
 	struct lx_breadth_first_parser_impl_selector<InputIterator, SourceRef, Id, TRIE_STRINGS, execution_state_set_impl_choice, output_set_impl_choice>
 	{
 #ifdef TRACE
-		typedef lx_breadth_first_parser<InputIterator, SourceRef, Id, trie_string_pool<typename lxns_rtno<InputIterator, Id, u_context_mask>::type::state_const_ref>, execution_state_set_impl_choice, output_set_impl_choice> type;
+		typedef lx_breadth_first_parser<InputIterator, SourceRef, Id, trie_string_pool<typename lxns_rtno<InputIterator, Id, u_context_mask>::state_const_ref>, execution_state_set_impl_choice, output_set_impl_choice> type;
 #else
-		typedef lx_breadth_first_parser<InputIterator, SourceRef, Id, trie_string_pool<typename lx_rtno<InputIterator, Id, u_context_mask>::type::state_const_ref>, execution_state_set_impl_choice, output_set_impl_choice> type;
+		typedef lx_breadth_first_parser<InputIterator, SourceRef, Id, trie_string_pool<typename lx_rtno<InputIterator, Id, u_context_mask>::state_const_ref>, execution_state_set_impl_choice, output_set_impl_choice> type;
 #endif
 	};
 } //namespace grapenlp

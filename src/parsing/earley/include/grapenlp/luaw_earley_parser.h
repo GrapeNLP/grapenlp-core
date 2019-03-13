@@ -40,8 +40,8 @@ namespace grapenlp
 #ifdef TRACE
 	template<typename InputIterator, typename SourceRef, typename WeightTransformer, typename OutputUArrayPool, typename OutputUArraySerializer, assoc_container_impl_choice execution_state_set_impl_choice, assoc_container_impl_choice output_set_impl_choice>
 	struct luaw_earley_parser: public earley_parser<
-	        typename luawns_rtno<InputIterator, typename WeightTransformer::result_type, u_context_mask>::type::tag_input,
-	        typename luawns_rtno<InputIterator, typename WeightTransformer::result_type, u_context_mask>::type::tag_output,
+	        typename luawns_rtno<InputIterator, typename WeightTransformer::result_type, u_context_mask>::tag_input,
+	        typename luawns_rtno<InputIterator, typename WeightTransformer::result_type, u_context_mask>::tag_output,
 	        SourceRef,
 	        pool_sequence_x_weight<OutputUArrayPool, typename WeightTransformer::result_type>,
 	        pool_sequence_x_weight_serializer<OutputUArrayPool, typename WeightTransformer::result_type, OutputUArraySerializer>,
@@ -52,8 +52,8 @@ namespace grapenlp
 	        >
 	{
 		typedef earley_parser<
-                typename luawns_rtno<InputIterator, typename WeightTransformer::result_type, u_context_mask>::type::tag_input,
-                typename luawns_rtno<InputIterator, typename WeightTransformer::result_type, u_context_mask>::type::tag_output,
+                typename luawns_rtno<InputIterator, typename WeightTransformer::result_type, u_context_mask>::tag_input,
+                typename luawns_rtno<InputIterator, typename WeightTransformer::result_type, u_context_mask>::tag_output,
                 SourceRef,
                 pool_sequence_x_weight<OutputUArrayPool, typename WeightTransformer::result_type>,
                 pool_sequence_x_weight_serializer<OutputUArrayPool, typename WeightTransformer::result_type, OutputUArraySerializer>,
@@ -65,8 +65,8 @@ namespace grapenlp
 #else
 	template<typename InputIterator, typename SourceRef, typename WeightTransformer, typename OutputUArrayPool, assoc_container_impl_choice execution_state_set_impl_choice, assoc_container_impl_choice output_set_impl_choice>
 	struct luaw_earley_parser: public earley_parser<
-	        typename luaw_rtno<InputIterator, typename WeightTransformer::result_type, u_context_mask>::type::tag_input,
-	        typename luaw_rtno<InputIterator, typename WeightTransformer::result_type, u_context_mask>::type::tag_output,
+	        typename luaw_rtno<InputIterator, typename WeightTransformer::result_type, u_context_mask>::tag_input,
+	        typename luaw_rtno<InputIterator, typename WeightTransformer::result_type, u_context_mask>::tag_output,
 	        SourceRef,
 	        pool_sequence_x_weight<OutputUArrayPool,
 	        typename WeightTransformer::result_type>,
@@ -77,8 +77,8 @@ namespace grapenlp
 	        >
 	{
 		typedef earley_parser<
-                typename luaw_rtno<InputIterator, typename WeightTransformer::result_type, u_context_mask>::type::tag_input,
-                typename luaw_rtno<InputIterator, typename WeightTransformer::result_type, u_context_mask>::type::tag_output,
+                typename luaw_rtno<InputIterator, typename WeightTransformer::result_type, u_context_mask>::tag_input,
+                typename luaw_rtno<InputIterator, typename WeightTransformer::result_type, u_context_mask>::tag_output,
                 SourceRef,
                 pool_sequence_x_weight<OutputUArrayPool,
                 typename WeightTransformer::result_type>,

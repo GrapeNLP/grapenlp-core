@@ -48,7 +48,7 @@ namespace grapenlp
 		typedef	WeightedTagOutput weighted_tag_output;
 		typedef	typename weighted_tag_output_traits<weighted_tag_output>::weight weight;
 
-		typedef typename l_rtno<InputIterator, weighted_tag_output, ContextMask>::type machine;
+		typedef l_rtno<InputIterator, weighted_tag_output, ContextMask> machine;
 
 		typedef typename machine::state state;
 		typedef typename machine::state_ref_list state_ref_list;
@@ -104,13 +104,13 @@ namespace grapenlp
 	};
 
 	template<typename InputIterator, typename WeightedTagOutput, typename ContextMask>
-	typename l_rtno<InputIterator, WeightedTagOutput, ContextMask>::type& lw_rtno_weight_tag(typename l_rtno<InputIterator, WeightedTagOutput, ContextMask>::type& machine)
+	l_rtno<InputIterator, WeightedTagOutput, ContextMask>& lw_rtno_weight_tag(l_rtno<InputIterator, WeightedTagOutput, ContextMask>& machine)
 	{
 		return lw_rtno_weight_tagger<InputIterator, WeightedTagOutput, ContextMask>()(machine);
 	}
 
 	template<typename InputIterator, typename WeightedTagOutput, typename ContextMask>
-	typename lns_rtno<InputIterator, WeightedTagOutput, ContextMask>::type& lwns_rtno_weight_tag(typename lns_rtno<InputIterator, WeightedTagOutput, ContextMask>::type& machine)
+	lns_rtno<InputIterator, WeightedTagOutput, ContextMask>& lwns_rtno_weight_tag(lns_rtno<InputIterator, WeightedTagOutput, ContextMask>& machine)
 	{
 		return lw_rtno_weight_tagger<InputIterator, WeightedTagOutput, ContextMask>()(machine);
 	}

@@ -35,8 +35,8 @@ namespace grapenlp
 	struct lxw_to_fprtn_parser_impl_selector
 	{
 		typedef to_fprtn_parser<
-		        typename lxw_rtno<InputIterator, Id, Weight, u_context_mask>::type::tag_input,
-		        typename lxw_rtno<InputIterator, Id, Weight, u_context_mask>::type::tag_output,
+		        typename lxw_rtno<InputIterator, Id, Weight, u_context_mask>::tag_input,
+		        typename lxw_rtno<InputIterator, Id, Weight, u_context_mask>::tag_output,
 		        SourceRef,
 		        execution_state_set_impl_choice
 		        > type;

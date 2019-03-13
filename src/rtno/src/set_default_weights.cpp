@@ -43,9 +43,9 @@ typedef token<ua_input_iterator> ua_token;
 typedef ua_token::ref_list::const_iterator ua_token_iterator;
 typedef ul_tag_input_trie<unichar, ua_input_iterator> ual_trie;
 #ifdef TRACE
-typedef luxwns_rtno<ua_input_iterator, int, u_context_mask>::type ualuxiw_rtno;
+typedef luxwns_rtno<ua_input_iterator, int, u_context_mask> ualuxiw_rtno;
 #else
-typedef luxw_rtno<ua_input_iterator, int, u_context_mask>::type ualuxiw_rtno;
+typedef luxw_rtno<ua_input_iterator, int, u_context_mask> ualuxiw_rtno;
 #endif
 typedef ulxw_fst2_reader<ua_input_iterator, std::plus<int> > ualxiw_fst2_reader;
 

@@ -23,10 +23,10 @@
  *  @author Javier Sastre
  */
 
-#ifndef GRAPENLP_OUTPUT_FPRTN_TOP_PRUNE_H
-#define GRAPENLP_OUTPUT_FPRTN_TOP_PRUNE_H
+#ifndef GRAPENLP_OUTPUT_FPRTN_ZPPS_PRUNE_H
+#define GRAPENLP_OUTPUT_FPRTN_ZPPS_PRUNE_H
 
-#include <grapenlp/output_fprtn_top.h>
+#include <grapenlp/output_fprtn_zpps.h>
 #include <grapenlp/output_fprtn_prune.h>
 
 namespace grapenlp
@@ -35,9 +35,9 @@ namespace grapenlp
 	 * Marks as useless every state of the output FPRTN that is not reversely reachable from the global acceptor state
 	 */
 	template<typename SourceRef, typename TagInput, typename RTNOTagInput, assoc_container_impl_choice execution_state_set_impl_choice>
-	void mark_unreachable_states_top(typename output_fprtn_top<u_context_mask, SourceRef, TagInput, RTNOTagInput, execution_state_set_impl_choice>::type &m, typename weighted_tag_output_traits<typename output_fprtn_top<u_context_mask, SourceRef, TagInput, RTNOTagInput, execution_state_set_impl_choice>::type::tag_input>::weight w_min)
+	std::size_t mark_unreachable_states_zpps(output_fprtn_zpps<u_context_mask, SourceRef, TagInput, RTNOTagInput, execution_state_set_impl_choice> &m)
 	{
-		typedef typename output_fprtn_top<u_context_mask, SourceRef, TagInput, RTNOTagInput, execution_state_set_impl_choice>::type machine;
+		typedef output_fprtn_zpps<u_context_mask, SourceRef, TagInput, RTNOTagInput, execution_state_set_impl_choice> machine;
 		typedef typename machine::state_ref state_ref;
 		typedef typename machine::state_ref_queue state_ref_queue;
 		typedef typename machine::outgoing_epsilon_transition_iterator outgoing_epsilon_transition_iterator;
@@ -51,8 +51,8 @@ namespace grapenlp
 		//Otherwise, begin by marking the global acceptor state as a reachable state
 		m.global_acceptor_state.second.useless_flag = false;
 		m.global_acceptor_state.second.ifptc = 0;
-		m.global_acceptor_state.second.top_w = w_min;
-		m.global_acceptor_state.second.top_reverse_transition_type = OUTPUT_FPRTN_REVERSE_POP_TRANSITION_TYPE;
+		m.global_acceptor_state.second.idx = 0;
+		std::size_t useful_state_count(1);
 #ifdef TRACE
 		std::wcout << L"start search of reversely reachable states from " << m.global_acceptor_state.second.wlabel() << std::endl;
 #endif
@@ -76,9 +76,12 @@ namespace grapenlp
 #endif
 					oconst_it->target->second.useless_flag = false;
 					oconst_it->target->second.ifptc = 0;
-					oconst_it->target->second.top_w = w_min;
-					oconst_it->target->second.top_reverse_transition_type = OUTPUT_FPRTN_REVERSE_POP_TRANSITION_TYPE;
+					oconst_it->target->second.idx = useful_state_count++;
 					pending_states.push(oconst_it->target);
+#ifdef TRACE
+
+					std::wcout << oconst_it->target->second.wlabel() << " idx = " << oconst_it->target->second.idx << std::endl;
+#endif
 				}
 			}
 			//For every consuming transition coming to the current state,
@@ -92,9 +95,12 @@ namespace grapenlp
 #endif
 					oet_it->target->second.useless_flag = false;
 					oet_it->target->second.ifptc = 0;
-					oet_it->target->second.top_w = w_min;
-					oet_it->target->second.top_reverse_transition_type = OUTPUT_FPRTN_REVERSE_POP_TRANSITION_TYPE;
+					oet_it->target->second.idx = useful_state_count++;
 					pending_states.push(oet_it->target);
+#ifdef TRACE
+
+					std::wcout << oet_it->target->second.wlabel() << " idx = " << oet_it->target->second.idx << std::endl;
+#endif
 				}
 			}
 			//For every call transition coming to this state,
@@ -109,9 +115,12 @@ namespace grapenlp
 #endif
 					ocallt_it->target->second.useless_flag = false;
 					ocallt_it->target->second.ifptc = 0;
-					ocallt_it->target->second.top_w = w_min;
-					ocallt_it->target->second.top_reverse_transition_type = OUTPUT_FPRTN_REVERSE_POP_TRANSITION_TYPE;
+					ocallt_it->target->second.idx = useful_state_count++;
 					pending_states.push(ocallt_it->target);
+#ifdef TRACE
+
+					std::wcout << ocallt_it->target->second.wlabel() << " idx = " << ocallt_it->target->second.idx << std::endl;
+#endif
 				}
 			}
 			//For every popping transition coming to this state,
@@ -126,9 +135,12 @@ namespace grapenlp
 #endif
 					ifpt_it->target->second.useless_flag = false;
 					ifpt_it->target->second.ifptc = 0;
-					ifpt_it->target->second.top_w = w_min;
-					ifpt_it->target->second.top_reverse_transition_type = OUTPUT_FPRTN_REVERSE_POP_TRANSITION_TYPE;
+					ifpt_it->target->second.idx = useful_state_count++;
 					pending_states.push(ifpt_it->target);
+#ifdef TRACE
+
+					std::wcout << ifpt_it->target->second.wlabel() << " idx = " << ifpt_it->target->second.idx << std::endl;
+#endif
 				}
 				++(s->second.ifptc);
 #ifdef TRACE
@@ -136,6 +148,10 @@ namespace grapenlp
 #endif
 			}
 		}
+#ifdef TRACE
+		std::wcout << L"Useful state count = " << useful_state_count << std::endl;
+#endif
+		return useful_state_count;
 	}
 
 	//Remove all paths which do not reach the specified state from anywhere.
@@ -144,7 +160,7 @@ namespace grapenlp
 	//global final state, thus by specifying this final state as argument for this method
 	//the OUTPUT_FPRTN will be pruned (every useless path will be deleted)
 	template<typename SourceRef, typename TagInput, typename RTNOTagInput, assoc_container_impl_choice execution_state_set_impl_choice>
-	bool prune_top(typename output_fprtn_top<u_context_mask, SourceRef, TagInput, RTNOTagInput, execution_state_set_impl_choice>::type &m, typename weighted_tag_output_traits<TagInput>::weight w_min)
+	std::size_t prune_zpps(output_fprtn_zpps<u_context_mask, SourceRef, TagInput, RTNOTagInput, execution_state_set_impl_choice> &m)
 	{
 #ifdef TRACE
 		std::wcout << L"Begin removing unused paths\n";
@@ -162,10 +178,10 @@ namespace grapenlp
 			write_fprtn_dot("parses", "../parses.dot", m);
 			write_inv_fprtn_dot("inv_parses", "../inv_parses.dot", m);
 #endif
-			return false;
+			return 0;
 		}
 
-		mark_unreachable_states_top<SourceRef, TagInput, RTNOTagInput, execution_state_set_impl_choice>(m, w_min);
+		std::size_t useful_state_count(mark_unreachable_states_zpps<SourceRef, TagInput, RTNOTagInput, execution_state_set_impl_choice>(m));
 		remove_unreachable_states(m);
 
 #ifdef TRACE
@@ -173,8 +189,8 @@ namespace grapenlp
 		write_fprtn_dot("parses", "../parses.dot", m);
 		write_inv_fprtn_dot("inv_parses", "../inv_parses.dot", m);
 #endif
-		return true;
+		return useful_state_count;
 	}
 }
 
-#endif /*GRAPENLP_OUTPUT_FPRTN_TOP_PRUNE_H*/
+#endif /*GRAPENLP_OUTPUT_FPRTN_ZPPS_PRUNE_H*/

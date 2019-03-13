@@ -32,14 +32,7 @@
 namespace grapenlp
 {
 	template<typename ContextMask, typename SourceRef, typename RTNOTagInput, assoc_container_impl_choice execution_state_set_impl_choice>
-	struct ux_output_fprtn_zpps
-	{
-		typedef typename x_output_fprtn_zpps<ContextMask, SourceRef, unichar, RTNOTagInput, execution_state_set_impl_choice>::type type;
-
-	private:
-		ux_output_fprtn_zpps()
-		{}
-	};
+	using ux_output_fprtn_zpps = x_output_fprtn_zpps<ContextMask, SourceRef, unichar, RTNOTagInput, execution_state_set_impl_choice>;
 } //namespace grapenlp
 
 #endif /*GRAPENLP_UX_OUTPUT_FPRTN_ZPPS_H*/

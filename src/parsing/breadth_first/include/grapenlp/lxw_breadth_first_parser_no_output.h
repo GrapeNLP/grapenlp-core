@@ -35,32 +35,32 @@ namespace grapenlp
 	template<typename InputIterator, typename SourceRef, typename Id, typename Weight, typename StateConstRefStackPool, assoc_container_impl_choice execution_state_set_impl_choice>
 #ifdef TRACE
 	struct lxw_breadth_first_parser_no_output: public breadth_first_parser_no_output<
-	        typename lxwns_rtno<InputIterator, Id, Weight, u_context_mask>::type::tag_input,
-	        typename lxwns_rtno<InputIterator, Id, Weight, u_context_mask>::type::tag_output,
+	        typename lxwns_rtno<InputIterator, Id, Weight, u_context_mask>::tag_input,
+	        typename lxwns_rtno<InputIterator, Id, Weight, u_context_mask>::tag_output,
 	        SourceRef,
 	        StateConstRefStackPool,
 	        execution_state_set_impl_choice
 	        >
 	{
 		typedef breadth_first_parser_no_output<
-				typename lxwns_rtno<InputIterator, Id, Weight, u_context_mask>::type::tag_input,
-				typename lxwns_rtno<InputIterator, Id, Weight, u_context_mask>::type::tag_output,
+				typename lxwns_rtno<InputIterator, Id, Weight, u_context_mask>::tag_input,
+				typename lxwns_rtno<InputIterator, Id, Weight, u_context_mask>::tag_output,
 				SourceRef,
 				StateConstRefStackPool,
 				execution_state_set_impl_choice
 				> base_type;
 #else
 	struct lxw_breadth_first_parser_no_output: public breadth_first_parser_no_output<
-	        typename lxw_rtno<InputIterator, Id, Weight, u_context_mask>::type::tag_input,
-	        typename lxw_rtno<InputIterator, Id, Weight, u_context_mask>::type::tag_output,
+	        typename lxw_rtno<InputIterator, Id, Weight, u_context_mask>::tag_input,
+	        typename lxw_rtno<InputIterator, Id, Weight, u_context_mask>::tag_output,
 	        SourceRef,
 	        StateConstRefStackPool,
 	        execution_state_set_impl_choice
 	        >
 	{
 		typedef breadth_first_parser_no_output<
-				typename lxw_rtno<InputIterator, Id, Weight, u_context_mask>::type::tag_input,
-				typename lxw_rtno<InputIterator, Id, Weight, u_context_mask>::type::tag_output,
+				typename lxw_rtno<InputIterator, Id, Weight, u_context_mask>::tag_input,
+				typename lxw_rtno<InputIterator, Id, Weight, u_context_mask>::tag_output,
 				SourceRef,
 				StateConstRefStackPool,
 				execution_state_set_impl_choice
@@ -87,9 +87,9 @@ typedef typename base_type::match match;
 	struct lxw_breadth_first_parser_no_output_impl_selector<InputIterator, SourceRef, Id, Weight, ARRAYS, execution_state_set_impl_choice>
 	{
 #ifdef TRACE
-		typedef lxw_breadth_first_parser_no_output<InputIterator, SourceRef, Id, Weight, array_fake_pool<typename lxwns_rtno<InputIterator, Id, Weight, u_context_mask>::type::state_const_ref>, execution_state_set_impl_choice> type;
+		typedef lxw_breadth_first_parser_no_output<InputIterator, SourceRef, Id, Weight, array_fake_pool<typename lxwns_rtno<InputIterator, Id, Weight, u_context_mask>::state_const_ref>, execution_state_set_impl_choice> type;
 #else
-		typedef lxw_breadth_first_parser_no_output<InputIterator, SourceRef, Id, Weight, array_fake_pool<typename lxw_rtno<InputIterator, Id, Weight, u_context_mask>::type::state_const_ref>, execution_state_set_impl_choice> type;
+		typedef lxw_breadth_first_parser_no_output<InputIterator, SourceRef, Id, Weight, array_fake_pool<typename lxw_rtno<InputIterator, Id, Weight, u_context_mask>::state_const_ref>, execution_state_set_impl_choice> type;
 #endif
 	};
 
@@ -97,9 +97,9 @@ typedef typename base_type::match match;
 	struct lxw_breadth_first_parser_no_output_impl_selector<InputIterator, SourceRef, Id, Weight, TRIE_STRINGS, execution_state_set_impl_choice>
 	{
 #ifdef TRACE
-		typedef lxw_breadth_first_parser_no_output<InputIterator, SourceRef, Id, Weight, trie_string_pool<typename lxwns_rtno<InputIterator, Id, Weight, u_context_mask>::type::state_const_ref>, execution_state_set_impl_choice> type;
+		typedef lxw_breadth_first_parser_no_output<InputIterator, SourceRef, Id, Weight, trie_string_pool<typename lxwns_rtno<InputIterator, Id, Weight, u_context_mask>::state_const_ref>, execution_state_set_impl_choice> type;
 #else
-		typedef lxw_breadth_first_parser_no_output<InputIterator, SourceRef, Id, Weight, trie_string_pool<typename lxw_rtno<InputIterator, Id, Weight, u_context_mask>::type::state_const_ref>, execution_state_set_impl_choice> type;
+		typedef lxw_breadth_first_parser_no_output<InputIterator, SourceRef, Id, Weight, trie_string_pool<typename lxw_rtno<InputIterator, Id, Weight, u_context_mask>::state_const_ref>, execution_state_set_impl_choice> type;
 #endif
 	};
 } //namespace grapenlp

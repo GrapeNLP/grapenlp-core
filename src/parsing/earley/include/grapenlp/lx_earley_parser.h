@@ -39,8 +39,8 @@ namespace grapenlp
 	template<typename InputIterator, typename SourceRef, typename Id, assoc_container_impl_choice execution_state_set_impl_choice, assoc_container_impl_choice output_set_impl_choice>
 #ifdef TRACE
 	struct lx_earley_parser: public earley_parser<
-	        typename lxns_rtno<InputIterator, Id, u_context_mask>::type::tag_input,
-	        typename lxns_rtno<InputIterator, Id, u_context_mask>::type::tag_output,
+	        typename lxns_rtno<InputIterator, Id, u_context_mask>::tag_input,
+	        typename lxns_rtno<InputIterator, Id, u_context_mask>::tag_output,
 	        SourceRef,
 	        segment_map<SourceRef, Id, output_set_impl_choice>,
 	        serializer<segment_map<SourceRef, Id, output_set_impl_choice> >,
@@ -51,8 +51,8 @@ namespace grapenlp
 	        >
 	{
 		typedef earley_parser<
-				typename lxns_rtno<InputIterator, Id, u_context_mask>::type::tag_input,
-				typename lxns_rtno<InputIterator, Id, u_context_mask>::type::tag_output,
+				typename lxns_rtno<InputIterator, Id, u_context_mask>::tag_input,
+				typename lxns_rtno<InputIterator, Id, u_context_mask>::tag_output,
 				SourceRef,
 				segment_map<SourceRef, Id, output_set_impl_choice>,
 				serializer<segment_map<SourceRef, Id, output_set_impl_choice> >,
@@ -63,8 +63,8 @@ namespace grapenlp
 		        > base_type;
 #else
 	struct lx_earley_parser: public earley_parser<
-	        typename lx_rtno<InputIterator, Id, u_context_mask>::type::tag_input,
-	        typename lx_rtno<InputIterator, Id, u_context_mask>::type::tag_output,
+	        typename lx_rtno<InputIterator, Id, u_context_mask>::tag_input,
+	        typename lx_rtno<InputIterator, Id, u_context_mask>::tag_output,
 	        SourceRef,
 	        segment_map<SourceRef, Id, output_set_impl_choice>,
 	        segment_map_transformer<SourceRef, Id, output_set_impl_choice>,
@@ -74,8 +74,8 @@ namespace grapenlp
 	        >
 	{
 		typedef earley_parser<
-				typename lx_rtno<InputIterator, Id, u_context_mask>::type::tag_input,
-				typename lx_rtno<InputIterator, Id, u_context_mask>::type::tag_output,
+				typename lx_rtno<InputIterator, Id, u_context_mask>::tag_input,
+				typename lx_rtno<InputIterator, Id, u_context_mask>::tag_output,
 				SourceRef,
 				segment_map<SourceRef, Id, output_set_impl_choice>,
 				segment_map_transformer<SourceRef, Id, output_set_impl_choice>,

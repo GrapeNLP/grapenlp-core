@@ -32,14 +32,7 @@
 namespace grapenlp
 {
 	template<typename ContextMask, typename SourceRef, typename Weight, typename InputIterator, assoc_container_impl_choice execution_state_set_impl_choice, output_fprtn_incoming_filtered_pop_transition_extra_data_choice edc = NO_OUTPUT_FPRTN_INCOMING_FILTERED_POP_TRANSITION_EXTRA_DATA, typename StateMappedExtraData = empty_class>
-	struct luaw_output_fprtn
-	{
-		typedef typename uaw_output_fprtn<ContextMask, SourceRef, Weight, typename lexmask<InputIterator>::const_ref, execution_state_set_impl_choice, edc, StateMappedExtraData>::type type;
-
-	private:
-		luaw_output_fprtn()
-		{}
-	};
+	using luaw_output_fprtn = uaw_output_fprtn<ContextMask, SourceRef, Weight, typename lexmask<InputIterator>::const_ref, execution_state_set_impl_choice, edc, StateMappedExtraData>;
 } //namespace grapenlp
 
 #endif /*GRAPENLP_LUAW_OUTPUT_FPRTN_H*/

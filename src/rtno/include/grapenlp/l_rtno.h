@@ -37,13 +37,7 @@ namespace grapenlp
 	 * @tparam TagOutput the type of the RTNO output tags
 	 */
 	template<typename InputIterator, typename TagOutput, typename ContextMask>
-	struct l_rtno
-	{
-		typedef rtno<typename lexmask<InputIterator>::const_ref, TagOutput, ContextMask> type;
-
-	private:
-		l_rtno(){}
-	};
+	using l_rtno = rtno<typename lexmask<InputIterator>::const_ref, TagOutput, ContextMask>;
 
 	/**
 	 * Partial instantiation of the recursive transition network with output and numbered states for lexical mask input
@@ -52,13 +46,7 @@ namespace grapenlp
 	 * @tparam TagOutput the type of the RTNO output tags
 	 */
 	template<typename InputIterator, typename TagOutput, typename ContextMask>
-	struct lns_rtno
-	{
-		typedef ns_rtno<typename lexmask<InputIterator>::const_ref, TagOutput, ContextMask> type;
-
-	private:
-		lns_rtno(){}
-	};
+	using lns_rtno = ns_rtno<typename lexmask<InputIterator>::const_ref, TagOutput, ContextMask>;
 } //namespace grapenlp
 
 #endif /*GRAPENLP_L_RTNO_H*/

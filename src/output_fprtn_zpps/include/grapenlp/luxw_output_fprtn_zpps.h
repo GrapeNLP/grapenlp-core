@@ -32,14 +32,7 @@
 namespace grapenlp
 {
 	template<typename ContextMask, typename SourceRef, typename Weight, typename InputIterator, assoc_container_impl_choice execution_state_set_impl_choice>
-	struct luxw_output_fprtn_zpps
-	{
-		typedef typename uxw_output_fprtn_zpps<ContextMask, SourceRef, Weight, typename lexmask<InputIterator>::const_ref, execution_state_set_impl_choice>::type type;
-
-	private:
-		luxw_output_fprtn_zpps()
-		{}
-	};
+	using luxw_output_fprtn_zpps = uxw_output_fprtn_zpps<ContextMask, SourceRef, Weight, typename lexmask<InputIterator>::const_ref, execution_state_set_impl_choice>;
 } //namespace grapenlp
 
 #endif /*GRAPENLP_LUXW_OUTPUT_FPRTN_ZPPS_H*/

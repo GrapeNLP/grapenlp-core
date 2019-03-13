@@ -23,19 +23,19 @@
  *  @author Javier Sastre
  */
 
-#ifndef GRAPENLP_LUXW_OUTPUT_FPRTN_ZPPS_PRUNE_H
-#define GRAPENLP_LUXW_OUTPUT_FPRTN_ZPPS_PRUNE_H
+#ifndef GRAPENLP_LUAW_OUTPUT_FPRTN_ZPPS_PRUNE_H
+#define GRAPENLP_LUAW_OUTPUT_FPRTN_ZPPS_PRUNE_H
 
-#include <grapenlp/uxw_output_fprtn_zpps_prune.h>
-#include <grapenlp/luxw_output_fprtn_zpps.h>
+#include <grapenlp/uaw_output_fprtn_zpps_prune.h>
+#include <grapenlp/luaw_output_fprtn_zpps.h>
 
 namespace grapenlp
 {
 	template<typename SourceRef, typename Weight, typename InputIterator, assoc_container_impl_choice execution_state_set_impl_choice>
-	std::size_t luxw_prune_zpps(typename luxw_output_fprtn_zpps<u_context_mask, SourceRef, Weight, InputIterator, execution_state_set_impl_choice>::type &m)
+	std::size_t luaw_prune_zpps(luaw_output_fprtn_zpps<u_context_mask, SourceRef, Weight, InputIterator, execution_state_set_impl_choice> &m)
 	{
-		return uxw_prune_zpps<SourceRef, Weight, typename lexmask<InputIterator>::const_ref, execution_state_set_impl_choice>(m);
+		return uaw_prune_zpps<SourceRef, Weight, typename lexmask<InputIterator>::const_ref, execution_state_set_impl_choice>(m);
 	}
 } //namespace grapenlp
 
-#endif /*GRAPENLP_LUXW_OUTPUT_FPRTN_ZPPS_PRUNE_H*/
+#endif /*GRAPENLP_LUAW_OUTPUT_FPRTN_ZPPS_PRUNE_H*/

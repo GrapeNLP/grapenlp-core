@@ -32,14 +32,7 @@
 namespace grapenlp
 {
 	template<typename ContextMask, typename SourceRef, typename Weight, typename RTNOTagInput, assoc_container_impl_choice execution_state_set_impl_choice>
-	struct uaw_output_fprtn_top
-	{
-		typedef typename aw_output_fprtn_top<ContextMask, SourceRef, unichar, Weight, RTNOTagInput, execution_state_set_impl_choice>::type type;
-
-	private:
-		uaw_output_fprtn_top()
-		{}
-	};
+	using uaw_output_fprtn_top = aw_output_fprtn_top<ContextMask, SourceRef, unichar, Weight, RTNOTagInput, execution_state_set_impl_choice>;
 } //namespace grapenlp
 
 #endif /*GRAPENLP_UAW_OUTPUT_FPRTN_TOP_H*/

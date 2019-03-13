@@ -44,12 +44,7 @@ namespace grapenlp
 	 * @tparam Weight the type of the output score (e.g. int) or probability (e.g. float)
 	 */
 	template<typename InputIterator, typename Id, typename Weight, typename ContextMask>
-	struct ltw_rtno
-	{
-		typedef typename l_rtno<InputIterator, trie_string_const_ref_x_weight<Id, Weight>, ContextMask>::type type;
-	private:
-		ltw_rtno(){}
-	};
+	using ltw_rtno = l_rtno<InputIterator, trie_string_const_ref_x_weight<Id, Weight>, ContextMask>;
 
 	/**
 	 * Partial instantiation of the recursive transition network with output and numbered states for lexical mask input
@@ -60,12 +55,7 @@ namespace grapenlp
 	 * @tparam Weight the type of the output score (e.g. int) or probability (e.g. float)
 	 */
 	template<typename InputIterator, typename Id, typename Weight, typename ContextMask>
-	struct ltwns_rtno
-	{
-		typedef typename lns_rtno<InputIterator, trie_string_const_ref_x_weight<Id, Weight>, ContextMask>::type type;
-	private:
-		ltwns_rtno(){}
-	};
+	using ltwns_rtno = lns_rtno<InputIterator, trie_string_const_ref_x_weight<Id, Weight>, ContextMask>;
 } //namespace grapenlp
 
 #endif /*GRAPENLP_LTW_RTNO_H*/

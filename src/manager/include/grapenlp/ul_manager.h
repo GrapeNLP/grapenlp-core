@@ -280,29 +280,29 @@ namespace grapenlp {
         //Grammar types
 #ifdef TRACE
 #ifndef DISABLE_LUA_GRAMMAR
-        typedef typename luans_rtno<InputIterator, u_context_mask>::type my_lua_rtno;
+        typedef luans_rtno<InputIterator, u_context_mask> my_lua_rtno;
 #endif
 #ifndef DISABLE_LUAW_GRAMMAR
-        typedef typename luawns_rtno<InputIterator, weight, u_context_mask>::type my_luaw_rtno;
+        typedef luawns_rtno<InputIterator, weight, u_context_mask> my_luaw_rtno;
 #endif
 #ifndef DISABLE_LUX_GRAMMAR
-        typedef typename luxns_rtno<InputIterator, u_context_mask>::type my_lux_rtno;
+        typedef luxns_rtno<InputIterator, u_context_mask> my_lux_rtno;
 #endif
 #ifndef DISABLE_LUXW_GRAMMAR
-        typedef typename luxwns_rtno<InputIterator, weight, u_context_mask>::type my_luxw_rtno;
+        typedef luxwns_rtno<InputIterator, weight, u_context_mask> my_luxw_rtno;
 #endif
 #else
 #ifndef DISABLE_LUA_GRAMMAR
-        typedef typename lua_rtno<InputIterator, u_context_mask>::type my_lua_rtno;
+        typedef lua_rtno<InputIterator, u_context_mask> my_lua_rtno;
 #endif
 #ifndef DISABLE_LUAW_GRAMMAR
-        typedef typename luaw_rtno<InputIterator, weight, u_context_mask>::type my_luaw_rtno;
+        typedef luaw_rtno<InputIterator, weight, u_context_mask> my_luaw_rtno;
 #endif
 #ifndef DISABLE_LUX_GRAMMAR
-        typedef typename lux_rtno<InputIterator, u_context_mask>::type my_lux_rtno;
+        typedef lux_rtno<InputIterator, u_context_mask> my_lux_rtno;
 #endif
 #ifndef DISABLE_LUXW_GRAMMAR
-        typedef typename luxw_rtno<InputIterator, weight, u_context_mask>::type my_luxw_rtno;
+        typedef luxw_rtno<InputIterator, weight, u_context_mask> my_luxw_rtno;
 #endif
 #endif
 
@@ -1498,9 +1498,9 @@ namespace grapenlp {
         std::size_t exe_my_lua_to_fprtn_parser()
         {
 #ifdef TRACE
-            typename lua_output_fprtn<u_context_mask, token_iterator, InputIterator, execution_state_set_impl_choice>::type out_fprtn('r', 'q', the_token_list.size(), the_token_list.begin(), the_token_list.end());
+            lua_output_fprtn<u_context_mask, token_iterator, InputIterator, execution_state_set_impl_choice> out_fprtn('r', 'q', the_token_list.size(), the_token_list.begin(), the_token_list.end());
 #else
-            typename lua_output_fprtn<u_context_mask, token_iterator, InputIterator, execution_state_set_impl_choice>::type out_fprtn(the_token_list.size(), the_token_list.begin(), the_token_list.end());
+            lua_output_fprtn<u_context_mask, token_iterator, InputIterator, execution_state_set_impl_choice> out_fprtn(the_token_list.size(), the_token_list.begin(), the_token_list.end());
 #endif
             typename lua_to_fprtn_parser_impl_selector<InputIterator, token_iterator, execution_state_set_impl_choice>::type()(get_lua_grammar(), hasnt_white_at_begin, hasnt_white_at_end, the_context, out_fprtn);
             prune(out_fprtn);
@@ -1510,9 +1510,9 @@ namespace grapenlp {
         std::size_t exe_my_lua_to_fprtn_stats(std::size_t &state_count, std::size_t &transition_count, std::size_t &pruned_state_count, std::size_t &pruned_transition_count)
                         {
 #ifdef TRACE
-            typename lua_output_fprtn<u_context_mask, token_iterator, InputIterator, execution_state_set_impl_choice>::type out_fprtn('r', 'q', the_token_list.size(), the_token_list.begin(), the_token_list.end());
+            lua_output_fprtn<u_context_mask, token_iterator, InputIterator, execution_state_set_impl_choice> out_fprtn('r', 'q', the_token_list.size(), the_token_list.begin(), the_token_list.end());
 #else
-            typename lua_output_fprtn<u_context_mask, token_iterator, InputIterator, execution_state_set_impl_choice>::type out_fprtn(the_token_list.size(), the_token_list.begin(), the_token_list.end());
+            lua_output_fprtn<u_context_mask, token_iterator, InputIterator, execution_state_set_impl_choice> out_fprtn(the_token_list.size(), the_token_list.begin(), the_token_list.end());
 #endif
             typename lua_to_fprtn_parser_impl_selector<InputIterator, token_iterator, execution_state_set_impl_choice>::type()(get_lua_grammar(), hasnt_white_at_begin, hasnt_white_at_end, the_context, out_fprtn);
             state_count = out_fprtn.state_count();
@@ -1528,9 +1528,9 @@ namespace grapenlp {
         std::size_t exe_my_luaw_to_fprtn_parser()
         {
 #ifdef TRACE
-            typename luaw_output_fprtn<u_context_mask, token_iterator, weight, InputIterator, execution_state_set_impl_choice>::type out_fprtn('r', 'q', the_token_list.size(), the_token_list.begin(), the_token_list.end());
+            luaw_output_fprtn<u_context_mask, token_iterator, weight, InputIterator, execution_state_set_impl_choice> out_fprtn('r', 'q', the_token_list.size(), the_token_list.begin(), the_token_list.end());
 #else
-            typename luaw_output_fprtn<u_context_mask, token_iterator, weight, InputIterator, execution_state_set_impl_choice>::type out_fprtn(the_token_list.size(), the_token_list.begin(), the_token_list.end());
+            luaw_output_fprtn<u_context_mask, token_iterator, weight, InputIterator, execution_state_set_impl_choice> out_fprtn(the_token_list.size(), the_token_list.begin(), the_token_list.end());
 #endif
             typename luaw_to_fprtn_parser_impl_selector<InputIterator, token_iterator, weight, execution_state_set_impl_choice>::type()(get_luaw_grammar(), hasnt_white_at_begin, hasnt_white_at_end, the_context, out_fprtn);
             prune(out_fprtn);
@@ -1540,9 +1540,9 @@ namespace grapenlp {
         std::size_t exe_my_luaw_to_fprtn_stats(std::size_t &state_count, std::size_t &transition_count, std::size_t &pruned_state_count, std::size_t &pruned_transition_count)
         {
 #ifdef TRACE
-            typename luaw_output_fprtn<u_context_mask, token_iterator, weight, InputIterator, execution_state_set_impl_choice>::type out_fprtn('r', 'q', the_token_list.size(), the_token_list.begin(), the_token_list.end());
+            luaw_output_fprtn<u_context_mask, token_iterator, weight, InputIterator, execution_state_set_impl_choice> out_fprtn('r', 'q', the_token_list.size(), the_token_list.begin(), the_token_list.end());
 #else
-            typename luaw_output_fprtn<u_context_mask, token_iterator, weight, InputIterator, execution_state_set_impl_choice>::type out_fprtn(the_token_list.size(), the_token_list.begin(), the_token_list.end());
+            luaw_output_fprtn<u_context_mask, token_iterator, weight, InputIterator, execution_state_set_impl_choice> out_fprtn(the_token_list.size(), the_token_list.begin(), the_token_list.end());
 #endif
             typename luaw_to_fprtn_parser_impl_selector<InputIterator, token_iterator, weight, execution_state_set_impl_choice>::type()(get_luaw_grammar(), hasnt_white_at_begin, hasnt_white_at_end, the_context, out_fprtn);
             state_count = out_fprtn.state_count();
@@ -1558,9 +1558,9 @@ namespace grapenlp {
         std::size_t exe_my_lux_to_fprtn_parser()
         {
 #ifdef TRACE
-            typename lux_output_fprtn<u_context_mask, token_iterator, InputIterator, execution_state_set_impl_choice>::type out_fprtn('r', 'q', the_token_list.size(), the_token_list.begin(), the_token_list.end());
+            lux_output_fprtn<u_context_mask, token_iterator, InputIterator, execution_state_set_impl_choice> out_fprtn('r', 'q', the_token_list.size(), the_token_list.begin(), the_token_list.end());
 #else
-            typename lux_output_fprtn<u_context_mask, token_iterator, InputIterator, execution_state_set_impl_choice>::type out_fprtn(the_token_list.size(), the_token_list.begin(), the_token_list.end());
+            lux_output_fprtn<u_context_mask, token_iterator, InputIterator, execution_state_set_impl_choice> out_fprtn(the_token_list.size(), the_token_list.begin(), the_token_list.end());
 #endif
             typename lx_to_fprtn_parser_impl_selector<InputIterator, token_iterator, unichar, execution_state_set_impl_choice>::type()(get_lux_grammar(), hasnt_white_at_begin, hasnt_white_at_end, the_context, out_fprtn);
             prune(out_fprtn);
@@ -1570,9 +1570,9 @@ namespace grapenlp {
         std::size_t exe_my_lux_to_fprtn_stats(std::size_t &state_count, std::size_t &transition_count, std::size_t &pruned_state_count, std::size_t &pruned_transition_count)
         {
 #ifdef TRACE
-            typename lux_output_fprtn<u_context_mask, token_iterator, InputIterator, execution_state_set_impl_choice>::type out_fprtn('r', 'q', the_token_list.size(), the_token_list.begin(), the_token_list.end());
+            lux_output_fprtn<u_context_mask, token_iterator, InputIterator, execution_state_set_impl_choice> out_fprtn('r', 'q', the_token_list.size(), the_token_list.begin(), the_token_list.end());
 #else
-            typename lux_output_fprtn<u_context_mask, token_iterator, InputIterator, execution_state_set_impl_choice>::type out_fprtn(the_token_list.size(), the_token_list.begin(), the_token_list.end());
+            lux_output_fprtn<u_context_mask, token_iterator, InputIterator, execution_state_set_impl_choice> out_fprtn(the_token_list.size(), the_token_list.begin(), the_token_list.end());
 #endif
             typename lx_to_fprtn_parser_impl_selector<InputIterator, token_iterator, unichar, execution_state_set_impl_choice>::type()(get_lux_grammar(), hasnt_white_at_begin, hasnt_white_at_end, the_context, out_fprtn);
             state_count = out_fprtn.state_count();
@@ -1588,9 +1588,9 @@ namespace grapenlp {
         std::size_t exe_my_luxw_to_fprtn_parser()
         {
 #ifdef TRACE
-            typename luxw_output_fprtn<u_context_mask, token_iterator, weight, InputIterator, execution_state_set_impl_choice>::type out_fprtn('r', 'q', the_token_list.size(), the_token_list.begin(), the_token_list.end());
+            luxw_output_fprtn<u_context_mask, token_iterator, weight, InputIterator, execution_state_set_impl_choice> out_fprtn('r', 'q', the_token_list.size(), the_token_list.begin(), the_token_list.end());
 #else
-            typename luxw_output_fprtn<u_context_mask, token_iterator, weight, InputIterator, execution_state_set_impl_choice>::type out_fprtn(the_token_list.size(), the_token_list.begin(), the_token_list.end());
+            luxw_output_fprtn<u_context_mask, token_iterator, weight, InputIterator, execution_state_set_impl_choice> out_fprtn(the_token_list.size(), the_token_list.begin(), the_token_list.end());
 #endif
             typename lxw_to_fprtn_parser_impl_selector<InputIterator, token_iterator, unichar, weight, execution_state_set_impl_choice>::type()(get_luxw_grammar(), hasnt_white_at_begin, hasnt_white_at_end, the_context, out_fprtn);
             prune(out_fprtn);
@@ -1600,9 +1600,9 @@ namespace grapenlp {
         std::size_t exe_my_luxw_to_fprtn_stats(std::size_t &state_count, std::size_t &transition_count, std::size_t &pruned_state_count, std::size_t &pruned_transition_count)
         {
 #ifdef TRACE
-            typename luxw_output_fprtn<u_context_mask, token_iterator, weight, InputIterator, execution_state_set_impl_choice>::type out_fprtn('r', 'q', the_token_list.size(), the_token_list.begin(), the_token_list.end());
+            luxw_output_fprtn<u_context_mask, token_iterator, weight, InputIterator, execution_state_set_impl_choice> out_fprtn('r', 'q', the_token_list.size(), the_token_list.begin(), the_token_list.end());
 #else
-            typename luxw_output_fprtn<u_context_mask, token_iterator, weight, InputIterator, execution_state_set_impl_choice>::type out_fprtn(the_token_list.size(), the_token_list.begin(), the_token_list.end());
+            luxw_output_fprtn<u_context_mask, token_iterator, weight, InputIterator, execution_state_set_impl_choice> out_fprtn(the_token_list.size(), the_token_list.begin(), the_token_list.end());
 #endif
             typename lxw_to_fprtn_parser_impl_selector<InputIterator, token_iterator, unichar, weight, execution_state_set_impl_choice>::type()(get_luxw_grammar(), hasnt_white_at_begin, hasnt_white_at_end, the_context, out_fprtn);
             state_count = out_fprtn.state_count();
@@ -1621,9 +1621,9 @@ namespace grapenlp {
         std::size_t exe_my_lua_to_fprtn_zpps_parser()
         {
 #ifdef TRACE
-            typename lua_output_fprtn_zpps<u_context_mask, token_iterator, InputIterator, execution_state_set_impl_choice>::type out_fprtn_zpps('r', 'q', the_token_list.size(), the_token_list.begin(), the_token_list.end());
+            lua_output_fprtn_zpps<u_context_mask, token_iterator, InputIterator, execution_state_set_impl_choice> out_fprtn_zpps('r', 'q', the_token_list.size(), the_token_list.begin(), the_token_list.end());
 #else
-            typename lua_output_fprtn_zpps<u_context_mask, token_iterator, InputIterator, execution_state_set_impl_choice>::type out_fprtn_zpps(the_token_list.size(), the_token_list.begin(), the_token_list.end());
+            lua_output_fprtn_zpps<u_context_mask, token_iterator, InputIterator, execution_state_set_impl_choice> out_fprtn_zpps(the_token_list.size(), the_token_list.begin(), the_token_list.end());
 #endif
             typename lua_to_fprtn_zpps_parser_impl_selector<InputIterator, token_iterator, execution_state_set_impl_choice>::type()(get_lua_grammar(), hasnt_white_at_begin, hasnt_white_at_end, the_context, out_fprtn_zpps);
             lua_prune_zpps<token_iterator, InputIterator, execution_state_set_impl_choice>(out_fprtn_zpps);
@@ -1633,9 +1633,9 @@ namespace grapenlp {
         std::size_t exe_my_lua_to_fprtn_zpps_stats(std::size_t &state_count, std::size_t &transition_count, std::size_t &pruned_state_count, std::size_t &pruned_transition_count)
         {
 #ifdef TRACE
-            typename lua_output_fprtn_zpps<u_context_mask, token_iterator, InputIterator, execution_state_set_impl_choice>::type out_fprtn_zpps('r', 'q', the_token_list.size(), the_token_list.begin(), the_token_list.end());
+            lua_output_fprtn_zpps<u_context_mask, token_iterator, InputIterator, execution_state_set_impl_choice> out_fprtn_zpps('r', 'q', the_token_list.size(), the_token_list.begin(), the_token_list.end());
 #else
-            typename lua_output_fprtn_zpps<u_context_mask, token_iterator, InputIterator, execution_state_set_impl_choice>::type out_fprtn_zpps(the_token_list.size(), the_token_list.begin(), the_token_list.end());
+            lua_output_fprtn_zpps<u_context_mask, token_iterator, InputIterator, execution_state_set_impl_choice> out_fprtn_zpps(the_token_list.size(), the_token_list.begin(), the_token_list.end());
 #endif
             typename lua_to_fprtn_zpps_parser_impl_selector<InputIterator, token_iterator, execution_state_set_impl_choice>::type()(get_lua_grammar(), hasnt_white_at_begin, hasnt_white_at_end, the_context, out_fprtn_zpps);
             state_count = out_fprtn_zpps.state_count();
@@ -1651,9 +1651,9 @@ namespace grapenlp {
         std::size_t exe_my_luaw_to_fprtn_zpps_parser()
         {
 #ifdef TRACE
-            typename luaw_output_fprtn_zpps<u_context_mask, token_iterator, weight, InputIterator, execution_state_set_impl_choice>::type out_fprtn_zpps('r', 'q', the_token_list.size(), the_token_list.begin(), the_token_list.end());
+            luaw_output_fprtn_zpps<u_context_mask, token_iterator, weight, InputIterator, execution_state_set_impl_choice> out_fprtn_zpps('r', 'q', the_token_list.size(), the_token_list.begin(), the_token_list.end());
 #else
-            typename luaw_output_fprtn_zpps<u_context_mask, token_iterator, weight, InputIterator, execution_state_set_impl_choice>::type out_fprtn_zpps(the_token_list.size(), the_token_list.begin(), the_token_list.end());
+            luaw_output_fprtn_zpps<u_context_mask, token_iterator, weight, InputIterator, execution_state_set_impl_choice> out_fprtn_zpps(the_token_list.size(), the_token_list.begin(), the_token_list.end());
 #endif
             typename luaw_to_fprtn_zpps_parser_impl_selector<InputIterator, token_iterator, weight, execution_state_set_impl_choice>::type()(get_luaw_grammar(), hasnt_white_at_begin, hasnt_white_at_end, the_context, out_fprtn_zpps);
             luaw_prune_zpps<token_iterator, weight, InputIterator, execution_state_set_impl_choice>(out_fprtn_zpps);
@@ -1663,9 +1663,9 @@ namespace grapenlp {
         std::size_t exe_my_luaw_to_fprtn_zpps_stats(std::size_t &state_count, std::size_t &transition_count, std::size_t &pruned_state_count, std::size_t &pruned_transition_count)
         {
 #ifdef TRACE
-            typename luaw_output_fprtn_zpps<u_context_mask, token_iterator, weight, InputIterator, execution_state_set_impl_choice>::type out_fprtn_zpps('r', 'q', the_token_list.size(), the_token_list.begin(), the_token_list.end());
+            luaw_output_fprtn_zpps<u_context_mask, token_iterator, weight, InputIterator, execution_state_set_impl_choice> out_fprtn_zpps('r', 'q', the_token_list.size(), the_token_list.begin(), the_token_list.end());
 #else
-            typename luaw_output_fprtn_zpps<u_context_mask, token_iterator, weight, InputIterator, execution_state_set_impl_choice>::type out_fprtn_zpps(the_token_list.size(), the_token_list.begin(), the_token_list.end());
+            luaw_output_fprtn_zpps<u_context_mask, token_iterator, weight, InputIterator, execution_state_set_impl_choice> out_fprtn_zpps(the_token_list.size(), the_token_list.begin(), the_token_list.end());
 #endif
             typename luaw_to_fprtn_zpps_parser_impl_selector<InputIterator, token_iterator, weight, execution_state_set_impl_choice>::type()(get_luaw_grammar(), hasnt_white_at_begin, hasnt_white_at_end, the_context, out_fprtn_zpps);
             state_count = out_fprtn_zpps.state_count();
@@ -1681,9 +1681,9 @@ namespace grapenlp {
         std::size_t exe_my_lux_to_fprtn_zpps_parser()
         {
 #ifdef TRACE
-            typename lux_output_fprtn_zpps<u_context_mask, token_iterator, InputIterator, execution_state_set_impl_choice>::type out_fprtn_zpps('r', 'q', the_token_list.size(), the_token_list.begin(), the_token_list.end());
+            lux_output_fprtn_zpps<u_context_mask, token_iterator, InputIterator, execution_state_set_impl_choice> out_fprtn_zpps('r', 'q', the_token_list.size(), the_token_list.begin(), the_token_list.end());
 #else
-            typename lux_output_fprtn_zpps<u_context_mask, token_iterator, InputIterator, execution_state_set_impl_choice>::type out_fprtn_zpps(the_token_list.size(), the_token_list.begin(), the_token_list.end());
+            lux_output_fprtn_zpps<u_context_mask, token_iterator, InputIterator, execution_state_set_impl_choice> out_fprtn_zpps(the_token_list.size(), the_token_list.begin(), the_token_list.end());
 #endif
             typename lx_to_fprtn_zpps_parser_impl_selector<InputIterator, token_iterator, unichar, execution_state_set_impl_choice>::type()(get_lux_grammar(), hasnt_white_at_begin, hasnt_white_at_end, the_context, out_fprtn_zpps);
             lux_prune_zpps<token_iterator, InputIterator, execution_state_set_impl_choice>(out_fprtn_zpps);
@@ -1693,9 +1693,9 @@ namespace grapenlp {
         std::size_t exe_my_lux_to_fprtn_zpps_stats(std::size_t &state_count, std::size_t &transition_count, std::size_t &pruned_state_count, std::size_t &pruned_transition_count)
         {
 #ifdef TRACE
-            typename lux_output_fprtn_zpps<u_context_mask, token_iterator, InputIterator, execution_state_set_impl_choice>::type out_fprtn_zpps('r', 'q', the_token_list.size(), the_token_list.begin(), the_token_list.end());
+            lux_output_fprtn_zpps<u_context_mask, token_iterator, InputIterator, execution_state_set_impl_choice> out_fprtn_zpps('r', 'q', the_token_list.size(), the_token_list.begin(), the_token_list.end());
 #else
-            typename lux_output_fprtn_zpps<u_context_mask, token_iterator, InputIterator, execution_state_set_impl_choice>::type out_fprtn_zpps(the_token_list.size(), the_token_list.begin(), the_token_list.end());
+            lux_output_fprtn_zpps<u_context_mask, token_iterator, InputIterator, execution_state_set_impl_choice> out_fprtn_zpps(the_token_list.size(), the_token_list.begin(), the_token_list.end());
 #endif
             typename lx_to_fprtn_zpps_parser_impl_selector<InputIterator, token_iterator, unichar, execution_state_set_impl_choice>::type()(get_lux_grammar(), hasnt_white_at_begin, hasnt_white_at_end, the_context, out_fprtn_zpps);
             state_count = out_fprtn_zpps.state_count();
@@ -1711,9 +1711,9 @@ namespace grapenlp {
         std::size_t exe_my_luxw_to_fprtn_zpps_parser()
         {
 #ifdef TRACE
-            typename luxw_output_fprtn_zpps<u_context_mask, token_iterator, weight, InputIterator, execution_state_set_impl_choice>::type out_fprtn_zpps('r', 'q', the_token_list.size(), the_token_list.begin(), the_token_list.end());
+            luxw_output_fprtn_zpps<u_context_mask, token_iterator, weight, InputIterator, execution_state_set_impl_choice> out_fprtn_zpps('r', 'q', the_token_list.size(), the_token_list.begin(), the_token_list.end());
 #else
-            typename luxw_output_fprtn_zpps<u_context_mask, token_iterator, weight, InputIterator, execution_state_set_impl_choice>::type out_fprtn_zpps(the_token_list.size(), the_token_list.begin(), the_token_list.end());
+            luxw_output_fprtn_zpps<u_context_mask, token_iterator, weight, InputIterator, execution_state_set_impl_choice> out_fprtn_zpps(the_token_list.size(), the_token_list.begin(), the_token_list.end());
 #endif
             typename lxw_to_fprtn_zpps_parser_impl_selector<InputIterator, token_iterator, unichar, weight, execution_state_set_impl_choice>::type()(get_luxw_grammar(), hasnt_white_at_begin, hasnt_white_at_end, the_context, out_fprtn_zpps);
             luxw_prune_zpps<token_iterator, weight, InputIterator, execution_state_set_impl_choice>(out_fprtn_zpps);
@@ -1723,9 +1723,9 @@ namespace grapenlp {
         std::size_t exe_my_luxw_to_fprtn_zpps_stats(std::size_t &state_count, std::size_t &transition_count, std::size_t &pruned_state_count, std::size_t &pruned_transition_count)
         {
 #ifdef TRACE
-            typename luxw_output_fprtn_zpps<u_context_mask, token_iterator, weight, InputIterator, execution_state_set_impl_choice>::type out_fprtn_zpps('r', 'q', the_token_list.size(), the_token_list.begin(), the_token_list.end());
+            luxw_output_fprtn_zpps<u_context_mask, token_iterator, weight, InputIterator, execution_state_set_impl_choice> out_fprtn_zpps('r', 'q', the_token_list.size(), the_token_list.begin(), the_token_list.end());
 #else
-            typename luxw_output_fprtn_zpps<u_context_mask, token_iterator, weight, InputIterator, execution_state_set_impl_choice>::type out_fprtn_zpps(the_token_list.size(), the_token_list.begin(), the_token_list.end());
+            luxw_output_fprtn_zpps<u_context_mask, token_iterator, weight, InputIterator, execution_state_set_impl_choice> out_fprtn_zpps(the_token_list.size(), the_token_list.begin(), the_token_list.end());
 #endif
             typename lxw_to_fprtn_zpps_parser_impl_selector<InputIterator, token_iterator, unichar, weight, execution_state_set_impl_choice>::type()(get_luxw_grammar(), hasnt_white_at_begin, hasnt_white_at_end, the_context, out_fprtn_zpps);
             state_count = out_fprtn_zpps.state_count();
@@ -1744,9 +1744,9 @@ namespace grapenlp {
         std::size_t exe_my_luaw_to_fprtn_top_parser()
         {
 #ifdef TRACE
-            typename luaw_output_fprtn_top<u_context_mask, token_iterator, weight, InputIterator, execution_state_set_impl_choice>::type out_fprtn_top('r', 'q', the_token_list.size(), the_token_list.begin(), the_token_list.end());
+            luaw_output_fprtn_top<u_context_mask, token_iterator, weight, InputIterator, execution_state_set_impl_choice> out_fprtn_top('r', 'q', the_token_list.size(), the_token_list.begin(), the_token_list.end());
 #else
-            typename luaw_output_fprtn_top<u_context_mask, token_iterator, weight, InputIterator, execution_state_set_impl_choice>::type out_fprtn_top(the_token_list.size(), the_token_list.begin(), the_token_list.end());
+            luaw_output_fprtn_top<u_context_mask, token_iterator, weight, InputIterator, execution_state_set_impl_choice> out_fprtn_top(the_token_list.size(), the_token_list.begin(), the_token_list.end());
 #endif
             typename luaw_to_fprtn_top_parser_impl_selector<InputIterator, token_iterator, weight, execution_state_set_impl_choice>::type()(get_luaw_grammar(), hasnt_white_at_begin, hasnt_white_at_end, the_context, out_fprtn_top, std::numeric_limits<weight>::min());
             luaw_prune_top<token_iterator, weight, InputIterator, execution_state_set_impl_choice>(out_fprtn_top, std::numeric_limits<weight>::min());
@@ -1756,9 +1756,9 @@ namespace grapenlp {
         std::size_t exe_my_luaw_to_fprtn_top_stats(std::size_t &state_count, std::size_t &transition_count, std::size_t &pruned_state_count, std::size_t &pruned_transition_count)
         {
 #ifdef TRACE
-            typename luaw_output_fprtn_top<u_context_mask, token_iterator, weight, InputIterator, execution_state_set_impl_choice>::type out_fprtn_top('r', 'q', the_token_list.size(), the_token_list.begin(), the_token_list.end());
+            luaw_output_fprtn_top<u_context_mask, token_iterator, weight, InputIterator, execution_state_set_impl_choice> out_fprtn_top('r', 'q', the_token_list.size(), the_token_list.begin(), the_token_list.end());
 #else
-            typename luaw_output_fprtn_top<u_context_mask, token_iterator, weight, InputIterator, execution_state_set_impl_choice>::type out_fprtn_top(the_token_list.size(), the_token_list.begin(), the_token_list.end());
+            luaw_output_fprtn_top<u_context_mask, token_iterator, weight, InputIterator, execution_state_set_impl_choice> out_fprtn_top(the_token_list.size(), the_token_list.begin(), the_token_list.end());
 #endif
             typename luaw_to_fprtn_top_parser_impl_selector<InputIterator, token_iterator, weight, execution_state_set_impl_choice>::type()(get_luaw_grammar(), hasnt_white_at_begin, hasnt_white_at_end, the_context, out_fprtn_top, std::numeric_limits<weight>::min());
             state_count = out_fprtn_top.state_count();
@@ -1774,9 +1774,9 @@ namespace grapenlp {
         std::size_t exe_my_luxw_to_fprtn_top_parser()
         {
 #ifdef TRACE
-            typename luxw_output_fprtn_top<u_context_mask, token_iterator, weight, InputIterator, execution_state_set_impl_choice>::type out_fprtn_top('r', 'q', the_token_list.size(), the_token_list.begin(), the_token_list.end());
+            luxw_output_fprtn_top<u_context_mask, token_iterator, weight, InputIterator, execution_state_set_impl_choice> out_fprtn_top('r', 'q', the_token_list.size(), the_token_list.begin(), the_token_list.end());
 #else
-            typename luxw_output_fprtn_top<u_context_mask, token_iterator, weight, InputIterator, execution_state_set_impl_choice>::type out_fprtn_top(the_token_list.size(), the_token_list.begin(), the_token_list.end());
+            luxw_output_fprtn_top<u_context_mask, token_iterator, weight, InputIterator, execution_state_set_impl_choice> out_fprtn_top(the_token_list.size(), the_token_list.begin(), the_token_list.end());
 #endif
             typename lxw_to_fprtn_top_parser_impl_selector<InputIterator, token_iterator, unichar, weight, execution_state_set_impl_choice>::type()(get_luxw_grammar(), hasnt_white_at_begin, hasnt_white_at_end, the_context, out_fprtn_top, std::numeric_limits<weight>::min());
             luxw_prune_top<token_iterator, weight, InputIterator, execution_state_set_impl_choice>(out_fprtn_top, std::numeric_limits<weight>::min());
@@ -1786,9 +1786,9 @@ namespace grapenlp {
         std::size_t exe_my_luxw_to_fprtn_top_stats(std::size_t &state_count, std::size_t &transition_count, std::size_t &pruned_state_count, std::size_t &pruned_transition_count)
         {
 #ifdef TRACE
-            typename luxw_output_fprtn_top<u_context_mask, token_iterator, weight, InputIterator, execution_state_set_impl_choice>::type out_fprtn_top('r', 'q', the_token_list.size(), the_token_list.begin(), the_token_list.end());
+            luxw_output_fprtn_top<u_context_mask, token_iterator, weight, InputIterator, execution_state_set_impl_choice> out_fprtn_top('r', 'q', the_token_list.size(), the_token_list.begin(), the_token_list.end());
 #else
-            typename luxw_output_fprtn_top<u_context_mask, token_iterator, weight, InputIterator, execution_state_set_impl_choice>::type out_fprtn_top(the_token_list.size(), the_token_list.begin(), the_token_list.end());
+            luxw_output_fprtn_top<u_context_mask, token_iterator, weight, InputIterator, execution_state_set_impl_choice> out_fprtn_top(the_token_list.size(), the_token_list.begin(), the_token_list.end());
 #endif
             typename lxw_to_fprtn_top_parser_impl_selector<InputIterator, token_iterator, unichar, weight, execution_state_set_impl_choice>::type()(get_luxw_grammar(), hasnt_white_at_begin, hasnt_white_at_end, the_context, out_fprtn_top, std::numeric_limits<weight>::min());
             state_count = out_fprtn_top.state_count();
@@ -1808,9 +1808,9 @@ namespace grapenlp {
         std::size_t exe_my_lua_to_fprtn_parser_and_breadth_first_expander_with_trie_stacks_and_output()
         {
 #ifdef TRACE
-            typename lua_output_fprtn<u_context_mask, token_iterator, InputIterator, execution_state_set_impl_choice>::type out_fprtn('r', 'q', the_token_list.size(), the_token_list.begin(), the_token_list.end());
+            lua_output_fprtn<u_context_mask, token_iterator, InputIterator, execution_state_set_impl_choice> out_fprtn('r', 'q', the_token_list.size(), the_token_list.begin(), the_token_list.end());
 #else
-            typename lua_output_fprtn<u_context_mask, token_iterator, InputIterator, execution_state_set_impl_choice>::type out_fprtn(the_token_list.size(), the_token_list.begin(), the_token_list.end());
+            lua_output_fprtn<u_context_mask, token_iterator, InputIterator, execution_state_set_impl_choice> out_fprtn(the_token_list.size(), the_token_list.begin(), the_token_list.end());
 #endif
             clear_output_u_array_set<output_set_impl_choice>();
             typename lua_to_fprtn_parser_impl_selector<InputIterator, token_iterator, execution_state_set_impl_choice>::type()(get_lua_grammar(), hasnt_white_at_begin, hasnt_white_at_end, the_context, out_fprtn);
@@ -1827,9 +1827,9 @@ namespace grapenlp {
         std::size_t exe_my_lua_to_fprtn_stats_and_breadth_first_expander_with_trie_stacks_and_output(std::size_t &state_count, std::size_t &transition_count, std::size_t &pruned_state_count, std::size_t &pruned_transition_count)
         {
 #ifdef TRACE
-            typename lua_output_fprtn<u_context_mask, token_iterator, InputIterator, execution_state_set_impl_choice>::type out_fprtn('r', 'q', the_token_list.size(), the_token_list.begin(), the_token_list.end());
+            lua_output_fprtn<u_context_mask, token_iterator, InputIterator, execution_state_set_impl_choice> out_fprtn('r', 'q', the_token_list.size(), the_token_list.begin(), the_token_list.end());
 #else
-            typename lua_output_fprtn<u_context_mask, token_iterator, InputIterator, execution_state_set_impl_choice>::type out_fprtn(the_token_list.size(), the_token_list.begin(), the_token_list.end());
+            lua_output_fprtn<u_context_mask, token_iterator, InputIterator, execution_state_set_impl_choice> out_fprtn(the_token_list.size(), the_token_list.begin(), the_token_list.end());
 #endif
             clear_output_u_array_set<output_set_impl_choice>();
             typename lua_to_fprtn_parser_impl_selector<InputIterator, token_iterator, execution_state_set_impl_choice>::type()(get_lua_grammar(), hasnt_white_at_begin, hasnt_white_at_end, the_context, out_fprtn);
@@ -1853,9 +1853,9 @@ namespace grapenlp {
         std::size_t exe_my_lua_to_fprtn_parser_and_breadth_first_expander_with_array_stacks_and_output()
         {
 #ifdef TRACE
-            typename lua_output_fprtn<u_context_mask, token_iterator, InputIterator, execution_state_set_impl_choice>::type out_fprtn('r', 'q', the_token_list.size(), the_token_list.begin(), the_token_list.end());
+            lua_output_fprtn<u_context_mask, token_iterator, InputIterator, execution_state_set_impl_choice> out_fprtn('r', 'q', the_token_list.size(), the_token_list.begin(), the_token_list.end());
 #else
-            typename lua_output_fprtn<u_context_mask, token_iterator, InputIterator, execution_state_set_impl_choice>::type out_fprtn(the_token_list.size(), the_token_list.begin(), the_token_list.end());
+            lua_output_fprtn<u_context_mask, token_iterator, InputIterator, execution_state_set_impl_choice> out_fprtn(the_token_list.size(), the_token_list.begin(), the_token_list.end());
 #endif
             clear_output_u_array_set<output_set_impl_choice>();
             typename lua_to_fprtn_parser_impl_selector<InputIterator, token_iterator, execution_state_set_impl_choice>::type()(get_lua_grammar(), hasnt_white_at_begin, hasnt_white_at_end, the_context, out_fprtn);
@@ -1869,9 +1869,9 @@ namespace grapenlp {
         std::size_t exe_my_lua_to_fprtn_stats_and_breadth_first_expander_with_array_stacks_and_output(std::size_t &state_count, std::size_t &transition_count, std::size_t &pruned_state_count, std::size_t &pruned_transition_count)
         {
 #ifdef TRACE
-            typename lua_output_fprtn<u_context_mask, token_iterator, InputIterator, execution_state_set_impl_choice>::type out_fprtn('r', 'q', the_token_list.size(), the_token_list.begin(), the_token_list.end());
+            lua_output_fprtn<u_context_mask, token_iterator, InputIterator, execution_state_set_impl_choice> out_fprtn('r', 'q', the_token_list.size(), the_token_list.begin(), the_token_list.end());
 #else
-            typename lua_output_fprtn<u_context_mask, token_iterator, InputIterator, execution_state_set_impl_choice>::type out_fprtn(the_token_list.size(), the_token_list.begin(), the_token_list.end());
+            lua_output_fprtn<u_context_mask, token_iterator, InputIterator, execution_state_set_impl_choice> out_fprtn(the_token_list.size(), the_token_list.begin(), the_token_list.end());
 #endif
             clear_output_u_array_set<output_set_impl_choice>();
             typename lua_to_fprtn_parser_impl_selector<InputIterator, token_iterator, execution_state_set_impl_choice>::type()(get_lua_grammar(), hasnt_white_at_begin, hasnt_white_at_end, the_context, out_fprtn);
@@ -1894,9 +1894,9 @@ namespace grapenlp {
         std::size_t exe_my_luaw_to_fprtn_parser_and_breadth_first_expander_with_trie_stacks_and_output()
         {
 #ifdef TRACE
-            typename luaw_output_fprtn<u_context_mask, token_iterator, weight, InputIterator, execution_state_set_impl_choice>::type out_fprtn('r', 'q', the_token_list.size(), the_token_list.begin(), the_token_list.end());
+            luaw_output_fprtn<u_context_mask, token_iterator, weight, InputIterator, execution_state_set_impl_choice> out_fprtn('r', 'q', the_token_list.size(), the_token_list.begin(), the_token_list.end());
 #else
-            typename luaw_output_fprtn<u_context_mask, token_iterator, weight, InputIterator, execution_state_set_impl_choice>::type out_fprtn(the_token_list.size(), the_token_list.begin(), the_token_list.end());
+            luaw_output_fprtn<u_context_mask, token_iterator, weight, InputIterator, execution_state_set_impl_choice> out_fprtn(the_token_list.size(), the_token_list.begin(), the_token_list.end());
 #endif
             clear_output_u_array_set<output_set_impl_choice>();
             typename luaw_to_fprtn_parser_impl_selector<InputIterator, token_iterator, weight, execution_state_set_impl_choice>::type()(get_luaw_grammar(), hasnt_white_at_begin, hasnt_white_at_end, the_context, out_fprtn);
@@ -1914,9 +1914,9 @@ namespace grapenlp {
         std::size_t exe_my_luaw_to_fprtn_stats_and_breadth_first_expander_with_trie_stacks_and_output(std::size_t &state_count, std::size_t &transition_count, std::size_t &pruned_state_count, std::size_t &pruned_transition_count)
         {
 #ifdef TRACE
-            typename luaw_output_fprtn<u_context_mask, token_iterator, weight, InputIterator, execution_state_set_impl_choice>::type out_fprtn('r', 'q', the_token_list.size(), the_token_list.begin(), the_token_list.end());
+            luaw_output_fprtn<u_context_mask, token_iterator, weight, InputIterator, execution_state_set_impl_choice> out_fprtn('r', 'q', the_token_list.size(), the_token_list.begin(), the_token_list.end());
 #else
-            typename luaw_output_fprtn<u_context_mask, token_iterator, weight, InputIterator, execution_state_set_impl_choice>::type out_fprtn(the_token_list.size(), the_token_list.begin(), the_token_list.end());
+            luaw_output_fprtn<u_context_mask, token_iterator, weight, InputIterator, execution_state_set_impl_choice> out_fprtn(the_token_list.size(), the_token_list.begin(), the_token_list.end());
 #endif
             clear_output_u_array_set<output_set_impl_choice>();
             typename luaw_to_fprtn_parser_impl_selector<InputIterator, token_iterator, weight, execution_state_set_impl_choice>::type()(get_luaw_grammar(), hasnt_white_at_begin, hasnt_white_at_end, the_context, out_fprtn);
@@ -1941,9 +1941,9 @@ namespace grapenlp {
         std::size_t exe_my_luaw_to_fprtn_parser_and_breadth_first_expander_with_array_stacks_and_output()
         {
 #ifdef TRACE
-            typename luaw_output_fprtn<u_context_mask, token_iterator, weight, InputIterator, execution_state_set_impl_choice>::type out_fprtn('r', 'q', the_token_list.size(), the_token_list.begin(), the_token_list.end());
+            luaw_output_fprtn<u_context_mask, token_iterator, weight, InputIterator, execution_state_set_impl_choice> out_fprtn('r', 'q', the_token_list.size(), the_token_list.begin(), the_token_list.end());
 #else
-            typename luaw_output_fprtn<u_context_mask, token_iterator, weight, InputIterator, execution_state_set_impl_choice>::type out_fprtn(the_token_list.size(), the_token_list.begin(), the_token_list.end());
+            luaw_output_fprtn<u_context_mask, token_iterator, weight, InputIterator, execution_state_set_impl_choice> out_fprtn(the_token_list.size(), the_token_list.begin(), the_token_list.end());
 #endif
             clear_output_u_array_set<output_set_impl_choice>();
             typename luaw_to_fprtn_parser_impl_selector<InputIterator, token_iterator, weight, execution_state_set_impl_choice>::type()(get_luaw_grammar(), hasnt_white_at_begin, hasnt_white_at_end, the_context, out_fprtn);
@@ -1959,9 +1959,9 @@ namespace grapenlp {
         std::size_t exe_my_luaw_to_fprtn_stats_and_breadth_first_expander_with_array_stacks_and_output(std::size_t &state_count, std::size_t &transition_count, std::size_t &pruned_state_count, std::size_t &pruned_transition_count)
         {
 #ifdef TRACE
-            typename luaw_output_fprtn<u_context_mask, token_iterator, weight, InputIterator, execution_state_set_impl_choice>::type out_fprtn('r', 'q', the_token_list.size(), the_token_list.begin(), the_token_list.end());
+            luaw_output_fprtn<u_context_mask, token_iterator, weight, InputIterator, execution_state_set_impl_choice> out_fprtn('r', 'q', the_token_list.size(), the_token_list.begin(), the_token_list.end());
 #else
-            typename luaw_output_fprtn<u_context_mask, token_iterator, weight, InputIterator, execution_state_set_impl_choice>::type out_fprtn(the_token_list.size(), the_token_list.begin(), the_token_list.end());
+            luaw_output_fprtn<u_context_mask, token_iterator, weight, InputIterator, execution_state_set_impl_choice> out_fprtn(the_token_list.size(), the_token_list.begin(), the_token_list.end());
 #endif
             clear_output_u_array_set<output_set_impl_choice>();
             typename luaw_to_fprtn_parser_impl_selector<InputIterator, token_iterator, weight, execution_state_set_impl_choice>::type()(get_luaw_grammar(), hasnt_white_at_begin, hasnt_white_at_end, the_context, out_fprtn);
@@ -1985,9 +1985,9 @@ namespace grapenlp {
         std::size_t exe_my_lux_to_fprtn_parser_and_breadth_first_expander()
         {
 #ifdef TRACE
-            typename lux_output_fprtn<u_context_mask, token_iterator, InputIterator, execution_state_set_impl_choice>::type out_fprtn('r', 'q', the_token_list.size(), the_token_list.begin(), the_token_list.end());
+            lux_output_fprtn<u_context_mask, token_iterator, InputIterator, execution_state_set_impl_choice> out_fprtn('r', 'q', the_token_list.size(), the_token_list.begin(), the_token_list.end());
 #else
-            typename lux_output_fprtn<u_context_mask, token_iterator, InputIterator, execution_state_set_impl_choice>::type out_fprtn(the_token_list.size(), the_token_list.begin(), the_token_list.end());
+            lux_output_fprtn<u_context_mask, token_iterator, InputIterator, execution_state_set_impl_choice> out_fprtn(the_token_list.size(), the_token_list.begin(), the_token_list.end());
 #endif
             clear_output_segment_map_set<output_set_impl_choice>();
             typename lx_to_fprtn_parser_impl_selector<InputIterator, token_iterator, unichar, execution_state_set_impl_choice>::type()(get_lux_grammar(), hasnt_white_at_begin, hasnt_white_at_end, the_context, out_fprtn);
@@ -1999,9 +1999,9 @@ namespace grapenlp {
         std::size_t exe_my_lux_to_fprtn_stats_and_breadth_first_expander(std::size_t &state_count, std::size_t &transition_count, std::size_t &pruned_state_count, std::size_t &pruned_transition_count)
         {
 #ifdef TRACE
-            typename lux_output_fprtn<u_context_mask, token_iterator, InputIterator, execution_state_set_impl_choice>::type out_fprtn('r', 'q', the_token_list.size(), the_token_list.begin(), the_token_list.end());
+            lux_output_fprtn<u_context_mask, token_iterator, InputIterator, execution_state_set_impl_choice> out_fprtn('r', 'q', the_token_list.size(), the_token_list.begin(), the_token_list.end());
 #else
-            typename lux_output_fprtn<u_context_mask, token_iterator, InputIterator, execution_state_set_impl_choice>::type out_fprtn(the_token_list.size(), the_token_list.begin(), the_token_list.end());
+            lux_output_fprtn<u_context_mask, token_iterator, InputIterator, execution_state_set_impl_choice> out_fprtn(the_token_list.size(), the_token_list.begin(), the_token_list.end());
 #endif
             clear_output_segment_map_set<output_set_impl_choice>();
             typename lx_to_fprtn_parser_impl_selector<InputIterator, token_iterator, unichar, execution_state_set_impl_choice>::type()(get_lux_grammar(), hasnt_white_at_begin, hasnt_white_at_end, the_context, out_fprtn);
@@ -2020,9 +2020,9 @@ namespace grapenlp {
         std::size_t exe_my_luxw_to_fprtn_parser_and_breadth_first_expander()
         {
 #ifdef TRACE
-            typename luxw_output_fprtn<u_context_mask, token_iterator, weight, InputIterator, execution_state_set_impl_choice>::type out_fprtn('r', 'q', the_token_list.size(), the_token_list.begin(), the_token_list.end());
+            luxw_output_fprtn<u_context_mask, token_iterator, weight, InputIterator, execution_state_set_impl_choice> out_fprtn('r', 'q', the_token_list.size(), the_token_list.begin(), the_token_list.end());
 #else
-            typename luxw_output_fprtn<u_context_mask, token_iterator, weight, InputIterator, execution_state_set_impl_choice>::type out_fprtn(the_token_list.size(), the_token_list.begin(), the_token_list.end());
+            luxw_output_fprtn<u_context_mask, token_iterator, weight, InputIterator, execution_state_set_impl_choice> out_fprtn(the_token_list.size(), the_token_list.begin(), the_token_list.end());
 #endif
             clear_output_segment_map_x_weight_set<output_set_impl_choice>();
             typename lxw_to_fprtn_parser_impl_selector<InputIterator, token_iterator, unichar, weight, execution_state_set_impl_choice>::type()(get_luxw_grammar(), hasnt_white_at_begin, hasnt_white_at_end, the_context, out_fprtn);
@@ -2034,9 +2034,9 @@ namespace grapenlp {
         std::size_t exe_my_luxw_to_fprtn_stats_and_breadth_first_expander(std::size_t &state_count, std::size_t &transition_count, std::size_t &pruned_state_count, std::size_t &pruned_transition_count)
         {
 #ifdef TRACE
-            typename luxw_output_fprtn<u_context_mask, token_iterator, weight, InputIterator, execution_state_set_impl_choice>::type out_fprtn('r', 'q', the_token_list.size(), the_token_list.begin(), the_token_list.end());
+            luxw_output_fprtn<u_context_mask, token_iterator, weight, InputIterator, execution_state_set_impl_choice> out_fprtn('r', 'q', the_token_list.size(), the_token_list.begin(), the_token_list.end());
 #else
-            typename luxw_output_fprtn<u_context_mask, token_iterator, weight, InputIterator, execution_state_set_impl_choice>::type out_fprtn(the_token_list.size(), the_token_list.begin(), the_token_list.end());
+            luxw_output_fprtn<u_context_mask, token_iterator, weight, InputIterator, execution_state_set_impl_choice> out_fprtn(the_token_list.size(), the_token_list.begin(), the_token_list.end());
 #endif
             clear_output_segment_map_x_weight_set<output_set_impl_choice>();
             typename lxw_to_fprtn_parser_impl_selector<InputIterator, token_iterator, unichar, weight, execution_state_set_impl_choice>::type()(get_luxw_grammar(), hasnt_white_at_begin, hasnt_white_at_end, the_context, out_fprtn);
@@ -2059,9 +2059,9 @@ namespace grapenlp {
         std::size_t exe_my_lua_to_fprtn_parser_and_blackboard_set_expander_with_trie_output()
         {
 #ifdef TRACE
-            typename lua_output_fprtn_zpps<u_context_mask, token_iterator, InputIterator, execution_state_set_impl_choice>::type out_fprtn_zpps('r', 'q', the_token_list.size(), the_token_list.begin(), the_token_list.end());
+            lua_output_fprtn_zpps<u_context_mask, token_iterator, InputIterator, execution_state_set_impl_choice> out_fprtn_zpps('r', 'q', the_token_list.size(), the_token_list.begin(), the_token_list.end());
 #else
-            typename lua_output_fprtn_zpps<u_context_mask, token_iterator, InputIterator, execution_state_set_impl_choice>::type out_fprtn_zpps(the_token_list.size(), the_token_list.begin(), the_token_list.end());
+            lua_output_fprtn_zpps<u_context_mask, token_iterator, InputIterator, execution_state_set_impl_choice> out_fprtn_zpps(the_token_list.size(), the_token_list.begin(), the_token_list.end());
 #endif
             std::size_t useful_state_count;
             clear_output_u_array_set<output_set_impl_choice>();
@@ -2079,9 +2079,9 @@ namespace grapenlp {
         std::size_t exe_my_lua_to_fprtn_stats_and_blackboard_set_expander_with_trie_output(std::size_t &state_count, std::size_t &transition_count, std::size_t &pruned_state_count, std::size_t &pruned_transition_count)
         {
 #ifdef TRACE
-            typename lua_output_fprtn_zpps<u_context_mask, token_iterator, InputIterator, execution_state_set_impl_choice>::type out_fprtn_zpps('r', 'q', the_token_list.size(), the_token_list.begin(), the_token_list.end());
+            lua_output_fprtn_zpps<u_context_mask, token_iterator, InputIterator, execution_state_set_impl_choice> out_fprtn_zpps('r', 'q', the_token_list.size(), the_token_list.begin(), the_token_list.end());
 #else
-            typename lua_output_fprtn_zpps<u_context_mask, token_iterator, InputIterator, execution_state_set_impl_choice>::type out_fprtn_zpps(the_token_list.size(), the_token_list.begin(), the_token_list.end());
+            lua_output_fprtn_zpps<u_context_mask, token_iterator, InputIterator, execution_state_set_impl_choice> out_fprtn_zpps(the_token_list.size(), the_token_list.begin(), the_token_list.end());
 #endif
             clear_output_u_array_set<output_set_impl_choice>();
             typename lua_to_fprtn_zpps_parser_impl_selector<InputIterator, token_iterator, execution_state_set_impl_choice>::type()(get_lua_grammar(), hasnt_white_at_begin, hasnt_white_at_end, the_context, out_fprtn_zpps);
@@ -2105,9 +2105,9 @@ namespace grapenlp {
         std::size_t exe_my_lua_to_fprtn_parser_and_blackboard_set_expander_with_array_output()
         {
 #ifdef TRACE
-            typename lua_output_fprtn_zpps<u_context_mask, token_iterator, InputIterator, execution_state_set_impl_choice>::type out_fprtn_zpps('r', 'q', the_token_list.size(), the_token_list.begin(), the_token_list.end());
+            lua_output_fprtn_zpps<u_context_mask, token_iterator, InputIterator, execution_state_set_impl_choice> out_fprtn_zpps('r', 'q', the_token_list.size(), the_token_list.begin(), the_token_list.end());
 #else
-            typename lua_output_fprtn_zpps<u_context_mask, token_iterator, InputIterator, execution_state_set_impl_choice>::type out_fprtn_zpps(the_token_list.size(), the_token_list.begin(), the_token_list.end());
+            lua_output_fprtn_zpps<u_context_mask, token_iterator, InputIterator, execution_state_set_impl_choice> out_fprtn_zpps(the_token_list.size(), the_token_list.begin(), the_token_list.end());
 #endif
             std::size_t useful_state_count;
             clear_output_u_array_set<output_set_impl_choice>();
@@ -2120,9 +2120,9 @@ namespace grapenlp {
         std::size_t exe_my_lua_to_fprtn_stats_and_blackboard_set_expander_with_array_output(std::size_t &state_count, std::size_t &transition_count, std::size_t &pruned_state_count, std::size_t &pruned_transition_count)
         {
 #ifdef TRACE
-            typename lua_output_fprtn_zpps<u_context_mask, token_iterator, InputIterator, execution_state_set_impl_choice>::type out_fprtn_zpps('r', 'q', the_token_list.size(), the_token_list.begin(), the_token_list.end());
+            lua_output_fprtn_zpps<u_context_mask, token_iterator, InputIterator, execution_state_set_impl_choice> out_fprtn_zpps('r', 'q', the_token_list.size(), the_token_list.begin(), the_token_list.end());
 #else
-            typename lua_output_fprtn_zpps<u_context_mask, token_iterator, InputIterator, execution_state_set_impl_choice>::type out_fprtn_zpps(the_token_list.size(), the_token_list.begin(), the_token_list.end());
+            lua_output_fprtn_zpps<u_context_mask, token_iterator, InputIterator, execution_state_set_impl_choice> out_fprtn_zpps(the_token_list.size(), the_token_list.begin(), the_token_list.end());
 #endif
             clear_output_u_array_set<output_set_impl_choice>();
             typename lua_to_fprtn_zpps_parser_impl_selector<InputIterator, token_iterator, execution_state_set_impl_choice>::type()(get_lua_grammar(), hasnt_white_at_begin, hasnt_white_at_end, the_context, out_fprtn_zpps);
@@ -2143,9 +2143,9 @@ namespace grapenlp {
         std::size_t exe_my_luaw_to_fprtn_parser_and_blackboard_set_expander_with_trie_output()
         {
 #ifdef TRACE
-            typename luaw_output_fprtn_zpps<u_context_mask, token_iterator, weight, InputIterator, execution_state_set_impl_choice>::type out_fprtn_zpps('r', 'q', the_token_list.size(), the_token_list.begin(), the_token_list.end());
+            luaw_output_fprtn_zpps<u_context_mask, token_iterator, weight, InputIterator, execution_state_set_impl_choice> out_fprtn_zpps('r', 'q', the_token_list.size(), the_token_list.begin(), the_token_list.end());
 #else
-            typename luaw_output_fprtn_zpps<u_context_mask, token_iterator, weight, InputIterator, execution_state_set_impl_choice>::type out_fprtn_zpps(the_token_list.size(), the_token_list.begin(), the_token_list.end());
+            luaw_output_fprtn_zpps<u_context_mask, token_iterator, weight, InputIterator, execution_state_set_impl_choice> out_fprtn_zpps(the_token_list.size(), the_token_list.begin(), the_token_list.end());
 #endif
             std::size_t useful_state_count;
             clear_output_u_array_set<output_set_impl_choice>();
@@ -2164,9 +2164,9 @@ namespace grapenlp {
         std::size_t exe_my_luaw_to_fprtn_stats_and_blackboard_set_expander_with_trie_output(std::size_t &state_count, std::size_t &transition_count, std::size_t &pruned_state_count, std::size_t &pruned_transition_count)
         {
 #ifdef TRACE
-            typename luaw_output_fprtn_zpps<u_context_mask, token_iterator, weight, InputIterator, execution_state_set_impl_choice>::type out_fprtn_zpps('r', 'q', the_token_list.size(), the_token_list.begin(), the_token_list.end());
+            luaw_output_fprtn_zpps<u_context_mask, token_iterator, weight, InputIterator, execution_state_set_impl_choice> out_fprtn_zpps('r', 'q', the_token_list.size(), the_token_list.begin(), the_token_list.end());
 #else
-            typename luaw_output_fprtn_zpps<u_context_mask, token_iterator, weight, InputIterator, execution_state_set_impl_choice>::type out_fprtn_zpps(the_token_list.size(), the_token_list.begin(), the_token_list.end());
+            luaw_output_fprtn_zpps<u_context_mask, token_iterator, weight, InputIterator, execution_state_set_impl_choice> out_fprtn_zpps(the_token_list.size(), the_token_list.begin(), the_token_list.end());
 #endif
             clear_output_u_array_set<output_set_impl_choice>();
             typename luaw_to_fprtn_zpps_parser_impl_selector<InputIterator, token_iterator, weight, execution_state_set_impl_choice>::type()(get_luaw_grammar(), hasnt_white_at_begin, hasnt_white_at_end, the_context, out_fprtn_zpps);
@@ -2191,9 +2191,9 @@ namespace grapenlp {
         std::size_t exe_my_luaw_to_fprtn_parser_and_blackboard_set_expander_with_array_output()
         {
 #ifdef TRACE
-            typename luaw_output_fprtn_zpps<u_context_mask, token_iterator, weight, InputIterator, execution_state_set_impl_choice>::type out_fprtn_zpps('r', 'q', the_token_list.size(), the_token_list.begin(), the_token_list.end());
+            luaw_output_fprtn_zpps<u_context_mask, token_iterator, weight, InputIterator, execution_state_set_impl_choice> out_fprtn_zpps('r', 'q', the_token_list.size(), the_token_list.begin(), the_token_list.end());
 #else
-            typename luaw_output_fprtn_zpps<u_context_mask, token_iterator, weight, InputIterator, execution_state_set_impl_choice>::type out_fprtn_zpps(the_token_list.size(), the_token_list.begin(), the_token_list.end());
+            luaw_output_fprtn_zpps<u_context_mask, token_iterator, weight, InputIterator, execution_state_set_impl_choice> out_fprtn_zpps(the_token_list.size(), the_token_list.begin(), the_token_list.end());
 #endif
             std::size_t useful_state_count;
             clear_output_u_array_set<output_set_impl_choice>();
@@ -2210,9 +2210,9 @@ namespace grapenlp {
         std::size_t exe_my_luaw_to_fprtn_stats_and_blackboard_set_expander_with_array_output(std::size_t &state_count, std::size_t &transition_count, std::size_t &pruned_state_count, std::size_t &pruned_transition_count)
         {
 #ifdef TRACE
-            typename luaw_output_fprtn_zpps<u_context_mask, token_iterator, weight, InputIterator, execution_state_set_impl_choice>::type out_fprtn_zpps('r', 'q', the_token_list.size(), the_token_list.begin(), the_token_list.end());
+            luaw_output_fprtn_zpps<u_context_mask, token_iterator, weight, InputIterator, execution_state_set_impl_choice> out_fprtn_zpps('r', 'q', the_token_list.size(), the_token_list.begin(), the_token_list.end());
 #else
-            typename luaw_output_fprtn_zpps<u_context_mask, token_iterator, weight, InputIterator, execution_state_set_impl_choice>::type out_fprtn_zpps(the_token_list.size(), the_token_list.begin(), the_token_list.end());
+            luaw_output_fprtn_zpps<u_context_mask, token_iterator, weight, InputIterator, execution_state_set_impl_choice> out_fprtn_zpps(the_token_list.size(), the_token_list.begin(), the_token_list.end());
 #endif
             clear_output_u_array_set<output_set_impl_choice>();
             typename luaw_to_fprtn_zpps_parser_impl_selector<InputIterator, token_iterator, weight, execution_state_set_impl_choice>::type()(get_luaw_grammar(), hasnt_white_at_begin, hasnt_white_at_end, the_context, out_fprtn_zpps);
@@ -2236,9 +2236,9 @@ namespace grapenlp {
         std::size_t exe_my_lux_to_fprtn_parser_and_blackboard_set_expander()
         {
 #ifdef TRACE
-            typename lux_output_fprtn_zpps<u_context_mask, token_iterator, InputIterator, execution_state_set_impl_choice>::type out_fprtn_zpps('r', 'q', the_token_list.size(), the_token_list.begin(), the_token_list.end());
+            lux_output_fprtn_zpps<u_context_mask, token_iterator, InputIterator, execution_state_set_impl_choice> out_fprtn_zpps('r', 'q', the_token_list.size(), the_token_list.begin(), the_token_list.end());
 #else
-            typename lux_output_fprtn_zpps<u_context_mask, token_iterator, InputIterator, execution_state_set_impl_choice>::type out_fprtn_zpps(the_token_list.size(), the_token_list.begin(), the_token_list.end());
+            lux_output_fprtn_zpps<u_context_mask, token_iterator, InputIterator, execution_state_set_impl_choice> out_fprtn_zpps(the_token_list.size(), the_token_list.begin(), the_token_list.end());
 #endif
             std::size_t useful_state_count;
             clear_output_segment_map_set<output_set_impl_choice>();
@@ -2251,9 +2251,9 @@ namespace grapenlp {
         std::size_t exe_my_lux_to_fprtn_stats_and_blackboard_set_expander(std::size_t &state_count, std::size_t &transition_count, std::size_t &pruned_state_count, std::size_t &pruned_transition_count)
         {
 #ifdef TRACE
-            typename lux_output_fprtn_zpps<u_context_mask, token_iterator, InputIterator, execution_state_set_impl_choice>::type out_fprtn_zpps('r', 'q', the_token_list.size(), the_token_list.begin(), the_token_list.end());
+            lux_output_fprtn_zpps<u_context_mask, token_iterator, InputIterator, execution_state_set_impl_choice> out_fprtn_zpps('r', 'q', the_token_list.size(), the_token_list.begin(), the_token_list.end());
 #else
-            typename lux_output_fprtn_zpps<u_context_mask, token_iterator, InputIterator, execution_state_set_impl_choice>::type out_fprtn_zpps(the_token_list.size(), the_token_list.begin(), the_token_list.end());
+            lux_output_fprtn_zpps<u_context_mask, token_iterator, InputIterator, execution_state_set_impl_choice> out_fprtn_zpps(the_token_list.size(), the_token_list.begin(), the_token_list.end());
 #endif
             clear_output_segment_map_set<output_set_impl_choice>();
             typename lx_to_fprtn_zpps_parser_impl_selector<InputIterator, token_iterator, unichar, execution_state_set_impl_choice>::type()(get_lux_grammar(), hasnt_white_at_begin, hasnt_white_at_end, the_context, out_fprtn_zpps);
@@ -2272,9 +2272,9 @@ namespace grapenlp {
         std::size_t exe_my_luxw_to_fprtn_parser_and_blackboard_set_expander()
         {
 #ifdef TRACE
-            typename luxw_output_fprtn_zpps<u_context_mask, token_iterator, weight, InputIterator, execution_state_set_impl_choice>::type out_fprtn_zpps('r', 'q', the_token_list.size(), the_token_list.begin(), the_token_list.end());
+            luxw_output_fprtn_zpps<u_context_mask, token_iterator, weight, InputIterator, execution_state_set_impl_choice> out_fprtn_zpps('r', 'q', the_token_list.size(), the_token_list.begin(), the_token_list.end());
 #else
-            typename luxw_output_fprtn_zpps<u_context_mask, token_iterator, weight, InputIterator, execution_state_set_impl_choice>::type out_fprtn_zpps(the_token_list.size(), the_token_list.begin(), the_token_list.end());
+            luxw_output_fprtn_zpps<u_context_mask, token_iterator, weight, InputIterator, execution_state_set_impl_choice> out_fprtn_zpps(the_token_list.size(), the_token_list.begin(), the_token_list.end());
 #endif
             std::size_t useful_state_count;
             clear_output_segment_map_x_weight_set<output_set_impl_choice>();
@@ -2287,9 +2287,9 @@ namespace grapenlp {
         std::size_t exe_my_luxw_to_fprtn_stats_and_blackboard_set_expander(std::size_t &state_count, std::size_t &transition_count, std::size_t &pruned_state_count, std::size_t &pruned_transition_count)
         {
 #ifdef TRACE
-            typename luxw_output_fprtn_zpps<u_context_mask, token_iterator, weight, InputIterator, execution_state_set_impl_choice>::type out_fprtn_zpps('r', 'q', the_token_list.size(), the_token_list.begin(), the_token_list.end());
+            luxw_output_fprtn_zpps<u_context_mask, token_iterator, weight, InputIterator, execution_state_set_impl_choice> out_fprtn_zpps('r', 'q', the_token_list.size(), the_token_list.begin(), the_token_list.end());
 #else
-            typename luxw_output_fprtn_zpps<u_context_mask, token_iterator, weight, InputIterator, execution_state_set_impl_choice>::type out_fprtn_zpps(the_token_list.size(), the_token_list.begin(), the_token_list.end());
+            luxw_output_fprtn_zpps<u_context_mask, token_iterator, weight, InputIterator, execution_state_set_impl_choice> out_fprtn_zpps(the_token_list.size(), the_token_list.begin(), the_token_list.end());
 #endif
             clear_output_segment_map_x_weight_set<output_set_impl_choice>();
             typename lxw_to_fprtn_zpps_parser_impl_selector<InputIterator, token_iterator, unichar, weight, execution_state_set_impl_choice>::type()(get_luxw_grammar(), hasnt_white_at_begin, hasnt_white_at_end, the_context, out_fprtn_zpps);
@@ -2312,9 +2312,9 @@ namespace grapenlp {
         std::size_t exe_my_luaw_to_fprtn_parser_and_top_blackboard_extractor_with_trie_output()
         {
 #ifdef TRACE
-            typename luaw_output_fprtn_top<u_context_mask, token_iterator, weight, InputIterator, execution_state_set_impl_choice>::type out_fprtn_top('r', 'q', the_token_list.size(), the_token_list.begin(), the_token_list.end());
+            luaw_output_fprtn_top<u_context_mask, token_iterator, weight, InputIterator, execution_state_set_impl_choice> out_fprtn_top('r', 'q', the_token_list.size(), the_token_list.begin(), the_token_list.end());
 #else
-            typename luaw_output_fprtn_top<u_context_mask, token_iterator, weight, InputIterator, execution_state_set_impl_choice>::type out_fprtn_top(the_token_list.size(), the_token_list.begin(), the_token_list.end());
+            luaw_output_fprtn_top<u_context_mask, token_iterator, weight, InputIterator, execution_state_set_impl_choice> out_fprtn_top(the_token_list.size(), the_token_list.begin(), the_token_list.end());
 #endif
             clear_output_u_array_set<STD>();
             typename luaw_to_fprtn_top_parser_impl_selector<InputIterator, token_iterator, weight, execution_state_set_impl_choice>::type()(get_luaw_grammar(), hasnt_white_at_begin, hasnt_white_at_end, the_context, out_fprtn_top, std::numeric_limits<weight>::min());
@@ -2332,9 +2332,9 @@ namespace grapenlp {
         std::size_t exe_my_luaw_to_fprtn_stats_and_top_blackboard_extractor_with_trie_output(std::size_t &state_count, std::size_t &transition_count, std::size_t &pruned_state_count, std::size_t &pruned_transition_count)
         {
 #ifdef TRACE
-            typename luaw_output_fprtn_top<u_context_mask, token_iterator, weight, InputIterator, execution_state_set_impl_choice>::type out_fprtn_top('r', 'q', the_token_list.size(), the_token_list.begin(), the_token_list.end());
+            luaw_output_fprtn_top<u_context_mask, token_iterator, weight, InputIterator, execution_state_set_impl_choice> out_fprtn_top('r', 'q', the_token_list.size(), the_token_list.begin(), the_token_list.end());
 #else
-            typename luaw_output_fprtn_top<u_context_mask, token_iterator, weight, InputIterator, execution_state_set_impl_choice>::type out_fprtn_top(the_token_list.size(), the_token_list.begin(), the_token_list.end());
+            luaw_output_fprtn_top<u_context_mask, token_iterator, weight, InputIterator, execution_state_set_impl_choice> out_fprtn_top(the_token_list.size(), the_token_list.begin(), the_token_list.end());
 #endif
             clear_output_u_array_set<STD>();
             typename luaw_to_fprtn_top_parser_impl_selector<InputIterator, token_iterator, weight, execution_state_set_impl_choice>::type()(get_luaw_grammar(), hasnt_white_at_begin, hasnt_white_at_end, the_context, out_fprtn_top, std::numeric_limits<weight>::min());
@@ -2359,9 +2359,9 @@ namespace grapenlp {
         std::size_t exe_my_luaw_to_fprtn_parser_and_top_blackboard_extractor_with_array_output()
         {
 #ifdef TRACE
-            typename luaw_output_fprtn_top<u_context_mask, token_iterator, weight, InputIterator, execution_state_set_impl_choice>::type out_fprtn_top('r', 'q', the_token_list.size(), the_token_list.begin(), the_token_list.end());
+            luaw_output_fprtn_top<u_context_mask, token_iterator, weight, InputIterator, execution_state_set_impl_choice> out_fprtn_top('r', 'q', the_token_list.size(), the_token_list.begin(), the_token_list.end());
 #else
-            typename luaw_output_fprtn_top<u_context_mask, token_iterator, weight, InputIterator, execution_state_set_impl_choice>::type out_fprtn_top(the_token_list.size(), the_token_list.begin(), the_token_list.end());
+            luaw_output_fprtn_top<u_context_mask, token_iterator, weight, InputIterator, execution_state_set_impl_choice> out_fprtn_top(the_token_list.size(), the_token_list.begin(), the_token_list.end());
 #endif
             clear_output_u_array_set<STD>();
             typename luaw_to_fprtn_top_parser_impl_selector<InputIterator, token_iterator, weight, execution_state_set_impl_choice>::type()(get_luaw_grammar(), hasnt_white_at_begin, hasnt_white_at_end, the_context, out_fprtn_top, std::numeric_limits<weight>::min());
@@ -2377,9 +2377,9 @@ namespace grapenlp {
         std::size_t exe_my_luaw_to_fprtn_stats_and_top_blackboard_extractor_with_array_output(std::size_t &state_count, std::size_t &transition_count, std::size_t &pruned_state_count, std::size_t &pruned_transition_count)
         {
 #ifdef TRACE
-            typename luaw_output_fprtn_top<u_context_mask, token_iterator, weight, InputIterator, execution_state_set_impl_choice>::type out_fprtn_top('r', 'q', the_token_list.size(), the_token_list.begin(), the_token_list.end());
+            luaw_output_fprtn_top<u_context_mask, token_iterator, weight, InputIterator, execution_state_set_impl_choice> out_fprtn_top('r', 'q', the_token_list.size(), the_token_list.begin(), the_token_list.end());
 #else
-            typename luaw_output_fprtn_top<u_context_mask, token_iterator, weight, InputIterator, execution_state_set_impl_choice>::type out_fprtn_top(the_token_list.size(), the_token_list.begin(), the_token_list.end());
+            luaw_output_fprtn_top<u_context_mask, token_iterator, weight, InputIterator, execution_state_set_impl_choice> out_fprtn_top(the_token_list.size(), the_token_list.begin(), the_token_list.end());
 #endif
             clear_output_u_array_set<STD>();
             typename luaw_to_fprtn_top_parser_impl_selector<InputIterator, token_iterator, weight, execution_state_set_impl_choice>::type()(get_luaw_grammar(), hasnt_white_at_begin, hasnt_white_at_end, the_context, out_fprtn_top, std::numeric_limits<weight>::min());
@@ -2403,10 +2403,10 @@ namespace grapenlp {
         template<sequence_impl_choice sic, assoc_container_impl_choice execution_state_set_impl_choice, assoc_container_impl_choice output_set_impl_choice>
         std::size_t exe_my_luxw_to_fprtn_parser_and_top_blackboard_extractor() {
 #ifdef TRACE
-            typename luxw_output_fprtn_top<u_context_mask, token_iterator, weight, InputIterator, execution_state_set_impl_choice>::type out_fprtn_top(
+            luxw_output_fprtn_top<u_context_mask, token_iterator, weight, InputIterator, execution_state_set_impl_choice> out_fprtn_top(
                     'r', 'q', the_token_list.size(), the_token_list.begin(), the_token_list.end());
 #else
-            typename luxw_output_fprtn_top<u_context_mask, token_iterator, weight, InputIterator, execution_state_set_impl_choice>::type out_fprtn_top(the_token_list.size(), the_token_list.begin(), the_token_list.end());
+            luxw_output_fprtn_top<u_context_mask, token_iterator, weight, InputIterator, execution_state_set_impl_choice> out_fprtn_top(the_token_list.size(), the_token_list.begin(), the_token_list.end());
 #endif
             clear_output_segment_map_x_weight_set<output_set_impl_choice>();
             typename lxw_to_fprtn_top_parser_impl_selector<InputIterator, token_iterator, unichar, weight, execution_state_set_impl_choice>::type()(
@@ -2426,10 +2426,10 @@ namespace grapenlp {
                                                                 std::size_t &pruned_state_count,
                                                                 std::size_t &pruned_transition_count) {
 #ifdef TRACE
-            typename luxw_output_fprtn_top<u_context_mask, token_iterator, weight, InputIterator, execution_state_set_impl_choice>::type out_fprtn_top(
+            luxw_output_fprtn_top<u_context_mask, token_iterator, weight, InputIterator, execution_state_set_impl_choice> out_fprtn_top(
                     'r', 'q', the_token_list.size(), the_token_list.begin(), the_token_list.end());
 #else
-            typename luxw_output_fprtn_top<u_context_mask, token_iterator, weight, InputIterator, execution_state_set_impl_choice>::type out_fprtn_top(the_token_list.size(), the_token_list.begin(), the_token_list.end());
+            luxw_output_fprtn_top<u_context_mask, token_iterator, weight, InputIterator, execution_state_set_impl_choice> out_fprtn_top(the_token_list.size(), the_token_list.begin(), the_token_list.end());
 #endif
             clear_output_segment_map_x_weight_set<output_set_impl_choice>();
             typename lxw_to_fprtn_top_parser_impl_selector<InputIterator, token_iterator, unichar, weight, execution_state_set_impl_choice>::type()(

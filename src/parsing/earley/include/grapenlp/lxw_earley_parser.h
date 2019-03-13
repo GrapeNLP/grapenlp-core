@@ -40,8 +40,8 @@ namespace grapenlp
 	template<typename InputIterator, typename SourceRef, typename Id, typename WeightTransformer, assoc_container_impl_choice execution_state_set_impl_choice, assoc_container_impl_choice output_set_impl_choice>
 #ifdef TRACE
 	struct lxw_earley_parser: public earley_parser<
-	        typename lxwns_rtno<InputIterator, Id, typename WeightTransformer::result_type, u_context_mask>::type::tag_input,
-	        typename lxwns_rtno<InputIterator, Id, typename WeightTransformer::result_type, u_context_mask>::type::tag_output,
+	        typename lxwns_rtno<InputIterator, Id, typename WeightTransformer::result_type, u_context_mask>::tag_input,
+	        typename lxwns_rtno<InputIterator, Id, typename WeightTransformer::result_type, u_context_mask>::tag_output,
 	        SourceRef,
 	        segment_map_x_weight<SourceRef, Id, typename WeightTransformer::result_type, output_set_impl_choice>,
 	        serializer<segment_map_x_weight<SourceRef, Id, typename WeightTransformer::result_type, output_set_impl_choice> >,
@@ -52,8 +52,8 @@ namespace grapenlp
 	        >
 	{
 		typedef earley_parser<
-				typename lxwns_rtno<InputIterator, Id, typename WeightTransformer::result_type, u_context_mask>::type::tag_input,
-				typename lxwns_rtno<InputIterator, Id, typename WeightTransformer::result_type, u_context_mask>::type::tag_output,
+				typename lxwns_rtno<InputIterator, Id, typename WeightTransformer::result_type, u_context_mask>::tag_input,
+				typename lxwns_rtno<InputIterator, Id, typename WeightTransformer::result_type, u_context_mask>::tag_output,
 				SourceRef,
 				segment_map_x_weight<SourceRef, Id, typename WeightTransformer::result_type, output_set_impl_choice>,
 				serializer<segment_map_x_weight<SourceRef, Id, typename WeightTransformer::result_type, output_set_impl_choice> >,
@@ -64,8 +64,8 @@ namespace grapenlp
 		        > base_type;
 #else
 	struct lxw_earley_parser: public earley_parser<
-	        typename lxw_rtno<InputIterator, Id, typename WeightTransformer::result_type, u_context_mask>::type::tag_input,
-	        typename lxw_rtno<InputIterator, Id, typename WeightTransformer::result_type, u_context_mask>::type::tag_output,
+	        typename lxw_rtno<InputIterator, Id, typename WeightTransformer::result_type, u_context_mask>::tag_input,
+	        typename lxw_rtno<InputIterator, Id, typename WeightTransformer::result_type, u_context_mask>::tag_output,
 	        SourceRef,
 	        segment_map_x_weight<SourceRef, Id, typename WeightTransformer::result_type, output_set_impl_choice>,
 	        segment_map_x_weight_transformer<SourceRef, Id, WeightTransformer, output_set_impl_choice>,
@@ -75,8 +75,8 @@ namespace grapenlp
 	        >
 	{
 		typedef earley_parser<
-				typename lxw_rtno<InputIterator, Id, typename WeightTransformer::result_type, u_context_mask>::type::tag_input,
-				typename lxw_rtno<InputIterator, Id, typename WeightTransformer::result_type, u_context_mask>::type::tag_output,
+				typename lxw_rtno<InputIterator, Id, typename WeightTransformer::result_type, u_context_mask>::tag_input,
+				typename lxw_rtno<InputIterator, Id, typename WeightTransformer::result_type, u_context_mask>::tag_output,
 				SourceRef,
 				segment_map_x_weight<SourceRef, Id, typename WeightTransformer::result_type, output_set_impl_choice>,
 				segment_map_x_weight_transformer<SourceRef, Id, WeightTransformer, output_set_impl_choice>,

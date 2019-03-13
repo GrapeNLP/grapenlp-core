@@ -39,7 +39,7 @@ namespace grapenlp
 	template<typename InputIterator, typename Probability, typename IdxType>
 	struct def_pcfgla_to_rtno_n_term_trie_data
 	{
-		typedef typename lutwns_rtno<InputIterator, Probability>::type machine;
+		typedef lutwns_rtno<InputIterator, Probability> machine;
 		typedef typename machine::state_ref state_ref;
 		typedef IdxType idx_type;
 
@@ -105,7 +105,7 @@ namespace grapenlp
 		typedef typename algebra::lexicon_trie_iterator lexicon_trie_iterator;
 		typedef typename algebra::lexicon_trie_string_ref lexicon_trie_string_ref;
 
-		typedef typename lutwns_rtno<InputIterator, Probability>::type machine;
+		typedef lutwns_rtno<InputIterator, Probability> machine;
 		typedef typename machine::state_ref state_ref;
 		typedef typename machine::tag_output tag_output;
 

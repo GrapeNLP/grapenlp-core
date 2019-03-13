@@ -63,7 +63,7 @@ namespace grapenlp
 		typedef Transformer transformer;
 		typedef Composer composer;
 
-		typedef typename output_fprtn_zpps<u_context_mask, source_ref, tag_input, RTNOTagInput, execution_state_set_impl_choice>::type machine;
+		typedef output_fprtn_zpps<u_context_mask, source_ref, tag_input, RTNOTagInput, execution_state_set_impl_choice> machine;
 		typedef typename machine::state state;
 		typedef typename machine::state_ref state_ref;
 		typedef typename machine::state_const_ref state_const_ref;

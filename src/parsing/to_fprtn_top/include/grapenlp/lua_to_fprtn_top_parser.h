@@ -35,8 +35,8 @@ namespace grapenlp
 	struct lua_to_fprtn_top_parser_impl_selector
 	{
 		typedef to_fprtn_top_parser<
-		        typename lua_rtno<InputIterator, u_context_mask>::type::tag_input,
-		        typename lua_rtno<InputIterator, u_context_mask>::type::tag_output,
+		        typename lua_rtno<InputIterator, u_context_mask>::tag_input,
+		        typename lua_rtno<InputIterator, u_context_mask>::tag_output,
 		        SourceRef,
 		        execution_state_set_impl_choice
 		        > type;

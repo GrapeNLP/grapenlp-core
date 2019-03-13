@@ -41,7 +41,7 @@
 #include <grapenlp/string.h>
 #include <grapenlp/u_array.h>
 #include <grapenlp/u_trie.h>
-#include <grapenlp/u_context.h>
+#include <grapenlp/u_context_reader.h>
 
 //Tokenization
 #include <grapenlp/tokenization.h>
@@ -978,8 +978,7 @@ namespace grapenlp {
 #endif //TRACE
         }
 
-        void
-        load_grammar_and_dico(rtno_type grammar_type, const std::string &grammar_path_name, const std::string &dico_path_name)
+        void load_grammar_and_dico(rtno_type grammar_type, const std::string &grammar_path_name, const std::string &dico_path_name)
         {
             grapenlp::string dpn(dico_path_name);
             if (dpn.ends_with(".dic"))
@@ -1002,6 +1001,18 @@ namespace grapenlp {
 #endif
             else fatal_error("Unsupported dictionary format (expected .dic, .bin or .inf file\n");
             load_grammar(grammar_type, grammar_path_name);
+        }
+
+        void load_input_context(const std::string &input_context_path_name)
+        {
+#ifdef TRACE
+            std::wcout << L"Loading input context" << std::endl;
+#endif
+            the_context.clear_map();
+            FILE *input_context_file(u_fopen(input_context_path_name.c_str(), U_READ));
+            if (input_context_file == NULL)
+                fatal_error("Unable to open input context file to read\n");
+            u_read(input_context_file, the_context);
         }
 
         bool grammar_is_loaded() { return grammar_ref; }

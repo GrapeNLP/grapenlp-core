@@ -67,12 +67,14 @@ namespace grapenlp
 		}
 
 		//If context mask delimiters, make context mask
-		if (starts_with(tag_input_code.begin() + 1, tag_input_code.end(), context_left_delimiter.begin(), context_left_delimiter.end()) && tag_input_code[0] == case_insensitive_char && tag_input_code.size() > (context_left_delimiter.size() + 1) && tag_input_code[context_left_delimiter.size() + 1] != in_out_separator_char)
+		if (starts_with(tag_input_code.begin() + 1, tag_input_code.end(), context_left_delimiter.begin(), context_left_delimiter.end()) &&
+			tag_input_code[0] == case_insensitive_char &&
+			tag_input_code.size() > 1 + context_left_delimiter.size() + context_right_delimiter.size())
 		{
 #ifdef TRACE
 			std::wcout << L"Creating context mask\n";
 #endif
-			return new ul_tag_input<InputIterator>(make_u_context_mask(tag_input_code.begin() + context_left_delimiter.size(), tag_input_code.end() - context_right_delimiter.size(), c));
+			return new ul_tag_input<InputIterator>(make_u_context_mask(tag_input_code.begin() + 1 + context_left_delimiter.size(), tag_input_code.end() - context_right_delimiter.size(), c));
 		}
 
 		//Otherwise make a lexical mask (there are no other kind of masks)

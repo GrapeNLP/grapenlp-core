@@ -28,6 +28,7 @@ project(context VERSION ${CHANGELOG_VERSION} LANGUAGES CXX)
 add_library(context STATIC
         src/context.cpp
         src/u_context.cpp
+        src/u_context_reader.cpp
         )
 target_include_directories(context PUBLIC
         $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/include>

@@ -6,10 +6,10 @@ if [ $# -gt 0 ]
 then
 	if [ "$1" = "m" ]
 	then
-		$MTRACE_GRAPENLP -sxcwt -pto-fprtn-and-blackboard-set-extract $CHATBOT_GRAMMAR $COMPRESSED_DICO $CORPUS $OUTPUT $VALIDATE
+		$MTRACE_GRAPENLP -sxwt --corpus -pto-fprtn-and-blackboard-set-extract $CHATBOT_GRAMMAR $COMPRESSED_DICO $CORPUS $TEST_CONTEXT $OUTPUT $VALIDATE
 	else
-		$DEBUG_GRAPENLP -sxcwt -r$1 -pto-fprtn-and-blackboard-set-extract $CHATBOT_GRAMMAR $COMPRESSED_DICO $CORPUS $OUTPUT $VALIDATE
+		$DEBUG_GRAPENLP -sxwt --corpus -r$1 -pto-fprtn-and-blackboard-set-extract $CHATBOT_GRAMMAR $COMPRESSED_DICO $CORPUS $TEST_CONTEXT $OUTPUT $VALIDATE
 	fi
 else
-	$DEBUG_GRAPENLP -sxcwt -pto-fprtn-and-blackboard-set-extract -estd -bstd $CHATBOT_GRAMMAR $COMPRESSED_DICO $CORPUS $OUTPUT $VALIDATE
+	$DEBUG_GRAPENLP -sxwt --corpus -pto-fprtn-and-blackboard-set-extract -estd -bstd $CHATBOT_GRAMMAR $COMPRESSED_DICO $CORPUS $TEST_CONTEXT $OUTPUT $VALIDATE
 fi

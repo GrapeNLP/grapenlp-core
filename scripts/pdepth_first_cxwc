@@ -4,9 +4,9 @@ cd `dirname $0`
 
 if [ $# -gt 0 ]
 then
-$PROFILE_GRAPENLP -sxcw -pdepth-first -r$1 $CHATBOT_GRAMMAR $COMPRESSED_DICO $CORPUS $OUTPUT
+$PROFILE_GRAPENLP -sxw --corpus -pdepth-first -r$1 $CHATBOT_GRAMMAR $COMPRESSED_DICO $CORPUS $TEST_CONTEXT $OUTPUT
 else
-$PROFILE_GRAPENLP -sxcw -pdepth-first $CHATBOT_GRAMMAR $COMPRESSED_DICO $CORPUS $OUTPUT
+$PROFILE_GRAPENLP -sxw --corpus -pdepth-first $CHATBOT_GRAMMAR $COMPRESSED_DICO $CORPUS $TEST_CONTEXT $OUTPUT
 fi
 echo \#\#\#\#\#\#\#\#\#\#\#\# > $TOP_DOWN_PROFILE_TRACE
 echo \# Top-Down \# >> $TOP_DOWN_PROFILE_TRACE

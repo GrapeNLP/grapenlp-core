@@ -4,7 +4,7 @@ cd `dirname $0`
 
 if [ "$1" = "m" ]
 then
-$MTRACE_GRAPENLP --desc -l -pto-fprtn-and-blackboard-set-expand $AEEE_GRAMMAR $COMPRESSED_DICO $TEST_INPUT $OUTPUT
+$MTRACE_GRAPENLP --desc -l -pto-fprtn-and-blackboard-set-expand $AEEE_GRAMMAR $COMPRESSED_DICO $TEST_INPUT $TEST_CONTEXT $OUTPUT
 else
-$DEBUG_GRAPENLP --desc -l -pto-fprtn-and-blackboard-set-expand $AEEE_GRAMMAR $COMPRESSED_DICO $TEST_INPUT $OUTPUT
+$DEBUG_GRAPENLP --desc -l -pto-fprtn-and-blackboard-set-expand $AEEE_GRAMMAR $COMPRESSED_DICO $TEST_INPUT $TEST_CONTEXT $OUTPUT
 fi

@@ -64,6 +64,7 @@ void help(const grapenlp::string &program_name, const options_description &desc)
 {
 	std::cout << "Usage: " << program_name.c_str() << " [options] grammar dictionary input output [validate]" << std::endl;
 	std::cout << desc;
+	std::cout << "Note all input text files must be in UTF16-LE format with BOM" << std::endl;
 }
 
 std::string::const_iterator get_repeat_argument_end(const std::string &s, std::string::const_iterator begin)
@@ -476,7 +477,7 @@ int main(int argc, char **argv)
 		("version", "Print version number")
 		("desc-parser", "Print description of chosen parser")
 		("anbn,a", value<unsigned int>(), "-an take as input the sequence a^n b^n")
-		("corpus,c", "Input contains a set of sentences rather than a single one, an possibly other text to be omitted; each sentence must start and end by a '$' symbol (e.g.: [comment0]$sentence1$[comment1]$sentence2$[comment2]...")
+		("corpus", "Input contains a set of sentences rather than a single one, an possibly other text to be omitted; each sentence must start and end by a '$' symbol (e.g.: [comment0]$sentence1$[comment1]$sentence2$[comment2]...")
 		("letter,l", "Letter output grammar (default)")
 		("extraction,x", "Extraction grammar")
 		("bracketing,k", "Bracketing grammar")
@@ -513,7 +514,8 @@ int main(int argc, char **argv)
 	    ("bs-impl,b", value<std::string>(), "Set implementation to be used for the representation of blackboard sets; valid arg values are the same than for the precedent option")
 	    ("grammar,g", value<std::string>(), "Grammar file")
 	    ("dico,d", value<std::string>(), "Text or compressed dictionary file; if dictionary is compressed, only the .bin or the .inf file must be specified (the other file will be searched in the same folder)")
-	    ("input,i", value<std::string>(), "Input file")
+	    ("input,i", value<std::string>(), "Input file containing the text to apply the grammar to")
+		("context,c", value<std::string>(), "Input context file having a context mapping per line (e.g. key=value)")
 	    ("output,o", value<std::string>(), "Output file; if no-output option is specified, the output will consist in a true/false value for each input sentence indicating whether the sentence was accepted or rejected")
 	    ("validate,v", value<std::string>(), (std::string("Validation file; if none specified, output validation will be skipped; this option requires the input to be an aligned corpus formatted as follows: ")+
 											 std::string("[comment_a1]$sentence1$[comment_b1]#expected_result1#[comment_a2]$sentence2[comment_b2]#expected_result2#...")).c_str())
@@ -525,6 +527,7 @@ int main(int argc, char **argv)
 	pod.add("grammar", 1);
 	pod.add("dico", 1);
 	pod.add("input", 1);
+	pod.add("context", 1);
 	pod.add("output", 1);
 	pod.add("validate", 1);
 
@@ -737,6 +740,13 @@ int main(int argc, char **argv)
 	ualxiw_manager the_manager;
 	the_manager.load_grammar_and_dico(grammar_type, grammar_path_name, dico_path_name);
 	the_manager.set_parser(the_parser_type, trie_strings, no_output, execution_state_set_impl_choice, output_set_impl_choice);
+
+	//Load input context
+	if (vm.count("context"))
+	{
+		std::string input_context_path_name(vm["context"].as<std::string>());
+		the_manager.load_input_context(input_context_path_name);
+	}
 
 	//Get parsing result
 	u_array output;

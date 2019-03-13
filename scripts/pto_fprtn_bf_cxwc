@@ -4,9 +4,9 @@ cd `dirname $0`
 
 if [ $# -gt 0 ]
 then
-$PROFILE_GRAPENLP -sxcw -r$1 -pto-fprtn-and-breadth-first-expand $CHATBOT_GRAMMAR $COMPRESSED_DICO $CORPUS $OUTPUT
+$PROFILE_GRAPENLP -sxw --corpus -r$1 -pto-fprtn-and-breadth-first-expand $CHATBOT_GRAMMAR $COMPRESSED_DICO $CORPUS $TEST_CONTEXT $OUTPUT
 else
-$PROFILE_GRAPENLP -sxcw -pto-fprtn-and-breadth-first-expand $CHATBOT_GRAMMAR $COMPRESSED_DICO $CORPUS $OUTPUT
+$PROFILE_GRAPENLP -sxw --corpus -pto-fprtn-and-breadth-first-expand $CHATBOT_GRAMMAR $COMPRESSED_DICO $CORPUS $TEST_CONTEXT $OUTPUT
 fi
 echo \#\#\#\#\#\#\#\#\#\#\#\# > $TO_FPRTN_BF_PROFILE_TRACE
 echo \# To FPTRN \# >> $TO_FPRTN_BF_PROFILE_TRACE

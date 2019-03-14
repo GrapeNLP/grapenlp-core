@@ -45,7 +45,7 @@ namespace grapenlp
 		typedef WeightTransformer weight_transformer;
 		typedef typename weight_transformer::result_type weight;
 		typedef weight_transformer_traits<WeightTransformer> the_weight_transformer_traits;
-		typedef typename u_array_const_ref_x_weight<weight>::type tag;
+		typedef u_array_const_ref_x_weight<weight> tag;
 		typedef ua_fst2_tag_output_reader<ua_before_w_stop_char_evaluator> my_ua_fst2_tag_output_reader;
 		typedef w_fst2_tag_output_reader<weight> my_w_fst2_tag_output_reader;
 		typedef typename my_ua_fst2_tag_output_reader::ua_trie ua_trie;

@@ -32,10 +32,7 @@
 namespace grapenlp
 {
 	template<typename SourceRef, typename T, typename Weight>
-	struct aw_fprtn
-	{
-		typedef fprtn<SourceRef, array_const_ref_x_weight<T, Weight> > type;
-	};
+	using aw_fprtn = fprtn<SourceRef, array_const_ref_x_weight<T, Weight> >;
 } //namespace grapenlp
 
 #endif /*GRAPENLP_AW_FPRTN_H*/

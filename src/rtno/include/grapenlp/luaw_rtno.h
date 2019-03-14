@@ -33,11 +33,11 @@ namespace grapenlp
 {
 	//RTNO having lexical mask/unicode array x weight as input/output transition tags
 	template<typename InputIterator, typename Weight, typename ContextMask>
-	using luaw_rtno = l_rtno<InputIterator, typename u_array_const_ref_x_weight<Weight>::type, ContextMask>;
+	using luaw_rtno = l_rtno<InputIterator, u_array_const_ref_x_weight<Weight>, ContextMask>;
 
 	//RTNO having lexical mask/unicode array x weight as input/output transition tags
 	template<typename InputIterator, typename Weight, typename ContextMask>
-	using luawns_rtno = lns_rtno<InputIterator, typename u_array_const_ref_x_weight<Weight>::type, ContextMask>;
+	using luawns_rtno = lns_rtno<InputIterator, u_array_const_ref_x_weight<Weight>, ContextMask>;
 } //namespace grapenlp
 
 #endif /*GRAPENLP_LUAW_RTNO_H*/

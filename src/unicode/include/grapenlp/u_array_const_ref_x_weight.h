@@ -32,9 +32,7 @@
 namespace grapenlp
 {
 	template<typename Weight>
-	struct u_array_const_ref_x_weight
-	{ typedef array_const_ref_x_weight<unichar, Weight> type; };
-
+	using u_array_const_ref_x_weight = array_const_ref_x_weight<unichar, Weight>;
 } //namespace grapenlp
 
 #endif /*GRAPENLP_U_ARRAY_CONST_REF_X_WEIGHT_H*/

@@ -32,10 +32,7 @@
 namespace grapenlp
 {
 	template<typename SourceRef, typename Id>
-	struct x_fprtn
-	{
-		typedef fprtn<SourceRef, typename out_bound<Id>::const_ref> type;
-	};
+	using x_fprtn = fprtn<SourceRef, typename out_bound<Id>::const_ref>;
 } //namespace grapenlp
 
 #endif /*GRAPENLP_X_FPRTN_H*/

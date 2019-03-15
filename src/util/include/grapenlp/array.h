@@ -80,7 +80,8 @@ namespace grapenlp {
 
         array(const array<T> &a) : count(a.size()), elems(new T[a.size()]) { std::copy(a.begin(), a.end(), elems); }
 
-        array(array<T> &&a) : elems(a.elems), count(a.count) {
+        array(array<T> &&a) : count(a.count), elems(a.elems)
+        {
             a.elems = nullptr;
             a.count = 0;
         }

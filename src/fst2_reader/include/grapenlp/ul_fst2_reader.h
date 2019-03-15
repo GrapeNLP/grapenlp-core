@@ -181,13 +181,13 @@ namespace grapenlp
 			line_count++;
 
 			//Read RTNO initial state, that is, the first state of the first graph
-			if (!u_read_state(f, grammar, stv, 0, 0, 0, max_tag_index, line_count))
+			if (!u_read_state(f, grammar, stv, 0, 0, max_tag_index, line_count))
 				fatal_error("In line %u of .fst2 file: graph %d defines no states\n", line_count, 1 - current_graph_index);
 			called_states[current_graph_index] = stv[0].q_ref;
 			++local_state_index;
 
 			//Read the other states of the first graph
-			while (u_read_state(f, grammar, stv, current_graph_index, state_index_offset, local_state_index, max_tag_index, line_count))
+			while (u_read_state(f, grammar, stv, current_graph_index, state_index_offset, max_tag_index, line_count))
 				++local_state_index;
 
 			// Read the states of the other graphs
@@ -201,18 +201,18 @@ namespace grapenlp
 				line_count++;
 
 				//Read initial state of the current graph
-				if (!u_read_state(f, grammar, stv, current_graph_index, state_index_offset, local_state_index, max_tag_index, line_count))
+				if (!u_read_state(f, grammar, stv, current_graph_index, state_index_offset, max_tag_index, line_count))
 					fatal_error("In line %u of .fst2 file: graph %d defines no states\n", line_count, 1 - current_graph_index);
 				called_states[current_graph_index] = stv.back().q_ref;
 				++local_state_index;
 
 				//Read other states
-				while (u_read_state(f, grammar, stv, current_graph_index, state_index_offset, local_state_index, max_tag_index, line_count))
+				while (u_read_state(f, grammar, stv, current_graph_index, state_index_offset, max_tag_index, line_count))
 					++local_state_index;
 			}
 		}
 
-		bool u_read_state(FILE *f, machine &grammar, ul_state_ref_x_transition_indexes_vector_ref_vector &stv, int current_graph_index, int state_index_offset, int local_state_index, int &max_tag_index, unsigned int &line_count)
+		bool u_read_state(FILE *f, machine &grammar, ul_state_ref_x_transition_indexes_vector_ref_vector &stv, int current_graph_index, int state_index_offset, int &max_tag_index, unsigned int &line_count)
 		{
 			unichar c = (unichar)u_fgetc(f);
 			if (c != end_of_section_char && c != final_state_char && c != non_final_state_char)

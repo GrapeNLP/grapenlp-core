@@ -27,9 +27,9 @@
 
 namespace grapenlp
 {
-	unichar u_read(FILE *f, u_context &ctx)
+	void u_read_context(FILE *f, u_context &ctx)
 	{
-		std::size_t max_line_size=10000;
+		const std::size_t max_line_size = 10000;
 		unsigned int line_count = 0;
 		unichar line[max_line_size];
 		unichar *key_begin;

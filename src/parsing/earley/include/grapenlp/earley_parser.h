@@ -299,7 +299,7 @@ namespace grapenlp
 
 		struct no_op_on_execution_state
 		{
-			void operator()(const active_execution_state &x) const
+			void operator()(__attribute__((unused)) const active_execution_state &x) const
 			{}
 		};
 
@@ -671,7 +671,7 @@ namespace grapenlp
 
 		//Build V_0 as the eclosure of Q X {b_emptyset} X {lambda};
 		template<typename ExtraInsertOp>
-		void build_initial_ses(state_const_ref initial_state, bool hasnt_white_at_begin, ExtraInsertOp op, const blackboard &empty_blackboard)
+		void build_initial_ses(state_const_ref initial_state, ExtraInsertOp op, const blackboard &empty_blackboard)
 		{
 #ifdef TRACE
 			std::wcout << L"----- V[0] -----" << std::endl;
@@ -701,14 +701,14 @@ namespace grapenlp
 			//If empty input, build initial and final V[0]
 			if (input_begin == input_end)
 			{
-				build_initial_ses(grammar.initial_state(), hasnt_white_at_begin, ins_op, empty_blackboard);
+				build_initial_ses(grammar.initial_state(), ins_op, empty_blackboard);
 				//First token is white separated if there are trailing whites at the beginning
 				eclosure(0, input_begin, hasnt_white_at_begin, c, ins_op, empty_blackboard);
 			}
 			//Else build initial V[0] and the remaining V[i]
 			else
 			{
-				build_initial_ses(grammar.initial_state(), hasnt_white_at_begin, no_op, empty_blackboard);
+				build_initial_ses(grammar.initial_state(), no_op, empty_blackboard);
 				//First token is white separated if there are trailing whites at the beginning
 				eclosure(0, input_begin, hasnt_white_at_begin, c, no_op, empty_blackboard);
 

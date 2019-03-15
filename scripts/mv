@@ -1,4 +1,4 @@
 #!/bin/bash
 cd `dirname $0`
 . paths
-. v "$DEBUG_GRAPENLP"
+. v "$MTRACE_GRAPENLP"

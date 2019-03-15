@@ -247,9 +247,9 @@ namespace grapenlp
 
 		template<typename ExtraInsertOp>
 #ifdef TRACE
-		void process_inserting_transitions(const execution_state &x_s, outgoing_inserting_transition_set_iterator inserting_transition_begin, outgoing_inserting_transition_set_iterator inserting_transition_end, SourceRef in, ExtraInsertOp op, const std::wstring &inserting_transition_type = L"")
+		void process_inserting_transitions(const execution_state &x_s, outgoing_inserting_transition_set_iterator inserting_transition_begin, outgoing_inserting_transition_set_iterator inserting_transition_end, ExtraInsertOp op, const std::wstring &inserting_transition_type = L"")
 #else
-		void process_inserting_transitions(const execution_state &x_s, outgoing_inserting_transition_set_iterator inserting_transition_begin, outgoing_inserting_transition_set_iterator inserting_transition_end, SourceRef in, ExtraInsertOp op)
+		void process_inserting_transitions(const execution_state &x_s, outgoing_inserting_transition_set_iterator inserting_transition_begin, outgoing_inserting_transition_set_iterator inserting_transition_end, ExtraInsertOp op)
 #endif
 		{
 			for (; inserting_transition_begin != inserting_transition_end; ++inserting_transition_begin)
@@ -268,7 +268,7 @@ namespace grapenlp
 		}
 
         template<typename ExtraInsertOp>
-        void process_inserting_context_transitions(const execution_state &x_s, outgoing_inserting_context_transition_set_iterator inserting_context_transition_begin, outgoing_inserting_context_transition_set_iterator inserting_context_transition_end, SourceRef in, const u_context &c, ExtraInsertOp op)
+        void process_inserting_context_transitions(const execution_state &x_s, outgoing_inserting_context_transition_set_iterator inserting_context_transition_begin, outgoing_inserting_context_transition_set_iterator inserting_context_transition_end, const u_context &c, ExtraInsertOp op)
         {
             for (; inserting_context_transition_begin != inserting_context_transition_end; ++inserting_context_transition_begin)
             {
@@ -295,7 +295,7 @@ namespace grapenlp
 
 		//Increment parsing chart with the epsilon-closure of the last active set of execution states
 		template<typename ExtraInsertOp>
-		void eclosure(SourceRef in, bool next_token_isnt_white_separated, const u_context &c, ExtraInsertOp op)
+		void eclosure(bool next_token_isnt_white_separated, const u_context &c, ExtraInsertOp op)
 		{
 			//While there are execution states pending to be processed
 			while (!e.empty())
@@ -306,11 +306,11 @@ namespace grapenlp
 
 				//Process epsilon and inserting transitions
 				process_epsilon_transitions(x_s, x_s.q->outgoing_epsilon_transitions.begin(), x_s.q->outgoing_epsilon_transitions.end(), op);
-				process_inserting_transitions(x_s, x_s.q->outgoing_inserting_transitions.begin(), x_s.q->outgoing_inserting_transitions.end(), in, op);
+				process_inserting_transitions(x_s, x_s.q->outgoing_inserting_transitions.begin(), x_s.q->outgoing_inserting_transitions.end(), op);
 
                 //Process epsilon and inserting context transitions
                 process_epsilon_context_transitions(x_s, x_s.q->outgoing_epsilon_context_transitions.begin(), x_s.q->outgoing_epsilon_context_transitions.end(), c, op);
-                process_inserting_context_transitions(x_s, x_s.q->outgoing_inserting_context_transitions.begin(), x_s.q->outgoing_inserting_context_transitions.end(), in, c, op);
+                process_inserting_context_transitions(x_s, x_s.q->outgoing_inserting_context_transitions.begin(), x_s.q->outgoing_inserting_context_transitions.end(), c, op);
 
 				//Process no-blank epsilon and inserting transitions
 				//if there are no whites between the current (or input begin) and the next token (or input end)
@@ -318,10 +318,10 @@ namespace grapenlp
 				{
 #ifdef TRACE
 					process_epsilon_transitions(x_s, x_s.q->outgoing_no_blank_epsilon_transitions.begin(), x_s.q->outgoing_no_blank_epsilon_transitions.end(), op, L"no-blank ");
-					process_inserting_transitions(x_s, x_s.q->outgoing_no_blank_inserting_transitions.begin(), x_s.q->outgoing_no_blank_inserting_transitions.end(), in, op, L"no-blank ");
+					process_inserting_transitions(x_s, x_s.q->outgoing_no_blank_inserting_transitions.begin(), x_s.q->outgoing_no_blank_inserting_transitions.end(), op, L"no-blank ");
 #else
 					process_epsilon_transitions(x_s, x_s.q->outgoing_no_blank_epsilon_transitions.begin(), x_s.q->outgoing_no_blank_epsilon_transitions.end(), op);
-					process_inserting_transitions(x_s, x_s.q->outgoing_no_blank_inserting_transitions.begin(), x_s.q->outgoing_no_blank_inserting_transitions.end(), in, op);
+					process_inserting_transitions(x_s, x_s.q->outgoing_no_blank_inserting_transitions.begin(), x_s.q->outgoing_no_blank_inserting_transitions.end(), op);
 #endif
 				}
 
@@ -330,10 +330,10 @@ namespace grapenlp
 				{
 #ifdef TRACE
 					process_epsilon_transitions(x_s, x_s.q->outgoing_blank_epsilon_transitions.begin(), x_s.q->outgoing_blank_epsilon_transitions.end(), op, L"blank ");
-					process_inserting_transitions(x_s, x_s.q->outgoing_blank_inserting_transitions.begin(), x_s.q->outgoing_blank_inserting_transitions.end(), in, op, L"blank ");
+					process_inserting_transitions(x_s, x_s.q->outgoing_blank_inserting_transitions.begin(), x_s.q->outgoing_blank_inserting_transitions.end(), op, L"blank ");
 #else
 					process_epsilon_transitions(x_s, x_s.q->outgoing_blank_epsilon_transitions.begin(), x_s.q->outgoing_blank_epsilon_transitions.end(), op);
-					process_inserting_transitions(x_s, x_s.q->outgoing_blank_inserting_transitions.begin(), x_s.q->outgoing_blank_inserting_transitions.end(), in, op);
+					process_inserting_transitions(x_s, x_s.q->outgoing_blank_inserting_transitions.begin(), x_s.q->outgoing_blank_inserting_transitions.end(), op);
 #endif
 				}
 
@@ -424,7 +424,7 @@ namespace grapenlp
 
 		//Build V_0 as the eclosure of Q X {b_emptyset} X {lambda};
 		template<typename ExtraInsertOp>
-		void build_initial_ses(state_const_ref initial_state, state_const_ref_stack empty_stack, bool hasnt_white_at_begin, ExtraInsertOp op)
+		void build_initial_ses(state_const_ref initial_state, state_const_ref_stack empty_stack, ExtraInsertOp op)
 		{
 #ifdef TRACE
 			std::wcout << L"----- V[0] -----" << std::endl;
@@ -458,16 +458,16 @@ namespace grapenlp
 			//If empty input, build initial and final V[0]
 			if (input_begin == input_end)
 			{
-				build_initial_ses(grammar.initial_state(), scrsp.empty(), hasnt_white_at_begin, ack_op);
+				build_initial_ses(grammar.initial_state(), scrsp.empty(), ack_op);
 				//First token is white separated if there are trailing whites at the beginning
-				eclosure(input_begin, hasnt_white_at_begin, c, ack_op);
+				eclosure(hasnt_white_at_begin, c, ack_op);
 			}
 			//Else build initial V[0] and the remaining V[i]
 			else
 			{
-				build_initial_ses(grammar.initial_state(), scrsp.empty(), hasnt_white_at_begin, no_op);
+				build_initial_ses(grammar.initial_state(), scrsp.empty(), no_op);
 				//First token is white separated if there are trailing whites at the beginning
-				eclosure(input_begin, hasnt_white_at_begin, c, no_op);
+				eclosure(hasnt_white_at_begin, c, no_op);
 #ifdef TRACE
 				std::size_t idx(0);
 #endif
@@ -485,7 +485,7 @@ namespace grapenlp
 					++idx;
 #endif
 					v.swap(w);
-					eclosure(input_begin_plus_1, (*input_begin)->end == (*input_begin_plus_1)->begin, c, no_op);
+					eclosure((*input_begin)->end == (*input_begin_plus_1)->begin, c, no_op);
 					++input_begin;
 				}
 				++input_end;
@@ -503,7 +503,7 @@ namespace grapenlp
 #endif
 					v.swap(w);
 					//Next token is the input end... it is white separated if there are trailing whites at the end
-					eclosure(input_begin_plus_1, hasnt_white_at_end, c, ack_op);
+					eclosure(hasnt_white_at_end, c, ack_op);
 					++input_begin;
 				}
 			}

@@ -30,7 +30,7 @@
 
 namespace grapenlp
 {
-	unichar u_read(FILE *f, u_context &ctx);
+	void u_read_context(FILE *f, u_context &ctx);
 } //namespace grapenlp
 
 #endif /*GRAPENLP_U_CONTEXT_READER_H*/

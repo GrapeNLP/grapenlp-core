@@ -349,11 +349,10 @@ namespace grapenlp {
 
         void *grammar_ref;
         void *dico_ref;
-        u_context the_context;
 #if !defined(DISABLE_TEXT_DICO) && !defined(DISABLE_COMPRESSED_DICO)
         bool dico_is_in_text_format;
 #endif
-
+        u_context the_context;
         typename token<InputIterator>::ref_list the_token_list;
         bool hasnt_white_at_begin;
         bool hasnt_white_at_end;
@@ -491,6 +490,7 @@ namespace grapenlp {
 #endif
                 default:
                     fatal_error("Unsupported grammar type (delete grammar)\n");
+                    break;
             }
         }
 
@@ -635,6 +635,7 @@ namespace grapenlp {
 #endif
                         default:
                             fatal_error("Unsupported output set implementation\n");
+                            break;
                     }
                     break;
                 case LEXMASK_X_EXTRACTION_RTNO:
@@ -652,6 +653,7 @@ namespace grapenlp {
 #endif
                         default:
                             fatal_error("Unsupported output set implementation\n");
+                            break;
                     }
                     break;
 #ifndef DISABLE_WEIGHTED_GRAMMARS
@@ -670,11 +672,13 @@ namespace grapenlp {
 #endif
                         default:
                             fatal_error("Unsupported output set implementation\n");
+                            break;
                     }
                     break;
 #endif //DIABLE_WEIGHTED_GRAMMARS
                 default:
                     fatal_error("Unsupported grammar type (delete output set)\n");
+                    break;
             }
         }
 
@@ -706,6 +710,7 @@ namespace grapenlp {
 #endif
                         default:
                             fatal_error("Unsupported output set implementation\n");
+                            break;
                     }
                     break;
                 case LEXMASK_X_EXTRACTION_RTNO:
@@ -727,6 +732,7 @@ namespace grapenlp {
 #endif
                         default:
                             fatal_error("Unsupported output set implementation\n");
+                            break;
                     }
                     break;
 #ifndef DISABLE_WEIGHTED_GRAMMARS
@@ -749,11 +755,13 @@ namespace grapenlp {
 #endif
                         default:
                             fatal_error("Unsupported output set implementation\n");
+                            break;
                     }
                     break;
 #endif //DISABLE_WEIGHTED_GRAMMARS
                 default:
                     fatal_error("Unsupported grammar type (reset output set)\n");
+                    break;
             }
         }
 
@@ -934,6 +942,7 @@ namespace grapenlp {
                     break;
                 default:
                     fatal_error("Unknown grammar type\n");
+                    break;
             }
             u_fclose(grammar_file);
 
@@ -974,6 +983,7 @@ namespace grapenlp {
 #endif
                 default:
                     fatal_error("Unsupported grammar type (RTNO to dot)\n");
+                    break;
             }
 #endif //TRACE
         }
@@ -1012,7 +1022,7 @@ namespace grapenlp {
             FILE *input_context_file(u_fopen(input_context_path_name.c_str(), U_READ));
             if (input_context_file == NULL)
                 fatal_error("Unable to open input context file to read\n");
-            u_read(input_context_file, the_context);
+            u_read_context(input_context_file, the_context);
         }
 
         bool grammar_is_loaded() { return grammar_ref; }
@@ -1036,6 +1046,7 @@ namespace grapenlp {
 #endif
                 default:
                     fatal_error("Unsupported grammar type (grammar state count)\n");
+                    break;
             }
             return 0;
         }
@@ -1057,6 +1068,7 @@ namespace grapenlp {
 #endif
                 default:
                     fatal_error("Unsupported grammar type (grammar transition count)\n");
+                    break;
             }
             return 0;
         }
@@ -2503,7 +2515,9 @@ namespace grapenlp {
                                     the_parse_func_ref = &ul_manager::template exe_my_lua_depth_first_parser_with_trie_stacks_and_output<LRB_TREE_3W>;
                                     return;
 #endif
-                                default: fatal_error("Unsupported output set implementation\n");
+                                default:
+                                    fatal_error("Unsupported output set implementation\n");
+                                    return;
                                 }
 #endif //DISABLE_TRIE_STRING_PARSERS
 #ifndef DISABLE_ARRAY_PARSERS
@@ -2524,7 +2538,9 @@ namespace grapenlp {
                                 the_parse_func_ref = &ul_manager::template exe_my_lua_depth_first_parser_with_array_stacks_and_output<LRB_TREE_3W>;
                                 return;
 #endif
-                            default: fatal_error("Unsupported output set implementation\n");
+                            default:
+                                fatal_error("Unsupported output set implementation\n");
+                                return;
                             }
 #endif //DISABLE_ARRAY_PARSERS
 #endif //DISABLE_PARSERS_WITH_OUTPUT
@@ -2569,7 +2585,9 @@ namespace grapenlp {
                                     the_parse_func_ref = &ul_manager::template exe_my_luaw_depth_first_parser_with_trie_stacks_and_output<LRB_TREE_3W>;
                                     return;
 #endif
-                                default: fatal_error("Unsupported output set implementation\n");
+                                default:
+                                    fatal_error("Unsupported output set implementation\n");
+                                    return;
                                 }
 #endif //DISABLE_TRIE_STRING_PARSERS
 #ifndef DISABLE_ARRAY_PARSERS
@@ -2590,7 +2608,9 @@ namespace grapenlp {
                                 the_parse_func_ref = &ul_manager::template exe_my_luaw_depth_first_parser_with_array_stacks_and_output<LRB_TREE_3W>;
                                 return;
 #endif
-                            default: fatal_error("Unsupported output set implementation\n");
+                            default:
+                                fatal_error("Unsupported output set implementation\n");
+                                return;
                             }
 #endif //DISABLE_ARRAY_PARSERS
 #endif //DISABLE_PARSERS_WITH_OUTPUT
@@ -2635,7 +2655,9 @@ namespace grapenlp {
                                     the_parse_func_ref = &ul_manager::template exe_my_lux_depth_first_parser<TRIE_STRINGS, LRB_TREE_3W>;
                                     return;
 #endif
-                                default: fatal_error("Unsupported output set implementation\n");
+                                default:
+                                    fatal_error("Unsupported output set implementation\n");
+                                    return;
                                 }
 #endif //DISABLE_TRIE_STRING_PARSERS
 #ifndef DISABLE_ARRAY_PARSERS
@@ -2656,7 +2678,9 @@ namespace grapenlp {
                                 the_parse_func_ref = &ul_manager::template exe_my_lux_depth_first_parser<ARRAYS, LRB_TREE_3W>;
                                 return;
 #endif
-                            default: fatal_error("Unsupported output set implementation\n");
+                            default:
+                                fatal_error("Unsupported output set implementation\n");
+                                return;
                             }
 #endif //DISABLE_ARRAY_PARSERS
 #endif //DISABLE_PARSERS_WITH_OUTPUT
@@ -2701,7 +2725,9 @@ namespace grapenlp {
                                     the_parse_func_ref = &ul_manager::template exe_my_luxw_depth_first_parser<TRIE_STRINGS, LRB_TREE_3W>;
                                     return;
 #endif
-                                default: fatal_error("Unsupported output set implementation\n");
+                                default:
+                                    fatal_error("Unsupported output set implementation\n");
+                                    return;
                                 }
 #endif //DISABLE_TRIE_STRING_PARSERS
 #ifndef DISABLE_ARRAY_PARSERS
@@ -2722,13 +2748,17 @@ namespace grapenlp {
                                 the_parse_func_ref = &ul_manager::template exe_my_luxw_depth_first_parser<ARRAYS, LRB_TREE_3W>;
                                 return;
 #endif
-                            default: fatal_error("Unsupported output set implementation\n");
+                            default:
+                                fatal_error("Unsupported output set implementation\n");
+                                return;
                             }
 #endif //DISABLE_ARRAY_PARSERS
 #endif //DISABLE_PARSERS_WITH_OUTPUT
                         }
 #endif //DISABLE_LUXW_GRAMMAR
-                        default: fatal_error("Unsupported grammar type (compute depth-first parsing func)\n");
+                        default:
+                            fatal_error("Unsupported grammar type (compute depth-first parsing func)\n");
+                            return;
                     }
                 }
 #endif //DISABLE_DEPTH_FIRST_PARSER
@@ -2763,7 +2793,9 @@ namespace grapenlp {
                                         the_parse_func_ref = &ul_manager::template exe_my_lua_breadth_first_parser_no_output<TRIE_STRINGS, LRB_TREE_3W>;
                                         return;
 #endif
-                                    default: fatal_error("Unsupported execution state set implementation\n");
+                                    default:
+                                        fatal_error("Unsupported execution state set implementation\n");
+                                        return;
                                     }
 #endif //DISABLE_TRIE_STRING_PARSERS
 #ifndef DISABLE_ARRAY_PARSERS
@@ -2784,7 +2816,9 @@ namespace grapenlp {
                                     the_parse_func_ref = &ul_manager::template exe_my_lua_breadth_first_parser_no_output<ARRAYS, LRB_TREE_3W>;
                                     return;
 #endif
-                                default: fatal_error("Unsupported execution state set implementation\n");
+                                default:
+                                    fatal_error("Unsupported execution state set implementation\n");
+                                    return;
                                 }
 #endif //DISABLE_ARRAY_PARSERS
                             }
@@ -2813,7 +2847,9 @@ namespace grapenlp {
                                         the_parse_func_ref = &ul_manager::template exe_my_lua_breadth_first_parser_with_trie_stacks_and_output<STD, LRB_TREE_3W>;
                                         return;
 #endif
-                                    default: fatal_error("Unsupported output set implementation\n");
+                                    default:
+                                        fatal_error("Unsupported output set implementation\n");
+                                        return;
                                     }
 #endif //DISABLE_STD_SES
 #ifndef DISABLE_LRB_TREE_SES
@@ -2835,7 +2871,9 @@ namespace grapenlp {
                                         the_parse_func_ref = &ul_manager::template exe_my_lua_breadth_first_parser_with_trie_stacks_and_output<LRB_TREE, LRB_TREE_3W>;
                                         return;
 #endif
-                                    default: fatal_error("Unsupported output set implementation\n");
+                                    default:
+                                        fatal_error("Unsupported output set implementation\n");
+                                        return;
                                     }
 #endif //DISABLE_LRB_TREE_SES
 #ifndef DISABLE_LRB_TREE_3W_SES
@@ -2857,10 +2895,14 @@ namespace grapenlp {
                                         the_parse_func_ref = &ul_manager::template exe_my_lua_breadth_first_parser_with_trie_stacks_and_output<LRB_TREE_3W, LRB_TREE_3W>;
                                         return;
 #endif
-                                    default: fatal_error("Unsupported output set implementation\n");
+                                    default:
+                                        fatal_error("Unsupported output set implementation\n");
+                                        return;
                                     }
 #endif //DISABLE_LRB_TREE_3W_SES
-                                default: fatal_error("Unsupported execution state set implementation\n");
+                                default:
+                                    fatal_error("Unsupported execution state set implementation\n");
+                                    return;
                                 }
 #endif //DISABLE_TRIE_STRING_PARSERS
 #ifndef DISABLE_ARRAY_PARSERS
@@ -2885,7 +2927,9 @@ namespace grapenlp {
                                     the_parse_func_ref = &ul_manager::template exe_my_lua_breadth_first_parser_with_array_stacks_and_output<STD, LRB_TREE_3W>;
                                     return;
 #endif
-                                default: fatal_error("Unsupported output set implementation\n");
+                                default:
+                                    fatal_error("Unsupported output set implementation\n");
+                                    return;
                                 }
 #endif //DISABLE_STD_SES
 #ifndef DISABLE_LRB_TREE_SES
@@ -2907,7 +2951,9 @@ namespace grapenlp {
                                     the_parse_func_ref = &ul_manager::template exe_my_lua_breadth_first_parser_with_array_stacks_and_output<LRB_TREE, LRB_TREE_3W>;
                                     return;
 #endif
-                                default: fatal_error("Unsupported output set implementation\n");
+                                default:
+                                    fatal_error("Unsupported output set implementation\n");
+                                    return;
                                 }
 #endif //DISABLE_LRB_TREE_SES
 #ifndef DISABLE_LRB_TREE_3W_SES
@@ -2929,10 +2975,14 @@ namespace grapenlp {
                                     the_parse_func_ref = &ul_manager::template exe_my_lua_breadth_first_parser_with_array_stacks_and_output<LRB_TREE_3W, LRB_TREE_3W>;
                                     return;
 #endif
-                                default: fatal_error("Unsupported output set implementation\n");
+                                default:
+                                    fatal_error("Unsupported output set implementation\n");
+                                    return;
                                 }
 #endif //DISABLE_LRB_TREE_3W_SES
-                            default: fatal_error("Unsupported execution state set implementation\n");
+                            default:
+                                fatal_error("Unsupported execution state set implementation\n");
+                                return;
                             }
 #endif //DISABLE_ARRAY_PARSERS
 #endif //DISABLE_PARSERS_WITH_OUTPUT
@@ -2963,7 +3013,9 @@ namespace grapenlp {
                                         the_parse_func_ref = &ul_manager::template exe_my_luaw_breadth_first_parser_no_output<TRIE_STRINGS, LRB_TREE_3W>;
                                         return;
 #endif
-                                    default: fatal_error("Unsupported execution state set implementation\n");
+                                    default:
+                                        fatal_error("Unsupported execution state set implementation\n");
+                                        return;
                                     }
 #endif //DISABLE_TRIE_STRING_PARSERS
 #ifndef DISABLE_ARRAY_PARSERS
@@ -2984,7 +3036,9 @@ namespace grapenlp {
                                     the_parse_func_ref = &ul_manager::template exe_my_luaw_breadth_first_parser_no_output<ARRAYS, LRB_TREE_3W>;
                                     return;
 #endif
-                                default: fatal_error("Unsupported execution state set implementation\n");
+                                default:
+                                    fatal_error("Unsupported execution state set implementation\n");
+                                    return;
                                 }
 #endif //DISABLE_ARRAY_PARSERS
                             }
@@ -3013,7 +3067,9 @@ namespace grapenlp {
                                         the_parse_func_ref = &ul_manager::template exe_my_luaw_breadth_first_parser_with_trie_stacks_and_output<STD, LRB_TREE_3W>;
                                         return;
 #endif
-                                    default: fatal_error("Unsupported output set implementation\n");
+                                    default:
+                                        fatal_error("Unsupported output set implementation\n");
+                                        return;
                                     }
 #endif //DISABLE_STD_SES
 #ifndef DISABLE_LRB_TREE_SES
@@ -3035,7 +3091,9 @@ namespace grapenlp {
                                         the_parse_func_ref = &ul_manager::template exe_my_luaw_breadth_first_parser_with_trie_stacks_and_output<LRB_TREE, LRB_TREE_3W>;
                                         return;
 #endif
-                                    default: fatal_error("Unsupported output set implementation\n");
+                                    default:
+                                        fatal_error("Unsupported output set implementation\n");
+                                        return;
                                     }
 #endif //DISABLE_LRB_TREE_SES
 #ifndef DISABLE_LRB_TREE_3W_SES
@@ -3057,10 +3115,14 @@ namespace grapenlp {
                                         the_parse_func_ref = &ul_manager::template exe_my_luaw_breadth_first_parser_with_trie_stacks_and_output<LRB_TREE_3W, LRB_TREE_3W>;
                                         return;
 #endif
-                                    default: fatal_error("Unsupported output set implementation\n");
+                                    default:
+                                        fatal_error("Unsupported output set implementation\n");
+                                        return;
                                     }
 #endif //DISABLE_LRB_TREE_3W_SES
-                                default: fatal_error("Unsupported execution state set implementation\n");
+                                default:
+                                    fatal_error("Unsupported execution state set implementation\n");
+                                    return;
                                 }
 #endif //DISABLE_TRIE_STRING_PARSERS
 #ifndef DISABLE_ARRAY_PARSERS
@@ -3085,7 +3147,9 @@ namespace grapenlp {
                                     the_parse_func_ref = &ul_manager::template exe_my_luaw_breadth_first_parser_with_array_stacks_and_output<STD, LRB_TREE_3W>;
                                     return;
 #endif
-                                default: fatal_error("Unsupported output set implementation\n");
+                                default:
+                                    fatal_error("Unsupported output set implementation\n");
+                                    return;
                                 }
 #endif //DISABLE_STD_SES
 #ifndef DISABLE_LRB_TREE_SES
@@ -3107,7 +3171,9 @@ namespace grapenlp {
                                     the_parse_func_ref = &ul_manager::template exe_my_luaw_breadth_first_parser_with_array_stacks_and_output<LRB_TREE, LRB_TREE_3W>;
                                     return;
 #endif
-                                default: fatal_error("Unsupported output set implementation\n");
+                                default:
+                                    fatal_error("Unsupported output set implementation\n");
+                                    return;
                                 }
 #endif //DISABLE_LRB_TREE_SES
 #ifndef DISABLE_LRB_TREE_3W_SES
@@ -3129,10 +3195,14 @@ namespace grapenlp {
                                     the_parse_func_ref = &ul_manager::template exe_my_luaw_breadth_first_parser_with_array_stacks_and_output<LRB_TREE_3W, LRB_TREE_3W>;
                                     return;
 #endif
-                                default: fatal_error("Unsupported output set implementation\n");
+                                default:
+                                    fatal_error("Unsupported output set implementation\n");
+                                    return;
                                 }
 #endif //DISABLE_LRB_TREE_3W_SES
-                            default: fatal_error("Unsupported execution state set implementation\n");
+                            default:
+                                fatal_error("Unsupported execution state set implementation\n");
+                                return;
                             }
 #endif //DISABLE_ARRAY_PARSERS
 #endif //DISABLE_PARSERS_WITH_OUTPUT
@@ -3163,7 +3233,9 @@ namespace grapenlp {
                                         the_parse_func_ref = &ul_manager::template exe_my_lux_breadth_first_parser_no_output<TRIE_STRINGS, LRB_TREE_3W>;
                                         return;
 #endif
-                                    default: fatal_error("Unsupported execution state set implementation\n");
+                                    default:
+                                        fatal_error("Unsupported execution state set implementation\n");
+                                        return;
                                     }
 #endif //DISABLE_TRIE_STRING_PARSERS
 #ifndef DISABLE_ARRAY_PARSERS
@@ -3184,7 +3256,9 @@ namespace grapenlp {
                                     the_parse_func_ref = &ul_manager::template exe_my_lux_breadth_first_parser_no_output<ARRAYS, LRB_TREE_3W>;
                                     return;
 #endif
-                                default: fatal_error("Unsupported execution state set implementation\n");
+                                default:
+                                    fatal_error("Unsupported execution state set implementation\n");
+                                    return;
                                 }
 #endif //DISABLE_ARRAY_PARSERS
                             }
@@ -3213,7 +3287,9 @@ namespace grapenlp {
                                         the_parse_func_ref = &ul_manager::template exe_my_lux_breadth_first_parser<TRIE_STRINGS, STD, LRB_TREE_3W>;
                                         return;
 #endif
-                                    default: fatal_error("Unsupported output set implementation\n");
+                                    default:
+                                        fatal_error("Unsupported output set implementation\n");
+                                        return;
                                     }
 #endif //DISABLE_STD_SES
 #ifndef DISABLE_LRB_TREE_SES
@@ -3235,7 +3311,9 @@ namespace grapenlp {
                                         the_parse_func_ref = &ul_manager::template exe_my_lux_breadth_first_parser<TRIE_STRINGS, LRB_TREE, LRB_TREE_3W>;
                                         return;
 #endif
-                                    default: fatal_error("Unsupported output set implementation\n");
+                                    default:
+                                        fatal_error("Unsupported output set implementation\n");
+                                        return;
                                     }
 #endif //DISABLE_LRB_TREE_SES
 #ifndef DISABLE_LRB_TREE_3W_SES
@@ -3257,10 +3335,14 @@ namespace grapenlp {
                                         the_parse_func_ref = &ul_manager::template exe_my_lux_breadth_first_parser<TRIE_STRINGS, LRB_TREE_3W, LRB_TREE_3W>;
                                         return;
 #endif
-                                    default: fatal_error("Unsupported output set implementation\n");
+                                    default:
+                                        fatal_error("Unsupported output set implementation\n");
+                                        return;
                                     }
 #endif //DISABLE_LRB_TREE_3W_SES
-                                default: fatal_error("Unsupported execution state set implementation\n");
+                                default:
+                                    fatal_error("Unsupported execution state set implementation\n");
+                                    return;
                                 }
 #endif //DISABLE_TRIE_STRING_PARSERS
 #ifndef DISABLE_ARRAY_PARSERS
@@ -3285,7 +3367,9 @@ namespace grapenlp {
                                     the_parse_func_ref = &ul_manager::template exe_my_lux_breadth_first_parser<ARRAYS, STD, LRB_TREE_3W>;
                                     return;
 #endif
-                                default: fatal_error("Unsupported output set implementation\n");
+                                default:
+                                    fatal_error("Unsupported output set implementation\n");
+                                    return;
                                 }
 #endif //DISABLE_STD_SES
 #ifndef DISABLE_LRB_TREE_SES
@@ -3307,7 +3391,9 @@ namespace grapenlp {
                                     the_parse_func_ref = &ul_manager::template exe_my_lux_breadth_first_parser<ARRAYS, LRB_TREE, LRB_TREE_3W>;
                                     return;
 #endif
-                                default: fatal_error("Unsupported output set implementation\n");
+                                default:
+                                    fatal_error("Unsupported output set implementation\n");
+                                    return;
                                 }
 #endif //DISABLE_LRB_TREE_SES
 #ifndef DISABLE_LRB_TREE_3W_SES
@@ -3329,10 +3415,14 @@ namespace grapenlp {
                                     the_parse_func_ref = &ul_manager::template exe_my_lux_breadth_first_parser<ARRAYS, LRB_TREE_3W, LRB_TREE_3W>;
                                     return;
 #endif
-                                default: fatal_error("Unsupported output set implementation\n");
+                                default:
+                                    fatal_error("Unsupported output set implementation\n");
+                                    return;
                                 }
 #endif //DISABLE_LRB_TREE_3W_SES
-                            default: fatal_error("Unsupported execution state set implementation\n");
+                            default:
+                                fatal_error("Unsupported execution state set implementation\n");
+                                return;
                             }
 #endif //DISABLE_ARRAY_PARSERS
 #endif //DISABLE_PARSERS_WITH_OUTPUT
@@ -3363,7 +3453,9 @@ namespace grapenlp {
                                         the_parse_func_ref = &ul_manager::template exe_my_luxw_breadth_first_parser_no_output<TRIE_STRINGS, LRB_TREE_3W>;
                                         return;
 #endif
-                                    default: fatal_error("Unsupported execution state set implementation\n");
+                                    default:
+                                        fatal_error("Unsupported execution state set implementation\n");
+                                        return;
                                     }
 #endif //DISABLE_TRIE_STRING_PARSERS
 #ifndef DISABLE_ARRAY_PARSERS
@@ -3384,7 +3476,9 @@ namespace grapenlp {
                                     the_parse_func_ref = &ul_manager::template exe_my_luxw_breadth_first_parser_no_output<ARRAYS, LRB_TREE_3W>;
                                     return;
 #endif
-                                default: fatal_error("Unsupported execution state set implementation\n");
+                                default:
+                                    fatal_error("Unsupported execution state set implementation\n");
+                                    return;
                                 }
 #endif //DISABLE_ARRAY_PARSERS
                             }
@@ -3413,7 +3507,9 @@ namespace grapenlp {
                                         the_parse_func_ref = &ul_manager::template exe_my_luxw_breadth_first_parser<TRIE_STRINGS, STD, LRB_TREE_3W>;
                                         return;
 #endif
-                                    default: fatal_error("Unsupported output set implementation\n");
+                                    default:
+                                        fatal_error("Unsupported output set implementation\n");
+                                        return;
                                     }
 #endif //DISABLE_STD_SES
 #ifndef DISABLE_LRB_TREE_SES
@@ -3435,7 +3531,9 @@ namespace grapenlp {
                                         the_parse_func_ref = &ul_manager::template exe_my_luxw_breadth_first_parser<TRIE_STRINGS, LRB_TREE, LRB_TREE_3W>;
                                         return;
 #endif
-                                    default: fatal_error("Unsupported output set implementation\n");
+                                    default:
+                                        fatal_error("Unsupported output set implementation\n");
+                                        return;
                                     }
 #endif //DISABLE_LRB_TREE_SES
 #ifndef DISABLE_LRB_TREE_3W_SES
@@ -3457,10 +3555,14 @@ namespace grapenlp {
                                         the_parse_func_ref = &ul_manager::template exe_my_luxw_breadth_first_parser<TRIE_STRINGS, LRB_TREE_3W, LRB_TREE_3W>;
                                         return;
 #endif
-                                    default: fatal_error("Unsupported output set implementation\n");
+                                    default:
+                                        fatal_error("Unsupported output set implementation\n");
+                                        return;
                                     }
 #endif //DISABLE_LRB_TREE_3W_SES
-                                default: fatal_error("Unsupported execution state set implementation\n");
+                                default:
+                                    fatal_error("Unsupported execution state set implementation\n");
+                                    return;
                                 }
 #endif //DISABLE_TRIE_STRING_PARSERS
 #ifndef DISABLE_ARRAY_PARSERS
@@ -3485,7 +3587,9 @@ namespace grapenlp {
                                     the_parse_func_ref = &ul_manager::template exe_my_luxw_breadth_first_parser<ARRAYS, STD, LRB_TREE_3W>;
                                     return;
 #endif
-                                default: fatal_error("Unsupported output set implementation\n");
+                                default:
+                                    fatal_error("Unsupported output set implementation\n");
+                                    return;
                                 }
 #endif //DISABLE_STD_SES
 #ifndef DISABLE_LRB_TREE_SES
@@ -3507,7 +3611,9 @@ namespace grapenlp {
                                     the_parse_func_ref = &ul_manager::template exe_my_luxw_breadth_first_parser<ARRAYS, LRB_TREE, LRB_TREE_3W>;
                                     return;
 #endif
-                                default: fatal_error("Unsupported output set implementation\n");
+                                default:
+                                    fatal_error("Unsupported output set implementation\n");
+                                    return;
                                 }
 #endif //DISABLE_LRB_TREE_SES
 #ifndef DISABLE_LRB_TREE_3W_SES
@@ -3529,16 +3635,22 @@ namespace grapenlp {
                                     the_parse_func_ref = &ul_manager::template exe_my_luxw_breadth_first_parser<ARRAYS, LRB_TREE_3W, LRB_TREE_3W>;
                                     return;
 #endif
-                                default: fatal_error("Unsupported output set implementation\n");
+                                default:
+                                    fatal_error("Unsupported output set implementation\n");
+                                    return;
                                 }
 #endif //DISABLE_LRB_TREE_3W_SES
-                            default: fatal_error("Unsupported execution state set implementation\n");
+                            default:
+                                fatal_error("Unsupported execution state set implementation\n");
+                                return;
                             }
 #endif //DISABLE_ARRAY_PARSERS
 #endif //DISABLE_PARSERS_WITH_OUTPUT
                         }
 #endif //DISABLE_LUXW_GRAMMAR
-                        default: fatal_error("Unsupported grammar type (compute breadth-first parsing func)\n");
+                        default:
+                            fatal_error("Unsupported grammar type (compute breadth-first parsing func)\n");
+                            return;
                     }
                 }
 #endif //DISABLE_BREADTH_FIRST_PARSER
@@ -3571,7 +3683,9 @@ namespace grapenlp {
                                     the_parse_func_ref = &ul_manager::template exe_my_lua_earley_parser_no_output<LRB_TREE_3W>;
                                     return;
 #endif
-                                default: fatal_error("Unsupported execution state set implementation\n");
+                                default:
+                                    fatal_error("Unsupported execution state set implementation\n");
+                                    return;
                                 }
 #endif //DISABLE_PARSERS_WITHOUT_OUTPUT
 #ifndef DISABLE_PARSERS_WITH_OUTPUT
@@ -3598,7 +3712,9 @@ namespace grapenlp {
                                         the_parse_func_ref = &ul_manager::template exe_my_lua_earley_parser_with_trie_output<STD, LRB_TREE_3W>;
                                         return;
 #endif
-                                    default: fatal_error("Unsupported output set implementation\n");
+                                    default:
+                                        fatal_error("Unsupported output set implementation\n");
+                                        return;
                                     }
 #endif //DISABLE_STD_SES
 #ifndef DISABLE_LRB_TREE_SES
@@ -3620,7 +3736,9 @@ namespace grapenlp {
                                         the_parse_func_ref = &ul_manager::template exe_my_lua_earley_parser_with_trie_output<LRB_TREE, LRB_TREE_3W>;
                                         return;
 #endif
-                                    default: fatal_error("Unsupported output set implementation\n");
+                                    default:
+                                        fatal_error("Unsupported output set implementation\n");
+                                        return;
                                     }
 #endif //DISABLE_LRB_TREE_SES
 #ifndef DISABLE_LRB_TREE_3W_SES
@@ -3642,10 +3760,14 @@ namespace grapenlp {
                                         the_parse_func_ref = &ul_manager::template exe_my_lua_earley_parser_with_trie_output<LRB_TREE_3W, LRB_TREE_3W>;
                                         return;
 #endif
-                                    default: fatal_error("Unsupported output set implementation\n");
+                                    default:
+                                        fatal_error("Unsupported output set implementation\n");
+                                        return;
                                     }
 #endif //DISABLE_LRB_TREE_3W_SES
-                                default: fatal_error("Unsupported execution state set implementation\n");
+                                default:
+                                    fatal_error("Unsupported execution state set implementation\n");
+                                    return;
                                 }
 #endif //DISABLE_TRIE_STRING_PARSERS
 #ifndef DISABLE_ARRAY_PARSERS
@@ -3670,7 +3792,9 @@ namespace grapenlp {
                                     the_parse_func_ref = &ul_manager::template exe_my_lua_earley_parser_with_array_output<STD, LRB_TREE_3W>;
                                     return;
 #endif
-                                default: fatal_error("Unsupported output set implementation\n");
+                                default:
+                                    fatal_error("Unsupported output set implementation\n");
+                                    return;
                                 }
 #endif //DISABLE_STD_SES
 #ifndef DISABLE_LRB_TREE_SES
@@ -3692,7 +3816,9 @@ namespace grapenlp {
                                     the_parse_func_ref = &ul_manager::template exe_my_lua_earley_parser_with_array_output<LRB_TREE, LRB_TREE_3W>;
                                     return;
 #endif
-                                default: fatal_error("Unsupported output set implementation\n");
+                                default:
+                                    fatal_error("Unsupported output set implementation\n");
+                                    return;
                                 }
 #endif //DISABLE_LRB_TREE_SES
 #ifndef DISABLE_LRB_TREE_3W_SES
@@ -3714,10 +3840,14 @@ namespace grapenlp {
                                     the_parse_func_ref = &ul_manager::template exe_my_lua_earley_parser_with_array_output<LRB_TREE_3W, LRB_TREE_3W>;
                                     return;
 #endif
-                                default: fatal_error("Unsupported output set implementation\n");
+                                default:
+                                    fatal_error("Unsupported output set implementation\n");
+                                    return;
                                 }
 #endif //DISABLE_LRB_TREE_3W_SES
-                            default: fatal_error("Unsupported execution state set implementation\n");
+                            default:
+                                fatal_error("Unsupported execution state set implementation\n");
+                                return;
                             }
 #endif //DISABLE_ARRAY_PARSERS
 #endif //DISABLE_PARSERS_WITH_OUTPUT
@@ -3746,7 +3876,9 @@ namespace grapenlp {
                                     the_parse_func_ref = &ul_manager::template exe_my_luaw_earley_parser_no_output<LRB_TREE_3W>;
                                     return;
 #endif
-                                default: fatal_error("Unsupported execution state set implementation\n");
+                                default:
+                                    fatal_error("Unsupported execution state set implementation\n");
+                                    return;
                                 }
 #endif //DISABLE_PARSERS_WITHOUT_OUTPUT
 #ifndef DISABLE_PARSERS_WITH_OUTPUT
@@ -3773,7 +3905,9 @@ namespace grapenlp {
                                         the_parse_func_ref = &ul_manager::template exe_my_luaw_earley_parser_with_trie_output<STD, LRB_TREE_3W>;
                                         return;
 #endif
-                                    default: fatal_error("Unsupported output set implementation\n");
+                                    default:
+                                        fatal_error("Unsupported output set implementation\n");
+                                        return;
                                     }
 #endif //DISABLE_STD_SES
 #ifndef DISABLE_LRB_TREE_SES
@@ -3795,7 +3929,9 @@ namespace grapenlp {
                                         the_parse_func_ref = &ul_manager::template exe_my_luaw_earley_parser_with_trie_output<LRB_TREE, LRB_TREE_3W>;
                                         return;
 #endif
-                                    default: fatal_error("Unsupported output set implementation\n");
+                                    default:
+                                        fatal_error("Unsupported output set implementation\n");
+                                        return;
                                     }
 #endif //DISABLE_LRB_TREE_SES
 #ifndef DISABLE_LRB_TREE_3W_SES
@@ -3817,10 +3953,14 @@ namespace grapenlp {
                                         the_parse_func_ref = &ul_manager::template exe_my_luaw_earley_parser_with_trie_output<LRB_TREE_3W, LRB_TREE_3W>;
                                         return;
 #endif
-                                    default: fatal_error("Unsupported output set implementation\n");
+                                    default:
+                                        fatal_error("Unsupported output set implementation\n");
+                                        return;
                                     }
 #endif //DISABLE_LRB_TREE_3W_SES
-                                default: fatal_error("Unsupported execution state set implementation\n");
+                                default:
+                                    fatal_error("Unsupported execution state set implementation\n");
+                                    return;
                                 }
 #endif //DISABLE_TRIE_STRING_PARSERS
 #ifndef DISABLE_ARRAY_PARSERS
@@ -3845,7 +3985,9 @@ namespace grapenlp {
                                     the_parse_func_ref = &ul_manager::template exe_my_luaw_earley_parser_with_array_output<STD, LRB_TREE_3W>;
                                     return;
 #endif
-                                default: fatal_error("Unsupported output set implementation\n");
+                                default:
+                                    fatal_error("Unsupported output set implementation\n");
+                                    return;
                                 }
 #endif //DISABLE_STD_SES
 #ifndef DISABLE_LRB_TREE_SES
@@ -3867,7 +4009,9 @@ namespace grapenlp {
                                     the_parse_func_ref = &ul_manager::template exe_my_luaw_earley_parser_with_array_output<LRB_TREE, LRB_TREE_3W>;
                                     return;
 #endif
-                                default: fatal_error("Unsupported output set implementation\n");
+                                default:
+                                    fatal_error("Unsupported output set implementation\n");
+                                    return;
                                 }
 #endif //DISABLE_LRB_TREE_SES
 #ifndef DISABLE_LRB_TREE_3W_SES
@@ -3889,10 +4033,14 @@ namespace grapenlp {
                                     the_parse_func_ref = &ul_manager::template exe_my_luaw_earley_parser_with_array_output<LRB_TREE_3W, LRB_TREE_3W>;
                                     return;
 #endif
-                                default: fatal_error("Unsupported output set implementation\n");
+                                default:
+                                    fatal_error("Unsupported output set implementation\n");
+                                    return;
                                 }
 #endif //DISABLE_LRB_TREE_3W_SES
-                            default: fatal_error("Unsupported execution state set implementation\n");
+                            default:
+                                fatal_error("Unsupported execution state set implementation\n");
+                                return;
                             }
 #endif //DISABLE_ARRAY_PARSERS
 #endif //DISABLE_PARSERS_WITH_OUTPUT
@@ -3920,7 +4068,9 @@ namespace grapenlp {
                                     the_parse_func_ref = &ul_manager::template exe_my_lux_earley_parser_no_output<LRB_TREE_3W>;
                                     return;
 #endif
-                                default: fatal_error("Unsupported execution state set implementation\n");
+                                default:
+                                    fatal_error("Unsupported execution state set implementation\n");
+                                    return;
                                 }
 #endif //DISABLE_PARSERS_WITHOUT_OUTPUT
 #ifndef DISABLE_PARSERS_WITH_OUTPUT
@@ -3945,7 +4095,9 @@ namespace grapenlp {
                                     the_parse_func_ref = &ul_manager::template exe_my_lux_earley_parser<STD, LRB_TREE_3W>;
                                     return;
 #endif
-                                default: fatal_error("Unsupported output set implementation\n");
+                                default:
+                                    fatal_error("Unsupported output set implementation\n");
+                                    return;
                                 }
 #endif //DISABLE_STD_SES
 #ifndef DISABLE_LRB_TREE_SES
@@ -3967,7 +4119,9 @@ namespace grapenlp {
                                     the_parse_func_ref = &ul_manager::template exe_my_lux_earley_parser<LRB_TREE, LRB_TREE_3W>;
                                     return;
 #endif
-                                default: fatal_error("Unsupported output set implementation\n");
+                                default:
+                                    fatal_error("Unsupported output set implementation\n");
+                                    return;
                                 }
 #endif //DISABLE_LRB_TREE_SES
 #ifndef DISABLE_LRB_TREE_3W_SES
@@ -3989,10 +4143,14 @@ namespace grapenlp {
                                     the_parse_func_ref = &ul_manager::template exe_my_lux_earley_parser<LRB_TREE_3W, LRB_TREE_3W>;
                                     return;
 #endif
-                                default: fatal_error("Unsupported output set implementation\n");
+                                default:
+                                    fatal_error("Unsupported output set implementation\n");
+                                    return;
                                 }
 #endif //DISABLE_LRB_TREE_3W_SES
-                            default: fatal_error("Unsupported execution state set implementation\n");
+                            default:
+                                fatal_error("Unsupported execution state set implementation\n");
+                                return;
                             }
 #endif //DISABLE_PARSERS_WITH_OUTPUT
                         }
@@ -4019,7 +4177,9 @@ namespace grapenlp {
                                     the_parse_func_ref = &ul_manager::template exe_my_luxw_earley_parser_no_output<LRB_TREE_3W>;
                                     return;
 #endif
-                                default: fatal_error("Unsupported execution state set implementation\n");
+                                default:
+                                    fatal_error("Unsupported execution state set implementation\n");
+                                    return;
                                 }
 #endif //DISABLE_PARSERS_WITHOUT_OUTPUT
 #ifndef DISABLE_PARSERS_WITH_OUTPUT
@@ -4044,7 +4204,9 @@ namespace grapenlp {
                                     the_parse_func_ref = &ul_manager::template exe_my_luxw_earley_parser<STD, LRB_TREE_3W>;
                                     return;
 #endif
-                                default: fatal_error("Unsupported output set implementation\n");
+                                default:
+                                    fatal_error("Unsupported output set implementation\n");
+                                    return;
                                 }
 #endif //DISABLE_STD_SES
 #ifndef DISABLE_LRB_TREE_SES
@@ -4066,7 +4228,9 @@ namespace grapenlp {
                                     the_parse_func_ref = &ul_manager::template exe_my_luxw_earley_parser<LRB_TREE, LRB_TREE_3W>;
                                     return;
 #endif
-                                default: fatal_error("Unsupported output set implementation\n");
+                                default:
+                                    fatal_error("Unsupported output set implementation\n");
+                                    return;
                                 }
 #endif //DISABLE_LRB_TREE_SES
 #ifndef DISABLE_LRB_TREE_3W_SES
@@ -4088,15 +4252,21 @@ namespace grapenlp {
                                     the_parse_func_ref = &ul_manager::template exe_my_luxw_earley_parser<LRB_TREE_3W, LRB_TREE_3W>;
                                     return;
 #endif
-                                default: fatal_error("Unsupported output set implementation\n");
+                                default:
+                                    fatal_error("Unsupported output set implementation\n");
+                                    return;
                                 }
 #endif //DISABLE_LRB_TREE_3W_SES
-                            default: fatal_error("Unsupported execution state set implementation\n");
+                            default:
+                                fatal_error("Unsupported execution state set implementation\n");
+                                return;
                             }
 #endif //DISABLE_PARSERS_WITH_OUTPUT
                         }
 #endif //DISABLE_LUXW_GRAMMAR
-                        default: fatal_error("Unsupported grammar type (compute Earley parsing func)\n");
+                        default:
+                            fatal_error("Unsupported grammar type (compute Earley parsing func)\n");
+                            return;
                     }
                 }
 #endif //DISABLE_EARLEY_PARSER
@@ -4129,7 +4299,9 @@ namespace grapenlp {
                                 the_parse_and_get_fprtn_stats_func_ref = &ul_manager::template exe_my_lua_to_fprtn_stats<LRB_TREE_3W>;
                                 return;
 #endif
-                            default: fatal_error("Unsupported execution state set implementation\n");
+                            default:
+                                fatal_error("Unsupported execution state set implementation\n");
+                                return;
                             }
                         }
 #endif //DISABLE_LUA_GRAMMAR
@@ -4156,7 +4328,9 @@ namespace grapenlp {
                                 the_parse_and_get_fprtn_stats_func_ref = &ul_manager::template exe_my_luaw_to_fprtn_stats<LRB_TREE_3W>;
                                 return;
 #endif
-                            default: fatal_error("Unsupported execution state set implementation\n");
+                            default:
+                                fatal_error("Unsupported execution state set implementation\n");
+                                return;
                             }
                         }
 #endif //DISABLE_LUAW_GRAMMAR
@@ -4183,7 +4357,9 @@ namespace grapenlp {
                                 the_parse_and_get_fprtn_stats_func_ref = &ul_manager::template exe_my_lux_to_fprtn_stats<LRB_TREE_3W>;
                                 return;
 #endif
-                            default: fatal_error("Unsupported execution state set implementation\n");
+                            default:
+                                fatal_error("Unsupported execution state set implementation\n");
+                                return;
                             }
                         }
 #endif //DISABLE_LUX_GRAMMAR
@@ -4210,11 +4386,15 @@ namespace grapenlp {
                                 the_parse_and_get_fprtn_stats_func_ref = &ul_manager::template exe_my_luxw_to_fprtn_stats<LRB_TREE_3W>;
                                 return;
 #endif
-                            default: fatal_error("Unsupported execution state set implementation\n");
+                            default:
+                                fatal_error("Unsupported execution state set implementation\n");
+                                return;
                             }
                         }
 #endif //DISABLE_LUXW_GRAMMAR
-                        default: fatal_error("Unsupported grammar type (compute to-fprtn parsing func)\n");
+                        default:
+                            fatal_error("Unsupported grammar type (compute to-fprtn parsing func)\n");
+                            return;
                     }
                 }
 #endif //DISABLE_TO_FPRTN_PARSER
@@ -4247,7 +4427,9 @@ namespace grapenlp {
                                 the_parse_and_get_fprtn_stats_func_ref = &ul_manager::template exe_my_lua_to_fprtn_zpps_stats<LRB_TREE_3W>;
                                 return;
 #endif
-                            default: fatal_error("Unsupported execution state set implementation\n");
+                            default:
+                                fatal_error("Unsupported execution state set implementation\n");
+                                return;
                             }
                         }
 #endif //DISABLE_LUA_GRAMMAR
@@ -4274,7 +4456,9 @@ namespace grapenlp {
                                 the_parse_and_get_fprtn_stats_func_ref = &ul_manager::template exe_my_luaw_to_fprtn_zpps_stats<LRB_TREE_3W>;
                                 return;
 #endif
-                            default: fatal_error("Unsupported execution state set implementation\n");
+                            default:
+                                fatal_error("Unsupported execution state set implementation\n");
+                                return;
                             }
                         }
 #endif //DISABLE_LUAW_GRAMMAR
@@ -4301,7 +4485,9 @@ namespace grapenlp {
                                 the_parse_and_get_fprtn_stats_func_ref = &ul_manager::template exe_my_lux_to_fprtn_zpps_stats<LRB_TREE_3W>;
                                 return;
 #endif
-                            default: fatal_error("Unsupported execution state set implementation\n");
+                            default:
+                                fatal_error("Unsupported execution state set implementation\n");
+                                return;
                             }
                         }
 #endif //DISABLE_LUX_GRAMMAR
@@ -4328,11 +4514,15 @@ namespace grapenlp {
                                 the_parse_and_get_fprtn_stats_func_ref = &ul_manager::template exe_my_luxw_to_fprtn_zpps_stats<LRB_TREE_3W>;
                                 return;
 #endif
-                            default: fatal_error("Unsupported execution state set implementation\n");
+                            default:
+                                fatal_error("Unsupported execution state set implementation\n");
+                                return;
                             }
                         }
 #endif //DISABLE_LUXW_GRAMMAR
-                        default: fatal_error("Unsupported grammar type (compute to-fprtn-zpps parsing func)\n");
+                        default:
+                            fatal_error("Unsupported grammar type (compute to-fprtn-zpps parsing func)\n");
+                            return;
                     }
                 }
 #endif //DISABLE_TO_FPRTN_ZPPS_PARSER
@@ -4365,7 +4555,9 @@ namespace grapenlp {
                                 the_parse_and_get_fprtn_stats_func_ref = &ul_manager::template exe_my_luaw_to_fprtn_top_stats<LRB_TREE_3W>;
                                 return;
 #endif
-                            default: fatal_error("Unsupported execution state set implementation\n");
+                            default:
+                                fatal_error("Unsupported execution state set implementation\n");
+                                return;
                             }
                         }
 #endif //DISABLE_LUAW_GRAMMAR
@@ -4392,11 +4584,15 @@ namespace grapenlp {
                                 the_parse_and_get_fprtn_stats_func_ref = &ul_manager::template exe_my_luxw_to_fprtn_top_stats<LRB_TREE_3W>;
                                 return;
 #endif
-                            default: fatal_error("Unsupported execution state set implementation\n");
+                            default:
+                                fatal_error("Unsupported execution state set implementation\n");
+                                return;
                             }
                         }
 #endif //DISABLE_LUXW_GRAMMAR
-                        default: fatal_error("Unsupported grammar type (compute to-fprtn-top parsing func)\n");
+                        default:
+                            fatal_error("Unsupported grammar type (compute to-fprtn-top parsing func)\n");
+                            return;
                     }
                 }
 #endif //DISABLE_TO_FPRTN_TOP_PARSER
@@ -4435,7 +4631,9 @@ namespace grapenlp {
                                         the_parse_and_get_fprtn_stats_func_ref = &ul_manager::template exe_my_lua_to_fprtn_stats_and_breadth_first_expander_with_trie_stacks_and_output<STD, LRB_TREE_3W>;
                                         return;
 #endif
-                                    default: fatal_error("Unsupported output set implementation\n");
+                                    default:
+                                        fatal_error("Unsupported output set implementation\n");
+                                        return;
                                     }
 #endif //DISABLE_STD_SES
 #ifndef DISABLE_LRB_TREE_SES
@@ -4460,7 +4658,9 @@ namespace grapenlp {
                                         the_parse_and_get_fprtn_stats_func_ref = &ul_manager::template exe_my_lua_to_fprtn_stats_and_breadth_first_expander_with_trie_stacks_and_output<LRB_TREE, LRB_TREE_3W>;
                                         return;
 #endif
-                                    default: fatal_error("Unsupported output set implementation\n");
+                                    default:
+                                        fatal_error("Unsupported output set implementation\n");
+                                        return;
                                     }
 #endif //DISABLE_LRB_TREE_SES
 #ifndef DISABLE_LRB_TREE_3W_SES
@@ -4485,10 +4685,14 @@ namespace grapenlp {
                                         the_parse_and_get_fprtn_stats_func_ref = &ul_manager::template exe_my_lua_to_fprtn_stats_and_breadth_first_expander_with_trie_stacks_and_output<LRB_TREE_3W, LRB_TREE_3W>;
                                         return;
 #endif
-                                    default: fatal_error("Unsupported output set implementation\n");
+                                    default:
+                                        fatal_error("Unsupported output set implementation\n");
+                                        return;
                                     }
 #endif //DISABLE_LRB_TREE_3W_SES
-                                default: fatal_error("Unsupported execution state set implementation\n");
+                                default:
+                                    fatal_error("Unsupported execution state set implementation\n");
+                                    return;
                                 }
 #endif //DISABLE_TRIE_STRING_PARSERS
 #ifndef DISABLE_ARRAY_PARSERS
@@ -4516,7 +4720,9 @@ namespace grapenlp {
                                     the_parse_and_get_fprtn_stats_func_ref = &ul_manager::template exe_my_lua_to_fprtn_stats_and_breadth_first_expander_with_array_stacks_and_output<STD, LRB_TREE_3W>;
                                     return;
 #endif
-                                default: fatal_error("Unsupported output set implementation\n");
+                                default:
+                                    fatal_error("Unsupported output set implementation\n");
+                                    return;
                                 }
 #endif
 #ifndef DISABLE_LRB_TREE_SES
@@ -4541,7 +4747,9 @@ namespace grapenlp {
                                     the_parse_and_get_fprtn_stats_func_ref = &ul_manager::template exe_my_lua_to_fprtn_stats_and_breadth_first_expander_with_array_stacks_and_output<LRB_TREE, LRB_TREE_3W>;
                                     return;
 #endif
-                                default: fatal_error("Unsupported output set implementation\n");
+                                default:
+                                    fatal_error("Unsupported output set implementation\n");
+                                    return;
                                 }
 #endif //DISABLE_LRB_TREE_SES
 #ifndef DISABLE_LRB_TREE_3W_SES
@@ -4566,10 +4774,14 @@ namespace grapenlp {
                                     the_parse_and_get_fprtn_stats_func_ref = &ul_manager::template exe_my_lua_to_fprtn_stats_and_breadth_first_expander_with_array_stacks_and_output<LRB_TREE_3W, LRB_TREE_3W>;
                                     return;
 #endif
-                                default: fatal_error("Unsupported output set implementation\n");
+                                default:
+                                    fatal_error("Unsupported output set implementation\n");
+                                    return;
                                 }
 #endif //DISABLE_LRB_TREE_3W_SES
-                            default: fatal_error("Unsupported execution state set implementation\n");
+                            default:
+                                fatal_error("Unsupported execution state set implementation\n");
+                                return;
                             }
 #endif //DISABLE_ARRAY_PARSERS
                         }
@@ -4603,7 +4815,9 @@ namespace grapenlp {
                                         the_parse_and_get_fprtn_stats_func_ref = &ul_manager::template exe_my_luaw_to_fprtn_stats_and_breadth_first_expander_with_trie_stacks_and_output<STD, LRB_TREE_3W>;
                                         return;
 #endif
-                                    default: fatal_error("Unsupported output set implementation\n");
+                                    default:
+                                        fatal_error("Unsupported output set implementation\n");
+                                        return;
                                     }
 #endif //DISABLE_STD_SES
 #ifndef DISABLE_LRB_TREE_SES
@@ -4628,7 +4842,9 @@ namespace grapenlp {
                                         the_parse_and_get_fprtn_stats_func_ref = &ul_manager::template exe_my_luaw_to_fprtn_stats_and_breadth_first_expander_with_trie_stacks_and_output<LRB_TREE, LRB_TREE_3W>;
                                         return;
 #endif
-                                    default: fatal_error("Unsupported output set implementation\n");
+                                    default:
+                                        fatal_error("Unsupported output set implementation\n");
+                                        return;
                                     }
 #endif //DISABLE_LRB_TREE_SES
 #ifndef DISABLE_LRB_TREE_3W_SES
@@ -4653,10 +4869,14 @@ namespace grapenlp {
                                         the_parse_and_get_fprtn_stats_func_ref = &ul_manager::template exe_my_luaw_to_fprtn_stats_and_breadth_first_expander_with_trie_stacks_and_output<LRB_TREE_3W, LRB_TREE_3W>;
                                         return;
 #endif
-                                    default: fatal_error("Unsupported output set implementation\n");
+                                    default:
+                                        fatal_error("Unsupported output set implementation\n");
+                                        return;
                                     }
 #endif //DISABLE_LRB_TREE_3W_SES
-                                default: fatal_error("Unsupported execution state set implementation\n");
+                                default:
+                                    fatal_error("Unsupported execution state set implementation\n");
+                                    return;
                                 }
 #endif //DISABLE_TRIE_STRING_PARSERS
 #ifndef DISABLE_ARRAY_PARSERS
@@ -4684,7 +4904,9 @@ namespace grapenlp {
                                     the_parse_and_get_fprtn_stats_func_ref = &ul_manager::template exe_my_luaw_to_fprtn_stats_and_breadth_first_expander_with_array_stacks_and_output<STD, LRB_TREE_3W>;
                                     return;
 #endif
-                                default: fatal_error("Unsupported output set implementation\n");
+                                default:
+                                    fatal_error("Unsupported output set implementation\n");
+                                    return;
                                 }
 #endif //DISABLE_STD_SES
 #ifndef DISABLE_LRB_TREE_SES
@@ -4709,7 +4931,9 @@ namespace grapenlp {
                                     the_parse_and_get_fprtn_stats_func_ref = &ul_manager::template exe_my_luaw_to_fprtn_stats_and_breadth_first_expander_with_array_stacks_and_output<LRB_TREE, LRB_TREE_3W>;
                                     return;
 #endif
-                                default: fatal_error("Unsupported output set implementation\n");
+                                default:
+                                    fatal_error("Unsupported output set implementation\n");
+                                    return;
                                 }
 #endif //DISABLE_LRB_TREE_SES
 #ifndef DISABLE_LRB_TREE_3W_SES
@@ -4734,10 +4958,14 @@ namespace grapenlp {
                                     the_parse_and_get_fprtn_stats_func_ref = &ul_manager::template exe_my_luaw_to_fprtn_stats_and_breadth_first_expander_with_array_stacks_and_output<LRB_TREE_3W, LRB_TREE_3W>;
                                     return;
 #endif
-                                default: fatal_error("Unsupported output set implementation\n");
+                                default:
+                                    fatal_error("Unsupported output set implementation\n");
+                                    return;
                                 }
 #endif //DISABLE_LRB_TREE_3W_SES
-                            default: fatal_error("Unsupported execution state set implementation\n");
+                            default:
+                                fatal_error("Unsupported execution state set implementation\n");
+                                return;
                             }
 #endif //DISABLE_ARRAY_PARSERS
                         }
@@ -4771,7 +4999,9 @@ namespace grapenlp {
                                         the_parse_and_get_fprtn_stats_func_ref = &ul_manager::template exe_my_lux_to_fprtn_stats_and_breadth_first_expander<TRIE_STRINGS, STD, LRB_TREE_3W>;
                                         return;
 #endif
-                                    default: fatal_error("Unsupported output set implementation\n");
+                                    default:
+                                        fatal_error("Unsupported output set implementation\n");
+                                        return;
                                     }
 #endif //DISABLE_STD_SES
 #ifndef DISABLE_LRB_TREE_SES
@@ -4796,7 +5026,9 @@ namespace grapenlp {
                                         the_parse_and_get_fprtn_stats_func_ref = &ul_manager::template exe_my_lux_to_fprtn_stats_and_breadth_first_expander<TRIE_STRINGS, LRB_TREE, LRB_TREE_3W>;
                                         return;
 #endif
-                                    default: fatal_error("Unsupported output set implementation\n");
+                                    default:
+                                        fatal_error("Unsupported output set implementation\n");
+                                        return;
                                     }
 #endif //DISABLE_LRB_TREE_SES
 #ifndef DISABLE_LRB_TREE_3W_SES
@@ -4821,10 +5053,14 @@ namespace grapenlp {
                                         the_parse_and_get_fprtn_stats_func_ref = &ul_manager::template exe_my_lux_to_fprtn_stats_and_breadth_first_expander<TRIE_STRINGS, LRB_TREE_3W, LRB_TREE_3W>;
                                         return;
 #endif
-                                    default: fatal_error("Unsupported output set implementation\n");
+                                    default:
+                                        fatal_error("Unsupported output set implementation\n");
+                                        return;
                                     }
 #endif //DISABLE_LRB_TREE_3W_SES
-                                default: fatal_error("Unsupported execution state set implementation\n");
+                                default:
+                                    fatal_error("Unsupported execution state set implementation\n");
+                                    return;
                                 }
 #endif //DISABLE_TRIE_STRING_PARSERS
 #ifndef DISABLE_ARRAY_PARSERS
@@ -4852,7 +5088,9 @@ namespace grapenlp {
                                     the_parse_and_get_fprtn_stats_func_ref = &ul_manager::template exe_my_lux_to_fprtn_stats_and_breadth_first_expander<ARRAYS, STD, LRB_TREE_3W>;
                                     return;
 #endif
-                                default: fatal_error("Unsupported output set implementation\n");
+                                default:
+                                    fatal_error("Unsupported output set implementation\n");
+                                    return;
                                 }
 #endif //DISABLE_STD_SES
 #ifndef DISABLE_LRB_TREE_SES
@@ -4877,7 +5115,9 @@ namespace grapenlp {
                                     the_parse_and_get_fprtn_stats_func_ref = &ul_manager::template exe_my_lux_to_fprtn_stats_and_breadth_first_expander<ARRAYS, LRB_TREE, LRB_TREE_3W>;
                                     return;
 #endif
-                                default: fatal_error("Unsupported output set implementation\n");
+                                default:
+                                    fatal_error("Unsupported output set implementation\n");
+                                    return;
                                 }
 #endif //DISABLE_LRB_TREE_SES
 #ifndef DISABLE_LRB_TREE_3W_SES
@@ -4902,10 +5142,14 @@ namespace grapenlp {
                                     the_parse_and_get_fprtn_stats_func_ref = &ul_manager::template exe_my_lux_to_fprtn_stats_and_breadth_first_expander<ARRAYS, LRB_TREE_3W, LRB_TREE_3W>;
                                     return;
 #endif
-                                default: fatal_error("Unsupported output set implementation\n");
+                                default:
+                                    fatal_error("Unsupported output set implementation\n");
+                                    return;
                                 }
 #endif //DISABLE_LRB_TREE_3W_SES
-                            default: fatal_error("Unsupported execution state set implementation\n");
+                            default:
+                                fatal_error("Unsupported execution state set implementation\n");
+                                return;
                             }
 #endif //DISABLE_ARRAY_PARSERS
                         }
@@ -4939,7 +5183,9 @@ namespace grapenlp {
                                         the_parse_and_get_fprtn_stats_func_ref = &ul_manager::template exe_my_luxw_to_fprtn_stats_and_breadth_first_expander<TRIE_STRINGS, STD, LRB_TREE_3W>;
                                         return;
 #endif
-                                    default: fatal_error("Unsupported output set implementation\n");
+                                    default:
+                                        fatal_error("Unsupported output set implementation\n");
+                                        return;
                                     }
 #endif //DISABLE_STD_SES
 #ifndef DISABLE_LRB_TREE_SES
@@ -4964,7 +5210,9 @@ namespace grapenlp {
                                         the_parse_and_get_fprtn_stats_func_ref = &ul_manager::template exe_my_luxw_to_fprtn_stats_and_breadth_first_expander<TRIE_STRINGS, LRB_TREE, LRB_TREE_3W>;
                                         return;
 #endif
-                                    default: fatal_error("Unsupported output set implementation\n");
+                                    default:
+                                        fatal_error("Unsupported output set implementation\n");
+                                        return;
                                     }
 #endif //DISABLE_LRB_TREE_SES
 #ifndef DISABLE_LRB_TREE_3W_SES
@@ -4989,10 +5237,14 @@ namespace grapenlp {
                                         the_parse_and_get_fprtn_stats_func_ref = &ul_manager::template exe_my_luxw_to_fprtn_stats_and_breadth_first_expander<TRIE_STRINGS, LRB_TREE_3W, LRB_TREE_3W>;
                                         return;
 #endif
-                                    default: fatal_error("Unsupported output set implementation\n");
+                                    default:
+                                        fatal_error("Unsupported output set implementation\n");
+                                        return;
                                     }
 #endif //DISABLE_LRB_TREE_3W_SES
-                                default: fatal_error("Unsupported execution state set implementation\n");
+                                default:
+                                    fatal_error("Unsupported execution state set implementation\n");
+                                    return;
                                 }
 #endif //DISABLE_TRIE_STRING_PARSERS
 #ifndef DISABLE_ARRAY_PARSERS
@@ -5020,7 +5272,9 @@ namespace grapenlp {
                                     the_parse_and_get_fprtn_stats_func_ref = &ul_manager::template exe_my_luxw_to_fprtn_stats_and_breadth_first_expander<ARRAYS, STD, LRB_TREE_3W>;
                                     return;
 #endif
-                                default: fatal_error("Unsupported output set implementation\n");
+                                default:
+                                    fatal_error("Unsupported output set implementation\n");
+                                    return;
                                 }
 #endif //DISABLE_STD_SES
 #ifndef DISABLE_LRB_TREE_SES
@@ -5045,7 +5299,9 @@ namespace grapenlp {
                                     the_parse_and_get_fprtn_stats_func_ref = &ul_manager::template exe_my_luxw_to_fprtn_stats_and_breadth_first_expander<ARRAYS, LRB_TREE, LRB_TREE_3W>;
                                     return;
 #endif
-                                default: fatal_error("Unsupported output set implementation\n");
+                                default:
+                                    fatal_error("Unsupported output set implementation\n");
+                                    return;
                                 }
 #endif //DISABLE_LRB_TREE_SES
 #ifndef DISABLE_LRB_TREE_3W_SES
@@ -5070,15 +5326,21 @@ namespace grapenlp {
                                     the_parse_and_get_fprtn_stats_func_ref = &ul_manager::template exe_my_luxw_to_fprtn_stats_and_breadth_first_expander<ARRAYS, LRB_TREE_3W, LRB_TREE_3W>;
                                     return;
 #endif
-                                default: fatal_error("Unsupported output set implementation\n");
+                                default:
+                                    fatal_error("Unsupported output set implementation\n");
+                                    return;
                                 }
 #endif //DISABLE_LRB_TREE_3W_SES
-                            default: fatal_error("Unsupported execution state set implementation\n");
+                            default:
+                                fatal_error("Unsupported execution state set implementation\n");
+                                return;
                             }
 #endif //DISABLE_ARRAY_PARSERS
                         }
 #endif //DISABLE_LUXW_GRAMMAR
-                        default: fatal_error("Unsupported grammar type (compute to fprtn parser and breadth-first expand func)\n");
+                        default:
+                            fatal_error("Unsupported grammar type (compute to fprtn parser and breadth-first expand func)\n");
+                            return;
                     }
                 }
 #endif //DISABLE_TO_FPRTN_PARSER_AND_BREADTH_FIRST_EXPANDER
@@ -5117,7 +5379,9 @@ namespace grapenlp {
                                         the_parse_and_get_fprtn_stats_func_ref = &ul_manager::template exe_my_lua_to_fprtn_stats_and_blackboard_set_expander_with_trie_output<STD, LRB_TREE_3W>;
                                         return;
 #endif
-                                    default: fatal_error("Unsupported output set implementation\n");
+                                    default:
+                                        fatal_error("Unsupported output set implementation\n");
+                                        return;
                                     }
 #endif //DISABLE_STD_SES
 #ifndef DISABLE_LRB_TREE_SES
@@ -5142,7 +5406,9 @@ namespace grapenlp {
                                         the_parse_and_get_fprtn_stats_func_ref = &ul_manager::template exe_my_lua_to_fprtn_stats_and_blackboard_set_expander_with_trie_output<LRB_TREE, LRB_TREE_3W>;
                                         return;
 #endif
-                                    default: fatal_error("Unsupported output set implementation\n");
+                                    default:
+                                        fatal_error("Unsupported output set implementation\n");
+                                        return;
                                     }
 #endif //DISABLE_LRB_TREE_SES
 #ifndef DISABLE_LRB_TREE_3W_SES
@@ -5167,10 +5433,14 @@ namespace grapenlp {
                                         the_parse_and_get_fprtn_stats_func_ref = &ul_manager::template exe_my_lua_to_fprtn_stats_and_blackboard_set_expander_with_trie_output<LRB_TREE_3W, LRB_TREE_3W>;
                                         return;
 #endif
-                                    default: fatal_error("Unsupported output set implementation\n");
+                                    default:
+                                        fatal_error("Unsupported output set implementation\n");
+                                        return;
                                     }
 #endif //DISABLE_LRB_TREE_3W_SES
-                                default: fatal_error("Unsupported execution state set implementation\n");
+                                default:
+                                    fatal_error("Unsupported execution state set implementation\n");
+                                    return;
                                 }
 #endif //DISABLE_TRIE_STRING_PARSERS
 #ifndef DISABLE_ARRAY_PARSERS
@@ -5198,7 +5468,9 @@ namespace grapenlp {
                                     the_parse_and_get_fprtn_stats_func_ref = &ul_manager::template exe_my_lua_to_fprtn_stats_and_blackboard_set_expander_with_array_output<STD, LRB_TREE_3W>;
                                     return;
 #endif
-                                default: fatal_error("Unsupported output set implementation\n");
+                                default:
+                                    fatal_error("Unsupported output set implementation\n");
+                                    return;
                                 }
 #endif
 #ifndef DISABLE_LRB_TREE_SES
@@ -5223,7 +5495,9 @@ namespace grapenlp {
                                     the_parse_and_get_fprtn_stats_func_ref = &ul_manager::template exe_my_lua_to_fprtn_stats_and_blackboard_set_expander_with_array_output<LRB_TREE, LRB_TREE_3W>;
                                     return;
 #endif
-                                default: fatal_error("Unsupported output set implementation\n");
+                                default:
+                                    fatal_error("Unsupported output set implementation\n");
+                                    return;
                                 }
 #endif //DISABLE_LRB_TREE_SES
 #ifndef DISABLE_LRB_TREE_3W_SES
@@ -5248,10 +5522,14 @@ namespace grapenlp {
                                     the_parse_and_get_fprtn_stats_func_ref = &ul_manager::template exe_my_lua_to_fprtn_stats_and_blackboard_set_expander_with_array_output<LRB_TREE_3W, LRB_TREE_3W>;
                                     return;
 #endif
-                                default: fatal_error("Unsupported output set implementation\n");
+                                default:
+                                    fatal_error("Unsupported output set implementation\n");
+                                    return;
                                 }
 #endif //DISABLE_LRB_TREE_3W_SES
-                            default: fatal_error("Unsupported execution state set implementation\n");
+                            default:
+                                fatal_error("Unsupported execution state set implementation\n");
+                                return;
                             }
 #endif //DISABLE_ARRAY_PARSERS
                         }
@@ -5285,7 +5563,9 @@ namespace grapenlp {
                                         the_parse_and_get_fprtn_stats_func_ref = &ul_manager::template exe_my_luaw_to_fprtn_stats_and_blackboard_set_expander_with_trie_output<STD, LRB_TREE_3W>;
                                         return;
 #endif
-                                    default: fatal_error("Unsupported output set implementation\n");
+                                    default:
+                                        fatal_error("Unsupported output set implementation\n");
+                                        return;
                                     }
 #endif //DISABLE_STD_SES
 #ifndef DISABLE_LRB_TREE_SES
@@ -5310,7 +5590,9 @@ namespace grapenlp {
                                         the_parse_and_get_fprtn_stats_func_ref = &ul_manager::template exe_my_luaw_to_fprtn_stats_and_blackboard_set_expander_with_trie_output<LRB_TREE, LRB_TREE_3W>;
                                         return;
 #endif
-                                    default: fatal_error("Unsupported output set implementation\n");
+                                    default:
+                                        fatal_error("Unsupported output set implementation\n");
+                                        return;
                                     }
 #endif //DISABLE_LRB_TREE_SES
 #ifndef DISABLE_LRB_TREE_3W_SES
@@ -5335,10 +5617,14 @@ namespace grapenlp {
                                         the_parse_and_get_fprtn_stats_func_ref = &ul_manager::template exe_my_luaw_to_fprtn_stats_and_blackboard_set_expander_with_trie_output<LRB_TREE_3W, LRB_TREE_3W>;
                                         return;
 #endif
-                                    default: fatal_error("Unsupported output set implementation\n");
+                                    default:
+                                        fatal_error("Unsupported output set implementation\n");
+                                        return;
                                     }
 #endif //DISABLE_LRB_TREE_3W_SES
-                                default: fatal_error("Unsupported execution state set implementation\n");
+                                default:
+                                    fatal_error("Unsupported execution state set implementation\n");
+                                    return;
                                 }
 #endif //DISABLE_TRIE_STRING_PARSERS
 #ifndef DISABLE_ARRAY_PARSERS
@@ -5366,7 +5652,9 @@ namespace grapenlp {
                                     the_parse_and_get_fprtn_stats_func_ref = &ul_manager::template exe_my_luaw_to_fprtn_stats_and_blackboard_set_expander_with_array_output<STD, LRB_TREE_3W>;
                                     return;
 #endif
-                                default: fatal_error("Unsupported output set implementation\n");
+                                default:
+                                    fatal_error("Unsupported output set implementation\n");
+                                    return;
                                 }
 #endif //DISABLE_STD_SES
 #ifndef DISABLE_LRB_TREE_SES
@@ -5391,7 +5679,9 @@ namespace grapenlp {
                                     the_parse_and_get_fprtn_stats_func_ref = &ul_manager::template exe_my_luaw_to_fprtn_stats_and_blackboard_set_expander_with_array_output<LRB_TREE, LRB_TREE_3W>;
                                     return;
 #endif
-                                default: fatal_error("Unsupported output set implementation\n");
+                                default:
+                                    fatal_error("Unsupported output set implementation\n");
+                                    return;
                                 }
 #endif //DISABLE_LRB_TREE_SES
 #ifndef DISABLE_LRB_TREE_3W_SES
@@ -5416,10 +5706,14 @@ namespace grapenlp {
                                     the_parse_and_get_fprtn_stats_func_ref = &ul_manager::template exe_my_luaw_to_fprtn_stats_and_blackboard_set_expander_with_array_output<LRB_TREE_3W, LRB_TREE_3W>;
                                     return;
 #endif
-                                default: fatal_error("Unsupported output set implementation\n");
+                                default:
+                                    fatal_error("Unsupported output set implementation\n");
+                                    return;
                                 }
 #endif //DISABLE_LRB_TREE_3W_SES
-                            default: fatal_error("Unsupported execution state set implementation\n");
+                            default:
+                                fatal_error("Unsupported execution state set implementation\n");
+                                return;
                             }
 #endif //DISABLE_ARRAY_PARSERS
                         }
@@ -5453,7 +5747,9 @@ namespace grapenlp {
                                         the_parse_and_get_fprtn_stats_func_ref = &ul_manager::template exe_my_lux_to_fprtn_stats_and_blackboard_set_expander<TRIE_STRINGS, STD, LRB_TREE_3W>;
                                         return;
 #endif
-                                    default: fatal_error("Unsupported output set implementation\n");
+                                    default:
+                                        fatal_error("Unsupported output set implementation\n");
+                                        return;
                                     }
 #endif //DISABLE_STD_SES
 #ifndef DISABLE_LRB_TREE_SES
@@ -5478,7 +5774,9 @@ namespace grapenlp {
                                         the_parse_and_get_fprtn_stats_func_ref = &ul_manager::template exe_my_lux_to_fprtn_stats_and_blackboard_set_expander<TRIE_STRINGS, LRB_TREE, LRB_TREE_3W>;
                                         return;
 #endif
-                                    default: fatal_error("Unsupported output set implementation\n");
+                                    default:
+                                        fatal_error("Unsupported output set implementation\n");
+                                        return;
                                     }
 #endif //DISABLE_LRB_TREE_SES
 #ifndef DISABLE_LRB_TREE_3W_SES
@@ -5503,10 +5801,14 @@ namespace grapenlp {
                                         the_parse_and_get_fprtn_stats_func_ref = &ul_manager::template exe_my_lux_to_fprtn_stats_and_blackboard_set_expander<TRIE_STRINGS, LRB_TREE_3W, LRB_TREE_3W>;
                                         return;
 #endif
-                                    default: fatal_error("Unsupported output set implementation\n");
+                                    default:
+                                        fatal_error("Unsupported output set implementation\n");
+                                        return;
                                     }
 #endif //DISABLE_LRB_TREE_3W_SES
-                                default: fatal_error("Unsupported execution state set implementation\n");
+                                default:
+                                    fatal_error("Unsupported execution state set implementation\n");
+                                    return;
                                 }
 #endif //DISABLE_TRIE_STRING_PARSERS
 #ifndef DISABLE_ARRAY_PARSERS
@@ -5534,7 +5836,9 @@ namespace grapenlp {
                                     the_parse_and_get_fprtn_stats_func_ref = &ul_manager::template exe_my_lux_to_fprtn_stats_and_blackboard_set_expander<ARRAYS, STD, LRB_TREE_3W>;
                                     return;
 #endif
-                                default: fatal_error("Unsupported output set implementation\n");
+                                default:
+                                    fatal_error("Unsupported output set implementation\n");
+                                    return;
                                 }
 #endif //DISABLE_STD_SES
 #ifndef DISABLE_LRB_TREE_SES
@@ -5559,7 +5863,9 @@ namespace grapenlp {
                                     the_parse_and_get_fprtn_stats_func_ref = &ul_manager::template exe_my_lux_to_fprtn_stats_and_blackboard_set_expander<ARRAYS, LRB_TREE, LRB_TREE_3W>;
                                     return;
 #endif
-                                default: fatal_error("Unsupported output set implementation\n");
+                                default:
+                                    fatal_error("Unsupported output set implementation\n");
+                                    return;
                                 }
 #endif //DISABLE_LRB_TREE_SES
 #ifndef DISABLE_LRB_TREE_3W_SES
@@ -5584,10 +5890,14 @@ namespace grapenlp {
                                     the_parse_and_get_fprtn_stats_func_ref = &ul_manager::template exe_my_lux_to_fprtn_stats_and_blackboard_set_expander<ARRAYS, LRB_TREE_3W, LRB_TREE_3W>;
                                     return;
 #endif
-                                default: fatal_error("Unsupported output set implementation\n");
+                                default:
+                                    fatal_error("Unsupported output set implementation\n");
+                                    return;
                                 }
 #endif //DISABLE_LRB_TREE_3W_SES
-                            default: fatal_error("Unsupported execution state set implementation\n");
+                            default:
+                                fatal_error("Unsupported execution state set implementation\n");
+                                return;
                             }
 #endif //DISABLE_ARRAY_PARSERS
                         }
@@ -5621,7 +5931,9 @@ namespace grapenlp {
                                         the_parse_and_get_fprtn_stats_func_ref = &ul_manager::template exe_my_luxw_to_fprtn_stats_and_blackboard_set_expander<TRIE_STRINGS, STD, LRB_TREE_3W>;
                                         return;
 #endif
-                                    default: fatal_error("Unsupported output set implementation\n");
+                                    default:
+                                        fatal_error("Unsupported output set implementation\n");
+                                        return;
                                     }
 #endif //DISABLE_STD_SES
 #ifndef DISABLE_LRB_TREE_SES
@@ -5646,7 +5958,9 @@ namespace grapenlp {
                                         the_parse_and_get_fprtn_stats_func_ref = &ul_manager::template exe_my_luxw_to_fprtn_stats_and_blackboard_set_expander<TRIE_STRINGS, LRB_TREE, LRB_TREE_3W>;
                                         return;
 #endif
-                                    default: fatal_error("Unsupported output set implementation\n");
+                                    default:
+                                        fatal_error("Unsupported output set implementation\n");
+                                        return;
                                     }
 #endif //DISABLE_LRB_TREE_SES
 #ifndef DISABLE_LRB_TREE_3W_SES
@@ -5671,10 +5985,14 @@ namespace grapenlp {
                                         the_parse_and_get_fprtn_stats_func_ref = &ul_manager::template exe_my_luxw_to_fprtn_stats_and_blackboard_set_expander<TRIE_STRINGS, LRB_TREE_3W, LRB_TREE_3W>;
                                         return;
 #endif
-                                    default: fatal_error("Unsupported output set implementation\n");
+                                    default:
+                                        fatal_error("Unsupported output set implementation\n");
+                                        return;
                                     }
 #endif //DISABLE_LRB_TREE_3W_SES
-                                default: fatal_error("Unsupported execution state set implementation\n");
+                                default:
+                                    fatal_error("Unsupported execution state set implementation\n");
+                                    return;
                                 }
 #endif //DISABLE_TRIE_STRING_PARSERS
 #ifndef DISABLE_ARRAY_PARSERS
@@ -5702,7 +6020,9 @@ namespace grapenlp {
                                     the_parse_and_get_fprtn_stats_func_ref = &ul_manager::template exe_my_luxw_to_fprtn_stats_and_blackboard_set_expander<ARRAYS, STD, LRB_TREE_3W>;
                                     return;
 #endif
-                                default: fatal_error("Unsupported output set implementation\n");
+                                default:
+                                    fatal_error("Unsupported output set implementation\n");
+                                    return;
                                 }
 #endif //DISABLE_STD_SES
 #ifndef DISABLE_LRB_TREE_SES
@@ -5727,7 +6047,9 @@ namespace grapenlp {
                                     the_parse_and_get_fprtn_stats_func_ref = &ul_manager::template exe_my_luxw_to_fprtn_stats_and_blackboard_set_expander<ARRAYS, LRB_TREE, LRB_TREE_3W>;
                                     return;
 #endif
-                                default: fatal_error("Unsupported output set implementation\n");
+                                default:
+                                    fatal_error("Unsupported output set implementation\n");
+                                    return;
                                 }
 #endif //DISABLE_LRB_TREE_SES
 #ifndef DISABLE_LRB_TREE_3W_SES
@@ -5752,15 +6074,21 @@ namespace grapenlp {
                                     the_parse_and_get_fprtn_stats_func_ref = &ul_manager::template exe_my_luxw_to_fprtn_stats_and_blackboard_set_expander<ARRAYS, LRB_TREE_3W, LRB_TREE_3W>;
                                     return;
 #endif
-                                default: fatal_error("Unsupported output set implementation\n");
+                                default:
+                                    fatal_error("Unsupported output set implementation\n");
+                                    return;
                                 }
 #endif //DISABLE_LRB_TREE_3W_SES
-                            default: fatal_error("Unsupported execution state set implementation\n");
+                            default:
+                                fatal_error("Unsupported execution state set implementation\n");
+                                return;
                             }
 #endif //DISABLE_ARRAY_PARSERS
                         }
 #endif //DISABLE_LUXW_GRAMMAR
-                        default: fatal_error("Unsupported grammar type (compute to fprtn parser and blackboard set expand func)\n");
+                        default:
+                            fatal_error("Unsupported grammar type (compute to fprtn parser and blackboard set expand func)\n");
+                            return;
                     }
                 }
 #endif //DISABLE_TO_FPRTN_PARSER_AND_BLACKBOARD_SET_EXPANDER
@@ -5793,7 +6121,9 @@ namespace grapenlp {
                                     the_parse_and_get_fprtn_stats_func_ref = &ul_manager::template exe_my_luaw_to_fprtn_stats_and_top_blackboard_extractor_with_trie_output<LRB_TREE_3W>;
                                     return;
 #endif //DISABLE_LRB_TREE_3W_SES
-                                default: fatal_error("Unsupported execution state set implementation\n");
+                                default:
+                                    fatal_error("Unsupported execution state set implementation\n");
+                                    return;
                                 }
 #endif //DISABLE_TRIE_STRING_PARSERS
 #ifndef DISABLE_ARRAY_PARSERS
@@ -5817,7 +6147,9 @@ namespace grapenlp {
                                     the_parse_and_get_fprtn_stats_func_ref = &ul_manager::template exe_my_luaw_to_fprtn_stats_and_top_blackboard_extractor_with_array_output<LRB_TREE_3W>;
                                     return;
 #endif //DISABLE_LRB_TREE_3W_SES
-                            default: fatal_error("Unsupported execution state set implementation\n");
+                            default:
+                                fatal_error("Unsupported execution state set implementation\n");
+                                return;
                             }
 #endif //DISABLE_ARRAY_PARSERS
                         }
@@ -5849,7 +6181,9 @@ namespace grapenlp {
                                             the_parse_and_get_fprtn_stats_func_ref = &ul_manager::template exe_my_luxw_to_fprtn_stats_and_top_blackboard_extractor<TRIE_STRINGS, STD, LRB_TREE_3W>;
                                             return;
 #endif
-                                        default: fatal_error("Unsupported output set implementation\n");
+                                        default:
+                                            fatal_error("Unsupported output set implementation\n");
+                                            return;
                                         }
 #endif //DISABLE_STD_SES
 #ifndef DISABLE_LRB_TREE_SES
@@ -5875,6 +6209,7 @@ namespace grapenlp {
 #endif
                                             default:
                                                 fatal_error("Unsupported output set implementation\n");
+                                                return;
                                         }
 #endif //DISABLE_LRB_TREE_SES
 #ifndef DISABLE_LRB_TREE_3W_SES
@@ -5899,11 +6234,14 @@ namespace grapenlp {
                                             the_parse_and_get_fprtn_stats_func_ref = &ul_manager::template exe_my_luxw_to_fprtn_stats_and_top_blackboard_extractor<TRIE_STRINGS, LRB_TREE_3W, LRB_TREE_3W>;
                                             return;
 #endif
-                                        default: fatal_error("Unsupported output set implementation\n");
+                                        default:
+                                            fatal_error("Unsupported output set implementation\n");
+                                            return;
                                         }
 #endif //DISABLE_LRB_TREE_3W_SES
                                     default:
                                         fatal_error("Unsupported execution state set implementation\n");
+                                        return;
                                 }
 #endif //DISABLE_TRIE_STRING_PARSERS
 #ifndef DISABLE_ARRAY_PARSERS
@@ -5930,7 +6268,9 @@ namespace grapenlp {
                                         the_parse_and_get_fprtn_stats_func_ref = &ul_manager::template exe_my_luxw_to_fprtn_stats_and_top_blackboard_extractor<ARRAYS, STD, LRB_TREE_3W>;
                                         return;
 #endif
-                                    default: fatal_error("Unsupported output set implementation\n");
+                                    default:
+                                        fatal_error("Unsupported output set implementation\n");
+                                        return;
                                     }
 #endif //DISABLE_STD_SES
 #ifndef DISABLE_LRB_TREE_SES
@@ -5956,6 +6296,7 @@ namespace grapenlp {
 #endif
                                         default:
                                             fatal_error("Unsupported output set implementation\n");
+                                            return;
                                     }
 #endif //DISABLE_LRB_TREE_SES
 #ifndef DISABLE_LRB_TREE_3W_SES
@@ -5980,23 +6321,27 @@ namespace grapenlp {
                                         the_parse_and_get_fprtn_stats_func_ref = &ul_manager::template exe_my_luxw_to_fprtn_stats_and_top_blackboard_extractor<ARRAYS, LRB_TREE_3W, LRB_TREE_3W>;
                                         return;
 #endif
-                                    default: fatal_error("Unsupported output set implementation\n");
+                                    default:
+                                        fatal_error("Unsupported output set implementation\n");
+                                        return;
                                     }
 #endif //DISABLE_LRB_TREE_3W_SES
                                 default:
                                     fatal_error("Unsupported execution state set implementation\n");
+                                    return;
                             }
 #endif //DISABLE_ARRAY_PARSERS
                         }
 #endif //DISABLE_LUXW_GRAMMAR
                         default:
-                            fatal_error(
-                                    "Unsupported grammar type (compute to fprtn parser and breadth-first expand func)\n");
+                            fatal_error("Unsupported grammar type (compute to fprtn parser and breadth-first expand func)\n");
+                            return;
                     }
                 }
 #endif //DISABLE_TO_FPRTN_PARSER_AND_TOP_BLACKBOARD_EXTRACTOR
                 default:
                     fatal_error("Unsupported parser\n");
+                    return;
             }
         }
 
@@ -6035,6 +6380,7 @@ namespace grapenlp {
 #endif
                 default:
                     fatal_error("Unsupported output set implementation\n");
+                    break;
             }
 #endif //SIMPLIFIED_OUTPUT
         }
@@ -6059,7 +6405,9 @@ namespace grapenlp {
 #ifndef DISABLE_LRB_TREE_3W_BS
                 case LRB_TREE_3W: sentence_was_recognized = movistarbot_out_serializer<InputIterator, LRB_TREE_3W>()(get_output_segment_map_set<LRB_TREE_3W>(), *td_ref, ua); break;
 #endif
-                default: fatal_error("Unsupported output set implementation\n");
+                default:
+                    fatal_error("Unsupported output set implementation\n");
+                    break;
                 }
                 break;
 #endif //DISABLE_LUX_GRAMMAR
@@ -6076,11 +6424,15 @@ namespace grapenlp {
 #ifndef DISABLE_LRB_TREE_3W_BS
                 case LRB_TREE_3W: sentence_was_recognized = movistarbot_weighted_out_serializer<InputIterator, weight, LRB_TREE_3W>()(get_output_segment_map_x_weight_set<LRB_TREE_3W>(), *td_ref, ua); break;
 #endif
-                default: fatal_error("Unsupported output set implementation\n");
+                default:
+                    fatal_error("Unsupported output set implementation\n");
+                    break;
                 }
                 break;
 #endif //DISABLE_LUXW_GRAMMAR
-            default: fatal_error("Unsupported grammar type (out serializer)\n");
+            default:
+                fatal_error("Unsupported grammar type (out serializer)\n");
+                break;
             }
 
             if (!sentence_was_recognized)

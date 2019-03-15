@@ -451,7 +451,7 @@ namespace grapenlp
 
 		//Build V_0 as the eclosure of Q X {b_emptyset} X {lambda};
 		template<typename ExtraInsertOp>
-		void build_initial_ses(state_const_ref initial_state, state_const_ref_stack empty_stack, bool hasnt_white_at_begin, ExtraInsertOp op, const blackboard &empty_blackboard)
+		void build_initial_ses(state_const_ref initial_state, state_const_ref_stack empty_stack, ExtraInsertOp op, const blackboard &empty_blackboard)
 		{
 #ifdef TRACE
 			std::wcout << L"----- V[0] -----" << std::endl;
@@ -483,14 +483,14 @@ namespace grapenlp
 			//If empty input, build initial and final V[0]
 			if (input_begin == input_end)
 			{
-				build_initial_ses(grammar.initial_state(), scrsp.empty(), hasnt_white_at_begin, ins_op, empty_blackboard);
+				build_initial_ses(grammar.initial_state(), scrsp.empty(), ins_op, empty_blackboard);
 				//First token is white separated if there are trailing whites at the beginning
 				eclosure(input_begin, hasnt_white_at_begin, c, ins_op);
 			}
 			//Else build initial V[0] and the remaining V[i]
 			else
 			{
-				build_initial_ses(grammar.initial_state(), scrsp.empty(), hasnt_white_at_begin, no_op, empty_blackboard);
+				build_initial_ses(grammar.initial_state(), scrsp.empty(), no_op, empty_blackboard);
 				//First token is white separated if there are trailing whites at the beginning
 				eclosure(input_begin, hasnt_white_at_begin, c, no_op);
 #ifdef TRACE

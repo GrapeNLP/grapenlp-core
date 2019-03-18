@@ -205,7 +205,7 @@ namespace grapenlp
 
 		public:
 			//Construcs the root of a trie: the epsilon (empty word) reference
-			string(): elem(), prefix_ref(NULL), depth(0), suffixes()
+			string(): elem(), prefix_ref(nullptr), depth(0), suffixes()
 			{
 //				std::wcout << L"created epsilon with depth = " << depth << std::endl;
 			}
@@ -397,12 +397,12 @@ namespace grapenlp
 				return i;
 			}
 
-			//Returns the pointer to the string = (this + elem) if the trie includes it, NULL otherwise
+			//Returns the pointer to the string = (this + elem) if the trie includes it, nullptr otherwise
 			ref get(const T& elem)
 			{
 				typename suffix_table::iterator i(suffixes.find(elem));
 				if (i == suffixes.end())
-					return NULL;
+					return nullptr;
 				return i->second;
 			}
 
@@ -410,17 +410,17 @@ namespace grapenlp
 			{
 				typename suffix_table::const_iterator i(suffixes.find(elem));
 				if (i == suffixes.end())
-					return NULL;
+					return nullptr;
 				return i->second;
 			}
 
-			//Returns the pointer to the string = (this + elem) if the trie includes it, NULL otherwise
+			//Returns the pointer to the string = (this + elem) if the trie includes it, nullptr otherwise
 			template<typename Normalizer>
 			ref get(const T& elem, Normalizer normalizer)
 			{
 				typename suffix_table::iterator i(suffixes.find(normalizer(elem)));
 				if (i == suffixes.end())
-					return NULL;
+					return nullptr;
 				return *i;
 			}
 
@@ -447,7 +447,7 @@ namespace grapenlp
 			string& operator+(const T& elem)
 			{ return concat(elem); }
 
-			//Returns the pointer to the string = (this + s) if the trie includes it, NULL otherwise
+			//Returns the pointer to the string = (this + s) if the trie includes it, nullptr otherwise
 			ref get(string &s)
 			{
 				//x + epsilon = x
@@ -456,14 +456,14 @@ namespace grapenlp
 				//x + ya = (x + y) + a
 				ref result(get(s.prefix()));
 				if (!result)
-					return NULL;
+					return nullptr;
 				return result->get(s.back());
 			}
 
 			const_ref get(const string &s) const
 			{ return static_cast<const_ref>(get(s)); }
 
-			//Returns the pointer to the string = (this + s) if the trie includes it, NULL otherwise
+			//Returns the pointer to the string = (this + s) if the trie includes it, nullptr otherwise
 			template<typename Normalizer>
 			ref get(string &s, Normalizer normalizer)
 			{
@@ -473,7 +473,7 @@ namespace grapenlp
 				//x + ya = (x + y) + a
 				ref result(get(normalizer(s.prefix())));
 				if (!result)
-					return NULL;
+					return nullptr;
 				return result->get(normalizer(s.back()));
 			}
 
@@ -514,8 +514,13 @@ namespace grapenlp
 			string& operator+(string &s)
 			{ return concat(s); }
 
-			//Returns the pointer to the string = (*this + i1 + ... + in) where i1 == *begin and in == *(end - 1)
-			//if the trie includes it, NULL otherwise
+            /**
+             * Get the pointer to the trie string corresponding *this + [*begin, *end) if the trie includes it, nullptr otherwise
+             * @tparam Iterator the type of the range iterators
+             * @param begin iterator to the first element of the range
+             * @param end iterator to the element after the range
+             * @return the pointer to the trie string corresponding *this + [*begin, *end) if the trie includes it, nullptr otherwise
+             */
 			template<typename Iterator>
 			ref get(Iterator begin, Iterator end)
 			{
@@ -525,12 +530,19 @@ namespace grapenlp
 				{
 					i = s->suffixes.find(*begin);
 					if (i == s->suffixes.end())
-						return NULL;
+						return nullptr;
 					s = i->second;
 				}
 				return s;
 			}
 
+            /**
+             * Get the pointer to the trie const string corresponding *this + [*begin, *end) if the trie includes it, nullptr otherwise
+             * @tparam Iterator the type of the range iterators
+             * @param begin iterator to the first element of the range
+             * @param end iterator to the element after the range
+             * @return the pointer to the trie const string corresponding *this + [*begin, *end) if the trie includes it, nullptr otherwise
+             */
 			template<typename Iterator>
 			const_ref get(Iterator begin, Iterator end) const
 			{
@@ -540,14 +552,14 @@ namespace grapenlp
 				{
 					i = s->suffixes.find(*begin);
 					if (i == s->suffixes.end())
-						return NULL;
+						return nullptr;
 					s = i->second;
 				}
 				return s;
 			}
 
 			//Returns the pointer to the string = (*this + i1 + ... + in) where i1 == *begin and in == *(end - 1)
-			//if the trie includes it, NULL otherwise
+			//if the trie includes it, nullptr otherwise
 			template<typename Iterator, typename Normalizer>
 			ref get(Iterator begin, Iterator end, Normalizer normalizer)
 			{
@@ -557,7 +569,7 @@ namespace grapenlp
 				{
 					i = s->suffixes.find(normalizer(*begin));
 					if (i == s->suffixes.end())
-						return NULL;
+						return nullptr;
 					s = i->second;
 				}
 				return s;
@@ -572,7 +584,7 @@ namespace grapenlp
 				{
 					i = s->suffixes.find(normalizer(*begin));
 					if (i == s->suffixes.end())
-						return NULL;
+						return nullptr;
 					s = i->second;
 				}
 				return s;

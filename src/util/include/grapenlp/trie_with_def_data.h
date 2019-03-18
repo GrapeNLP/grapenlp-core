@@ -44,274 +44,274 @@ namespace grapenlp
 		typedef T value_type;
 
 		class string: public base_trie_with_data::string
+		{
+			friend class trie_with_def_data<T, DefDataValueGetter, Data>;
+
+			public:
+			typedef T value_type;
+			typedef string* ref;
+			typedef const string* const_ref;
+			//We want here to use string object addresses as order criterion for performance reasons
+			typedef std::set<ref> ref_set;
+			typedef typename base_trie_with_data::string base_string;
+
+			public:
+			//Constructs the root of a trie: the epsilon (empty word) reference
+			string(): base_string::string(DefDataValueGetter()())
+			{}
+
+			//Constructs the root of a trie: the epsilon (empty word) reference
+			string(data_type data_): base_string::string(data_)
+			{}
+
+			//Constructs a trie string as the concatenation of a prefix string with a string element
+			string(const T& elem_, string::ref prefix_ref_): base_string::string(elem_, prefix_ref_, DefDataValueGetter()())
+			{}
+
+			//Constructs a trie string as the concatenation of a prefix string with a string element
+			string(const T& elem_, string::ref prefix_ref_, data_type data_): base_string::string(elem_, prefix_ref_, data_)
+			{}
+			//Copy constructor is not furnished since for every trie string x and y, if x == y then &x == &y (they are the same object)
+			private:
+			string(const string &s)
+			{}
+			public:
+
+			public:
+			string& prefix()
+			{ return static_cast<string&>(*base_string::base_string::prefix_ref); }
+
+			const string& prefix() const
+			{ return static_cast<const string&>(*base_string::base_string::prefix_ref); }
+
+			//Returns the pointer to the string = (this + elem) if the trie includes it, nullptr otherwise
+			ref get(const T& elem)
+			{ return static_cast<ref>(base_string::base_string::get(elem)); }
+
+			const_ref get(const T& elem) const
+			{ return static_cast<const_ref>(base_string::base_string::get(elem)); }
+
+			//Returns the pointer to the string = (this + elem) if the trie includes it, nullptr otherwise
+			template<typename Normalizer>
+			ref get(const T& elem, Normalizer normalizer)
+			{ return static_cast<ref>(base_string::base_string::get(elem, normalizer)); }
+
+			template<typename Normalizer>
+			const_ref get(const T& elem, Normalizer normalizer) const
+			{ return static_cast<const_ref>(base_string::base_string::get(elem, normalizer)); }
+
+			//Returns the string = (*this + elem)
+			//If the trie did not contain it before, it is created and added and
+			//its data field initialized with the specified default value
+			string& concat(const T& elem)
 			{
-					friend class trie_with_def_data<T, DefDataValueGetter, Data>;
+				std::pair<typename base_string::base_string::suffix_table::iterator, bool> result(base_string::base_string::suffixes.insert(std::make_pair(elem, new string(elem, this))));
+				return static_cast<string&>(*result.first->second);
+			}
 
-					public:
-					typedef T value_type;
-					typedef string* ref;
-					typedef const string* const_ref;
-					//We want here to use string object addresses as order criterion for performance reasons
-					typedef std::set<ref> ref_set;
-					typedef typename base_trie_with_data::string base_string;
+			//As before but returning as well whether the resulting string is new or not
+			string& concat(const T& elem, bool &is_new)
+			{
+				std::pair<typename base_string::base_string::suffix_table::iterator, bool> result(base_string::base_string::suffixes.insert(std::make_pair(elem, new string(elem, this))));
+				is_new = result.second;
+				return static_cast<string&>(*result.first->second);
+			}
 
-					public:
-					//Constructs the root of a trie: the epsilon (empty word) reference
-					string(): base_string::string(DefDataValueGetter()())
-					{}
+			//As before but specifying the value to be assigned to the data field
+			//If the string was already present, the old data is kept (same behavior than class std::map)
+			string& concat(const T& elem, const data_type &data)
+			{
+				std::pair<typename base_string::base_string::suffix_table::iterator, bool> result(base_string::base_string::suffixes.insert(std::make_pair(elem, new string(elem, this, data))));
+				return static_cast<string&>(*result.first->second);
+			}
 
-					//Constructs the root of a trie: the epsilon (empty word) reference
-					string(data_type data_): base_string::string(data_)
-					{}
+			//Operator version of concat(const T& elem)
+			string& operator+(const T& elem)
+			{ return concat(elem); }
 
-					//Constructs a trie string as the concatenation of a prefix string with a string element
-					string(const T& elem_, string::ref prefix_ref_): base_string::string(elem_, prefix_ref_, DefDataValueGetter()())
-					{}
+			//Returns the pointer to the string = (this + s) if the trie includes it, nullptr otherwise
+			ref get(string &s)
+			{ return static_cast<ref>(base_string::base_string::get(s)); }
 
-					//Constructs a trie string as the concatenation of a prefix string with a string element
-					string(const T& elem_, string::ref prefix_ref_, data_type data_): base_string::string(elem_, prefix_ref_, data_)
-					{}
-					//Copy constructor is not furnished since for every trie string x and y, if x == y then &x == &y (they are the same object)
-					private:
-					string(const string &s)
-					{}
-					public:
+			const_ref get(string &s) const
+			{ return static_cast<const_ref>(base_string::base_string::get(s)); }
 
-					public:
-					string& prefix()
-					{ return static_cast<string&>(*base_string::base_string::prefix_ref); }
+			//Returns the pointer to the string = (this + s) if the trie includes it, nullptr otherwise
+			template<typename Normalizer>
+			ref get(string &s, Normalizer normalizer)
+			{ return static_cast<ref>(base_string::base_string::get(s, normalizer)); }
 
-					const string& prefix() const
-					{ return static_cast<const string&>(*base_string::base_string::prefix_ref); }
+			template<typename Normalizer>
+			const_ref get(string &s, Normalizer normalizer) const
+			{ return static_cast<const_ref>(base_string::base_string::get(s, normalizer)); }
 
-					//Returns the pointer to the string = (this + elem) if the trie includes it, NULL otherwise
-					ref get(const T& elem)
-					{ return static_cast<ref>(base_string::base_string::get(elem)); }
+			//Returns the string = (*this + s)
+			//If the trie did not contain it before, it is created and added and
+			//its data field initialized with the default constructor of its class
+			string& concat(string &s)
+			{
+				//x + epsilon = x
+				if (s.empty())
+					return *this;
+				//x + ya = (x + y) + a
+				return concat(s.prefix()).concat(s.back());
+			}
 
-					const_ref get(const T& elem) const
-					{ return static_cast<const_ref>(base_string::base_string::get(elem)); }
+			//As before but returning as well whether the resulting string is new or not
+			string& concat(string &s, bool &is_new)
+			{
+				//x + epsilon = x -> x is not new
+				if (s.empty())
+				{
+					is_new = false;
+					return *this;
+				}
+				//x + ya = (x + y) + a
+				//We concatenate all the string except its last elem without checking if the result is new
+				ref result = &concat(s.prefix());
+				//We concatenate the last elem checking if its new
+				return result->concat(s.back(), is_new);
+			}
 
-					//Returns the pointer to the string = (this + elem) if the trie includes it, NULL otherwise
-					template<typename Normalizer>
-					ref get(const T& elem, Normalizer normalizer)
-					{ return static_cast<ref>(base_string::base_string::get(elem, normalizer)); }
+			//As before but specifying the value to be assigned to the data field
+			//If the string was already present, the old data is kept (same behaviour than class std::map)
+			string& concat(string &s, const data_type &data)
+			{
+				bool is_new;
+				string &result = concat(s, is_new);
+				if (is_new)
+					result.data = data;
+				return result;
+			}
 
-					template<typename Normalizer>
-					const_ref get(const T& elem, Normalizer normalizer) const
-					{ return static_cast<const_ref>(base_string::base_string::get(elem, normalizer)); }
+			//As before but returning as well whether the resulting string is new or not
+			string& concat(string &s, data_type &data, bool &is_new)
+			{
+				string &result = concat(s, is_new);
+				if (is_new)
+					result.data = data;
+				return result;
+			}
 
-					//Returns the string = (*this + elem)
-					//If the trie did not contain it before, it is created and added and
-					//its data field initialized with the specified default value
-					string& concat(const T& elem)
-					{
-						std::pair<typename base_string::base_string::suffix_table::iterator, bool> result(base_string::base_string::suffixes.insert(std::make_pair(elem, new string(elem, this))));
-						return static_cast<string&>(*result.first->second);
-					}
+			//Operator version of concat(string &s)
+			string& operator+(string& s)
+			{ return concat(s); }
 
-					//As before but returning as well whether the resulting string is new or not
-					string& concat(const T& elem, bool &is_new)
-					{
-						std::pair<typename base_string::base_string::suffix_table::iterator, bool> result(base_string::base_string::suffixes.insert(std::make_pair(elem, new string(elem, this))));
-						is_new = result.second;
-						return static_cast<string&>(*result.first->second);
-					}
+			//Returns the pointer to the string = (*this + i1 + ... + in) where i1 == *begin and in == *(end - 1)
+			//if the trie includes it, nullptr otherwise
+			template<typename Iterator>
+			ref get(Iterator begin, Iterator end)
+			{ return static_cast<ref>(base_string::base_string::get(begin, end)); }
 
-					//As before but specifying the value to be assigned to the data field
-					//If the string was already present, the old data is kept (same behavior than class std::map)
-					string& concat(const T& elem, const data_type &data)
-					{
-						std::pair<typename base_string::base_string::suffix_table::iterator, bool> result(base_string::base_string::suffixes.insert(std::make_pair(elem, new string(elem, this, data))));
-						return static_cast<string&>(*result.first->second);
-					}
+			template<typename Iterator>
+			const_ref get(Iterator begin, Iterator end) const
+			{ return static_cast<const_ref>(base_string::base_string::get(begin, end)); }
 
-					//Operator version of concat(const T& elem)
-					string& operator+(const T& elem)
-					{ return concat(elem); }
+			//Returns the pointer to the string = (*this + i1 + ... + in) where i1 == *begin and in == *(end - 1)
+			//if the trie includes it, nullptr otherwise
+			template<typename Iterator, typename Normalizer>
+			ref get(Iterator begin, Iterator end, Normalizer normalizer)
+			{ return static_cast<ref>(base_string::base_string::get(begin, end, normalizer)); }
 
-					//Returns the pointer to the string = (this + s) if the trie includes it, NULL otherwise
-					ref get(string &s)
-					{ return static_cast<ref>(base_string::base_string::get(s)); }
+			template<typename Iterator, typename Normalizer>
+			const_ref get(Iterator begin, Iterator end, Normalizer normalizer) const
+			{ return static_cast<const_ref>(base_string::base_string::get(begin, end, normalizer)); }
 
-					const_ref get(string &s) const
-					{ return static_cast<const_ref>(base_string::base_string::get(s)); }
+			//Returns the string = (*this + i1 + ... + in) where i1 == *begin and in == *(end - 1)
+			//if the trie did not contain it before, it is created and added
+			template<typename Iterator>
+			string& concat(Iterator begin, Iterator end)
+			{
+				ref s(this);
+				for (; begin != end; ++begin)
+					s = &s->concat(*begin);
+				return *s;
+			}
 
-					//Returns the pointer to the string = (this + s) if the trie includes it, NULL otherwise
-					template<typename Normalizer>
-					ref get(string &s, Normalizer normalizer)
-					{ return static_cast<ref>(base_string::base_string::get(s, normalizer)); }
+			//As before but returning as well whether the resulting string is new or not
+			//If new, the data field of the resulting string is initialized with the default constructor of its class
+			template<typename Iterator>
+			string& concat(Iterator begin, Iterator end, bool &is_new)
+			{
+				//Concatenation with epsilon
+				if (begin == end)
+				{
+					is_new = false;
+					return *this;
+				}
+				--end;
+				//Concatenation with element
+				if (begin == end)
+					return concat(*begin, is_new);
+				//Concatenation with string longer than 1
+				//We only check if the resulting string is new when
+				//concatenating the last element
+				return this->concat(begin, end).concat(*end, is_new);
+			}
 
-					template<typename Normalizer>
-					const_ref get(string &s, Normalizer normalizer) const
-					{ return static_cast<const_ref>(base_string::base_string::get(s, normalizer)); }
+			//As before but specifying the value to be assigned to the data field
+			//If the string was already present, the old data is kept (same behaviour than class std::map)
+			template<typename Iterator>
+			string& concat(Iterator begin, Iterator end, const data_type &data)
+			{
+				bool is_new;
+				ref s(&concat(begin, end, is_new));
+				if (is_new)
+					s->data = data;
+				return *s;
+			}
 
-					//Returns the string = (*this + s)
-					//If the trie did not contain it before, it is created and added and
-					//its data field initialized with the default constructor of its class
-					string& concat(string &s)
-					{
-						//x + epsilon = x
-						if (s.empty())
-							return *this;
-						//x + ya = (x + y) + a
-						return concat(s.prefix()).concat(s.back());
-					}
+			//As before but returning as well whether the resulting string is new or not
+			template<typename Iterator>
+			string& concat(Iterator begin, Iterator end, const data_type &data, bool &is_new)
+			{
+				ref s(&concat(begin, end, is_new));
+				if (is_new)
+					s->data = data;
+				return *s;
+			}
 
-					//As before but returning as well whether the resulting string is new or not
-					string& concat(string &s, bool &is_new)
-					{
-						//x + epsilon = x -> x is not new
-						if (s.empty())
-						{
-							is_new = false;
-							return *this;
-						}
-						//x + ya = (x + y) + a
-						//We concatenate all the string except its last elem without checking if the result is new
-						ref result = &concat(s.prefix());
-						//We concatenate the last elem checking if its new
-						return result->concat(s.back(), is_new);
-					}
-
-					//As before but specifying the value to be assigned to the data field
-					//If the string was already present, the old data is kept (same behaviour than class std::map)
-					string& concat(string &s, const data_type &data)
-					{
-						bool is_new;
-						string &result = concat(s, is_new);
-						if (is_new)
-							result.data = data;
-						return result;
-					}
-
-					//As before but returning as well whether the resulting string is new or not
-					string& concat(string &s, data_type &data, bool &is_new)
-					{
-						string &result = concat(s, is_new);
-						if (is_new)
-							result.data = data;
-						return result;
-					}
-
-					//Operator version of concat(string &s)
-					string& operator+(string& s)
-					{ return concat(s); }
-
-					//Returns the pointer to the string = (*this + i1 + ... + in) where i1 == *begin and in == *(end - 1)
-					//if the trie includes it, NULL otherwise
-					template<typename Iterator>
-					ref get(Iterator begin, Iterator end)
-					{ return static_cast<ref>(base_string::base_string::get(begin, end)); }
-
-					template<typename Iterator>
-					const_ref get(Iterator begin, Iterator end) const
-					{ return static_cast<const_ref>(base_string::base_string::get(begin, end)); }
-
-					//Returns the pointer to the string = (*this + i1 + ... + in) where i1 == *begin and in == *(end - 1)
-					//if the trie includes it, NULL otherwise
-					template<typename Iterator, typename Normalizer>
-					ref get(Iterator begin, Iterator end, Normalizer normalizer)
-					{ return static_cast<ref>(base_string::base_string::get(begin, end, normalizer)); }
-
-					template<typename Iterator, typename Normalizer>
-					const_ref get(Iterator begin, Iterator end, Normalizer normalizer) const
-					{ return static_cast<const_ref>(base_string::base_string::get(begin, end, normalizer)); }
-
-					//Returns the string = (*this + i1 + ... + in) where i1 == *begin and in == *(end - 1)
-					//if the trie did not contain it before, it is created and added
-					template<typename Iterator>
-					string& concat(Iterator begin, Iterator end)
-					{
-						ref s(this);
-						for (; begin != end; ++begin)
-							s = &s->concat(*begin);
-						return *s;
-					}
-
-					//As before but returning as well whether the resulting string is new or not
-					//If new, the data field of the resulting string is initialized with the default constructor of its class
-					template<typename Iterator>
-					string& concat(Iterator begin, Iterator end, bool &is_new)
-					{
-						//Concatenation with epsilon
-						if (begin == end)
-						{
-							is_new = false;
-							return *this;
-						}
-						--end;
-						//Concatenation with element
-						if (begin == end)
-							return concat(*begin, is_new);
-						//Concatenation with string longer than 1
-						//We only check if the resulting string is new when
-						//concatenating the last element
-						return this->concat(begin, end).concat(*end, is_new);
-					}
-
-					//As before but specifying the value to be assigned to the data field
-					//If the string was already present, the old data is kept (same behaviour than class std::map)
-					template<typename Iterator>
-					string& concat(Iterator begin, Iterator end, const data_type &data)
-					{
-						bool is_new;
-						ref s(&concat(begin, end, is_new));
-						if (is_new)
-							s->data = data;
-						return *s;
-					}
-
-					//As before but returning as well whether the resulting string is new or not
-					template<typename Iterator>
-					string& concat(Iterator begin, Iterator end, const data_type &data, bool &is_new)
-					{
-						ref s(&concat(begin, end, is_new));
-						if (is_new)
-							s->data = data;
-						return *s;
-					}
-
-					virtual ~string()
-					{}
-			};
+			virtual ~string()
+			{}
+		};
 
 		class iterator: public base_trie_with_data::iterator
-			{
-					friend class trie_with_def_data<T, DefDataValueGetter, Data>;
-					public:
-					typedef typename base_trie_with_data::iterator base_iterator;
-					public:
-					iterator(): base_iterator()
-					{}
+		{
+			friend class trie_with_def_data<T, DefDataValueGetter, Data>;
+			public:
+			typedef typename base_trie_with_data::iterator base_iterator;
+			public:
+			iterator(): base_iterator()
+			{}
 
-					string& operator*()
-					{ return static_cast<string&>(*base_iterator::base_iterator::call_back_trace.top().first); }
+			string& operator*()
+			{ return static_cast<string&>(*base_iterator::base_iterator::call_back_trace.top().first); }
 
-					typename string::ref operator->()
-					{ return static_cast<typename string::ref>(base_iterator::base_iterator::call_back_trace.top().first); }
+			typename string::ref operator->()
+			{ return static_cast<typename string::ref>(base_iterator::base_iterator::call_back_trace.top().first); }
 
-					iterator(string &root): base_iterator(root)
-					{}
-			};
+			iterator(string &root): base_iterator(root)
+			{}
+		};
 
 		class const_iterator: public base_trie_with_data::const_iterator
-			{
-					friend class trie_with_def_data<T, DefDataValueGetter, Data>;
-					public:
-					typedef typename base_trie_with_data::const_iterator base_iterator;
-					public:
-					const_iterator(): base_iterator()
-					{}
+		{
+			friend class trie_with_def_data<T, DefDataValueGetter, Data>;
+			public:
+			typedef typename base_trie_with_data::const_iterator base_iterator;
+			public:
+			const_iterator(): base_iterator()
+			{}
 
-					const_iterator(const string &root): base_iterator(root)
-					{}
+			const_iterator(const string &root): base_iterator(root)
+			{}
 
-					const string& operator*()
-					{ return static_cast<const string&>(*base_iterator::base_iterator::call_back_trace.top().first); }
+			const string& operator*()
+			{ return static_cast<const string&>(*base_iterator::base_iterator::call_back_trace.top().first); }
 
-					typename string::const_ref operator->()
-					{ return static_cast<typename string::const_ref>(base_iterator::base_iterator::call_back_trace.top().first); }
-			};
+			typename string::const_ref operator->()
+			{ return static_cast<typename string::const_ref>(base_iterator::base_iterator::call_back_trace.top().first); }
+		};
 
 		protected:
 		//Constructor used by derived classes in order to provide a specialized epsilon string
@@ -321,6 +321,9 @@ namespace grapenlp
 		public:
 		trie_with_def_data(): base_trie_with_data(new string())
 		{}
+
+        trie_with_def_data(Data data): base_trie_with_data(new string(data))
+        {}
 
 		string& epsilon()
 		{ return static_cast<string&>(*base_trie_with_data::base_trie::epsilon_); }
@@ -347,35 +350,35 @@ namespace grapenlp
 		{ return static_cast<typename string::const_ref>(base_trie_with_data::base_trie::get(elem)); }
 
 		template<typename Normalizer>
-						  typename string::ref get(const T& elem, Normalizer normalizer)
+		typename string::ref get(const T& elem, Normalizer normalizer)
 		{ return static_cast<typename string::ref>(base_trie_with_data::base_trie::get(elem, normalizer)); }
 
 		template<typename Normalizer>
-						  typename string::const_ref get(const T& elem, Normalizer normalizer) const
+		typename string::const_ref get(const T& elem, Normalizer normalizer) const
 		{ return static_cast<typename string::const_ref>(base_trie_with_data::base_trie::get(elem, normalizer)); }
 
 		template<typename Iterator>
-						  typename string::ref get(Iterator begin, Iterator end)
+		typename string::ref get(Iterator begin, Iterator end)
 		{ return static_cast<typename string::ref>(base_trie_with_data::base_trie::get(begin, end)); }
 
 		template<typename Iterator>
-						  typename string::const_ref get(Iterator begin, Iterator end) const
+		typename string::const_ref get(Iterator begin, Iterator end) const
 		{ return static_cast<typename string::const_ref>(base_trie_with_data::base_trie::get(begin, end)); }
 
 		template<typename Iterator, typename Normalizer>
-											 typename string::ref get(Iterator begin, Iterator end, Normalizer normalizer)
+		typename string::ref get(Iterator begin, Iterator end, Normalizer normalizer)
 		{ return static_cast<typename string::ref>(base_trie_with_data::base_trie::get(begin, end, normalizer)); }
 
 		template<typename Iterator, typename Normalizer>
-											 typename string::const_ref get(Iterator begin, Iterator end, Normalizer normalizer) const
+		typename string::const_ref get(Iterator begin, Iterator end, Normalizer normalizer) const
 		{ return static_cast<typename string::const_ref>(base_trie_with_data::base_trie::get(begin, end, normalizer)); }
 
 		template<typename Iterator>
-						  typename string::ref get_longest_prefix(Iterator begin, Iterator end)
+		typename string::ref get_longest_prefix(Iterator begin, Iterator end)
 		{ return static_cast<typename string::ref>(base_trie_with_data::get_longest_prefix(begin, end)); }
 
 		template<typename Iterator>
-						  typename string::const_ref get_longest_prefix(Iterator begin, Iterator end) const
+		typename string::const_ref get_longest_prefix(Iterator begin, Iterator end) const
 		{ return static_cast<typename string::const_ref>(base_trie_with_data::get_longest_prefix(begin, end)); }
 	};
 

@@ -56,11 +56,11 @@ namespace grapenlp
 
 			Data data;
 
-			//Construcs the root of a trie: the epsilon (empty word) reference
+			//Construcs the root of a trie: the epsilon (empty word) reference; default data is assigned to epsilon
 			string(): base_string::string(), data()
 			{}
 
-			//Construcs the root of a trie: the epsilon (empty word) reference
+			//Construcs the root of a trie: the epsilon (empty word) reference; the given data is assigned to epsilon
 			string(Data data_): base_string::string(), data(data_)
 			{}
 
@@ -85,14 +85,14 @@ namespace grapenlp
 			const string& prefix() const
 			{ return static_cast<const ref&>(*base_string::prefix_ref); }
 
-			//Returns the pointer to the string = (this + elem) if the trie includes it, NULL otherwise
+			//Returns the pointer to the string = (this + elem) if the trie includes it, nullptr otherwise
 			ref get(const T& elem)
 			{ return static_cast<ref>(base_string::get(elem)); }
 
 			const_ref get(const T& elem) const
 			{ return static_cast<const_ref>(base_string::get(elem)); }
 
-			//Returns the pointer to the string = (this + elem) if the trie includes it, NULL otherwise
+			//Returns the pointer to the string = (this + elem) if the trie includes it, nullptr otherwise
 			template<typename Normalizer>
 			ref get(const T& elem, Normalizer normalizer)
 			{ return static_cast<ref>(base_string::get(elem, normalizer)); }
@@ -138,14 +138,14 @@ namespace grapenlp
 			string& operator+(const T& elem)
 			{ return concat(elem); }
 
-			//Returns the pointer to the string = (this + s) if the trie includes it, NULL otherwise
+			//Returns the pointer to the string = (this + s) if the trie includes it, nullptr otherwise
 			ref get(string &s)
 			{ return static_cast<ref>(base_string::get(s)); }
 
 			const_ref get(string &s) const
 			{ return static_cast<const_ref>(base_string::get(s)); }
 
-			//Returns the pointer to the string = (this + s) if the trie includes it, NULL otherwise
+			//Returns the pointer to the string = (this + s) if the trie includes it, nullptr otherwise
 			template<typename Normalizer>
 			ref get(string &s, Normalizer normalizer)
 			{ return static_cast<ref>(base_string::get(s, normalizer)); }
@@ -207,7 +207,7 @@ namespace grapenlp
 			{ return concat(s); }
 
 			//Returns the pointer to the string = (*this + i1 + ... + in) where i1 == *begin and in == *(end - 1)
-			//if the trie includes it, NULL otherwise
+			//if the trie includes it, nullptr otherwise
 			template<typename Iterator>
 			ref get(Iterator begin, Iterator end)
 			{ return static_cast<ref>(base_string::get(begin, end)); }
@@ -217,7 +217,7 @@ namespace grapenlp
 			{ return static_cast<const_ref>(base_string::get(begin, end)); }
 
 			//Returns the pointer to the string = (*this + i1 + ... + in) where i1 == *begin and in == *(end - 1)
-			//if the trie includes it, NULL otherwise
+			//if the trie includes it, nullptr otherwise
 			template<typename Iterator, typename Normalizer>
 			ref get(Iterator begin, Iterator end, Normalizer normalizer)
 			{ return static_cast<ref>(base_string::get(begin, end, normalizer)); }
@@ -330,6 +330,9 @@ namespace grapenlp
 	public:
 		trie_with_data(): base_trie(new string())
 		{}
+
+        trie_with_data(Data data): base_trie(new string(data))
+        {}
 
 		string& epsilon()
 		{ return static_cast<string&>(*base_trie::epsilon_); }

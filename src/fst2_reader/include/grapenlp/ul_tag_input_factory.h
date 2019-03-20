@@ -34,7 +34,7 @@
 namespace grapenlp
 {
 	template<typename InputIterator, typename CaseNormalizer>
-	ul_tag_input<InputIterator>* make_ul_tag_input(typename ul_tag_input_trie<unichar, InputIterator>::string &uls, u_dico_word_meta_mask_factory<InputIterator> &dico_lexmask_factory, u_context &c)
+	ul_tag_input<InputIterator>* make_ul_tag_input(typename ul_tag_input_trie<unichar, InputIterator>::string &uls, u_dico_word_meta_mask_factory<InputIterator> &dico_lexmask_factory, u_context_key_value_hasher &c_hasher)
 	{
 		u_array tag_input_code(uls.size());
 		uls.to_array(tag_input_code);
@@ -74,7 +74,7 @@ namespace grapenlp
 #ifdef TRACE
 			std::wcout << L"Creating context mask\n";
 #endif
-			return new ul_tag_input<InputIterator>(make_u_context_mask(tag_input_code.begin() + 1 + context_left_delimiter.size(), tag_input_code.end() - context_right_delimiter.size(), c));
+			return new ul_tag_input<InputIterator>(make_u_context_mask(tag_input_code.begin() + 1 + context_left_delimiter.size(), tag_input_code.end() - context_right_delimiter.size(), c_hasher));
 		}
 
 		//Otherwise make a lexical mask (there are no other kind of masks)

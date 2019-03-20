@@ -58,12 +58,12 @@ void u_read_dico(tolower_u_text_delaf &dico)
 	u_fclose(f);
 }
 
-void u_read_grammar(ualuxiw_rtno &grammar, ual_trie &ualt, u_out_bound::trie &uobt, tolower_u_text_delaf &dico, u_context &ctx)
+void u_read_grammar(ualuxiw_rtno &grammar, ual_trie &ualt, u_out_bound::trie &uobt, tolower_u_text_delaf &dico, u_context_key_value_hasher &c_hasher)
 {
 	FILE *f(u_fopen("../Data/Unitex/Spanish/Graphs/dico_test.fst2", U_READ));
 	if (f == NULL)
 		fatal_error("Unable to open grammar file to read\n");
-	ualxiw_fst2_reader()(f, grammar, ualt, uobt, dico, ctx);
+	ualxiw_fst2_reader()(f, grammar, ualt, uobt, dico, c_hasher);
 	u_fclose(f);
 }
 
@@ -72,13 +72,13 @@ int main(__attribute__((unused)) int argc, __attribute__((unused)) char **argv)
     ualuxiw_rtno grammar;
     ual_trie ualt;
     u_out_bound::trie uobt;
-    u_context ctx;
+    u_context_key_value_hasher c_hasher;
     tolower_u_text_delaf dico;
 
     wcout << "Reading dico" << std::endl;
     u_read_dico(dico);
     wcout << "Reading grammar" << std::endl;
-    u_read_grammar(grammar, ualt, uobt, dico, ctx);
+    u_read_grammar(grammar, ualt, uobt, dico, c_hasher);
 	wcout << L"Setting default weights" << std::endl;
 	lw_rtno_weight_tag<ua_input_iterator, ualuxiw_rtno::tag_output, u_context_mask>(grammar);
 

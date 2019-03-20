@@ -51,6 +51,7 @@ namespace grapenlp
 		explicit ul_tag_input(lexmask<InputIterator>* lexmask_ref_): type(CONSUMING), context_mask_ref(nullptr), lexmask_ref(lexmask_ref_)
 		{}
 
+#ifdef TRACE
 		std::ostream& serialize(std::ostream& out)
 		{
 			switch (type)
@@ -64,6 +65,7 @@ namespace grapenlp
 			}
 			return out;
 		}
+#endif
 
 		~ul_tag_input()
 		{

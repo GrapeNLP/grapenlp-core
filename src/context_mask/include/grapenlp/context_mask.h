@@ -26,6 +26,10 @@
 #ifndef GRAPENLP_CONTEXT_MASK_H
 #define GRAPENLP_CONTEXT_MASK_H
 
+#ifdef TRACE
+#include <grapenlp/context_key_value_hasher.h>
+#endif
+
 #include <grapenlp/context.h>
 #include <grapenlp/u_context_mask_constants.h>
 
@@ -36,28 +40,32 @@ namespace grapenlp
     {
     public:
         typedef context<Char> context_type;
-        typedef typename context_type::optimized_key optimized_context_key;
-        typedef typename context_type::optimized_value optimized_context_value;
+        typedef typename context_type::hash_type hash_type;
 
     private:
-        const optimized_context_key key;
-        const optimized_context_value value;
+        const hash_type key_hash;
+        const hash_type value_hash;
+#ifdef TRACE
+        array<Char> key;
+        array<Char> value;
+#endif
 
     public:
-        context_mask(const optimized_context_key key_, const optimized_context_value value_): key(key_), value(value_)
-        {}
-
-        template<typename KeyCharIterator, typename ValueCharIterator>
-        context_mask(KeyCharIterator key_begin, KeyCharIterator key_end, ValueCharIterator value_begin, ValueCharIterator value_end, context_type &c):
-        key(c.get_optimized_key(key_begin, key_end)), value(c.get_optimized_value(value_begin, value_end))
+#ifdef TRACE
+        template<typename CharIterator>
+        context_mask(const hash_type key_hash_, const hash_type value_hash_, CharIterator key_begin, CharIterator key_end, CharIterator value_begin, CharIterator value_end): key_hash(key_hash_), value_hash(value_hash_), key(key_begin, key_end), value(value_begin, value_end)
+#else
+        context_mask(const hash_type key_hash_, const hash_type value_hash_): key_hash(key_hash_), value_hash(value_hash_)
+#endif
         {}
 
     public:
         bool match(const context<Char> &c) const
         {
-            return c.equals(key, value);
+            return c.equals(key_hash, value_hash);
         }
 
+#ifdef TRACE
         std::ostream& serialize(std::ostream& out) const
         { return serialize_context_expression(out << "%"); }
 
@@ -65,10 +73,10 @@ namespace grapenlp
         { return wserialize_context_expression(out << L"%"); }
 
         std::ostream& serialize_context_expression(std::ostream& out) const
-        { return out << "<@" << *key << "=" << *value << ">"; }
+        { return out << "<@" << key << "=" << *value << ">"; }
 
         std::wostream& wserialize_context_expression(std::wostream& out) const
-        { return out << L"<@" << *key << L"=" << *value << L">"; }
+        { return out << L"<@" << key << L"=" << value << L">"; }
 
         void u_write(FILE *f) const
         {
@@ -78,19 +86,20 @@ namespace grapenlp
             ::u_write(f, value.begin(), value.end());
             ::u_write(f, context_right_delimiter.begin(), context_right_delimiter.end());
         }
+#endif
 
         bool operator<(const context_mask &other) const
         {
-            if (key < other.key)
+            if (key_hash < other.key_hash)
                 return true;
-            if (other.key < key)
+            if (other.key_hash < key_hash)
                 return false;
-            return (value < other.value);
+            return (value_hash < other.value_hash);
         }
 
         bool operator==(const context_mask &other) const
         {
-            return key == other.key && value == other.value;
+            return key_hash == other.key_hash && value_hash == other.value_hash;
         }
 
         ~context_mask(){}

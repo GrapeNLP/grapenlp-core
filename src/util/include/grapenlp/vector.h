@@ -34,13 +34,26 @@ namespace grapenlp
 	class ptr_vector: public std::vector<T*, Allocator>
 	{
 	public:
-		typedef typename std::vector<T*, Allocator>::size_type size_type;
-		typedef typename std::vector<T*, Allocator>::iterator iterator;
-		typedef typename std::vector<T*, Allocator>::const_iterator const_iterator;
+		typedef typename std::vector<T*, Allocator> base_type;
+		typedef typename base_type::size_type size_type;
+		typedef typename base_type::allocator_type allocator_type;
+		typedef typename base_type::iterator iterator;
+		typedef typename base_type::const_iterator const_iterator;
 
-		ptr_vector(): std::vector<T*, Allocator>() {};
-		explicit ptr_vector(const Allocator& a): std::vector<T*, Allocator>(a) {};
-		explicit ptr_vector(size_type n): std::vector<T*, Allocator>(n) {};
+		explicit ptr_vector(): base_type()
+		{}
+
+		explicit ptr_vector(const allocator_type &alloc): base_type(alloc)
+		{}
+
+		explicit ptr_vector(size_type n): base_type(n)
+		{}
+
+		ptr_vector(ptr_vector&& v) noexcept: base_type(std::move(v))
+		{}
+
+		ptr_vector(ptr_vector&& v, const allocator_type &alloc) noexcept: base_type(std::move(v), alloc)
+		{}
 
 		iterator erase(iterator pos)
 		{

@@ -23,12 +23,19 @@
  *  @author Javier Sastre
  */
 
-#ifndef GRAPENLP_UA_CONTEXT_MASK_CONSTANTS_H
-#define GRAPENLP_UA_CONTEXT_MASK_CONSTANTS_H
+#ifndef GRAPENLP_U_CONTEXT_ITEM_HASHER_H
+#define GRAPENLP_U_CONTEXT_ITEM_HASHER_H
 
 #include <grapenlp/unicode.h>
+#include <grapenlp/context_key_value_hasher.h>
 
-const std::array<unichar, 2> context_left_delimiter = { {'<', '@'} };
-const std::array<unichar, 1> context_right_delimiter = { {'>'} };
+namespace grapenlp
+{
+    /**
+     * A unichar key and value indexer used to optimize comparisons of context keys and values (these are reduced to
+     * integer comparisons)
+     */
+    typedef context_key_value_hasher<unichar> u_context_key_value_hasher;
+} //namespace grapenlp
 
-#endif //GRAPENLP_UA_CONTEXT_MASK_CONSTANTS_H
+#endif //GRAPENLP_U_CONTEXT_ITEM_HASHER_H

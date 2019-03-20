@@ -26,62 +26,57 @@
 #include <gtest/gtest.h>
 #include <grapenlp/u_context.h>
 
-const grapenlp::u_array &&k1 = grapenlp::to_u_array_without_null(L"key1");
-const grapenlp::u_array &&v1 = grapenlp::to_u_array_without_null(L"value1");
-const grapenlp::u_array &&k2 = grapenlp::to_u_array_without_null(L"key2");
-const grapenlp::u_array &&v2 = grapenlp::to_u_array_without_null(L"value2");
-const grapenlp::u_array &&k3 = grapenlp::to_u_array_without_null(L"key3");
-const grapenlp::u_array &&v3 = grapenlp::to_u_array_without_null(L"value3");
+const std::array<unichar, 4> k1 = {{'k', 'e', 'y', '1'}};
+const std::array<unichar, 4> k2 = {{'k', 'e', 'y', '2'}};
+const std::array<unichar, 4> k3 = {{'k', 'e', 'y', '3'}};
+const std::array<unichar, 6> v1 = {{'v', 'a', 'l', 'u', 'e', '1'}};
+const std::array<unichar, 6> v2 = {{'v', 'a', 'l', 'u', 'e', '2'}};
+const std::array<unichar, 6> v3 = {{'v', 'a', 'l', 'u', 'e', '3'}};
 
-typedef grapenlp::u_context::size_type size_type;
-typedef grapenlp::u_context::optimized_key optimized_key;
-typedef grapenlp::u_context::optimized_value optimized_value;
+typedef grapenlp::u_context::hash_type hash_type;
 
 class test_u_context_fixture: public ::testing::Test
 {
 protected:
-    grapenlp::u_context c;
+    grapenlp::u_context_key_value_hasher h;
+    std::unique_ptr<grapenlp::u_context> c_ref;
 
     void SetUp()
     {
-        c.set(k1.begin(), k1.end(), v1.begin(), v1.end());
-        c.set(k2.begin(), k2.end(), v2.begin(), v2.end());
+        h.key_hasher.insert(k1.begin(), k1.end());
+        h.key_hasher.insert(k2.begin(), k2.end());
+        h.value_hasher.insert(v1.begin(), v1.end());
+        h.value_hasher.insert(v2.begin(), v2.end());
+        
+        c_ref.reset(new grapenlp::u_context(h));
+        c_ref->set(k1.begin(), k1.end(), v1.begin(), v1.end());
+        c_ref->set(k2.begin(), k2.end(), v2.begin(), v2.end());
     }
 };
 
 TEST_F(test_u_context_fixture, equals_k1_v1)
 {
-    size_type s = c.size();
-    ASSERT_TRUE(c.equals(k1.begin(), k1.end(), v1.begin(), v1.end()));
-    ASSERT_EQ(s, c.size());
+    ASSERT_TRUE(c_ref->equals(k1.begin(), k1.end(), v1.begin(), v1.end()));
 }
 
 TEST_F(test_u_context_fixture, equals_k2_v2)
 {
-    size_type s = c.size();
-    ASSERT_TRUE(c.equals(k2.begin(), k2.end(), v2.begin(), v2.end()));
-    ASSERT_EQ(s, c.size());
+    ASSERT_TRUE(c_ref->equals(k2.begin(), k2.end(), v2.begin(), v2.end()));
 }
 
 TEST_F(test_u_context_fixture, not_equals_k1_v2)
 {
-    std::size_t s = c.size();
-    ASSERT_TRUE(c.not_equals(k1.begin(), k1.end(), v2.begin(), v2.end()));
-    ASSERT_EQ(s, c.size());
+    ASSERT_TRUE(c_ref->not_equals(k1.begin(), k1.end(), v2.begin(), v2.end()));
 }
 
 TEST_F(test_u_context_fixture, not_equals_k2_v1)
 {
-    std::size_t s = c.size();
-    ASSERT_TRUE(c.not_equals(k2.begin(), k2.end(), v1.begin(), v1.end()));
-    ASSERT_EQ(s, c.size());
+    ASSERT_TRUE(c_ref->not_equals(k2.begin(), k2.end(), v1.begin(), v1.end()));
 }
 
 TEST_F(test_u_context_fixture, not_equals_unmaped_key)
 {
-    std::size_t s = c.size();
-    ASSERT_TRUE(c.not_equals(k3.begin(), k3.end(), v3.begin(), v3.end()));
-    ASSERT_EQ(s, c.size());
+    ASSERT_TRUE(c_ref->not_equals(k3.begin(), k3.end(), v3.begin(), v3.end()));
 }
 
 int main(int argc, char **argv)

@@ -34,9 +34,16 @@ void exercise_make_u_context_mask(const wchar_t (&key)[L], const wchar_t (&value
     const grapenlp::u_array &&ua_key = grapenlp::to_u_array_without_null(key);
     const grapenlp::u_array &&ua_value = grapenlp::to_u_array_without_null(value);
     const grapenlp::u_array &&ua_expression = grapenlp::to_u_array_without_null(expression);
-    grapenlp::u_context c;
-    grapenlp::u_context_mask expected(ua_key.begin(), ua_key.end(), ua_value.begin(), ua_value.end(), c);
-    std::unique_ptr<grapenlp::u_context_mask> actual_p(make_u_context_mask(ua_expression.begin(), ua_expression.end(), c));
+    grapenlp::u_context_key_value_hasher hasher;
+    hasher.key_hasher.insert(ua_key.begin(), ua_key.end());
+    hasher.value_hasher.insert(ua_value.begin(), ua_value.end());
+    grapenlp::u_context ctx(hasher);
+#ifdef TRACE
+    grapenlp::u_context_mask expected(hasher.key_hasher.index_of(ua_key.begin(), ua_key.end()), hasher.value_hasher.index_of(ua_value.begin(), ua_value.end()), ua_key.begin(), ua_key.end(), ua_value.begin(), ua_value.end());
+#else
+    grapenlp::u_context_mask expected(hasher.key_hasher.index_of(ua_key.begin(), ua_key.end()), hasher.value_hasher.index_of(ua_value.begin(), ua_value.end()));
+#endif
+    std::unique_ptr<grapenlp::u_context_mask> actual_p(make_u_context_mask(ua_expression.begin(), ua_expression.end(), hasher));
     ASSERT_EQ(expected, *actual_p);
 }
 

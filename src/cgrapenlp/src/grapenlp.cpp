@@ -32,6 +32,7 @@
 #include <grapenlp/config.h>
 #include <grapenlp/ansi_text_attribute_codes.h>
 #include <grapenlp/stats.h>
+#include <grapenlp/u_context_reader.h>
 #include <grapenlp/ualxiw_manager.h>
 
 using namespace boost;
@@ -742,10 +743,17 @@ int main(int argc, char **argv)
 	the_manager.set_parser(the_parser_type, trie_strings, no_output, execution_state_set_impl_choice, output_set_impl_choice);
 
 	//Load input context
+	u_context the_context(the_manager.get_context_key_value_hasher());
 	if (vm.count("context"))
 	{
 		std::string input_context_path_name(vm["context"].as<std::string>());
-		the_manager.load_input_context(input_context_path_name);
+#ifdef TRACE
+		std::wcout << L"Loading input context" << std::endl;
+#endif
+		FILE *input_context_file(u_fopen(input_context_path_name.c_str(), U_READ));
+		if (input_context_file == NULL)
+			fatal_error("Unable to open input context file to read\n");
+		u_read_context(input_context_file, the_context);
 	}
 
 	//Get parsing result

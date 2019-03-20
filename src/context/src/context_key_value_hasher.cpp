@@ -23,12 +23,9 @@
  *  @author Javier Sastre
  */
 
-#ifndef GRAPENLP_UA_CONTEXT_MASK_CONSTANTS_H
-#define GRAPENLP_UA_CONTEXT_MASK_CONSTANTS_H
+#include <grapenlp/context_key_value_hasher.h>
 
-#include <grapenlp/unicode.h>
-
-const std::array<unichar, 2> context_left_delimiter = { {'<', '@'} };
-const std::array<unichar, 1> context_right_delimiter = { {'>'} };
-
-#endif //GRAPENLP_UA_CONTEXT_MASK_CONSTANTS_H
+namespace grapenlp
+{
+    //Up to now, everything declared inline: all definitions in the corresponding header file
+} //namespace grapenlp

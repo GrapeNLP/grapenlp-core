@@ -60,12 +60,12 @@ void u_read_dico(tolower_u_text_delaf &dico)
 	u_fclose(f);
 }
 
-void u_read_grammar(ualut_rtno &grammar, ual_trie &ualt, u_trie &ut, tolower_u_text_delaf &dico, u_context &ctx)
+void u_read_grammar(ualut_rtno &grammar, ual_trie &ualt, u_trie &ut, tolower_u_text_delaf &dico, u_context_key_value_hasher &c_hasher)
 {
 	FILE *f(u_fopen("../Data/Unitex/Spanish/Graphs/axioma.fst2", U_READ));
 	if (f == NULL)
 		fatal_error("Unable to open grammar file to read\n");
-	ualt_fst2_reader()(f, grammar, ualt, ut, dico, ctx);
+	ualt_fst2_reader()(f, grammar, ualt, ut, dico, c_hasher);
 	u_fclose(f);
 }
 
@@ -74,13 +74,13 @@ int main(__attribute__((unused)) int argc, __attribute__((unused)) char **argv)
 	ualut_rtno grammar;
 	ual_trie ualt;
 	u_trie ut;
-	u_context ctx;
+	u_context_key_value_hasher c_hasher;
 	tolower_u_text_delaf dico;
 
 	wcout << L"Reading dico" << std::endl;
 	u_read_dico(dico);
 	wcout << L"Reading grammar" << std::endl;
-	u_read_grammar(grammar, ualt, ut, dico, ctx);
+	u_read_grammar(grammar, ualt, ut, dico, c_hasher);
 	wcout << L"Number of states: " << grammar.state_count() << std::endl;
 	wcout << L"Number of transitions: " << grammar.transition_count() << std::endl;
 

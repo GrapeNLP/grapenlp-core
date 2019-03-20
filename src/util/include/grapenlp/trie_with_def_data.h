@@ -380,6 +380,12 @@ namespace grapenlp
 		template<typename Iterator>
 		typename string::const_ref get_longest_prefix(Iterator begin, Iterator end) const
 		{ return static_cast<typename string::const_ref>(base_trie_with_data::get_longest_prefix(begin, end)); }
+
+		void clear()
+		{
+			base_trie_with_data::clear();
+			epsilon().data = DefDataValueGetter()();
+		}
 	};
 
 	template<typename T, typename DefDataValueGetter, typename Data, typename CharT, typename Traits>

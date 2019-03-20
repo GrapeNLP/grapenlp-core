@@ -43,9 +43,36 @@ namespace grapenlp
     {
     public:
         typedef std::size_t size_type;
+        typedef std::size_t hash_type;
         typedef trie_with_def_data<T, zero_func<size_type> > hash_trie;
         typedef typename hash_trie::string hash_trie_string;
         typedef typename hash_trie_string::const_ref hash_trie_string_const_ref;
+
+        class const_iterator: public hash_trie::const_iterator
+        {
+            friend class trie_perfect_hasher<T>;
+        public:
+            typedef typename hash_trie::const_iterator base_iterator;
+        public:
+            const_iterator(): base_iterator()
+            {
+                while (!base_iterator::base_iterator::base_iterator::call_back_trace.empty() && !(*this)->data)
+                    base_iterator::operator++();
+            }
+
+            const_iterator(const hash_trie_string &root): base_iterator(root)
+            {
+                while (!base_iterator::base_iterator::base_iterator::call_back_trace.empty() && !(*this)->data)
+                    base_iterator::operator++();
+            }
+
+            const_iterator& operator++()
+            {
+                do base_iterator::operator++();
+                while (!base_iterator::base_iterator::base_iterator::call_back_trace.empty() && !(*this)->data);
+                return *this;
+            }
+        };
 
     private:
         size_type elem_count;
@@ -61,11 +88,11 @@ namespace grapenlp
          * @tparam Iterator the type of the range iterator
          * @param begin iterator to the first element of the range
          * @param end iterator to the element after the range
-         * @return the index associated to sequence [begin, end); if the sequence was not previously indexed, it returns
-         * the previous size + 1, otherwise it returns the previous size.
+         * @return the trie string added to the hash trie. Field data of this object contains the index that it has been
+         * mapped to, and methods begin() and end() can be used for iterating over the characters of the trie string.
          */
         template<typename Iterator>
-        size_type insert(Iterator begin, Iterator end)
+        hash_trie_string& insert(Iterator begin, Iterator end)
         {
             hash_trie_string &s(the_hash_trie.epsilon().concat(begin, end));
             if (!s.data)
@@ -73,7 +100,7 @@ namespace grapenlp
                 ++elem_count;
                 s.data = elem_count;
             }
-            return elem_count;
+            return s;
         }
 
         /**
@@ -96,6 +123,21 @@ namespace grapenlp
          */
         size_type size() const
         { return elem_count; }
+
+        bool empty()
+        { return elem_count == 0; }
+
+        const_iterator begin() const
+        { return const_iterator(the_hash_trie.epsilon()); }
+
+        const_iterator end() const
+        { return const_iterator(); }
+
+        void clear()
+        {
+            the_hash_trie.clear();
+            elem_count = 0;
+        }
     };
 }
 

@@ -27,7 +27,7 @@
 #include <grapenlp/trie_perfect_hasher.h>
 
 typedef grapenlp::trie_perfect_hasher<char> c_hasher;
-
+typedef c_hasher::const_iterator c_hasher_const_iterator;
 
 const std::array<char, 0> epsilon = {{}};
 const std::array<char, 2> hi = {{'h', 'i'}};
@@ -39,6 +39,17 @@ class test_c_trie_perfect_hasher_fixture: public ::testing::Test
 protected:
 	c_hasher h;
 };
+
+TEST_F(test_c_trie_perfect_hasher_fixture, initial_hasher_is_empty)
+{
+    ASSERT_TRUE(h.empty());
+}
+
+TEST_F(test_c_trie_perfect_hasher_fixture, inserting_element_makes_hasher_non_empty)
+{
+    h.insert(epsilon.begin(), epsilon.end());
+    ASSERT_FALSE(h.empty());
+}
 
 TEST_F(test_c_trie_perfect_hasher_fixture, initial_hasher_maps_epsilon_to_0_and_size_is_0)
 {
@@ -89,6 +100,41 @@ TEST_F(test_c_trie_perfect_hasher_fixture, requesting_index_of_unindexed_string_
     h.insert(his.begin(), his.end());
     ASSERT_EQ(0, h.index_of(hi.begin(), hi.end()));
     ASSERT_EQ(1, h.size());
+}
+
+TEST_F(test_c_trie_perfect_hasher_fixture, iterate_over_empty_hash_trie_yields_no_elements)
+{
+    ASSERT_TRUE(h.begin() == h.end());
+}
+
+TEST_F(test_c_trie_perfect_hasher_fixture, iterator_over_3_element_hash_trie_yields_3_elements_and_no_partial_prefixes)
+{
+    h.insert(epsilon.begin(), epsilon.end());
+    h.insert(his.begin(), his.end());
+    h.insert(hi.begin(), hi.end());
+    h.insert(her.begin(), her.end());
+    int count(0);
+    for (c_hasher_const_iterator it(h.begin()); it != h.end(); ++it)
+        ++count;
+    ASSERT_EQ(4, count);
+}
+
+TEST_F(test_c_trie_perfect_hasher_fixture, clear_empty_hasher_has_no_effect)
+{
+    h.clear();
+    ASSERT_EQ(0, h.size());
+    ASSERT_EQ(0, h.index_of(epsilon.begin(), epsilon.end()));
+}
+
+TEST_F(test_c_trie_perfect_hasher_fixture, clear_a_non_empty_hasher_removes_all_hashes)
+{
+    h.insert(epsilon.begin(), epsilon.end());
+    h.insert(his.begin(), his.end());
+    h.insert(hi.begin(), hi.end());
+    h.insert(her.begin(), her.end());
+    h.clear();
+    ASSERT_EQ(0, h.size());
+    ASSERT_TRUE(h.empty());
 }
 
 int main(int argc, char **argv)

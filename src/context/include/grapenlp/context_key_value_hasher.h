@@ -23,15 +23,38 @@
  *  @author Javier Sastre
  */
 
-#ifndef GRAPENLP_UA_CONTEXT_H
-#define GRAPENLP_UA_CONTEXT_H
+#ifndef GRAPENLP_CONTEXT_ITEM_HASHER_H
+#define GRAPENLP_CONTEXT_ITEM_HASHER_H
 
-#include <grapenlp/context.h>
-#include <grapenlp/u_context_key_value_hasher.h>
+#include <grapenlp/trie_perfect_hasher.h>
 
 namespace grapenlp
 {
-    typedef context<unichar> u_context;
+    /**
+     * A pair of perfect hashing indexers, one for context keys and another for context values
+     */
+    template<typename CharT>
+    struct context_key_value_hasher
+    {
+        typedef trie_perfect_hasher<CharT> hasher;
+        typedef typename hasher::hash_type hash_type;
+        typedef typename trie_perfect_hasher<CharT>::hash_trie_string_const_ref hash_trie_string_const_ref;
+
+        hasher key_hasher;
+        hasher value_hasher;
+
+        context_key_value_hasher(): key_hasher(), value_hasher()
+        {}
+
+        void clear()
+        {
+            key_hasher.clear();
+            value_hasher.clear();
+        }
+
+        ~context_key_value_hasher()
+        {}
+    };
 } //namespace grapenlp
 
-#endif /*GRAPENLP_UA_CONTEXT_H*/
+#endif //GRAPENLP_CONTEXT_ITEM_HASHER_H

@@ -27,7 +27,9 @@ project(context VERSION ${CHANGELOG_VERSION} LANGUAGES CXX)
 
 add_library(context STATIC
         src/context.cpp
+        src/context_key_value_hasher.cpp
         src/u_context.cpp
+        src/u_context_key_value_hasher.cpp
         src/u_context_reader.cpp
         )
 target_include_directories(context PUBLIC

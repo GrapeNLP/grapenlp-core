@@ -23,7 +23,7 @@
  *  @author Javier Sastre
  */
 
-#include <grapenlp/u_context_mask.h>
+#include <grapenlp/u_context_mask_factory.h>
 
 namespace grapenlp
 {
@@ -38,7 +38,7 @@ namespace grapenlp
      * @return a pointer to a context mask corresponding to the context expression given by the range
      * [context_expression_begin, context_expression_end)
      */
-    u_context_mask* make_u_context_mask(u_array::const_iterator context_expression_begin, u_array::const_iterator context_expression_end, u_context &c)
+    u_context_mask* make_u_context_mask(u_array::const_iterator context_expression_begin, u_array::const_iterator context_expression_end, u_context_key_value_hasher &c_hasher)
     {
         u_array::const_iterator context_key_begin(context_expression_begin);
         //Skip whites before context right delimiter
@@ -76,6 +76,10 @@ namespace grapenlp
             ++context_value_end;
         if (context_value_end != context_expression_end)
             fatal_error("Context value contains whites");
-        return new u_context_mask(c.get_optimized_key(context_key_begin, context_key_end), c.get_optimized_value(context_value_begin, context_value_end));
+#ifdef TRACE
+        return new u_context_mask(c_hasher.key_hasher.index_of(context_key_begin, context_key_end), c_hasher.value_hasher.index_of(context_value_begin, context_value_end), context_key_begin, context_key_end, context_value_begin, context_value_end);
+#else
+        return new u_context_mask(c_hasher.key_hasher.index_of(context_key_begin, context_key_end), c_hasher.value_hasher.index_of(context_value_begin, context_value_end));
+#endif
     }
 } //namespace grapenlp

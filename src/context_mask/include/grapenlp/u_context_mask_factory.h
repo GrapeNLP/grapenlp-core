@@ -26,12 +26,13 @@
 #ifndef GRAPENLP_UL_CONTEXT_MASK_FACTORY_H
 #define GRAPENLP_UL_CONTEXT_MASK_FACTORY_H
 
+#include <grapenlp/u_array.h>
 #include <grapenlp/u_context_mask.h>
 #include <grapenlp/u_context_mask_constants.h>
 
 namespace grapenlp
 {
-	u_context_mask* make_u_context_mask(u_array::const_iterator context_expression_begin, u_array::const_iterator context_expression_end, u_context &c);
+    u_context_mask* make_u_context_mask(u_array::const_iterator context_expression_begin, u_array::const_iterator context_expression_end, u_context_key_value_hasher &c_hasher);
 } //namespace grapenlp
 
 #endif /*GRAPENLP_UL_CONTEXT_MASK_FACTORY_H*/

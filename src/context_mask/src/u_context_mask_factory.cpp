@@ -76,10 +76,12 @@ namespace grapenlp
             ++context_value_end;
         if (context_value_end != context_expression_end)
             fatal_error("Context value contains whites");
+        u_context_key_value_hasher::hash_type key_hash(c_hasher.key_hasher.insert(context_key_begin, context_key_end).data);
+        u_context_key_value_hasher::hash_type value_hash(c_hasher.value_hasher.insert(context_value_begin, context_value_end).data);
 #ifdef TRACE
-        return new u_context_mask(c_hasher.key_hasher.index_of(context_key_begin, context_key_end), c_hasher.value_hasher.index_of(context_value_begin, context_value_end), context_key_begin, context_key_end, context_value_begin, context_value_end);
+        return new u_context_mask(key_hash, value_hash, context_key_begin, context_key_end, context_value_begin, context_value_end);
 #else
-        return new u_context_mask(c_hasher.key_hasher.index_of(context_key_begin, context_key_end), c_hasher.value_hasher.index_of(context_value_begin, context_value_end));
+        return new u_context_mask(key_hash, value_hash);
 #endif
     }
 } //namespace grapenlp

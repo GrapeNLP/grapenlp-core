@@ -1065,6 +1065,11 @@ namespace grapenlp {
             return 0;
         }
 
+        void set_context(const u_context &ctx)
+        {
+            the_context_ref = &ctx;
+        }
+
         std::size_t tokenize(InputIterator input_begin, InputIterator input_end) {
 #ifdef TRACE
             std::wcout << L"Tokenizing\n";
@@ -6449,7 +6454,7 @@ namespace grapenlp {
                      ToCanonicalFormMarkIterator to_canonical_form_mark_end, rtno_parser_type the_rtno_parser_type,
                      bool trie_strings, bool no_output, assoc_container_impl_choice the_execution_state_set_impl_choice,
                      assoc_container_impl_choice the_output_set_impl_choice) {
-            the_context_ref = &ctx;
+            set_context(ctx);
             tokenize(input_begin, input_end);
             set_parser(the_rtno_parser_type, trie_strings, no_output, the_execution_state_set_impl_choice,
                        the_output_set_impl_choice);

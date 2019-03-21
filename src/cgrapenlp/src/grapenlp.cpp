@@ -283,8 +283,9 @@ void get_aligned_sentence_bounds(ua_input_iterator input_begin, ua_input_iterato
 	}
 }
 
-std::pair<std::size_t, std::size_t> process(ualxiw_manager &the_manager, rtno_parser_type the_parser_type, bool no_output, ua_input_iterator input_begin, ua_input_iterator input_end)
+std::pair<std::size_t, std::size_t> process(ualxiw_manager &the_manager, rtno_parser_type the_parser_type, bool no_output, ua_input_iterator input_begin, ua_input_iterator input_end, const u_context &ctx)
 {
+	the_manager.set_context(ctx);
 	std::size_t token_count(the_manager.tokenize(input_begin, input_end));
 	std::size_t parse_count(the_manager.parse());
 #if !(defined(DISABLE_LUX_GRAMMAR) && defined(DISABLE_LUXW_GRAMMAR))
@@ -301,34 +302,35 @@ std::pair<std::size_t, std::size_t> process(ualxiw_manager &the_manager, rtno_pa
 }
 
 
-std::pair<long double, std::size_t> process_corpus_for_stats(ualxiw_manager &the_manager, rtno_parser_type the_parser_type, bool no_output, input_range_vector::const_iterator begin, input_range_vector::const_iterator end, std::size_t min_repeats, long double min_elapsed_seconds)
+std::pair<long double, std::size_t> process_corpus_for_stats(ualxiw_manager &the_manager, rtno_parser_type the_parser_type, bool no_output, input_range_vector::const_iterator begin, input_range_vector::const_iterator end, const u_context &ctx, std::size_t min_repeats, long double min_elapsed_seconds)
 {
 	std::size_t actual_repeats(0);
 	timer total_timer;
 	do
 	{
 		for (input_range_vector::const_iterator sentence_it(begin); sentence_it != end; ++sentence_it)
-			process(the_manager, the_parser_type, no_output, sentence_it->left, sentence_it->right);
+			process(the_manager, the_parser_type, no_output, sentence_it->left, sentence_it->right, ctx);
 		++actual_repeats;
 	} while (actual_repeats < min_repeats || total_timer.elapsed() < min_elapsed_seconds);
 	return std::make_pair(total_timer.elapsed(), actual_repeats);
 }
 
-std::pair<long double, std::size_t> process_sentence_for_stats(ualxiw_manager &the_manager, rtno_parser_type the_parser_type, bool no_output, ua_input_iterator begin, ua_input_iterator end, std::size_t min_repeats, long double min_elapsed_seconds)
+std::pair<long double, std::size_t> process_sentence_for_stats(ualxiw_manager &the_manager, rtno_parser_type the_parser_type, bool no_output, ua_input_iterator begin, ua_input_iterator end, const u_context &ctx, std::size_t min_repeats, long double min_elapsed_seconds)
 {
 	std::size_t actual_repeats(0);
 	timer total_timer;
 	do
 	{
-		process(the_manager, the_parser_type, no_output, begin, end);
+		process(the_manager, the_parser_type, no_output, begin, end, ctx);
 		++actual_repeats;
 	}
 	while (actual_repeats < min_repeats || total_timer.elapsed() < min_elapsed_seconds);
 	return std::make_pair(total_timer.elapsed(), actual_repeats);
 }
 
-std::pair<std::size_t, std::size_t> process_and_get_fprtn_stats(ualxiw_manager &the_manager, rtno_parser_type the_parser_type, bool no_output, ua_input_iterator input_begin, ua_input_iterator input_end, std::size_t &state_count, std::size_t &transition_count, std::size_t &pruned_state_count, std::size_t &pruned_transition_count)
+std::pair<std::size_t, std::size_t> process_and_get_fprtn_stats(ualxiw_manager &the_manager, rtno_parser_type the_parser_type, bool no_output, ua_input_iterator input_begin, ua_input_iterator input_end, const u_context &ctx, std::size_t &state_count, std::size_t &transition_count, std::size_t &pruned_state_count, std::size_t &pruned_transition_count)
 {
+	the_manager.set_context(ctx);
 	std::size_t token_count(the_manager.tokenize(input_begin, input_end));
 	std::size_t parse_count(the_manager.parse_and_get_fprtn_stats(state_count, transition_count, pruned_state_count, pruned_transition_count));
 #if defined(SERIALIZED_OUTPUT) && !(defined(DISABLE_LUX_GRAMMAR) && defined(DISABLE_LUXW_GRAMMAR))
@@ -814,7 +816,7 @@ int main(int argc, char **argv)
 				u_fwrite(sri->left, std::distance(sri->left, sri->right), f); //write the sentence
 				u_fputc(sentence_bound_char, f);
 				u_fputc('\n', f);
-				std::pair<std::size_t, std::size_t> result(process_and_get_fprtn_stats(the_manager, the_parser_type, no_output, sri->left, sri->right, output_fprtn_state_count, output_fprtn_transition_count, pruned_output_fprtn_state_count, pruned_output_fprtn_transition_count));
+				std::pair<std::size_t, std::size_t> result(process_and_get_fprtn_stats(the_manager, the_parser_type, no_output, sri->left, sri->right, the_context, output_fprtn_state_count, output_fprtn_transition_count, pruned_output_fprtn_state_count, pruned_output_fprtn_transition_count));
 				token_count += result.first;
 				parse_count += result.second;
 				output_fprtn_state_stats.add(output_fprtn_state_count);
@@ -870,7 +872,7 @@ int main(int argc, char **argv)
 				u_fwrite(sri->left, std::distance(sri->left, sri->right), f); //write the sentence
 				u_fputc(sentence_bound_char, f);
 				u_fputc('\n', f);
-				std::pair<std::size_t, std::size_t> result(process(the_manager, the_parser_type, no_output, sri->left, sri->right));
+				std::pair<std::size_t, std::size_t> result(process(the_manager, the_parser_type, no_output, sri->left, sri->right, the_context));
 				token_count += result.first;
 				parse_count += result.second;
 #ifdef SERIALIZED_OUTPUT
@@ -930,7 +932,7 @@ int main(int argc, char **argv)
 			std::size_t output_fprtn_transition_count;
 			std::size_t pruned_output_fprtn_state_count;
 			std::size_t pruned_output_fprtn_transition_count;
-			std::pair<std::size_t, std::size_t> result(process_and_get_fprtn_stats(the_manager, the_parser_type, no_output, input.begin(), input.end(), output_fprtn_state_count, output_fprtn_transition_count, pruned_output_fprtn_state_count, pruned_output_fprtn_transition_count));
+			std::pair<std::size_t, std::size_t> result(process_and_get_fprtn_stats(the_manager, the_parser_type, no_output, input.begin(), input.end(), the_context, output_fprtn_state_count, output_fprtn_transition_count, pruned_output_fprtn_state_count, pruned_output_fprtn_transition_count));
 			token_count += result.first;
 			parse_count += result.second;
 			output_fprtn_state_stats.add(output_fprtn_state_count);
@@ -944,7 +946,7 @@ int main(int argc, char **argv)
 		}
 		else
 		{
-			std::pair<std::size_t, std::size_t> result(process(the_manager, the_parser_type, no_output, input.begin(), input.end()));
+			std::pair<std::size_t, std::size_t> result(process(the_manager, the_parser_type, no_output, input.begin(), input.end(), the_context));
 			token_count += result.first;
 			parse_count += result.second;
 		}
@@ -970,7 +972,7 @@ int main(int argc, char **argv)
 		{
 			for (std::size_t rr(0); rr < rerepeats; ++rr)
 			{
-				std::pair<long double, std::size_t> total_elapsed_x_repeats(process_corpus_for_stats(the_manager, the_parser_type, no_output, srv.begin(), srv.end(), repeat_times, repeat_seconds));
+				std::pair<long double, std::size_t> total_elapsed_x_repeats(process_corpus_for_stats(the_manager, the_parser_type, no_output, srv.begin(), srv.end(), the_context, repeat_times, repeat_seconds));
 				total_repeats += total_elapsed_x_repeats.second;
 				long double average_corpus_processing_time(total_elapsed_x_repeats.first / total_elapsed_x_repeats.second);
 				seconds_per_sentence_stats.add(average_corpus_processing_time / static_cast<long double>(sentence_count));
@@ -981,7 +983,7 @@ int main(int argc, char **argv)
 		{
 			for (std::size_t rr(0); rr < rerepeats; ++rr)
 			{
-				std::pair<long double, std::size_t> total_elapsed_x_repeats(process_sentence_for_stats(the_manager, the_parser_type, no_output, input.begin(), input.end(), repeat_times, repeat_seconds));
+				std::pair<long double, std::size_t> total_elapsed_x_repeats(process_sentence_for_stats(the_manager, the_parser_type, no_output, input.begin(), input.end(), the_context, repeat_times, repeat_seconds));
 				total_repeats = total_elapsed_x_repeats.second;
 				seconds_per_sentence_stats.add(total_elapsed_x_repeats.first / total_elapsed_x_repeats.second);
 				sentences_per_second_stats.add(total_elapsed_x_repeats.second / total_elapsed_x_repeats.first);

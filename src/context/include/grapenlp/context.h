@@ -91,7 +91,7 @@ namespace grapenlp
                 the_map = new hash_type[the_hasher_.key_hasher.size() + 1];
                 clear();
 #ifdef TRACE
-                reverse_key_map = new hash_trie_string_const_ref[the_hasher_.key_hasher.size()];
+                reverse_key_map = new hash_trie_string_const_ref[the_hasher_.key_hasher.size() + 1];
                 hash_trie_const_iterator begin(the_hasher_.key_hasher.begin());
                 hash_trie_const_iterator end(the_hasher_.key_hasher.end());
                 while (begin != end)
@@ -99,7 +99,7 @@ namespace grapenlp
                     reverse_key_map[begin->data] = &(*begin);
                     ++begin;
                 }
-                reverse_value_map = new hash_trie_string_const_ref[the_hasher_.key_hasher.size()];
+                reverse_value_map = new hash_trie_string_const_ref[the_hasher_.value_hasher.size() + 1];
                 begin = the_hasher_.value_hasher.begin();
                 end = the_hasher_.value_hasher.end();
                 while (begin != end)
@@ -149,6 +149,17 @@ namespace grapenlp
         }
 
         /**
+         * Get the value hash associated to the given key hash. This method does not verify that the passed key hash is
+         *
+         * @param k
+         * @return
+         */
+        hash_type get(hash_type k)
+        {
+            return the_map[k];
+        }
+
+        /**
          * Map a key to a given value
          * @param k the key index (result of function get_key_hash(key_begin, key_end))
          * @param v the value index (result of function get_value_hash(value_begin, value_end))
@@ -168,8 +179,9 @@ namespace grapenlp
         template<typename KeyIterator, typename ValueIterator>
         void set(KeyIterator key_begin, KeyIterator key_end, ValueIterator value_begin, ValueIterator value_end)
         {
-//            std::cout << get_key_hash(key_begin, key_end) << '=' << get_value_hash(value_begin, value_end) << std::endl;
-            the_map[get_key_hash(key_begin, key_end)] = get_value_hash(value_begin, value_end);
+            hash_type key_hash(get_key_hash(key_begin, key_end));
+            hash_type value_hash(get_value_hash(value_begin, value_end));
+            the_map[key_hash] = value_hash;
         }
 
         /**

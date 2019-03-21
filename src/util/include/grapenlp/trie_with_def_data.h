@@ -307,10 +307,14 @@ namespace grapenlp
 			{}
 
 			const string& operator*()
-			{ return static_cast<const string&>(*base_iterator::base_iterator::call_back_trace.top().first); }
+			{
+				return static_cast<const string&>(*base_iterator::base_iterator::call_back_trace.top().first);
+			}
 
 			typename string::const_ref operator->()
-			{ return static_cast<typename string::const_ref>(base_iterator::base_iterator::call_back_trace.top().first); }
+			{
+				return static_cast<typename string::const_ref>(base_iterator::base_iterator::call_back_trace.top().first);
+			}
 		};
 
 		protected:

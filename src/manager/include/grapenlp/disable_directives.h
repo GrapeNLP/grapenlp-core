@@ -37,11 +37,11 @@
 //#define DISABLE_COMPRESSED_DICO
 
 //Disable specific grammar types
-//#define DISABLE_LUA_GRAMMAR
-//#define DISABLE_LUAW_GRAMMAR
-//#define DISABLE_LUT_GRAMMAR
-//#define DISABLE_LUTW_GRAMMAR
-//#define DISABLE_LUX_GRAMMAR
+#define DISABLE_LUA_GRAMMAR
+#define DISABLE_LUAW_GRAMMAR
+#define DISABLE_LUT_GRAMMAR
+#define DISABLE_LUTW_GRAMMAR
+#define DISABLE_LUX_GRAMMAR
 //#define DISABLE_LUXW_GRAMMAR
 
 //Disable grammar types by kind of output
@@ -52,14 +52,14 @@
 //#define DISABLE_WEIGHTED_GRAMMARS
 
 //Disable parsers by parsing algorithm
-//#define DISABLE_DEPTH_FIRST_PARSER
-//#define DISABLE_BREADTH_FIRST_PARSER
-//#define DISABLE_EARLEY_PARSER
-//#define DISABLE_TO_FPRTN_PARSER
-//#define DISABLE_TO_FPRTN_TOP_PARSER
-//#define DISABLE_TO_FPRTN_ZPPS_PARSER
-//#define DISABLE_TO_FPRTN_PARSER_AND_BREADTH_FIRST_EXPANDER
-//#define DISABLE_TO_FPRTN_PARSER_AND_BLACKBOARD_SET_EXPANDER
+#define DISABLE_DEPTH_FIRST_PARSER
+#define DISABLE_BREADTH_FIRST_PARSER
+#define DISABLE_EARLEY_PARSER
+#define DISABLE_TO_FPRTN_PARSER
+#define DISABLE_TO_FPRTN_TOP_PARSER
+#define DISABLE_TO_FPRTN_ZPPS_PARSER
+#define DISABLE_TO_FPRTN_PARSER_AND_BREADTH_FIRST_EXPANDER
+#define DISABLE_TO_FPRTN_PARSER_AND_BLACKBOARD_SET_EXPANDER
 //#define DISABLE_TO_FPRTN_PARSER_AND_TOP_BLACKBOARD_EXTRACTOR
 
 //#define DISABLE_TO_FPRTN_PLAIN_PARSERS
@@ -69,21 +69,21 @@
 
 //Disable parsers by output
 //#define DISABLE_PARSERS_WITH_OUTPUT
-//#define DISABLE_PARSERS_WITHOUT_OUTPUT
+#define DISABLE_PARSERS_WITHOUT_OUTPUT
 
 //Disable parsers by sequence implementation
 //#define DISABLE_TRIE_STRING_PARSERS
 //#define DISABLE_ARRAY_PARSERS
 
 //Disable specific execution state set/map implementations
-//#define DISABLE_STD_SES
+#define DISABLE_STD_SES
 //#define DISABLE_LRB_TREE_SES
-//#define DISABLE_LRB_TREE_3W_SES
+#define DISABLE_LRB_TREE_3W_SES
 
 //Disable specific output set implementations
 //#define DISABLE_STD_BS
-//#define DISABLE_LRB_TREE_BS
-//#define DISABLE_LRB_TREE_3W_BS
+#define DISABLE_LRB_TREE_BS
+#define DISABLE_LRB_TREE_3W_BS
 
 /***********************************************************************/
 /* Do not edit the following lines!!                                   */

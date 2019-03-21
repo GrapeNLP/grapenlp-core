@@ -28,10 +28,8 @@
 
 const std::array<unichar, 4> k1 = {{'k', 'e', 'y', '1'}};
 const std::array<unichar, 4> k2 = {{'k', 'e', 'y', '2'}};
-const std::array<unichar, 4> k3 = {{'k', 'e', 'y', '3'}};
 const std::array<unichar, 6> v1 = {{'v', 'a', 'l', 'u', 'e', '1'}};
 const std::array<unichar, 6> v2 = {{'v', 'a', 'l', 'u', 'e', '2'}};
-const std::array<unichar, 6> v3 = {{'v', 'a', 'l', 'u', 'e', '3'}};
 
 typedef grapenlp::u_context::hash_type hash_type;
 
@@ -72,11 +70,6 @@ TEST_F(test_u_context_fixture, not_equals_k1_v2)
 TEST_F(test_u_context_fixture, not_equals_k2_v1)
 {
     ASSERT_TRUE(c_ref->not_equals(k2.begin(), k2.end(), v1.begin(), v1.end()));
-}
-
-TEST_F(test_u_context_fixture, not_equals_unmaped_key)
-{
-    ASSERT_TRUE(c_ref->not_equals(k3.begin(), k3.end(), v3.begin(), v3.end()));
 }
 
 int main(int argc, char **argv)

@@ -46,19 +46,19 @@ namespace grapenlp {
         typedef std::size_t size_type;
         typedef std::ptrdiff_t difference_type;
 
-        T *elems;    //array of elements of type T
         size_type count;
+        T *elems;    //array of elements of type T
 
-        array() : elems(nullptr), count(0) {}
+        array() : count(0), elems(nullptr) {}
 
         template<std::size_t N>
-        array(const T elems_[N]): elems(new T[N]), count(N) { std::copy(elems_, elems_ + N, elems); }
+        array(const T (&elems_)[N]): count(N), elems(new T[N]) { std::copy(elems_, elems_ + N, elems); }
 
-        array(T *elems_, size_type count_) : elems(elems_), count(count_) {}
+        array(T *elems_, size_type count_) : count(count_), elems(elems_) {}
 
-        array(std::pair<T *, size_type> elems_x_count) : elems(elems_x_count.first), count(elems_x_count.second) {}
+        array(std::pair<T *, size_type> elems_x_count) : count(elems_x_count.second), elems(elems_x_count.first) {}
 
-/*		array(const T* elems_, size_type count_): elems(new T[count_]), count(count_)
+/*		array(const T* elems_, size_type count_): count(count_), elems(new T[count_])
 		{
 			size_type i;
 			for (i = 0; i < count_; ++i)
@@ -66,71 +66,67 @@ namespace grapenlp {
 		}*/
 
         template<typename Function>
-        array(const T *elems_, size_type count_, Function f): elems(new T[count_]), count(count_) {
+        array(const T *elems_, size_type count_, Function f): count(count_), elems(new T[count_]) {
             std::transform(elems_, elems_ + count_, elems, f);
         }
 
-        array(size_type count_) : elems(new T[count_]), count(count_) {}
+        array(size_type count_) : count(count_), elems(new T[count_]) {}
 
-        array(const T &elem, size_type count_) : elems(new T[count_]), count(count_) {
-            iterator i(begin());
-            for (; i != end(); ++i)
+        array(const T &elem, size_type count_) : count(count_), elems(new T[count_]) {
+            iterator i(elems);
+            for (; i != (elems + count); ++i)
                 *i = elem;
         }
 
-        array(const array<T> &a) : elems(new T[a.size()]), count(a.size()) { std::copy(a.begin(), a.end(), begin()); }
+        array(const array<T> &a) : count(a.size()), elems(new T[a.size()]) { std::copy(a.begin(), a.end(), elems); }
 
-        array(array<T> &&a) : elems(a.elems), count(a.count) {
+        array(array<T> &&a) : count(a.count), elems(a.elems)
+        {
             a.elems = nullptr;
             a.count = 0;
         }
 
         template<typename Function>
-        array(const array<T> &a, Function f): elems(new T[a.size()]), count(a.size()) {
+        array(const array<T> &a, Function f): count(a.size()), elems(new T[a.size()]) {
             std::transform(a.begin(), a.end(), elems, f);
         }
 
         template<std::size_t N>
-        array(const std::array <T, N> &a): elems(new T[N]), count(N) { std::copy(a.begin(), a.end(), begin()); }
+        array(const std::array <T, N> &a): count(N), elems(new T[N]) { std::copy(a.begin(), a.end(), elems); }
 
-        array(const array<T> &a, const T &t) : elems(new T[a.size() + 1]), count(a.size() + 1) {
-            std::copy(a.begin(), a.end(), begin());
+        array(const array<T> &a, const T &t) : count(a.size() + 1), elems(new T[count]) {
+            std::copy(a.begin(), a.end(), elems);
             elems[a.size()] = t;
         }
 
-        array(const array<T> &a, const array<T> &b) : elems(new T[a.size() + b.size()]), count(a.size() + b.size()) {
-            std::copy(a.begin(), a.end(), begin());
-            std::copy(b.begin(), b.end(), begin() + a.size());
+        array(const array<T> &a, const array<T> &b) : count(a.size() + b.size()), elems(new T[a.size() + b.size()]) {
+            std::copy(b.begin(), b.end(), std::copy(a.begin(), a.end(), elems));
         }
 
         template<typename Iterator>
-        array(Iterator a_begin, Iterator a_end): elems(new T[a_end - a_begin]), count(a_end - a_begin) {
-            std::copy(a_begin, a_end, begin());
-        }
-
-        template<typename Iterator>
-        array(Iterator seq_begin, Iterator seq_end, std::size_t count_): elems(new T[count_]), count(count_) {
-            std::copy(seq_begin, seq_end, begin());
+        array(Iterator seq_begin, Iterator seq_end): count(static_cast<size_type>(std::distance(seq_begin, seq_end))),
+                                                     elems(new T[count]) {
+            std::copy(seq_begin, seq_end, elems);
         }
 
         template<typename Iterator, typename Function>
-        array(Iterator seq_begin, Iterator seq_end, std::size_t count_, Function f): elems(new T[count_]),
-                                                                                     count(count_) {
-            std::transform(seq_begin(), seq_end(), elems, f);
+        array(Iterator seq_begin, Iterator seq_end, Function f): count(static_cast<size_type>(std::distance(seq_begin, seq_end))),
+                                                                 elems(new T[count]) {
+            std::transform(seq_begin, seq_end, elems, f);
         }
 
-        //Concatenation-with-sequence constructor
+        //Array-sequence concatenation constructor
         template<typename Iterator>
-        array(const array<T> &a, Iterator b_begin, Iterator b_end): elems(new T[a.size() + b_end - b_begin]),
-                                                                    count(a.size() + b_end - b_begin) {
-            std::copy(b_begin, b_end, std::copy(a.begin(), a.end(), begin()));
+        array(const array<T> &a, Iterator seq_begin, Iterator seq_end): count(a.size() + std::distance(seq_begin, seq_end)),
+                                                                        elems(new T[count]) {
+            std::copy(seq_begin, seq_end, std::copy(a.begin(), a.end(), elems));
         }
 
-        //Reverse concatenation-with-sequence constructor
+        //Sequence-array concatenation constructor
         template<typename Iterator>
-        array(Iterator b_begin, Iterator b_end, const array<T> &a): elems(new T[a.size() + b_end - b_begin]),
-                                                                    count(a.size() + b_end - b_begin) {
-            std::copy(a.begin(), a.end(), std::copy(b_begin, b_end, begin()));
+        array(Iterator seq_begin, Iterator seq_end, const array<T> &a): count(a.size() + std::distance(seq_begin, seq_end)),
+                                                                        elems(new T[count]) {
+            std::copy(a.begin(), a.end(), std::copy(seq_begin, seq_end, elems));
         }
 
         array &reset() {
@@ -141,7 +137,7 @@ namespace grapenlp {
         }
 
         template<std::size_t N>
-        array &reset(const T elems_[N]) {
+        array &reset(const T (&elems_)[N]) {
             if (elems) delete[] elems;
             elems = new T[N];
             count = N;

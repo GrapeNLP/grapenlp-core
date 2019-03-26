@@ -32,9 +32,7 @@
 namespace grapenlp
 {
 	template<typename SourceRef, typename T>
-	struct a_fprtn
-	{
-		typedef fprtn<SourceRef, const array<T> *> type;
+	using a_fprtn = fprtn<SourceRef, const array<T> *>;
 	};
 } //namespace grapenlp
 

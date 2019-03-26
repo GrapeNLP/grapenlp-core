@@ -32,10 +32,7 @@
 namespace grapenlp
 {
 	template<typename SourceRef>
-	struct ux_fprtn
-	{
-		typedef typename x_fprtn<SourceRef, unichar>::type type;
-	};
+	using ux_fprtn = x_fprtn<SourceRef, unichar>;
 } //namespace grapenlp
 
 #endif /*GRAPENLP_UX_FPRTN_H*/

@@ -41,8 +41,8 @@ namespace grapenlp
 		u_compressed_dico_word_meta_mask_factory(compressed_delaf &dico_): dico(dico_)
 		{}
 
-		lexmask_and_coarse_type<InputIterator>* operator() (u_array::const_iterator meta_code_begin, u_array::const_iterator meta_code_end) const
-		{ return new lexmask_and_coarse_type<InputIterator>(new constrained_compressed_dico_word_meta_mask<InputIterator, CaseNormalizer>(dico, make_compressed_delaf_entry_filter<CaseNormalizer, u_array::const_iterator, normalizer_iterator<CaseNormalizer, InputIterator> >(meta_code_begin, meta_code_end, dico)), CONSUMING); }
+		lexmask<InputIterator>* operator() (u_array::const_iterator meta_code_begin, u_array::const_iterator meta_code_end) const
+		{ return new constrained_compressed_dico_word_meta_mask<InputIterator, CaseNormalizer>(dico, make_compressed_delaf_entry_filter<CaseNormalizer, u_array::const_iterator, normalizer_iterator<CaseNormalizer, InputIterator> >(meta_code_begin, meta_code_end, dico)); }
 	};
 } //namespace grapenlp
 

@@ -27,14 +27,14 @@
 #define GRAPENLP_U_DICO_WORD_META_MASK_FACTORY_H
 
 #include <grapenlp/u_array.h>
-#include <grapenlp/lexmask_and_coarse_type.h>
+#include <grapenlp/lexmask.h>
 
 namespace grapenlp
 {
 	template<typename InputIterator>
 	struct u_dico_word_meta_mask_factory
 	{
-		virtual lexmask_and_coarse_type<InputIterator>* operator()(u_array::const_iterator meta_code_begin, u_array::const_iterator meta_code_end) const = 0;
+		virtual lexmask<InputIterator>* operator()(u_array::const_iterator meta_code_begin, u_array::const_iterator meta_code_end) const = 0;
 	};
 } //namespace grapenlp
 

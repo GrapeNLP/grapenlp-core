@@ -3,4 +3,4 @@ cd `dirname $0`
 . paths
 
 . paths
-$RELEASE_NLP $@
+$RELEASE_GRAPENLP $@

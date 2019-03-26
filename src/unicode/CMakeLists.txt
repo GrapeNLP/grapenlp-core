@@ -38,7 +38,10 @@ add_library(unicode STATIC
 		src/u_set.cpp
 		src/u_tolowercase_table.cpp
 		src/u_touppercase_table.cpp
+		src/u_trie_with_ptr_data_reader.cpp
+		src/u_trie_with_data_reader.cpp
 		src/u_trie_reader.cpp
+		src/u_trie_with_ptr_data.cpp
 		src/u_trie.cpp
 		src/u_uppercase_table.cpp
 		src/u_vector_reader.cpp

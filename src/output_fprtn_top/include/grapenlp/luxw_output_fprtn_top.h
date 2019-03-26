@@ -31,15 +31,8 @@
 
 namespace grapenlp
 {
-	template<typename SourceRef, typename Weight, typename InputIterator, assoc_container_impl_choice execution_state_set_impl_choice>
-	struct luxw_output_fprtn_top
-	{
-		typedef typename uxw_output_fprtn_top<SourceRef, Weight, typename lexmask<InputIterator>::const_ref, execution_state_set_impl_choice>::type type;
-
-	private:
-		luxw_output_fprtn_top()
-		{}
-	};
+	template<typename ContextMask, typename SourceRef, typename Weight, typename InputIterator, assoc_container_impl_choice execution_state_set_impl_choice>
+	using luxw_output_fprtn_top = uxw_output_fprtn_top<ContextMask, SourceRef, Weight, typename lexmask<InputIterator>::const_ref, execution_state_set_impl_choice>;
 } //namespace grapenlp
 
 #endif /*GRAPENLP_LUXW_OUTPUT_FPRTN_TOP_H*/

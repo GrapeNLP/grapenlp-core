@@ -22,7 +22,7 @@ cd "${BUILD_FOLDER}"
 
 # Create build subfolders and compilation scripts
 log_info_banner "Configuring"
-cmake -DCMAKE_BUILD_TYPE="${CMAKE_TARGET}" ../..
+cmake -Wno-dev -DCMAKE_BUILD_TYPE="${CMAKE_TARGET}" ../..
 success_or_exit
 
 # Compile

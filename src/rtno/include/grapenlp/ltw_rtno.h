@@ -31,23 +31,31 @@
 
 namespace grapenlp
 {
-	//RTNO having lexical mask/trie string const ref x weight as input/output transition tags
-	template<typename InputIterator, typename Id, typename Weight>
-	struct ltw_rtno
-	{
-		typedef typename l_rtno<InputIterator, trie_string_const_ref_x_weight<Id, Weight> >::type type;
-	private:
-		ltw_rtno(){}
-	};
+	/**
+	 * Recursive transition network with output (RTNO) having lexical masks as input tags and weighted pointers to trie
+	 * strings as output. The weights represent either scores or probabilities which can be used to rank the different
+	 * outputs generated. The trie string pointesr allow for a more efficient representation and concatenation of
+	 * strings, using a single integer to represent a potentially long string, and allowing for the concatenation of
+	 * characters to strings in constant time: the original string is not copied with the appended character but a
+	 * single node is added under the trie node that represents the last character of the string (see chapter 9 of
+	 * http://monge.univ-mlv.fr/~sastre/publications/sastre11t.zip).
+	 * @tparam InputIterator the type of the iterator over the RTNO input (e.g. an unichar array iterator)
+	 * @tparam Id the character type of the output strings (e.g. unichar)
+	 * @tparam Weight the type of the output score (e.g. int) or probability (e.g. float)
+	 */
+	template<typename InputIterator, typename Id, typename Weight, typename ContextMask>
+	using ltw_rtno = l_rtno<InputIterator, trie_string_const_ref_x_weight<Id, Weight>, ContextMask>;
 
-	//RTNO having lexical mask/trie string const ref x weight as input/output transition tags
-	template<typename InputIterator, typename Id, typename Weight>
-	struct ltwns_rtno
-	{
-		typedef typename lns_rtno<InputIterator, trie_string_const_ref_x_weight<Id, Weight> >::type type;
-	private:
-		ltwns_rtno(){}
-	};
+	/**
+	 * Partial instantiation of the recursive transition network with output and numbered states for lexical mask input
+	 * tags and weighted pointers to trie strings as output. This struct is not to be instantiated but it just serves
+	 * for encapsulating the generic data type.
+	 * @tparam InputIterator the type of the iterator over the RTNO input (e.g. an unichar array iterator)
+	 * @tparam Id the character type of the output strings (e.g. unichar)
+	 * @tparam Weight the type of the output score (e.g. int) or probability (e.g. float)
+	 */
+	template<typename InputIterator, typename Id, typename Weight, typename ContextMask>
+	using ltwns_rtno = lns_rtno<InputIterator, trie_string_const_ref_x_weight<Id, Weight>, ContextMask>;
 } //namespace grapenlp
 
 #endif /*GRAPENLP_LTW_RTNO_H*/

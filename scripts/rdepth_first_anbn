@@ -4,7 +4,7 @@ cd `dirname $0`
 
 if [ $# -gt 1 ]
 then
-$RELEASE_NLP -s -a$1 -pdepth-first -r$2 -o$OUTPUT $ANBN_GRAMMAR $COMPRESSED_DICO
+$RELEASE_GRAPENLP -s -a$1 -pdepth-first -r$2 -o$OUTPUT $ANBN_GRAMMAR $COMPRESSED_DICO
 else
-$RELEASE_NLP -s -a$1 -pdepth-first -o$OUTPUT $ANBN_GRAMMAR $COMPRESSED_DICO
+$RELEASE_GRAPENLP -s -a$1 -pdepth-first -o$OUTPUT $ANBN_GRAMMAR $COMPRESSED_DICO
 fi

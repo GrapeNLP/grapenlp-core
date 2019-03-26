@@ -35,7 +35,7 @@ target_include_directories(manager PUBLIC
 target_link_libraries(manager
         fst2_reader
         rtno_to_dot_serializer
-        parsing
+        common_parsing
         breadth_first_parsing
         earley_parsing
         to_fprtn_parsing
@@ -48,6 +48,7 @@ target_link_libraries(manager
         output_fprtn_breadth_first_expander
         output_fprtn_blackboard_set_expander
         output_wfprtn_top_blackboard_extractor
+        context
         out_serializer
         to_canonical_form
         to_decompressed_canonical_form

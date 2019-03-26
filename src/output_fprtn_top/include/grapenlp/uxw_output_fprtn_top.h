@@ -31,15 +31,8 @@
 
 namespace grapenlp
 {
-	template<typename SourceRef, typename Weight, typename RTNOTagInput, assoc_container_impl_choice execution_state_set_impl_choice>
-	struct uxw_output_fprtn_top
-	{
-		typedef typename xw_output_fprtn_top<SourceRef, unichar, Weight, RTNOTagInput, execution_state_set_impl_choice>::type type;
-
-	private:
-		uxw_output_fprtn_top()
-		{}
-	};
+	template<typename ContextMask, typename SourceRef, typename Weight, typename RTNOTagInput, assoc_container_impl_choice execution_state_set_impl_choice>
+	using uxw_output_fprtn_top = xw_output_fprtn_top<ContextMask, SourceRef, unichar, Weight, RTNOTagInput, execution_state_set_impl_choice>;
 } //namespace grapenlp
 
 #endif /*GRAPENLP_LUXW_OUTPUT_FPRTN_TOP_H*/

@@ -37,7 +37,7 @@ namespace grapenlp
 	struct no_op
 	{
 		template<typename T>
-		void operator() (const T &t) const
+		void operator() (__attribute__((unused)) const T &t) const
 		{}
 	};
 

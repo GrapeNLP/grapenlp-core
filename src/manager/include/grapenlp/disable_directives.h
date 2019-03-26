@@ -69,7 +69,7 @@
 
 //Disable parsers by output
 //#define DISABLE_PARSERS_WITH_OUTPUT
-//#define DISABLE_PARSERS_WITHOUT_OUTPUT
+#define DISABLE_PARSERS_WITHOUT_OUTPUT
 
 //Disable parsers by sequence implementation
 //#define DISABLE_TRIE_STRING_PARSERS

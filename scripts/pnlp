@@ -2,4 +2,4 @@
 cd `dirname $0`
 . paths
 
-$PROFILE_NLP $@
+$PROFILE_GRAPENLP $@

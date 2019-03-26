@@ -6,10 +6,10 @@ if [ $# -gt 0 ]
 then
 	if [ "$1" = "m" ]
 	then
-		$RELEASE_NLP -msxcwt --fprtn-stats -pto-fprtn-and-breadth-first-expand $CHATBOT_GRAMMAR $COMPRESSED_DICO $CORPUS $OUTPUT $VALIDATE
+		$RELEASE_GRAPENLP -msxwt --corpus --fprtn-stats -pto-fprtn-and-breadth-first-expand $CHATBOT_GRAMMAR $COMPRESSED_DICO $CORPUS $TEST_CONTEXT $OUTPUT $VALIDATE
 	else
-		$RELEASE_NLP -sxcwt --fprtn-stats -r$1 -pto-fprtn-and-breadth-first-expand $CHATBOT_GRAMMAR $COMPRESSED_DICO $CORPUS $OUTPUT $VALIDATE
+		$RELEASE_GRAPENLP -sxwt --corpus --fprtn-stats -r$1 -pto-fprtn-and-breadth-first-expand $CHATBOT_GRAMMAR $COMPRESSED_DICO $CORPUS $TEST_CONTEXT $OUTPUT $VALIDATE
 	fi
 else
-	$RELEASE_NLP -sxcwt --fprtn-stats -pto-fprtn-and-breadth-first-expand $CHATBOT_GRAMMAR $COMPRESSED_DICO $CORPUS $OUTPUT $VALIDATE
+	$RELEASE_GRAPENLP -sxwt --corpus --fprtn-stats -pto-fprtn-and-breadth-first-expand $CHATBOT_GRAMMAR $COMPRESSED_DICO $CORPUS $TEST_CONTEXT $OUTPUT $VALIDATE
 fi

@@ -29,6 +29,8 @@
 %include assoc_container_impl_choice.i
 %include rtno_type.i
 %include parser.i
+%include u_context_key_value_hasher.i
+%include u_context.i
 %include simple_segment_array_x_weight.i
 %{
 /*#include <grapenlp/ualxiw_manager.h>*/
@@ -56,12 +58,14 @@ namespace grapenlp
         ul_manager(rtno_type grammar_type_, const std::string &grammar_path_name, const std::string &dico_path_name);
         ~ul_manager();
 
+        const u_context_key_value_hasher& get_context_key_value_hasher();
         const ::grapenlp::uaui_simple_segment_array_x_weight_array& get_simplified_weighted_output();
 /*        const ::grapenlp::simple_segment_array_x_weight_array<InputIterator, unichar, weight>& get_simplified_weighted_output();*/
 
 /*        const u_array& get_output_u_array();*/
         void process(ua_input_iterator input_begin, ua_input_iterator input_end, rtno_parser_type the_rtno_parser_type, bool trie_strings, bool no_output, assoc_container_impl_choice the_execution_state_set_impl_choice, assoc_container_impl_choice the_output_set_impl_choice);
-    };
+        void process(ua_input_iterator input_begin, ua_input_iterator input_end, const u_context &ctx, rtno_parser_type the_rtno_parser_type, bool trie_strings, bool no_output, assoc_container_impl_choice the_execution_state_set_impl_choice, assoc_container_impl_choice the_output_set_impl_choice);
+};
 
     typedef ::grapenlp::ul_manager<ua_input_iterator, std::plus<int> > ualxiw_manager;
     %template(ualxiw_manager) ::grapenlp::ul_manager<::grapenlp::u_array::const_iterator, std::plus<int> >;

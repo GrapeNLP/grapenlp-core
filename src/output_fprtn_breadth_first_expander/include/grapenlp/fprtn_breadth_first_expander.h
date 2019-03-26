@@ -38,6 +38,7 @@
 #include <grapenlp/trie.h>
 #include <grapenlp/output_fprtn.h>
 #include <grapenlp/pool.h>
+#include <grapenlp/u_context_mask.h>
 
 namespace grapenlp
 {
@@ -55,14 +56,14 @@ namespace grapenlp
 		typedef Blackboard blackboard;
 #ifdef TRACE
 		typedef BlackboardSerializer blackboard_serializer;
-		typedef typename tag_serializer<input>::type input_serializer;
-		typedef typename tag_serializer<tag_input>::type tag_input_serializer;
+		typedef typename tag_serializer_traits<input>::type input_serializer;
+		typedef typename tag_serializer_traits<tag_input>::type tag_input_serializer;
 #endif
 		typedef typename set_impl_selector<output_set_impl_choice, blackboard>::type blackboard_set;
 		typedef typename blackboard_set::const_iterator blackboard_set_const_iterator;
 		typedef Transformer transformer;
 
-		typedef output_fprtn<source_ref, tag_input, RTNOTagInput, execution_state_set_impl_choice> machine;
+		typedef output_fprtn<u_context_mask, source_ref, tag_input, RTNOTagInput, execution_state_set_impl_choice> machine;
 		typedef typename machine::state state;
 		typedef typename machine::state_ref state_ref;
 		typedef typename machine::state_const_ref state_const_ref;

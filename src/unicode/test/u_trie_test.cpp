@@ -24,7 +24,7 @@
  */
 
 #include <grapenlp/u_array.h>
-#include <grapenlp/u_trie.h>
+#include <grapenlp/u_trie_with_ptr_data.h>
 #include <grapenlp/u_set_trie.h>
 
 using namespace std;

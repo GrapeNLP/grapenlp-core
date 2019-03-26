@@ -312,14 +312,8 @@ namespace grapenlp
 		array<value_type> word;
 
 	public:
-		case_insensitive_word_mask(value_type* word_ref, std::size_t length): base_type(), word(word_ref, length, CaseNormalizer())
-		{}
-
-		case_insensitive_word_mask(const array<value_type> &word_): base_type(), word(word_, CaseNormalizer())
-		{}
-
 		template<typename CharConstIterator>
-		case_insensitive_word_mask(CharConstIterator char_begin, CharConstIterator char_end, std::size_t length): base_type(), word(char_begin, char_end, length, CaseNormalizer())
+		case_insensitive_word_mask(CharConstIterator char_begin, CharConstIterator char_end): base_type(), word(char_begin, char_end, CaseNormalizer())
 		{}
 
 		virtual lexmask_type get_type() const
@@ -371,14 +365,8 @@ namespace grapenlp
 		array<value_type> word;
 
 	public:
-		case_sensitive_word_mask(value_type* word_ref, std::size_t length): base_type(), word(length)
-		{ std::copy(word_ref, word_ref + length, word.begin()); }
-
-		case_sensitive_word_mask(const array<value_type> &word_): base_type(), word(word_)
-		{}
-
 		template<typename CharConstIterator>
-		case_sensitive_word_mask(CharConstIterator char_begin, CharConstIterator char_end, std::size_t length): base_type(), word(char_begin, char_end, length)
+		case_sensitive_word_mask(CharConstIterator char_begin, CharConstIterator char_end): base_type(), word(char_begin, char_end)
 		{}
 
 		virtual lexmask_type get_type() const

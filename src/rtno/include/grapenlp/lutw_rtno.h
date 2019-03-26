@@ -32,22 +32,12 @@
 namespace grapenlp
 {
 	//RTNO having lexical mask/unicode trie string const ref x weight as input/output transition tags
-	template<typename InputIterator, typename Weight>
-	struct lutw_rtno
-	{
-		typedef typename ltw_rtno<InputIterator, unichar, Weight>::type type;
-	private:
-		lutw_rtno(){}
-	};
+	template<typename InputIterator, typename Weight, typename ContextMask>
+	using lutw_rtno = ltw_rtno<InputIterator, unichar, Weight, ContextMask>;
 
 	//RTNO having lexical mask/unicode trie string const ref x weight as input/output transition tags
-	template<typename InputIterator, typename Weight>
-	struct lutwns_rtno
-	{
-		typedef typename ltwns_rtno<InputIterator, unichar, Weight>::type type;
-	private:
-		lutwns_rtno(){}
-	};
+	template<typename InputIterator, typename Weight, typename ContextMask>
+	using lutwns_rtno = ltwns_rtno<InputIterator, unichar, Weight, ContextMask>;
 } //namespace grapenlp
 
 #endif /*GRAPENLP_LUTW_RTNO_H*/

@@ -47,18 +47,18 @@ namespace grapenlp
 		typedef ul_fst2_reader<InputIterator, my_x_fst2_tag_output_reader, CaseNormalizer> base_type;
 		typedef typename base_type::machine machine;
 
-		int operator() (FILE *f, machine &grammar, l_trie<unichar, InputIterator> &ult, u_out_bound_trie &uobt, u_text_delaf<CaseNormalizer> &dico)
+		int operator() (FILE *f, machine &grammar, ul_tag_input_trie<unichar, InputIterator> &ult, u_out_bound_trie &uobt, u_text_delaf<CaseNormalizer> &dico, u_context_key_value_hasher &c_hasher)
 		{
 			x_stop_char_evaluator is_stop_char;
 			my_x_fst2_tag_output_reader tor(is_stop_char, uobt);
-			return base_type::operator() (f, grammar, ult, tor, dico);
+			return base_type::operator() (f, grammar, ult, tor, dico, c_hasher);
 		}
 
-		int operator() (FILE *f, machine &grammar, l_trie<unichar, InputIterator> &ult, u_out_bound_trie &uobt, compressed_delaf &dico)
+		int operator() (FILE *f, machine &grammar, ul_tag_input_trie<unichar, InputIterator> &ult, u_out_bound_trie &uobt, compressed_delaf &dico, u_context_key_value_hasher &c_hasher)
 		{
 			x_stop_char_evaluator is_stop_char;
 			my_x_fst2_tag_output_reader tor(is_stop_char, uobt);
-			return base_type::operator() (f, grammar, ult, tor, dico);
+			return base_type::operator() (f, grammar, ult, tor, dico, c_hasher);
 		}
 	};
 } //namespace grapenlp

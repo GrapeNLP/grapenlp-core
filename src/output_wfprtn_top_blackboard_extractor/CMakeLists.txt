@@ -40,6 +40,7 @@ target_include_directories(output_wfprtn_top_blackboard_extractor PUBLIC
         PRIVATE src)
 target_link_libraries(output_wfprtn_top_blackboard_extractor
         util
+        context_mask
         machine
         output_fprtn_top
         )

@@ -32,13 +32,23 @@
 
 namespace grapenlp
 {
-	template<typename InputIterator, typename WeightedTagOutput>
+    /**
+     * Given a RTNO with lexical masks and weighted output, this class automatically assigns weights to the RTNO
+     * transitions based on the specificity of the lexical mask of the transition: the more specific the lexical mask
+     * is, the greater the weight. Transition weights that have been manually given are kept, enabling to manually
+     * override the weight assignment.
+     *
+     * @tparam InputIterator the type of the iterator over input characters
+     * @tparam WeightedTagOutput the type of the output part of weighted transition tags
+     * @tparam ContextMask the type of the context masks
+     */
+	template<typename InputIterator, typename WeightedTagOutput, typename ContextMask>
 	struct lw_rtno_weight_tagger
 	{
 		typedef	WeightedTagOutput weighted_tag_output;
 		typedef	typename weighted_tag_output_traits<weighted_tag_output>::weight weight;
 
-		typedef typename l_rtno<InputIterator, weighted_tag_output>::type machine;
+		typedef l_rtno<InputIterator, weighted_tag_output, ContextMask> machine;
 
 		typedef typename machine::state state;
 		typedef typename machine::state_ref_list state_ref_list;
@@ -60,9 +70,7 @@ namespace grapenlp
 #endif
 			lexmask_default_weight<InputIterator, weight> ldw;
 			state_ref_list_iterator s_ref_it;
-	//		typename outgoing_epsilon_transition_set::iterator outgoing_epsilon_transition_iterator;
 			typename outgoing_deleting_transition_set::iterator outgoing_deleting_transition_iterator;
-	//		typename outgoing_inserting_transition_set::iterator outgoing_inserting_transition_iterator;
 			typename outgoing_translating_transition_set::iterator outgoing_translating_transition_iterator;
 
 			//For each state
@@ -73,7 +81,7 @@ namespace grapenlp
 				//And swap the original translating transition set with the pivot
 				(*s_ref_it)->outgoing_translating_transitions.swap(outgoing_translating_transitions);
 				//Fill the new translating transition set with the former translating transitions but
-				//reseting their weights depending on the input lexmask specificity
+				//resetting their weights depending on the input lexmask specificity
 				for (outgoing_translating_transition_iterator = outgoing_translating_transitions.begin(); outgoing_translating_transition_iterator != outgoing_translating_transitions.end(); ++outgoing_translating_transition_iterator)
 				{
 					weighted_tag_output to(outgoing_translating_transition_iterator->output);
@@ -95,16 +103,16 @@ namespace grapenlp
 		}
 	};
 
-	template<typename InputIterator, typename WeightedTagOutput>
-	typename l_rtno<InputIterator, WeightedTagOutput>::type& lw_rtno_weight_tag(typename l_rtno<InputIterator, WeightedTagOutput>::type& machine)
+	template<typename InputIterator, typename WeightedTagOutput, typename ContextMask>
+	l_rtno<InputIterator, WeightedTagOutput, ContextMask>& lw_rtno_weight_tag(l_rtno<InputIterator, WeightedTagOutput, ContextMask>& machine)
 	{
-		return lw_rtno_weight_tagger<InputIterator, WeightedTagOutput>()(machine);
+		return lw_rtno_weight_tagger<InputIterator, WeightedTagOutput, ContextMask>()(machine);
 	}
 
-	template<typename InputIterator, typename WeightedTagOutput>
-	typename lns_rtno<InputIterator, WeightedTagOutput>::type& lwns_rtno_weight_tag(typename lns_rtno<InputIterator, WeightedTagOutput>::type& machine)
+	template<typename InputIterator, typename WeightedTagOutput, typename ContextMask>
+	lns_rtno<InputIterator, WeightedTagOutput, ContextMask>& lwns_rtno_weight_tag(lns_rtno<InputIterator, WeightedTagOutput, ContextMask>& machine)
 	{
-		return lw_rtno_weight_tagger<InputIterator, WeightedTagOutput>()(machine);
+		return lw_rtno_weight_tagger<InputIterator, WeightedTagOutput, ContextMask>()(machine);
 	}
 } //namespace grapenlp
 

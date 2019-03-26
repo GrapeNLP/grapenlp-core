@@ -31,8 +31,9 @@
 #include <grapenlp/vector.h>
 #include <grapenlp/u_text_dico_word_meta_mask_factory.h>
 #include <grapenlp/u_compressed_dico_word_meta_mask_factory.h>
-#include <grapenlp/u_lexmask_factory.h>
+#include <grapenlp/ul_tag_input_factory.h>
 #include <grapenlp/tag_reader_traits.h>
+#include <grapenlp/u_context_mask.h>
 #include <grapenlp/u_fst2_constants.h>
 #include <grapenlp/l_rtno.h>
 
@@ -56,9 +57,9 @@ namespace grapenlp
 		typedef TagOutputReader tag_output_reader;
 		typedef typename tag_reader_traits<TagOutputReader>::tag tag_output;
 #ifdef TRACE
-		typedef typename lns_rtno<InputIterator, tag_output>::type machine;
+		typedef lns_rtno<InputIterator, tag_output, u_context_mask> machine;
 #else
-		typedef typename l_rtno<InputIterator, tag_output>::type machine;
+		typedef l_rtno<InputIterator, tag_output, u_context_mask> machine;
 #endif
 		typedef typename machine::state state;
 		typedef typename state::ref state_ref;
@@ -89,7 +90,7 @@ namespace grapenlp
 			}
 		};
 
-		typedef lexmask_and_coarse_type<InputIterator>* tag_input;
+		typedef ul_tag_input<InputIterator>* tag_input;
 
 		struct tag
 		{
@@ -110,19 +111,19 @@ namespace grapenlp
 		{}
 
 	public:
-		int operator() (FILE *f, machine &grammar, l_trie<unichar, InputIterator> &ult, tag_output_reader &tor, u_text_delaf<CaseNormalizer> &dico)
+		int operator() (FILE *f, machine &grammar, ul_tag_input_trie<unichar, InputIterator> &ult, tag_output_reader &tor, u_text_delaf<CaseNormalizer> &dico, u_context_key_value_hasher &c_hasher)
 		{
 			u_text_dico_word_meta_mask_factory<InputIterator, CaseNormalizer> dico_lexmask_factory(dico);
-			return operator() (f, grammar, ult, tor, dico_lexmask_factory);
+			return operator() (f, grammar, ult, tor, dico_lexmask_factory, c_hasher);
 		}
 
-		int operator() (FILE *f, machine &grammar, l_trie<unichar, InputIterator> &ult, tag_output_reader &tor, compressed_delaf &dico)
+		int operator() (FILE *f, machine &grammar, ul_tag_input_trie<unichar, InputIterator> &ult, tag_output_reader &tor, compressed_delaf &dico, u_context_key_value_hasher &c_hasher)
 		{
 			u_compressed_dico_word_meta_mask_factory<InputIterator, CaseNormalizer> dico_lexmask_factory(dico);
-			return operator() (f, grammar, ult, tor, dico_lexmask_factory);
+			return operator() (f, grammar, ult, tor, dico_lexmask_factory, c_hasher);
 		}
 	private:
-		int operator() (FILE *f, machine &grammar, l_trie<unichar, InputIterator> &ult, tag_output_reader &tor, u_dico_word_meta_mask_factory<InputIterator> &dico_lexmask_factory)
+		int operator() (FILE *f, machine &grammar, ul_tag_input_trie<unichar, InputIterator> &ult, tag_output_reader &tor, u_dico_word_meta_mask_factory<InputIterator> &dico_lexmask_factory, u_context_key_value_hasher &c_hasher)
 		{
 			if (!f) return 0;
 			int graph_count;
@@ -154,7 +155,7 @@ namespace grapenlp
 	#ifdef TRACE
 			std::wcout << L"Reading tags starting from line " << line_count << " of .fst2 file\n";
 	#endif
-			u_read_tags(f, trv, ult, tor, dico_lexmask_factory, line_count);
+			u_read_tags(f, trv, ult, tor, dico_lexmask_factory, c_hasher, line_count);
 
 	#ifdef TRACE
 			std::wcout << L"Adding transitions\n";
@@ -180,13 +181,13 @@ namespace grapenlp
 			line_count++;
 
 			//Read RTNO initial state, that is, the first state of the first graph
-			if (!u_read_state(f, grammar, stv, 0, 0, 0, max_tag_index, line_count))
+			if (!u_read_state(f, grammar, stv, 0, 0, max_tag_index, line_count))
 				fatal_error("In line %u of .fst2 file: graph %d defines no states\n", line_count, 1 - current_graph_index);
 			called_states[current_graph_index] = stv[0].q_ref;
 			++local_state_index;
 
 			//Read the other states of the first graph
-			while (u_read_state(f, grammar, stv, current_graph_index, state_index_offset, local_state_index, max_tag_index, line_count))
+			while (u_read_state(f, grammar, stv, current_graph_index, state_index_offset, max_tag_index, line_count))
 				++local_state_index;
 
 			// Read the states of the other graphs
@@ -200,18 +201,18 @@ namespace grapenlp
 				line_count++;
 
 				//Read initial state of the current graph
-				if (!u_read_state(f, grammar, stv, current_graph_index, state_index_offset, local_state_index, max_tag_index, line_count))
+				if (!u_read_state(f, grammar, stv, current_graph_index, state_index_offset, max_tag_index, line_count))
 					fatal_error("In line %u of .fst2 file: graph %d defines no states\n", line_count, 1 - current_graph_index);
 				called_states[current_graph_index] = stv.back().q_ref;
 				++local_state_index;
 
 				//Read other states
-				while (u_read_state(f, grammar, stv, current_graph_index, state_index_offset, local_state_index, max_tag_index, line_count))
+				while (u_read_state(f, grammar, stv, current_graph_index, state_index_offset, max_tag_index, line_count))
 					++local_state_index;
 			}
 		}
 
-		bool u_read_state(FILE *f, machine &grammar, ul_state_ref_x_transition_indexes_vector_ref_vector &stv, int current_graph_index, int state_index_offset, int local_state_index, int &max_tag_index, unsigned int &line_count)
+		bool u_read_state(FILE *f, machine &grammar, ul_state_ref_x_transition_indexes_vector_ref_vector &stv, int current_graph_index, int state_index_offset, int &max_tag_index, unsigned int &line_count)
 		{
 			unichar c = (unichar)u_fgetc(f);
 			if (c != end_of_section_char && c != final_state_char && c != non_final_state_char)
@@ -254,17 +255,17 @@ namespace grapenlp
 			return true;
 		}
 
-		void u_read_tags(FILE *f, tag_ref_vector &trv, l_trie<unichar, InputIterator> &ult, tag_output_reader &tor, u_dico_word_meta_mask_factory<InputIterator> &dico_lexmask_factory, unsigned int &line_count)
+		void u_read_tags(FILE *f, tag_ref_vector &trv, ul_tag_input_trie<unichar, InputIterator> &ult, tag_output_reader &tor, u_dico_word_meta_mask_factory<InputIterator> &dico_lexmask_factory, u_context_key_value_hasher &c_hasher, unsigned int &line_count)
 		{
-			tag* t_ref(u_read_tag(f, ult, tor, dico_lexmask_factory, line_count));
+			tag* t_ref(u_read_tag(f, ult, tor, dico_lexmask_factory, c_hasher, line_count));
 			while (t_ref)
 			{
 				trv.push_back(t_ref);
-				t_ref = u_read_tag(f, ult, tor, dico_lexmask_factory, line_count);
+				t_ref = u_read_tag(f, ult, tor, dico_lexmask_factory, c_hasher, line_count);
 			}
 		}
 
-		tag* u_read_tag(FILE *f, l_trie<unichar, InputIterator> &ult, tag_output_reader &tor, u_dico_word_meta_mask_factory<InputIterator> &dico_lexmask_factory, unsigned int &line_count)
+		tag* u_read_tag(FILE *f, ul_tag_input_trie<unichar, InputIterator> &ult, tag_output_reader &tor, u_dico_word_meta_mask_factory<InputIterator> &dico_lexmask_factory, u_context_key_value_hasher &c_hasher, unsigned int &line_count)
 		{
 			unichar c = u_fgetc(f);
 			if (c == end_of_section_char)
@@ -277,13 +278,13 @@ namespace grapenlp
 			if (!(c == case_insensitive_char || c == case_sensitive_char))
 				fatal_error("In line %u of .fst2 file: unexpected character '%c' in place of tag header ('%c' or '%c')\n", line_count, c, case_insensitive_char, case_sensitive_char);
 
-			typename l_trie<unichar, InputIterator>::string::ref uls = &(ult.epsilon() + c);
+			typename ul_tag_input_trie<unichar, InputIterator>::string::ref uls = &(ult.epsilon() + c);
 
 			//Read tag input
 			if ((c = (unichar)u_fgetc(f)) == U_ENDL)
 				fatal_error("In line %u of .fst2 file: empty tag\n", line_count);
 	#ifdef TRACE
-			std::wcout << "Input: '";
+			std::wcout << L"Input: '";
 	#endif
 			do
 			{
@@ -298,14 +299,14 @@ namespace grapenlp
 
 			//Retrieve lexical mask, if already created, or create a new one corresponding to this lexical mask code
 			if (!uls->data)
-				uls->data = make_u_lexmask<InputIterator, CaseNormalizer>(*uls, dico_lexmask_factory);
+				uls->data = make_ul_tag_input<InputIterator, CaseNormalizer>(*uls, dico_lexmask_factory, c_hasher);
 
 			tag *t_ref;
 			//Load tag output, if defined, then build tag
 			if (c == in_out_separator_char)
 			{
 #ifdef TRACE
-				std::wcout << "Output: '";
+				std::wcout << L"Output: '";
 #endif
 				c = u_fgetc(f);
 				t_ref = new tag(uls->data, tor(f, c, line_count));
@@ -319,7 +320,7 @@ namespace grapenlp
 			else
 			{
 #ifdef TRACE
-				std::wcout << "Output: none" << std::endl;
+				std::wcout << L"Output: none" << std::endl;
 #endif
 				t_ref = new tag(uls->data);
 			}
@@ -375,7 +376,7 @@ namespace grapenlp
 			for (i = stv.begin(); i != stv.end(); ++i)
 			{
 #ifdef TRACE
-				std::wcout << "Adding outgoing transitions from state " << static_cast<state_const_ref>(i->q_ref)->wlabel(L'q') << std::endl;
+				std::wcout << L"Adding outgoing transitions from state " << static_cast<state_const_ref>(i->q_ref)->wlabel(L'q') << std::endl;
 #endif
 				//And for each outgoing transition
 				for (j = i->tv_ref->begin(); j != i->tv_ref->end(); ++j)
@@ -405,6 +406,12 @@ namespace grapenlp
 								else
 									i->q_ref->add_epsilon_transition(stv[j->target_index].q_ref);
 	 							break;
+                            case CONTEXT:
+                                if (trv[j->label_index]->has_non_default_output)
+                                    i->q_ref->add_inserting_context_transition(*trv[j->label_index]->input->context_mask_ref, trv[j->label_index]->output, stv[j->target_index].q_ref);
+                                else
+                                    i->q_ref->add_epsilon_context_transition(*trv[j->label_index]->input->context_mask_ref, stv[j->target_index].q_ref);
+                                break;
 							case NO_BLANK_EPSILON:
 								if (trv[j->label_index]->has_non_default_output)
 									i->q_ref->add_no_blank_inserting_transition(trv[j->label_index]->output, stv[j->target_index].q_ref);

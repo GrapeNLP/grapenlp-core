@@ -36,20 +36,9 @@ namespace grapenlp
 	typedef u_trie_string::ref u_trie_string_ref;
 	typedef u_trie_string::const_ref u_trie_string_const_ref;
 
-	template<typename Data>
-	struct u_trie_with_ptr_data
-	{
-	public:
-		typedef trie_with_ptr_data<unichar, Data> type;
-
-	private:
-		u_trie_with_ptr_data()
-		{}
-	};
-
-    template<typename CharT, typename Traits>
-    std::basic_ostream<CharT, Traits>& operator<< (std::basic_ostream<CharT, Traits> &out, const trie<unichar>::string &s)
-    { return s.serialize(out); }
+	template<typename CharT, typename Traits>
+	std::basic_ostream<CharT, Traits>& operator<< (std::basic_ostream<CharT, Traits> &out, const trie<unichar>::string &s)
+	{ return s.serialize(out); }
 } //namespace grapenlp
 
 #endif /*GRAPENLP_U_TRIE_H*/

@@ -26,6 +26,7 @@
 #ifndef GRAPENLP_DELAF_H
 #define GRAPENLP_DELAF_H
 
+#include <grapenlp/trie_with_ptr_data.h>
 #include <grapenlp/set_trie.h>
 #include <grapenlp/list.h>
 #include <grapenlp/algorithm.h>

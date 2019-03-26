@@ -57,18 +57,16 @@ namespace grapenlp
 		{}
 	};
 
-	template<typename SourceRef, typename TagInput, typename RTNOTagInput, assoc_container_impl_choice execution_state_set_impl_choice>
-	struct output_fprtn_top
-	{
-		typedef output_fprtn<
-			SourceRef,
-			TagInput,
-			RTNOTagInput,
-			execution_state_set_impl_choice,
-			ZPPS_ITERATOR_OUTPUT_FPRTN_INCOMING_FILTERED_POP_TRANSITION_EXTRA_DATA,
-			top_data_x_incoming_filtered_pop_transition_counter<TagInput>
-			> type;
-	};
+	template<typename ContextMask, typename SourceRef, typename TagInput, typename RTNOTagInput, assoc_container_impl_choice execution_state_set_impl_choice>
+	using output_fprtn_top = output_fprtn<
+		ContextMask,
+		SourceRef,
+		TagInput,
+		RTNOTagInput,
+		execution_state_set_impl_choice,
+		ZPPS_ITERATOR_OUTPUT_FPRTN_INCOMING_FILTERED_POP_TRANSITION_EXTRA_DATA,
+		top_data_x_incoming_filtered_pop_transition_counter<TagInput>
+		>;
 }
 
 #endif /*GRAPENLP_OUTPUT_FPRTN_TOP_H*/

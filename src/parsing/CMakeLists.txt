@@ -23,19 +23,10 @@
 # @author Javier Sastre
 #
 
-project(parsing VERSION ${CHANGELOG_VERSION} LANGUAGES CXX)
-
-add_library(parsing STATIC src/parser.cpp)
-target_include_directories(parsing PUBLIC
-        $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/include>
-        $<INSTALL_INTERFACE:include>
-        PRIVATE src)
-target_link_libraries(parsing
-        rtno
-        )
-
-install(TARGETS parsing EXPORT parsingConfig
-        ARCHIVE DESTINATION ${CMAKE_INSTALL_LIBDIR}/grapenlp COMPONENT libgrapenlpdev)
-install(DIRECTORY include/ DESTINATION ${CMAKE_INSTALL_INCLUDEDIR} COMPONENT libgrapenlpdev)
-install(EXPORT parsingConfig DESTINATION share/grapenlp/parsing/cmake COMPONENT libgrapenlpdev)
-export(TARGETS parsing FILE parsingConfig.cmake)
+add_subdirectory(common)
+add_subdirectory(breadth_first)
+add_subdirectory(depth_first)
+add_subdirectory(earley)
+add_subdirectory(to_fprtn)
+add_subdirectory(to_fprtn_top)
+add_subdirectory(to_fprtn_zpps)

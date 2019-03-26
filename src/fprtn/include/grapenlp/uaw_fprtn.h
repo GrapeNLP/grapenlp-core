@@ -32,10 +32,7 @@
 namespace grapenlp
 {
 	template<typename SourceRef, typename Weight>
-	struct uaw_fprtn
-	{
-		typedef typename aw_fprtn<SourceRef, unichar, Weight>::type type;
-	};
+	using uaw_fprtn = aw_fprtn<SourceRef, unichar, Weight>;
 } //namespace grapenlp
 
 #endif /*GRAPENLP_UAW_FPRTN_H*/

@@ -29,7 +29,7 @@
 #include <array>
 
 #include <grapenlp/u_array.h>
-#include <grapenlp/trie.h>
+#include <grapenlp/trie_with_ptr_data.h>
 
 namespace grapenlp
 {

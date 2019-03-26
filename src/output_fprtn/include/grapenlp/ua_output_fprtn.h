@@ -31,15 +31,8 @@
 
 namespace grapenlp
 {
-	template<typename SourceRef, typename RTNOTagInput, assoc_container_impl_choice execution_state_set_impl_choice, output_fprtn_incoming_filtered_pop_transition_extra_data_choice edc = NO_OUTPUT_FPRTN_INCOMING_FILTERED_POP_TRANSITION_EXTRA_DATA, typename StateMappedExtraData = empty_class>
-	struct ua_output_fprtn
-	{
-		typedef typename a_output_fprtn<SourceRef, unichar, RTNOTagInput, execution_state_set_impl_choice, edc, StateMappedExtraData>::type type;
-
-	private:
-		ua_output_fprtn()
-		{}
-	};
+	template<typename ContextMask, typename SourceRef, typename RTNOTagInput, assoc_container_impl_choice execution_state_set_impl_choice, output_fprtn_incoming_filtered_pop_transition_extra_data_choice edc = NO_OUTPUT_FPRTN_INCOMING_FILTERED_POP_TRANSITION_EXTRA_DATA, typename StateMappedExtraData = empty_class>
+	using ua_output_fprtn = a_output_fprtn<ContextMask, SourceRef, unichar, RTNOTagInput, execution_state_set_impl_choice, edc, StateMappedExtraData>;
 } //namespace grapenlp
 
 #endif /*GRAPENLP_UA_OUTPUT_FPRTN_H*/

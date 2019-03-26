@@ -27,6 +27,7 @@
 %module trie_with_ptr_data
 %include trie_with_data.i
 %{
+#include <grapenlp/trie_with_ptr_data.h>
 namespace grapenlp
 {
     template<typename T, typename Data>

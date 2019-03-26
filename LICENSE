@@ -24,12 +24,21 @@ other applications.
 > along with this library; if not, write to the Free Software Foundation, 
 > Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA.
 
-## Third-party libraries
+## Third-party code
 
-This library borrows a few source code files from the Unitex project, for the
-management of Unicode characters. These files can be distinguished by their
-headers, and are also licensed under the terms of the GNU Lesser General Public
-License v2.1
+This library borrows a few source code files from the Unitex project (see
+https://unitexgramlab.org/) for the management of Unicode characters. These files
+can be distinguished by their headers, and are also licensed under the terms of the
+GNU Lesser General Public License v2.1
+
+This project uses the CMake script UseDoxygen.cmake to generate the project
+documentation. This script is licensed under the BSD License 2.0.
+
+The GrapeNLP group uses Boost-for-Android in order to compile the Boost C++ Libraries
+for the Android platform, which are later used to build the Android version of GRAPENLP.
+Boost-for-Android is licensed under the Apache License 2.0, though it is not a part
+of GRAPENLP; the GrapeNLP has forked the Boost-for-Android repository for convenience.
+The original repository URL is https://github.com/moritz-wundke/Boost-for-Android.
 
 ---
 

@@ -37,9 +37,6 @@ namespace grapenlp
 	const unichar meta_left_delimiter_char = '<';
 	const unichar meta_right_delimiter_char = '>';
 	const unichar suffix_char = '-';
-	const unichar no_blank_char = '#';
-	const unichar blank_char = ' ';
-	const unichar in_out_separator_char = '/';
 	const std::array<unichar, 5> token_meta_mask_code = { {'T', 'O', 'K', 'E', 'N'} };
 	const std::array<unichar, 2> digit_meta_mask_code = { {'N', 'B'} };
 	const std::array<unichar, 3> no_digit_meta_mask_code = { {'!', 'N', 'B'} };

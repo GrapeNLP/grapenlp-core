@@ -30,23 +30,28 @@
 
 namespace grapenlp
 {
-	//RTNO having lexical mask/trie string ref as input/output transition tags
-	template<typename InputIterator, typename Id>
-	struct lt_rtno
-	{
-		typedef typename l_rtno<InputIterator, typename trie<Id>::string::const_ref>::type type;
-	private:
-		lt_rtno(){}
-	};
+	/**
+	 * Recursive transition network with output (RTNO) having lexical masks as input tags and pointers to trie strings
+	 * as output. These pointers allow for a more efficient representation and concatenation of strings, using a single
+	 * integer to represent a potentially long string, and allowing for the concatenation of characters to strings in
+	 * constant time: the original string is not copied with the appended character but a single node is added under the
+	 * trie node that represents the last character of the string (see chapter 9 of
+	 * http://monge.univ-mlv.fr/~sastre/publications/sastre11t.zip).
+	 * @tparam InputIterator the type of the iterator over the RTNO input (e.g. an unichar array iterator)
+	 * @tparam Id the character type of the output strings (e.g. unichar)
+	 */
+	template<typename InputIterator, typename Id, typename ContextMask>
+	using lt_rtno = l_rtno<InputIterator, typename trie<Id>::string::const_ref, ContextMask>;
 
-	//RTNO having lexical mask/trie string ref as input/output transition tags
-	template<typename InputIterator, typename Id>
-	struct ltns_rtno
-	{
-		typedef typename lns_rtno<InputIterator, typename trie<Id>::string::const_ref>::type type;
-	private:
-		ltns_rtno(){}
-	};
+	/**
+	 * Partial instantiation of the recursive transition network with output and numbered states for lexical mask input
+	 * tags and pointers to trie strings as output. This struct is not to be instantiated but it just serves for
+	 * encapsulating the generic data type.
+	 * @tparam InputIterator the type of the iterator over the RTNO input (e.g. an unichar array iterator)
+	 * @tparam Id the character type of the output strings (e.g. unichar)
+	 */
+	template<typename InputIterator, typename Id, typename ContextMask>
+	using ltns_rtno = lns_rtno<InputIterator, typename trie<Id>::string::const_ref, ContextMask>;
 } //namespace grapenlp
 
 #endif /*GRAPENLP_LT_RTNO_H*/

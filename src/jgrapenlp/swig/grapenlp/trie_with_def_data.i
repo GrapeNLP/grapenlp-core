@@ -27,6 +27,7 @@
 %module trie_with_def_data
 %include trie_with_data.i
 %{
+#include <grapenlp/trie_with_def_data.h>
 namespace grapenlp
 {
     template<typename T, typename DefDataValueGetter, typename Data = typename DefDataValueGetter::result_type>

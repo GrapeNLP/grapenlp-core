@@ -76,15 +76,15 @@ int main(int argc, char **argv)
 	pcfgla_reader<probability, idx_type, def_pcfgla_to_rtno_n_term_trie_data<ua_input_iterator, probability, idx_type>, def_pcfgla_to_rtno_lexicon_trie_data<ua_input_iterator> >()(pcfgla_grammar_file, pcfgla_lexicon_file, pcfgla_grammar);
 	u_fclose(pcfgla_grammar_file);
 	u_fclose(pcfgla_lexicon_file);
-	lutwns_rtno<ua_input_iterator, probability>::type rtno_grammar;
+	lutwns_rtno<ua_input_iterator, probability> rtno_grammar;
 	u_trie out_tag_trie;
 	//Dummy compressed DELAF, just because the lexmask factory needs one but we will not define lexmasks referring to the dictionary
 	compressed_delaf dico;
 	pcfgla_to_rtno<ua_input_iterator, probability, idx_type>()(pcfgla_grammar, rtno_grammar, out_tag_trie, dico);
-    std::wcout << "Number of states: " << rtno_grammar.state_count() << std::endl;
-    std::wcout << "Number of transitions: " << rtno_grammar.transition_count() << std::endl;
+    std::wcout << L"Number of states: " << rtno_grammar.state_count() << std::endl;
+    std::wcout << L"Number of transitions: " << rtno_grammar.transition_count() << std::endl;
 #ifdef TRACE
-	wcout << "Converting rtno grammar to dot" << std::endl;
+	wcout << L"Converting rtno grammar to dot" << std::endl;
 	wofstream fout("../grammar.dot");
 
 	fout.imbue(std::locale(setlocale(LC_CTYPE, NULL)));

@@ -31,15 +31,8 @@
 
 namespace grapenlp
 {
-	template<typename SourceRef, typename RTNOTagInput, assoc_container_impl_choice execution_state_set_impl_choice>
-	struct ua_output_fprtn_zpps
-	{
-		typedef typename a_output_fprtn_zpps<SourceRef, unichar, RTNOTagInput, execution_state_set_impl_choice>::type type;
-
-	private:
-		ua_output_fprtn_zpps()
-		{}
-	};
+	template<typename ContextMask, typename SourceRef, typename RTNOTagInput, assoc_container_impl_choice execution_state_set_impl_choice>
+	using ua_output_fprtn_zpps = a_output_fprtn_zpps<ContextMask, SourceRef, unichar, RTNOTagInput, execution_state_set_impl_choice>;
 } //namespace grapenlp
 
 #endif /*GRAPENLP_UA_OUTPUT_FPRTN_ZPPS_H*/

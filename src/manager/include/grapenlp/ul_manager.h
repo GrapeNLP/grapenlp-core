@@ -34,12 +34,14 @@
 
 #endif
 
+#include <map>
 #include <set>
 
 #include <grapenlp/disable_directives.h>
 #include <grapenlp/string.h>
 #include <grapenlp/u_array.h>
 #include <grapenlp/u_trie.h>
+#include <grapenlp/u_context_reader.h>
 
 //Tokenization
 #include <grapenlp/tokenization.h>
@@ -90,7 +92,7 @@
 #ifndef DISABLE_WEIGHTED_GRAMMARS
 
 #include <grapenlp/lw_rtno_weight_tagger.h>
-#include <grapenlp/weight_transformer_traits.h> //XXXX
+#include <grapenlp/weight_transformer_traits.h>
 
 #endif
 
@@ -278,29 +280,29 @@ namespace grapenlp {
         //Grammar types
 #ifdef TRACE
 #ifndef DISABLE_LUA_GRAMMAR
-        typedef typename luans_rtno<InputIterator>::type my_lua_rtno;
+        typedef luans_rtno<InputIterator, u_context_mask> my_lua_rtno;
 #endif
 #ifndef DISABLE_LUAW_GRAMMAR
-        typedef typename luawns_rtno<InputIterator, weight>::type my_luaw_rtno;
+        typedef luawns_rtno<InputIterator, weight, u_context_mask> my_luaw_rtno;
 #endif
 #ifndef DISABLE_LUX_GRAMMAR
-        typedef typename luxns_rtno<InputIterator>::type my_lux_rtno;
+        typedef luxns_rtno<InputIterator, u_context_mask> my_lux_rtno;
 #endif
 #ifndef DISABLE_LUXW_GRAMMAR
-        typedef typename luxwns_rtno<InputIterator, weight>::type my_luxw_rtno;
+        typedef luxwns_rtno<InputIterator, weight, u_context_mask> my_luxw_rtno;
 #endif
 #else
 #ifndef DISABLE_LUA_GRAMMAR
-        typedef typename lua_rtno<InputIterator>::type my_lua_rtno;
+        typedef lua_rtno<InputIterator, u_context_mask> my_lua_rtno;
 #endif
 #ifndef DISABLE_LUAW_GRAMMAR
-        typedef typename luaw_rtno<InputIterator, weight>::type my_luaw_rtno;
+        typedef luaw_rtno<InputIterator, weight, u_context_mask> my_luaw_rtno;
 #endif
 #ifndef DISABLE_LUX_GRAMMAR
-        typedef typename lux_rtno<InputIterator>::type my_lux_rtno;
+        typedef lux_rtno<InputIterator, u_context_mask> my_lux_rtno;
 #endif
 #ifndef DISABLE_LUXW_GRAMMAR
-        typedef typename luxw_rtno<InputIterator, weight>::type my_luxw_rtno;
+        typedef luxw_rtno<InputIterator, weight, u_context_mask> my_luxw_rtno;
 #endif
 #endif
 
@@ -350,7 +352,8 @@ namespace grapenlp {
 #if !defined(DISABLE_TEXT_DICO) && !defined(DISABLE_COMPRESSED_DICO)
         bool dico_is_in_text_format;
 #endif
-
+        u_context_key_value_hasher the_context_key_value_hasher;
+        const u_context *the_context_ref;
         typename token<InputIterator>::ref_list the_token_list;
         bool hasnt_white_at_begin;
         bool hasnt_white_at_end;
@@ -363,7 +366,7 @@ namespace grapenlp {
         u_array ua;
         void *v_pos_filter_ref;
 #endif
-        std::unique_ptr<l_trie<unichar, InputIterator> > ult_ref;
+        std::unique_ptr<ul_tag_input_trie<unichar, InputIterator> > ult_ref;
         std::unique_ptr<ua_trie> uat_ref;
         std::unique_ptr<u_out_bound::trie> uobt_ref;
 #if defined(SERIALIZED_OUTPUT)
@@ -375,22 +378,24 @@ namespace grapenlp {
     public:
         ul_manager() :
                 grammar_type(),
-                grammar_ref(NULL),
-                dico_ref(NULL),
+                grammar_ref(nullptr),
+                dico_ref(nullptr),
 #if !defined(DISABLE_TEXT_DICO) && !defined(DISABLE_COMPRESSED_DICO)
                 dico_is_in_text_format(false),
 #endif
+                the_context_key_value_hasher(),
+                the_context_ref(nullptr),
                 the_token_list(),
                 hasnt_white_at_begin(true),
                 hasnt_white_at_end(true),
                 the_output_set_impl_choice(LRB_TREE_3W),
-                output_set_ref(NULL),
+                output_set_ref(nullptr),
 #ifdef SIMPLIFIED_OUTPUT
                 simplified_weighted_output(),
 #endif
 #if defined(SERIALIZED_OUTPUT)
         ua(),
-        v_pos_filter_ref(NULL),
+        v_pos_filter_ref(nullptr),
 #endif
                 ult_ref(),
                 uat_ref(),
@@ -398,27 +403,29 @@ namespace grapenlp {
 #if defined(SERIALIZED_OUTPUT)
                 td_ref(),
 #endif
-                the_parse_func_ref(NULL),
-                the_parse_and_get_fprtn_stats_func_ref(NULL) {}
+                the_parse_func_ref(nullptr),
+                the_parse_and_get_fprtn_stats_func_ref(nullptr) {}
 
         ul_manager(rtno_type grammar_type_, const std::string &grammar_path_name, const std::string &dico_path_name) :
                 grammar_type(),
-                grammar_ref(NULL),
-                dico_ref(NULL),
+                grammar_ref(nullptr),
+                dico_ref(nullptr),
 #if !defined(DISABLE_TEXT_DICO) && !defined(DISABLE_COMPRESSED_DICO)
                 dico_is_in_text_format(false),
 #endif
+                the_context_key_value_hasher(),
+                the_context_ref(nullptr),
                 the_token_list(),
                 hasnt_white_at_begin(true),
                 hasnt_white_at_end(true),
                 the_output_set_impl_choice(LRB_TREE_3W),
-                output_set_ref(NULL),
+                output_set_ref(nullptr),
 #ifdef SIMPLIFIED_OUTPUT
                 simplified_weighted_output(),
 #endif
 #if defined(SERIALIZED_OUTPUT)
         ua(),
-        v_pos_filter_ref(NULL),
+        v_pos_filter_ref(nullptr),
 #endif
                 ult_ref(),
                 uat_ref(),
@@ -426,8 +433,8 @@ namespace grapenlp {
 #if defined(SERIALIZED_OUTPUT)
                 td_ref(),
 #endif
-                the_parse_func_ref(NULL),
-                the_parse_and_get_fprtn_stats_func_ref(NULL) {
+                the_parse_func_ref(nullptr),
+                the_parse_and_get_fprtn_stats_func_ref(nullptr) {
             load_grammar_and_dico(grammar_type_, grammar_path_name, dico_path_name);
         }
 
@@ -486,6 +493,7 @@ namespace grapenlp {
 #endif
                 default:
                     fatal_error("Unsupported grammar type (delete grammar)\n");
+                    break;
             }
         }
 
@@ -509,6 +517,11 @@ namespace grapenlp {
         compressed_delaf &get_compressed_delaf() { return *static_cast<compressed_delaf *>(dico_ref); }
 
         void delete_compressed_delaf() { delete static_cast<compressed_delaf *>(dico_ref); }
+
+        const u_context_key_value_hasher& get_context_key_value_hasher()
+        {
+            return the_context_key_value_hasher;
+        }
 
 #if defined(SERIALIZED_OUTPUT)
         my_compressed_delaf_entry_filter& get_compressed_v_pos_filter()
@@ -625,6 +638,7 @@ namespace grapenlp {
 #endif
                         default:
                             fatal_error("Unsupported output set implementation\n");
+                            break;
                     }
                     break;
                 case LEXMASK_X_EXTRACTION_RTNO:
@@ -642,6 +656,7 @@ namespace grapenlp {
 #endif
                         default:
                             fatal_error("Unsupported output set implementation\n");
+                            break;
                     }
                     break;
 #ifndef DISABLE_WEIGHTED_GRAMMARS
@@ -660,11 +675,13 @@ namespace grapenlp {
 #endif
                         default:
                             fatal_error("Unsupported output set implementation\n");
+                            break;
                     }
                     break;
 #endif //DIABLE_WEIGHTED_GRAMMARS
                 default:
                     fatal_error("Unsupported grammar type (delete output set)\n");
+                    break;
             }
         }
 
@@ -696,6 +713,7 @@ namespace grapenlp {
 #endif
                         default:
                             fatal_error("Unsupported output set implementation\n");
+                            break;
                     }
                     break;
                 case LEXMASK_X_EXTRACTION_RTNO:
@@ -717,6 +735,7 @@ namespace grapenlp {
 #endif
                         default:
                             fatal_error("Unsupported output set implementation\n");
+                            break;
                     }
                     break;
 #ifndef DISABLE_WEIGHTED_GRAMMARS
@@ -739,11 +758,13 @@ namespace grapenlp {
 #endif
                         default:
                             fatal_error("Unsupported output set implementation\n");
+                            break;
                     }
                     break;
 #endif //DISABLE_WEIGHTED_GRAMMARS
                 default:
                     fatal_error("Unsupported grammar type (reset output set)\n");
+                    break;
             }
         }
 
@@ -843,9 +864,10 @@ namespace grapenlp {
             if (grammar_file == NULL)
                 fatal_error("Unable to open grammar file to read\n");
 
-            ult_ref.reset(new l_trie<unichar, InputIterator>);
+            ult_ref.reset(new ul_tag_input_trie<unichar, InputIterator>);
             uat_ref.reset(new ua_trie);
             uobt_ref.reset(new u_out_bound::trie);
+            the_context_key_value_hasher.clear();
 #if defined(SERIALIZED_OUTPUT)
             td_ref.reset(new movistarbot_tag_dico(uobt_ref->epsilon()));
 #endif
@@ -861,13 +883,13 @@ namespace grapenlp {
 #else
                 grammar_ref = new my_lua_rtno;
 #ifdef DISABLE_TEXT_DICO
-                my_ulua_fst2_reader()(grammar_file, get_lua_grammar(), *ult_ref, *uat_ref, get_compressed_delaf());
+                my_ulua_fst2_reader()(grammar_file, get_lua_grammar(), *ult_ref, *uat_ref, get_compressed_delaf(), the_context_key_value_hasher);
 #elif defined(DISABLE_COMPRESSED_DICO)
-                my_ulua_fst2_reader()(grammar_file, get_lua_grammar(), *ult_ref, *uat_ref, get_text_delaf());
+                my_ulua_fst2_reader()(grammar_file, get_lua_grammar(), *ult_ref, *uat_ref, get_text_delaf(), the_context_key_value_hasher);
 #else
                 if (dico_is_in_text_format)
-                    my_ulua_fst2_reader()(grammar_file, get_lua_grammar(), *ult_ref, *uat_ref, get_text_delaf());
-                else my_ulua_fst2_reader()(grammar_file, get_lua_grammar(), *ult_ref, *uat_ref, get_compressed_delaf());
+                    my_ulua_fst2_reader()(grammar_file, get_lua_grammar(), *ult_ref, *uat_ref, get_text_delaf(), the_context_key_value_hasher);
+                else my_ulua_fst2_reader()(grammar_file, get_lua_grammar(), *ult_ref, *uat_ref, get_compressed_delaf(), the_context_key_value_hasher);
 #endif //DISABLE_TEXT_DICO
 #endif //DISABLE_LUA_GRAMMAR
                     break;
@@ -877,13 +899,13 @@ namespace grapenlp {
 #else
                 grammar_ref = new my_luaw_rtno;
 #ifdef DISABLE_TEXT_DICO
-                my_uluaw_fst2_reader()(grammar_file, get_luaw_grammar(), *ult_ref, *uat_ref, get_compressed_delaf());
+                my_uluaw_fst2_reader()(grammar_file, get_luaw_grammar(), *ult_ref, *uat_ref, get_compressed_delaf(), the_context_key_value_hasher);
 #elif defined(DISABLE_COMPRESSED_DICO)
-                my_uluaw_fst2_reader()(grammar_file, get_luaw_grammar(), *ult_ref, *uat_ref, get_text_delaf());
+                my_uluaw_fst2_reader()(grammar_file, get_luaw_grammar(), *ult_ref, *uat_ref, get_text_delaf(), the_context_key_value_hasher);
 #else
                 if (dico_is_in_text_format)
-                    my_uluaw_fst2_reader()(grammar_file, get_luaw_grammar(), *ult_ref, *uat_ref, get_text_delaf());
-                else my_uluaw_fst2_reader()(grammar_file, get_luaw_grammar(), *ult_ref, *uat_ref, get_compressed_delaf());
+                    my_uluaw_fst2_reader()(grammar_file, get_luaw_grammar(), *ult_ref, *uat_ref, get_text_delaf(), the_context_key_value_hasher);
+                else my_uluaw_fst2_reader()(grammar_file, get_luaw_grammar(), *ult_ref, *uat_ref, get_compressed_delaf(), the_context_key_value_hasher);
 #endif //DISABLE_TEXT_DICO
 #endif //DISABLE_LUAW_GRAMMAR
                     break;
@@ -893,13 +915,13 @@ namespace grapenlp {
 #else
                 grammar_ref = new my_lux_rtno;
 #ifdef DISABLE_TEXT_DICO
-                my_ulx_fst2_reader()(grammar_file, get_lux_grammar(), *ult_ref, *uobt_ref, get_compressed_delaf());
+                my_ulx_fst2_reader()(grammar_file, get_lux_grammar(), *ult_ref, *uobt_ref, get_compressed_delaf(), the_context_key_value_hasher);
 #elif defined(DISABLE_COMPRESSED_DICO)
-                my_ulx_fst2_reader()(grammar_file, get_lux_grammar(), *ult_ref, *uobt_ref, get_text_delaf());
+                my_ulx_fst2_reader()(grammar_file, get_lux_grammar(), *ult_ref, *uobt_ref, get_text_delaf(), the_context_key_value_hasher);
 #else
                 if (dico_is_in_text_format)
-                    my_ulx_fst2_reader()(grammar_file, get_lux_grammar(), *ult_ref, *uobt_ref, get_text_delaf());
-                else my_ulx_fst2_reader()(grammar_file, get_lux_grammar(), *ult_ref, *uobt_ref, get_compressed_delaf());
+                    my_ulx_fst2_reader()(grammar_file, get_lux_grammar(), *ult_ref, *uobt_ref, get_text_delaf(), the_context_key_value_hasher);
+                else my_ulx_fst2_reader()(grammar_file, get_lux_grammar(), *ult_ref, *uobt_ref, get_compressed_delaf(), the_context_key_value_hasher);
 #endif //DISABLE_TEXT_DICO
 #endif //DISABLE_LUX_GRAMMAR
                     break;
@@ -909,21 +931,22 @@ namespace grapenlp {
 #else
                     grammar_ref = new my_luxw_rtno;
 #ifdef DISABLE_TEXT_DICO
-                    my_ulxw_fst2_reader()(grammar_file, get_luxw_grammar(), *ult_ref, *uobt_ref, get_compressed_delaf());
+                    my_ulxw_fst2_reader()(grammar_file, get_luxw_grammar(), *ult_ref, *uobt_ref, get_compressed_delaf(), the_context_key_value_hasher);
 #elif defined(DISABLE_COMPRESSED_DICO)
-                    my_ulxw_fst2_reader()(grammar_file, get_luxw_grammar(), *ult_ref, *uobt_ref, get_text_delaf());
+                    my_ulxw_fst2_reader()(grammar_file, get_luxw_grammar(), *ult_ref, *uobt_ref, get_text_delaf(), the_context_key_value_hasher);
 #else
                     if (dico_is_in_text_format)
-                        my_ulxw_fst2_reader()(grammar_file, get_luxw_grammar(), *ult_ref, *uobt_ref, get_text_delaf());
+                        my_ulxw_fst2_reader()(grammar_file, get_luxw_grammar(), *ult_ref, *uobt_ref, get_text_delaf(), the_context_key_value_hasher);
                     else
                         my_ulxw_fst2_reader()(grammar_file, get_luxw_grammar(), *ult_ref, *uobt_ref,
-                                              get_compressed_delaf());
+                                              get_compressed_delaf(), the_context_key_value_hasher);
 #endif //DISABLE_TEXT_DICO
-                    lw_rtno_weight_tag<InputIterator, typename my_luxw_rtno::tag_output>(get_luxw_grammar());
+                    lw_rtno_weight_tag<InputIterator, typename my_luxw_rtno::tag_output, u_context_mask>(get_luxw_grammar());
 #endif //DISABLE_LUXW_GRAMMAR
                     break;
                 default:
                     fatal_error("Unknown grammar type\n");
+                    break;
             }
             u_fclose(grammar_file);
 
@@ -935,7 +958,7 @@ namespace grapenlp {
                 delete_output_set();
             this->grammar_type = grammar_type;
 #ifdef TRACE
-            std::wcout << "Converting grammar to dot" << std::endl;
+            std::wcout << L"Converting grammar to dot" << std::endl;
             std::wofstream fout("../grammar.dot");
             fout.imbue(std::locale(setlocale(LC_CTYPE, NULL)));
             if (!fout)
@@ -964,12 +987,12 @@ namespace grapenlp {
 #endif
                 default:
                     fatal_error("Unsupported grammar type (RTNO to dot)\n");
+                    break;
             }
 #endif //TRACE
         }
 
-        void
-        load_grammar_and_dico(rtno_type grammar_type, const std::string &grammar_path_name, const std::string &dico_path_name)
+        void load_grammar_and_dico(rtno_type grammar_type, const std::string &grammar_path_name, const std::string &dico_path_name)
         {
             grapenlp::string dpn(dico_path_name);
             if (dpn.ends_with(".dic"))
@@ -1015,6 +1038,7 @@ namespace grapenlp {
 #endif
                 default:
                     fatal_error("Unsupported grammar type (grammar state count)\n");
+                    break;
             }
             return 0;
         }
@@ -1036,8 +1060,14 @@ namespace grapenlp {
 #endif
                 default:
                     fatal_error("Unsupported grammar type (grammar transition count)\n");
+                    break;
             }
             return 0;
+        }
+
+        void set_context(const u_context &ctx)
+        {
+            the_context_ref = &ctx;
         }
 
         std::size_t tokenize(InputIterator input_begin, InputIterator input_end) {
@@ -1120,8 +1150,10 @@ namespace grapenlp {
         template<sequence_impl_choice sic>
         std::size_t exe_my_lua_depth_first_parser_no_output()
         {
-            bool accept(typename lua_depth_first_parser_no_output_impl_selector<InputIterator, token_iterator, sic>::type()(get_lua_grammar(), the_token_list.begin(), the_token_list.end(), hasnt_white_at_begin, hasnt_white_at_end));
+            bool accept(typename lua_depth_first_parser_no_output_impl_selector<InputIterator, token_iterator, sic>::type()(get_lua_grammar(), the_token_list.begin(), the_token_list.end(), hasnt_white_at_begin, hasnt_white_at_end, *the_context_ref));
+#ifdef SERIALIZED_OUTPUT
             accept ? ua.reset(ua_true): ua.reset(ua_false);
+#endif
             return accept;
         }
 #endif
@@ -1133,7 +1165,7 @@ namespace grapenlp {
             clear_output_u_array_set<output_set_impl_choice>();
             trie_string_ref_pool<unichar> tsrp;
             typename set_impl_selector<output_set_impl_choice, u_trie_string_ref>::type utsrs;
-            typename lua_depth_first_parser_impl_selector<InputIterator, token_iterator, TRIE_STRINGS, output_set_impl_choice>::type()(get_lua_grammar(), the_token_list.begin(), the_token_list.end(), hasnt_white_at_begin, hasnt_white_at_end, utsrs, tsrp.empty());
+            typename lua_depth_first_parser_impl_selector<InputIterator, token_iterator, TRIE_STRINGS, output_set_impl_choice>::type()(get_lua_grammar(), the_token_list.begin(), the_token_list.end(), hasnt_white_at_begin, hasnt_white_at_end, *the_context_ref, utsrs, tsrp.empty());
             return u_trie_string_ref_set_to_output_u_array_set<output_set_impl_choice>(utsrs);
         }
 #endif
@@ -1142,7 +1174,7 @@ namespace grapenlp {
         std::size_t exe_my_lua_depth_first_parser_with_array_stacks_and_output()
         {
             clear_output_u_array_set<output_set_impl_choice>();
-            typename lua_depth_first_parser_impl_selector<InputIterator, token_iterator, ARRAYS, output_set_impl_choice>::type()(get_lua_grammar(), the_token_list.begin(), the_token_list.end(), hasnt_white_at_begin, hasnt_white_at_end, get_output_u_array_set<output_set_impl_choice>());
+            typename lua_depth_first_parser_impl_selector<InputIterator, token_iterator, ARRAYS, output_set_impl_choice>::type()(get_lua_grammar(), the_token_list.begin(), the_token_list.end(), hasnt_white_at_begin, hasnt_white_at_end, *the_context_ref, get_output_u_array_set<output_set_impl_choice>());
             return get_output_u_array_set<output_set_impl_choice>().size();
         }
 #endif
@@ -1153,8 +1185,10 @@ namespace grapenlp {
         template<sequence_impl_choice sic>
         std::size_t exe_my_luaw_depth_first_parser_no_output()
         {
-            bool accept(typename luaw_depth_first_parser_no_output_impl_selector<InputIterator, token_iterator, weight, sic>::type()(get_luaw_grammar(), the_token_list.begin(), the_token_list.end(), hasnt_white_at_begin, hasnt_white_at_end));
+            bool accept(typename luaw_depth_first_parser_no_output_impl_selector<InputIterator, token_iterator, weight, sic>::type()(get_luaw_grammar(), the_token_list.begin(), the_token_list.end(), hasnt_white_at_begin, hasnt_white_at_end, *the_context_ref));
+#ifdef SERIALIZED_OUTPUT
             accept ? ua.reset(ua_true): ua.reset(ua_false);
+#endif
             return accept;
         }
 #endif
@@ -1167,7 +1201,7 @@ namespace grapenlp {
             trie_string_ref_pool<unichar> tsrp;
             pool_u_trie_string_x_weight empty_psxw(tsrp.empty(), the_weight_transformer_traits::identity());
             typename set_impl_selector<output_set_impl_choice, pool_u_trie_string_x_weight>::type psxws;
-            typename luaw_depth_first_parser_impl_selector<InputIterator, token_iterator, weight_transformer, TRIE_STRINGS, output_set_impl_choice>::type()(get_luaw_grammar(), the_token_list.begin(), the_token_list.end(), hasnt_white_at_begin, hasnt_white_at_end, psxws, empty_psxw);
+            typename luaw_depth_first_parser_impl_selector<InputIterator, token_iterator, weight_transformer, TRIE_STRINGS, output_set_impl_choice>::type()(get_luaw_grammar(), the_token_list.begin(), the_token_list.end(), hasnt_white_at_begin, hasnt_white_at_end, *the_context_ref, psxws, empty_psxw);
             return pool_sequence_x_weight_set_to_output_u_array_set<output_set_impl_choice>(psxws);
         }
 #endif
@@ -1177,7 +1211,7 @@ namespace grapenlp {
         {
             clear_output_u_array_set<output_set_impl_choice>();
             typename set_impl_selector<output_set_impl_choice, fake_pool_u_array_x_weight>::type psxws;
-            typename luaw_depth_first_parser_impl_selector<InputIterator, token_iterator, weight_transformer, ARRAYS, output_set_impl_choice>::type()(get_luaw_grammar(), the_token_list.begin(), the_token_list.end(), hasnt_white_at_begin, hasnt_white_at_end, psxws);
+            typename luaw_depth_first_parser_impl_selector<InputIterator, token_iterator, weight_transformer, ARRAYS, output_set_impl_choice>::type()(get_luaw_grammar(), the_token_list.begin(), the_token_list.end(), hasnt_white_at_begin, hasnt_white_at_end, *the_context_ref, psxws);
             return pool_sequence_x_weight_set_to_output_u_array_set<output_set_impl_choice>(psxws);
         }
 #endif
@@ -1188,8 +1222,10 @@ namespace grapenlp {
         template<sequence_impl_choice sic>
         std::size_t exe_my_lux_depth_first_parser_no_output()
         {
-            bool accept(typename lx_depth_first_parser_no_output_impl_selector<InputIterator, token_iterator, unichar, sic>::type()(get_lux_grammar(), the_token_list.begin(), the_token_list.end(), hasnt_white_at_begin, hasnt_white_at_end));
+            bool accept(typename lx_depth_first_parser_no_output_impl_selector<InputIterator, token_iterator, unichar, sic>::type()(get_lux_grammar(), the_token_list.begin(), the_token_list.end(), hasnt_white_at_begin, hasnt_white_at_end, *the_context_ref));
+#ifdef SERIALIZED_OUTPUT
             accept ? ua.reset(ua_true): ua.reset(ua_false);
+#endif
             return accept;
         }
 #endif
@@ -1198,7 +1234,7 @@ namespace grapenlp {
         std::size_t exe_my_lux_depth_first_parser()
         {
             clear_output_segment_map_set<output_set_impl_choice>();
-            typename lx_depth_first_parser_impl_selector<InputIterator, token_iterator, unichar, sic, output_set_impl_choice>::type()(get_lux_grammar(), the_token_list.begin(), the_token_list.end(), hasnt_white_at_begin, hasnt_white_at_end, get_output_segment_map_set<output_set_impl_choice>());
+            typename lx_depth_first_parser_impl_selector<InputIterator, token_iterator, unichar, sic, output_set_impl_choice>::type()(get_lux_grammar(), the_token_list.begin(), the_token_list.end(), hasnt_white_at_begin, hasnt_white_at_end, *the_context_ref, get_output_segment_map_set<output_set_impl_choice>());
             return get_output_segment_map_set<output_set_impl_choice>().size();
         }
 #endif
@@ -1208,8 +1244,10 @@ namespace grapenlp {
         template<sequence_impl_choice sic>
         std::size_t exe_my_luxw_depth_first_parser_no_output()
         {
-            bool accept(typename lxw_depth_first_parser_no_output_impl_selector<InputIterator, token_iterator, unichar, weight, sic>::type()(get_luxw_grammar(), the_token_list.begin(), the_token_list.end(), hasnt_white_at_begin, hasnt_white_at_end));
+            bool accept(typename lxw_depth_first_parser_no_output_impl_selector<InputIterator, token_iterator, unichar, weight, sic>::type()(get_luxw_grammar(), the_token_list.begin(), the_token_list.end(), hasnt_white_at_begin, hasnt_white_at_end, *the_context_ref));
+#ifdef SERIALIZED_OUTPUT
             accept ? ua.reset(ua_true): ua.reset(ua_false);
+#endif
             return accept;
         }
 #endif
@@ -1218,7 +1256,7 @@ namespace grapenlp {
         std::size_t exe_my_luxw_depth_first_parser()
         {
             clear_output_segment_map_x_weight_set<output_set_impl_choice>();
-            typename lxw_depth_first_parser_impl_selector<InputIterator, token_iterator, unichar, weight_transformer, sic, output_set_impl_choice>::type()(get_luxw_grammar(), the_token_list.begin(), the_token_list.end(), hasnt_white_at_begin, hasnt_white_at_end, get_output_segment_map_x_weight_set<output_set_impl_choice>());
+            typename lxw_depth_first_parser_impl_selector<InputIterator, token_iterator, unichar, weight_transformer, sic, output_set_impl_choice>::type()(get_luxw_grammar(), the_token_list.begin(), the_token_list.end(), hasnt_white_at_begin, hasnt_white_at_end, *the_context_ref, get_output_segment_map_x_weight_set<output_set_impl_choice>());
             return get_output_segment_map_x_weight_set<output_set_impl_choice>().size();
         }
 #endif
@@ -1231,8 +1269,10 @@ namespace grapenlp {
         template<sequence_impl_choice sic, assoc_container_impl_choice execution_state_set_impl_choice>
         std::size_t exe_my_lua_breadth_first_parser_no_output()
         {
-            bool accept(typename lua_breadth_first_parser_no_output_impl_selector<InputIterator, token_iterator, sic, execution_state_set_impl_choice>::type()(get_lua_grammar(), the_token_list.begin(), the_token_list.end(), hasnt_white_at_begin, hasnt_white_at_end));
+            bool accept(typename lua_breadth_first_parser_no_output_impl_selector<InputIterator, token_iterator, sic, execution_state_set_impl_choice>::type()(get_lua_grammar(), the_token_list.begin(), the_token_list.end(), hasnt_white_at_begin, hasnt_white_at_end, *the_context_ref));
+#ifdef SERIALIZED_OUTPUT
             accept ? ua.reset(ua_true): ua.reset(ua_false);
+#endif
             return accept;
         }
 #endif
@@ -1244,7 +1284,7 @@ namespace grapenlp {
             clear_output_u_array_set<output_set_impl_choice>();
             trie_string_ref_pool<unichar> tsrp;
             typename set_impl_selector<output_set_impl_choice, u_trie_string_ref>::type utsrs;
-            typename lua_breadth_first_parser_impl_selector<InputIterator, token_iterator, TRIE_STRINGS, execution_state_set_impl_choice, output_set_impl_choice>::type()(get_lua_grammar(), the_token_list.begin(), the_token_list.end(), hasnt_white_at_begin, hasnt_white_at_end, utsrs, tsrp.empty());
+            typename lua_breadth_first_parser_impl_selector<InputIterator, token_iterator, TRIE_STRINGS, execution_state_set_impl_choice, output_set_impl_choice>::type()(get_lua_grammar(), the_token_list.begin(), the_token_list.end(), hasnt_white_at_begin, hasnt_white_at_end, *the_context_ref, utsrs, tsrp.empty());
             return u_trie_string_ref_set_to_output_u_array_set<output_set_impl_choice>(utsrs);
         }
 #endif
@@ -1253,7 +1293,7 @@ namespace grapenlp {
         std::size_t exe_my_lua_breadth_first_parser_with_array_stacks_and_output()
         {
             clear_output_u_array_set<output_set_impl_choice>();
-            typename lua_breadth_first_parser_impl_selector<InputIterator, token_iterator, ARRAYS, execution_state_set_impl_choice, output_set_impl_choice>::type()(get_lua_grammar(), the_token_list.begin(), the_token_list.end(), hasnt_white_at_begin, hasnt_white_at_end, get_output_u_array_set<output_set_impl_choice>());
+            typename lua_breadth_first_parser_impl_selector<InputIterator, token_iterator, ARRAYS, execution_state_set_impl_choice, output_set_impl_choice>::type()(get_lua_grammar(), the_token_list.begin(), the_token_list.end(), hasnt_white_at_begin, hasnt_white_at_end, *the_context_ref, get_output_u_array_set<output_set_impl_choice>());
             return get_output_u_array_set<output_set_impl_choice>().size();
         }
 #endif
@@ -1264,8 +1304,10 @@ namespace grapenlp {
         template<sequence_impl_choice sic, assoc_container_impl_choice execution_state_set_impl_choice>
         std::size_t exe_my_luaw_breadth_first_parser_no_output()
         {
-            bool accept(typename luaw_breadth_first_parser_no_output_impl_selector<InputIterator, token_iterator, weight, sic, execution_state_set_impl_choice>::type()(get_luaw_grammar(), the_token_list.begin(), the_token_list.end(), hasnt_white_at_begin, hasnt_white_at_end));
+            bool accept(typename luaw_breadth_first_parser_no_output_impl_selector<InputIterator, token_iterator, weight, sic, execution_state_set_impl_choice>::type()(get_luaw_grammar(), the_token_list.begin(), the_token_list.end(), hasnt_white_at_begin, hasnt_white_at_end, *the_context_ref));
+#ifdef SERIALIZED_OUTPUT
             accept ? ua.reset(ua_true): ua.reset(ua_false);
+#endif
             return accept;
         }
 #endif
@@ -1278,7 +1320,7 @@ namespace grapenlp {
             trie_string_ref_pool<unichar> tsrp;
             pool_u_trie_string_x_weight empty_psxw(the_weight_transformer_traits::identity());
             typename set_impl_selector<output_set_impl_choice, pool_u_trie_string_x_weight>::type psxws;
-            typename luaw_breadth_first_parser_impl_selector<InputIterator, token_iterator, weight_transformer, TRIE_STRINGS, execution_state_set_impl_choice, output_set_impl_choice>::type()(get_luaw_grammar(), the_token_list.begin(), the_token_list.end(), hasnt_white_at_begin, hasnt_white_at_end, psxws, empty_psxw);
+            typename luaw_breadth_first_parser_impl_selector<InputIterator, token_iterator, weight_transformer, TRIE_STRINGS, execution_state_set_impl_choice, output_set_impl_choice>::type()(get_luaw_grammar(), the_token_list.begin(), the_token_list.end(), hasnt_white_at_begin, hasnt_white_at_end, *the_context_ref, psxws, empty_psxw);
             return pool_sequence_x_weight_set_to_output_u_array_set<output_set_impl_choice>(psxws);
         }
 #endif
@@ -1288,7 +1330,7 @@ namespace grapenlp {
         {
             clear_output_u_array_set<output_set_impl_choice>();
             typename set_impl_selector<output_set_impl_choice, fake_pool_u_array_x_weight>::type psxws;
-            typename luaw_breadth_first_parser_impl_selector<InputIterator, token_iterator, weight_transformer, ARRAYS, execution_state_set_impl_choice, output_set_impl_choice>::type()(get_luaw_grammar(), the_token_list.begin(), the_token_list.end(), hasnt_white_at_begin, hasnt_white_at_end, psxws);
+            typename luaw_breadth_first_parser_impl_selector<InputIterator, token_iterator, weight_transformer, ARRAYS, execution_state_set_impl_choice, output_set_impl_choice>::type()(get_luaw_grammar(), the_token_list.begin(), the_token_list.end(), hasnt_white_at_begin, hasnt_white_at_end, *the_context_ref, psxws);
             return pool_sequence_x_weight_set_to_output_u_array_set<output_set_impl_choice>(psxws);
         }
 #endif
@@ -1299,8 +1341,10 @@ namespace grapenlp {
         template<sequence_impl_choice sic, assoc_container_impl_choice execution_state_set_impl_choice>
         std::size_t exe_my_lux_breadth_first_parser_no_output()
         {
-            bool accept(typename lx_breadth_first_parser_no_output_impl_selector<InputIterator, token_iterator, unichar, sic, execution_state_set_impl_choice>::type()(get_lux_grammar(), the_token_list.begin(), the_token_list.end(), hasnt_white_at_begin, hasnt_white_at_end));
+            bool accept(typename lx_breadth_first_parser_no_output_impl_selector<InputIterator, token_iterator, unichar, sic, execution_state_set_impl_choice>::type()(get_lux_grammar(), the_token_list.begin(), the_token_list.end(), hasnt_white_at_begin, hasnt_white_at_end, *the_context_ref));
+#ifdef SERIALIZED_OUTPUT
             accept ? ua.reset(ua_true): ua.reset(ua_false);
+#endif
             return accept;
         }
 #endif
@@ -1309,7 +1353,7 @@ namespace grapenlp {
         std::size_t exe_my_lux_breadth_first_parser()
         {
             clear_output_segment_map_set<output_set_impl_choice>();
-            typename lx_breadth_first_parser_impl_selector<InputIterator, token_iterator, unichar, sic, execution_state_set_impl_choice, output_set_impl_choice>::type()(get_lux_grammar(), the_token_list.begin(), the_token_list.end(), hasnt_white_at_begin, hasnt_white_at_end, get_output_segment_map_set<output_set_impl_choice>());
+            typename lx_breadth_first_parser_impl_selector<InputIterator, token_iterator, unichar, sic, execution_state_set_impl_choice, output_set_impl_choice>::type()(get_lux_grammar(), the_token_list.begin(), the_token_list.end(), hasnt_white_at_begin, hasnt_white_at_end, *the_context_ref, get_output_segment_map_set<output_set_impl_choice>());
             return get_output_segment_map_set<output_set_impl_choice>().size();
         }
 #endif
@@ -1319,8 +1363,10 @@ namespace grapenlp {
         template<sequence_impl_choice sic, assoc_container_impl_choice execution_state_set_impl_choice>
         std::size_t exe_my_luxw_breadth_first_parser_no_output()
         {
-            bool accept(typename lxw_breadth_first_parser_no_output_impl_selector<InputIterator, token_iterator, unichar, weight, sic, execution_state_set_impl_choice>::type()(get_luxw_grammar(), the_token_list.begin(), the_token_list.end(), hasnt_white_at_begin, hasnt_white_at_end));
+            bool accept(typename lxw_breadth_first_parser_no_output_impl_selector<InputIterator, token_iterator, unichar, weight, sic, execution_state_set_impl_choice>::type()(get_luxw_grammar(), the_token_list.begin(), the_token_list.end(), hasnt_white_at_begin, hasnt_white_at_end, *the_context_ref));
+#ifdef SERIALIZED_OUTPUT
             accept ? ua.reset(ua_true): ua.reset(ua_false);
+#endif
             return accept;
         }
 #endif
@@ -1329,7 +1375,7 @@ namespace grapenlp {
         std::size_t exe_my_luxw_breadth_first_parser()
         {
             clear_output_segment_map_x_weight_set<output_set_impl_choice>();
-            typename lxw_breadth_first_parser_impl_selector<InputIterator, token_iterator, unichar, weight_transformer, sic, execution_state_set_impl_choice, output_set_impl_choice>::type()(get_luxw_grammar(), the_token_list.begin(), the_token_list.end(), hasnt_white_at_begin, hasnt_white_at_end, get_output_segment_map_x_weight_set<output_set_impl_choice>());
+            typename lxw_breadth_first_parser_impl_selector<InputIterator, token_iterator, unichar, weight_transformer, sic, execution_state_set_impl_choice, output_set_impl_choice>::type()(get_luxw_grammar(), the_token_list.begin(), the_token_list.end(), hasnt_white_at_begin, hasnt_white_at_end, *the_context_ref, get_output_segment_map_x_weight_set<output_set_impl_choice>());
             return get_output_segment_map_x_weight_set<output_set_impl_choice>().size();
         }
 #endif
@@ -1342,8 +1388,10 @@ namespace grapenlp {
         template<assoc_container_impl_choice execution_state_set_impl_choice>
         std::size_t exe_my_lua_earley_parser_no_output()
         {
-            bool accept(typename lua_earley_parser_no_output_impl_selector<InputIterator, token_iterator, execution_state_set_impl_choice>::type()(get_lua_grammar(), the_token_list.begin(), the_token_list.end(), hasnt_white_at_begin, hasnt_white_at_end));
+            bool accept(typename lua_earley_parser_no_output_impl_selector<InputIterator, token_iterator, execution_state_set_impl_choice>::type()(get_lua_grammar(), the_token_list.begin(), the_token_list.end(), hasnt_white_at_begin, hasnt_white_at_end, *the_context_ref));
+#ifdef SERIALIZED_OUTPUT
             accept ? ua.reset(ua_true): ua.reset(ua_false);
+#endif
             return accept;
         }
 #endif
@@ -1355,7 +1403,7 @@ namespace grapenlp {
             clear_output_u_array_set<output_set_impl_choice>();
             trie_string_ref_pool<unichar> tsrp;
             typename set_impl_selector<output_set_impl_choice, u_trie_string_ref>::type utsrs;
-            typename lua_earley_parser_impl_selector<InputIterator, token_iterator, TRIE_STRINGS, execution_state_set_impl_choice, output_set_impl_choice>::type()(get_lua_grammar(), the_token_list.begin(), the_token_list.end(), hasnt_white_at_begin, hasnt_white_at_end, utsrs, tsrp.empty());
+            typename lua_earley_parser_impl_selector<InputIterator, token_iterator, TRIE_STRINGS, execution_state_set_impl_choice, output_set_impl_choice>::type()(get_lua_grammar(), the_token_list.begin(), the_token_list.end(), hasnt_white_at_begin, hasnt_white_at_end, *the_context_ref, utsrs, tsrp.empty());
             return u_trie_string_ref_set_to_output_u_array_set<output_set_impl_choice>(utsrs);
         }
 #endif
@@ -1364,7 +1412,7 @@ namespace grapenlp {
         std::size_t exe_my_lua_earley_parser_with_array_output()
         {
             clear_output_u_array_set<output_set_impl_choice>();
-            typename lua_earley_parser_impl_selector<InputIterator, token_iterator, ARRAYS, execution_state_set_impl_choice, output_set_impl_choice>::type()(get_lua_grammar(), the_token_list.begin(), the_token_list.end(), hasnt_white_at_begin, hasnt_white_at_end, get_output_u_array_set<output_set_impl_choice>());
+            typename lua_earley_parser_impl_selector<InputIterator, token_iterator, ARRAYS, execution_state_set_impl_choice, output_set_impl_choice>::type()(get_lua_grammar(), the_token_list.begin(), the_token_list.end(), hasnt_white_at_begin, hasnt_white_at_end, *the_context_ref, get_output_u_array_set<output_set_impl_choice>());
             return get_output_u_array_set<output_set_impl_choice>().size();
         }
 #endif
@@ -1375,8 +1423,10 @@ namespace grapenlp {
         template<assoc_container_impl_choice execution_state_set_impl_choice>
         std::size_t exe_my_luaw_earley_parser_no_output()
         {
-            bool accept(typename luaw_earley_parser_no_output_impl_selector<InputIterator, token_iterator, weight, execution_state_set_impl_choice>::type()(get_luaw_grammar(), the_token_list.begin(), the_token_list.end(), hasnt_white_at_begin, hasnt_white_at_end));
+            bool accept(typename luaw_earley_parser_no_output_impl_selector<InputIterator, token_iterator, weight, execution_state_set_impl_choice>::type()(get_luaw_grammar(), the_token_list.begin(), the_token_list.end(), hasnt_white_at_begin, hasnt_white_at_end, *the_context_ref));
+#ifdef SERIALIZED_OUTPUT
             accept ? ua.reset(ua_true): ua.reset(ua_false);
+#endif
             return accept;
         }
 #endif
@@ -1389,7 +1439,7 @@ namespace grapenlp {
             trie_string_ref_pool<unichar> tsrp;
             pool_u_trie_string_x_weight empty_psxw(tsrp.empty(), the_weight_transformer_traits::identity());
             typename set_impl_selector<output_set_impl_choice, pool_u_trie_string_x_weight>::type psxws;
-            typename luaw_earley_parser_impl_selector<InputIterator, token_iterator, weight_transformer, TRIE_STRINGS, execution_state_set_impl_choice, output_set_impl_choice>::type()(get_luaw_grammar(), the_token_list.begin(), the_token_list.end(), hasnt_white_at_begin, hasnt_white_at_end, psxws, empty_psxw);
+            typename luaw_earley_parser_impl_selector<InputIterator, token_iterator, weight_transformer, TRIE_STRINGS, execution_state_set_impl_choice, output_set_impl_choice>::type()(get_luaw_grammar(), the_token_list.begin(), the_token_list.end(), hasnt_white_at_begin, hasnt_white_at_end, *the_context_ref, psxws, empty_psxw);
             return pool_sequence_x_weight_set_to_output_u_array_set<output_set_impl_choice>(psxws);
         }
 #endif
@@ -1399,7 +1449,7 @@ namespace grapenlp {
         {
             clear_output_u_array_set<output_set_impl_choice>();
             typename set_impl_selector<output_set_impl_choice, fake_pool_u_array_x_weight>::type psxws;
-            typename luaw_earley_parser_impl_selector<InputIterator, token_iterator, weight_transformer, ARRAYS, execution_state_set_impl_choice, output_set_impl_choice>::type()(get_luaw_grammar(), the_token_list.begin(), the_token_list.end(), hasnt_white_at_begin, hasnt_white_at_end, psxws);
+            typename luaw_earley_parser_impl_selector<InputIterator, token_iterator, weight_transformer, ARRAYS, execution_state_set_impl_choice, output_set_impl_choice>::type()(get_luaw_grammar(), the_token_list.begin(), the_token_list.end(), hasnt_white_at_begin, hasnt_white_at_end, *the_context_ref, psxws);
             return pool_sequence_x_weight_set_to_output_u_array_set<output_set_impl_choice>(psxws);
         }
 #endif
@@ -1410,8 +1460,10 @@ namespace grapenlp {
         template<assoc_container_impl_choice execution_state_set_impl_choice>
         std::size_t exe_my_lux_earley_parser_no_output()
         {
-            bool accept(typename lx_earley_parser_no_output_impl_selector<InputIterator, token_iterator, unichar, execution_state_set_impl_choice>::type()(get_lux_grammar(), the_token_list.begin(), the_token_list.end(), hasnt_white_at_begin, hasnt_white_at_end));
+            bool accept(typename lx_earley_parser_no_output_impl_selector<InputIterator, token_iterator, unichar, execution_state_set_impl_choice>::type()(get_lux_grammar(), the_token_list.begin(), the_token_list.end(), hasnt_white_at_begin, hasnt_white_at_end, *the_context_ref));
+#ifdef SERIALIZED_OUTPUT
             accept ? ua.reset(ua_true): ua.reset(ua_false);
+#endif
             return accept;
         }
 #endif
@@ -1420,7 +1472,7 @@ namespace grapenlp {
         std::size_t exe_my_lux_earley_parser()
         {
             clear_output_segment_map_set<output_set_impl_choice>();
-            typename lx_earley_parser_impl_selector<InputIterator, token_iterator, unichar, execution_state_set_impl_choice, output_set_impl_choice>::type()(get_lux_grammar(), the_token_list.begin(), the_token_list.end(), hasnt_white_at_begin, hasnt_white_at_end, get_output_segment_map_set<output_set_impl_choice>());
+            typename lx_earley_parser_impl_selector<InputIterator, token_iterator, unichar, execution_state_set_impl_choice, output_set_impl_choice>::type()(get_lux_grammar(), the_token_list.begin(), the_token_list.end(), hasnt_white_at_begin, hasnt_white_at_end, *the_context_ref, get_output_segment_map_set<output_set_impl_choice>());
             return get_output_segment_map_set<output_set_impl_choice>().size();
         }
 #endif
@@ -1430,8 +1482,10 @@ namespace grapenlp {
         template<assoc_container_impl_choice execution_state_set_impl_choice>
         std::size_t exe_my_luxw_earley_parser_no_output()
         {
-            bool accept(typename lxw_earley_parser_no_output_impl_selector<InputIterator, token_iterator, unichar, weight, execution_state_set_impl_choice>::type()(get_luxw_grammar(), the_token_list.begin(), the_token_list.end(), hasnt_white_at_begin, hasnt_white_at_end));
+            bool accept(typename lxw_earley_parser_no_output_impl_selector<InputIterator, token_iterator, unichar, weight, execution_state_set_impl_choice>::type()(get_luxw_grammar(), the_token_list.begin(), the_token_list.end(), hasnt_white_at_begin, hasnt_white_at_end, *the_context_ref));
+#ifdef SERIALIZED_OUTPUT
             accept ? ua.reset(ua_true): ua.reset(ua_false);
+#endif
             return accept;
         }
 #endif
@@ -1440,7 +1494,7 @@ namespace grapenlp {
         std::size_t exe_my_luxw_earley_parser()
         {
             clear_output_segment_map_x_weight_set<output_set_impl_choice>();
-            typename lxw_earley_parser_impl_selector<InputIterator, token_iterator, unichar, weight_transformer, execution_state_set_impl_choice, output_set_impl_choice>::type()(get_luxw_grammar(), the_token_list.begin(), the_token_list.end(), hasnt_white_at_begin, hasnt_white_at_end, get_output_segment_map_x_weight_set<output_set_impl_choice>());
+            typename lxw_earley_parser_impl_selector<InputIterator, token_iterator, unichar, weight_transformer, execution_state_set_impl_choice, output_set_impl_choice>::type()(get_luxw_grammar(), the_token_list.begin(), the_token_list.end(), hasnt_white_at_begin, hasnt_white_at_end, *the_context_ref, get_output_segment_map_x_weight_set<output_set_impl_choice>());
             return get_output_segment_map_x_weight_set<output_set_impl_choice>().size();
         }
 #endif
@@ -1453,11 +1507,11 @@ namespace grapenlp {
         std::size_t exe_my_lua_to_fprtn_parser()
         {
 #ifdef TRACE
-            typename lua_output_fprtn<token_iterator, InputIterator, execution_state_set_impl_choice>::type out_fprtn('r', 'q', the_token_list.size(), the_token_list.begin(), the_token_list.end());
+            lua_output_fprtn<u_context_mask, token_iterator, InputIterator, execution_state_set_impl_choice> out_fprtn('r', 'q', the_token_list.size(), the_token_list.begin(), the_token_list.end());
 #else
-            typename lua_output_fprtn<token_iterator, InputIterator, execution_state_set_impl_choice>::type out_fprtn(the_token_list.size(), the_token_list.begin(), the_token_list.end());
+            lua_output_fprtn<u_context_mask, token_iterator, InputIterator, execution_state_set_impl_choice> out_fprtn(the_token_list.size(), the_token_list.begin(), the_token_list.end());
 #endif
-            typename lua_to_fprtn_parser_impl_selector<InputIterator, token_iterator, execution_state_set_impl_choice>::type()(get_lua_grammar(), hasnt_white_at_begin, hasnt_white_at_end, out_fprtn);
+            typename lua_to_fprtn_parser_impl_selector<InputIterator, token_iterator, execution_state_set_impl_choice>::type()(get_lua_grammar(), hasnt_white_at_begin, hasnt_white_at_end, *the_context_ref, out_fprtn);
             prune(out_fprtn);
             return 0;
         }
@@ -1465,11 +1519,11 @@ namespace grapenlp {
         std::size_t exe_my_lua_to_fprtn_stats(std::size_t &state_count, std::size_t &transition_count, std::size_t &pruned_state_count, std::size_t &pruned_transition_count)
                         {
 #ifdef TRACE
-            typename lua_output_fprtn<token_iterator, InputIterator, execution_state_set_impl_choice>::type out_fprtn('r', 'q', the_token_list.size(), the_token_list.begin(), the_token_list.end());
+            lua_output_fprtn<u_context_mask, token_iterator, InputIterator, execution_state_set_impl_choice> out_fprtn('r', 'q', the_token_list.size(), the_token_list.begin(), the_token_list.end());
 #else
-            typename lua_output_fprtn<token_iterator, InputIterator, execution_state_set_impl_choice>::type out_fprtn(the_token_list.size(), the_token_list.begin(), the_token_list.end());
+            lua_output_fprtn<u_context_mask, token_iterator, InputIterator, execution_state_set_impl_choice> out_fprtn(the_token_list.size(), the_token_list.begin(), the_token_list.end());
 #endif
-            typename lua_to_fprtn_parser_impl_selector<InputIterator, token_iterator, execution_state_set_impl_choice>::type()(get_lua_grammar(), hasnt_white_at_begin, hasnt_white_at_end, out_fprtn);
+            typename lua_to_fprtn_parser_impl_selector<InputIterator, token_iterator, execution_state_set_impl_choice>::type()(get_lua_grammar(), hasnt_white_at_begin, hasnt_white_at_end, *the_context_ref, out_fprtn);
             state_count = out_fprtn.state_count();
             transition_count = out_fprtn.transition_count();
             prune(out_fprtn);
@@ -1483,11 +1537,11 @@ namespace grapenlp {
         std::size_t exe_my_luaw_to_fprtn_parser()
         {
 #ifdef TRACE
-            typename luaw_output_fprtn<token_iterator, weight, InputIterator, execution_state_set_impl_choice>::type out_fprtn('r', 'q', the_token_list.size(), the_token_list.begin(), the_token_list.end());
+            luaw_output_fprtn<u_context_mask, token_iterator, weight, InputIterator, execution_state_set_impl_choice> out_fprtn('r', 'q', the_token_list.size(), the_token_list.begin(), the_token_list.end());
 #else
-            typename luaw_output_fprtn<token_iterator, weight, InputIterator, execution_state_set_impl_choice>::type out_fprtn(the_token_list.size(), the_token_list.begin(), the_token_list.end());
+            luaw_output_fprtn<u_context_mask, token_iterator, weight, InputIterator, execution_state_set_impl_choice> out_fprtn(the_token_list.size(), the_token_list.begin(), the_token_list.end());
 #endif
-            typename luaw_to_fprtn_parser_impl_selector<InputIterator, token_iterator, weight, execution_state_set_impl_choice>::type()(get_luaw_grammar(), hasnt_white_at_begin, hasnt_white_at_end, out_fprtn);
+            typename luaw_to_fprtn_parser_impl_selector<InputIterator, token_iterator, weight, execution_state_set_impl_choice>::type()(get_luaw_grammar(), hasnt_white_at_begin, hasnt_white_at_end, *the_context_ref, out_fprtn);
             prune(out_fprtn);
             return 0;
         }
@@ -1495,11 +1549,11 @@ namespace grapenlp {
         std::size_t exe_my_luaw_to_fprtn_stats(std::size_t &state_count, std::size_t &transition_count, std::size_t &pruned_state_count, std::size_t &pruned_transition_count)
         {
 #ifdef TRACE
-            typename luaw_output_fprtn<token_iterator, weight, InputIterator, execution_state_set_impl_choice>::type out_fprtn('r', 'q', the_token_list.size(), the_token_list.begin(), the_token_list.end());
+            luaw_output_fprtn<u_context_mask, token_iterator, weight, InputIterator, execution_state_set_impl_choice> out_fprtn('r', 'q', the_token_list.size(), the_token_list.begin(), the_token_list.end());
 #else
-            typename luaw_output_fprtn<token_iterator, weight, InputIterator, execution_state_set_impl_choice>::type out_fprtn(the_token_list.size(), the_token_list.begin(), the_token_list.end());
+            luaw_output_fprtn<u_context_mask, token_iterator, weight, InputIterator, execution_state_set_impl_choice> out_fprtn(the_token_list.size(), the_token_list.begin(), the_token_list.end());
 #endif
-            typename luaw_to_fprtn_parser_impl_selector<InputIterator, token_iterator, weight, execution_state_set_impl_choice>::type()(get_luaw_grammar(), hasnt_white_at_begin, hasnt_white_at_end, out_fprtn);
+            typename luaw_to_fprtn_parser_impl_selector<InputIterator, token_iterator, weight, execution_state_set_impl_choice>::type()(get_luaw_grammar(), hasnt_white_at_begin, hasnt_white_at_end, *the_context_ref, out_fprtn);
             state_count = out_fprtn.state_count();
             transition_count = out_fprtn.transition_count();
             prune(out_fprtn);
@@ -1513,11 +1567,11 @@ namespace grapenlp {
         std::size_t exe_my_lux_to_fprtn_parser()
         {
 #ifdef TRACE
-            typename lux_output_fprtn<token_iterator, InputIterator, execution_state_set_impl_choice>::type out_fprtn('r', 'q', the_token_list.size(), the_token_list.begin(), the_token_list.end());
+            lux_output_fprtn<u_context_mask, token_iterator, InputIterator, execution_state_set_impl_choice> out_fprtn('r', 'q', the_token_list.size(), the_token_list.begin(), the_token_list.end());
 #else
-            typename lux_output_fprtn<token_iterator, InputIterator, execution_state_set_impl_choice>::type out_fprtn(the_token_list.size(), the_token_list.begin(), the_token_list.end());
+            lux_output_fprtn<u_context_mask, token_iterator, InputIterator, execution_state_set_impl_choice> out_fprtn(the_token_list.size(), the_token_list.begin(), the_token_list.end());
 #endif
-            typename lx_to_fprtn_parser_impl_selector<InputIterator, token_iterator, unichar, execution_state_set_impl_choice>::type()(get_lux_grammar(), hasnt_white_at_begin, hasnt_white_at_end, out_fprtn);
+            typename lx_to_fprtn_parser_impl_selector<InputIterator, token_iterator, unichar, execution_state_set_impl_choice>::type()(get_lux_grammar(), hasnt_white_at_begin, hasnt_white_at_end, *the_context_ref, out_fprtn);
             prune(out_fprtn);
             return 0;
         }
@@ -1525,11 +1579,11 @@ namespace grapenlp {
         std::size_t exe_my_lux_to_fprtn_stats(std::size_t &state_count, std::size_t &transition_count, std::size_t &pruned_state_count, std::size_t &pruned_transition_count)
         {
 #ifdef TRACE
-            typename lux_output_fprtn<token_iterator, InputIterator, execution_state_set_impl_choice>::type out_fprtn('r', 'q', the_token_list.size(), the_token_list.begin(), the_token_list.end());
+            lux_output_fprtn<u_context_mask, token_iterator, InputIterator, execution_state_set_impl_choice> out_fprtn('r', 'q', the_token_list.size(), the_token_list.begin(), the_token_list.end());
 #else
-            typename lux_output_fprtn<token_iterator, InputIterator, execution_state_set_impl_choice>::type out_fprtn(the_token_list.size(), the_token_list.begin(), the_token_list.end());
+            lux_output_fprtn<u_context_mask, token_iterator, InputIterator, execution_state_set_impl_choice> out_fprtn(the_token_list.size(), the_token_list.begin(), the_token_list.end());
 #endif
-            typename lx_to_fprtn_parser_impl_selector<InputIterator, token_iterator, unichar, execution_state_set_impl_choice>::type()(get_lux_grammar(), hasnt_white_at_begin, hasnt_white_at_end, out_fprtn);
+            typename lx_to_fprtn_parser_impl_selector<InputIterator, token_iterator, unichar, execution_state_set_impl_choice>::type()(get_lux_grammar(), hasnt_white_at_begin, hasnt_white_at_end, *the_context_ref, out_fprtn);
             state_count = out_fprtn.state_count();
             transition_count = out_fprtn.transition_count();
             prune(out_fprtn);
@@ -1543,11 +1597,11 @@ namespace grapenlp {
         std::size_t exe_my_luxw_to_fprtn_parser()
         {
 #ifdef TRACE
-            typename luxw_output_fprtn<token_iterator, weight, InputIterator, execution_state_set_impl_choice>::type out_fprtn('r', 'q', the_token_list.size(), the_token_list.begin(), the_token_list.end());
+            luxw_output_fprtn<u_context_mask, token_iterator, weight, InputIterator, execution_state_set_impl_choice> out_fprtn('r', 'q', the_token_list.size(), the_token_list.begin(), the_token_list.end());
 #else
-            typename luxw_output_fprtn<token_iterator, weight, InputIterator, execution_state_set_impl_choice>::type out_fprtn(the_token_list.size(), the_token_list.begin(), the_token_list.end());
+            luxw_output_fprtn<u_context_mask, token_iterator, weight, InputIterator, execution_state_set_impl_choice> out_fprtn(the_token_list.size(), the_token_list.begin(), the_token_list.end());
 #endif
-            typename lxw_to_fprtn_parser_impl_selector<InputIterator, token_iterator, unichar, weight, execution_state_set_impl_choice>::type()(get_luxw_grammar(), hasnt_white_at_begin, hasnt_white_at_end, out_fprtn);
+            typename lxw_to_fprtn_parser_impl_selector<InputIterator, token_iterator, unichar, weight, execution_state_set_impl_choice>::type()(get_luxw_grammar(), hasnt_white_at_begin, hasnt_white_at_end, *the_context_ref, out_fprtn);
             prune(out_fprtn);
             return 0;
         }
@@ -1555,11 +1609,11 @@ namespace grapenlp {
         std::size_t exe_my_luxw_to_fprtn_stats(std::size_t &state_count, std::size_t &transition_count, std::size_t &pruned_state_count, std::size_t &pruned_transition_count)
         {
 #ifdef TRACE
-            typename luxw_output_fprtn<token_iterator, weight, InputIterator, execution_state_set_impl_choice>::type out_fprtn('r', 'q', the_token_list.size(), the_token_list.begin(), the_token_list.end());
+            luxw_output_fprtn<u_context_mask, token_iterator, weight, InputIterator, execution_state_set_impl_choice> out_fprtn('r', 'q', the_token_list.size(), the_token_list.begin(), the_token_list.end());
 #else
-            typename luxw_output_fprtn<token_iterator, weight, InputIterator, execution_state_set_impl_choice>::type out_fprtn(the_token_list.size(), the_token_list.begin(), the_token_list.end());
+            luxw_output_fprtn<u_context_mask, token_iterator, weight, InputIterator, execution_state_set_impl_choice> out_fprtn(the_token_list.size(), the_token_list.begin(), the_token_list.end());
 #endif
-            typename lxw_to_fprtn_parser_impl_selector<InputIterator, token_iterator, unichar, weight, execution_state_set_impl_choice>::type()(get_luxw_grammar(), hasnt_white_at_begin, hasnt_white_at_end, out_fprtn);
+            typename lxw_to_fprtn_parser_impl_selector<InputIterator, token_iterator, unichar, weight, execution_state_set_impl_choice>::type()(get_luxw_grammar(), hasnt_white_at_begin, hasnt_white_at_end, *the_context_ref, out_fprtn);
             state_count = out_fprtn.state_count();
             transition_count = out_fprtn.transition_count();
             prune(out_fprtn);
@@ -1576,11 +1630,11 @@ namespace grapenlp {
         std::size_t exe_my_lua_to_fprtn_zpps_parser()
         {
 #ifdef TRACE
-            typename lua_output_fprtn_zpps<token_iterator, InputIterator, execution_state_set_impl_choice>::type out_fprtn_zpps('r', 'q', the_token_list.size(), the_token_list.begin(), the_token_list.end());
+            lua_output_fprtn_zpps<u_context_mask, token_iterator, InputIterator, execution_state_set_impl_choice> out_fprtn_zpps('r', 'q', the_token_list.size(), the_token_list.begin(), the_token_list.end());
 #else
-            typename lua_output_fprtn_zpps<token_iterator, InputIterator, execution_state_set_impl_choice>::type out_fprtn_zpps(the_token_list.size(), the_token_list.begin(), the_token_list.end());
+            lua_output_fprtn_zpps<u_context_mask, token_iterator, InputIterator, execution_state_set_impl_choice> out_fprtn_zpps(the_token_list.size(), the_token_list.begin(), the_token_list.end());
 #endif
-            typename lua_to_fprtn_zpps_parser_impl_selector<InputIterator, token_iterator, execution_state_set_impl_choice>::type()(get_lua_grammar(), hasnt_white_at_begin, hasnt_white_at_end, out_fprtn_zpps);
+            typename lua_to_fprtn_zpps_parser_impl_selector<InputIterator, token_iterator, execution_state_set_impl_choice>::type()(get_lua_grammar(), hasnt_white_at_begin, hasnt_white_at_end, *the_context_ref, out_fprtn_zpps);
             lua_prune_zpps<token_iterator, InputIterator, execution_state_set_impl_choice>(out_fprtn_zpps);
             return 0;
         }
@@ -1588,11 +1642,11 @@ namespace grapenlp {
         std::size_t exe_my_lua_to_fprtn_zpps_stats(std::size_t &state_count, std::size_t &transition_count, std::size_t &pruned_state_count, std::size_t &pruned_transition_count)
         {
 #ifdef TRACE
-            typename lua_output_fprtn_zpps<token_iterator, InputIterator, execution_state_set_impl_choice>::type out_fprtn_zpps('r', 'q', the_token_list.size(), the_token_list.begin(), the_token_list.end());
+            lua_output_fprtn_zpps<u_context_mask, token_iterator, InputIterator, execution_state_set_impl_choice> out_fprtn_zpps('r', 'q', the_token_list.size(), the_token_list.begin(), the_token_list.end());
 #else
-            typename lua_output_fprtn_zpps<token_iterator, InputIterator, execution_state_set_impl_choice>::type out_fprtn_zpps(the_token_list.size(), the_token_list.begin(), the_token_list.end());
+            lua_output_fprtn_zpps<u_context_mask, token_iterator, InputIterator, execution_state_set_impl_choice> out_fprtn_zpps(the_token_list.size(), the_token_list.begin(), the_token_list.end());
 #endif
-            typename lua_to_fprtn_zpps_parser_impl_selector<InputIterator, token_iterator, execution_state_set_impl_choice>::type()(get_lua_grammar(), hasnt_white_at_begin, hasnt_white_at_end, out_fprtn_zpps);
+            typename lua_to_fprtn_zpps_parser_impl_selector<InputIterator, token_iterator, execution_state_set_impl_choice>::type()(get_lua_grammar(), hasnt_white_at_begin, hasnt_white_at_end, *the_context_ref, out_fprtn_zpps);
             state_count = out_fprtn_zpps.state_count();
             transition_count = out_fprtn_zpps.transition_count();
             lua_prune_zpps<token_iterator, InputIterator, execution_state_set_impl_choice>(out_fprtn_zpps);
@@ -1606,11 +1660,11 @@ namespace grapenlp {
         std::size_t exe_my_luaw_to_fprtn_zpps_parser()
         {
 #ifdef TRACE
-            typename luaw_output_fprtn_zpps<token_iterator, weight, InputIterator, execution_state_set_impl_choice>::type out_fprtn_zpps('r', 'q', the_token_list.size(), the_token_list.begin(), the_token_list.end());
+            luaw_output_fprtn_zpps<u_context_mask, token_iterator, weight, InputIterator, execution_state_set_impl_choice> out_fprtn_zpps('r', 'q', the_token_list.size(), the_token_list.begin(), the_token_list.end());
 #else
-            typename luaw_output_fprtn_zpps<token_iterator, weight, InputIterator, execution_state_set_impl_choice>::type out_fprtn_zpps(the_token_list.size(), the_token_list.begin(), the_token_list.end());
+            luaw_output_fprtn_zpps<u_context_mask, token_iterator, weight, InputIterator, execution_state_set_impl_choice> out_fprtn_zpps(the_token_list.size(), the_token_list.begin(), the_token_list.end());
 #endif
-            typename luaw_to_fprtn_zpps_parser_impl_selector<InputIterator, token_iterator, weight, execution_state_set_impl_choice>::type()(get_luaw_grammar(), hasnt_white_at_begin, hasnt_white_at_end, out_fprtn_zpps);
+            typename luaw_to_fprtn_zpps_parser_impl_selector<InputIterator, token_iterator, weight, execution_state_set_impl_choice>::type()(get_luaw_grammar(), hasnt_white_at_begin, hasnt_white_at_end, *the_context_ref, out_fprtn_zpps);
             luaw_prune_zpps<token_iterator, weight, InputIterator, execution_state_set_impl_choice>(out_fprtn_zpps);
             return 0;
         }
@@ -1618,11 +1672,11 @@ namespace grapenlp {
         std::size_t exe_my_luaw_to_fprtn_zpps_stats(std::size_t &state_count, std::size_t &transition_count, std::size_t &pruned_state_count, std::size_t &pruned_transition_count)
         {
 #ifdef TRACE
-            typename luaw_output_fprtn_zpps<token_iterator, weight, InputIterator, execution_state_set_impl_choice>::type out_fprtn_zpps('r', 'q', the_token_list.size(), the_token_list.begin(), the_token_list.end());
+            luaw_output_fprtn_zpps<u_context_mask, token_iterator, weight, InputIterator, execution_state_set_impl_choice> out_fprtn_zpps('r', 'q', the_token_list.size(), the_token_list.begin(), the_token_list.end());
 #else
-            typename luaw_output_fprtn_zpps<token_iterator, weight, InputIterator, execution_state_set_impl_choice>::type out_fprtn_zpps(the_token_list.size(), the_token_list.begin(), the_token_list.end());
+            luaw_output_fprtn_zpps<u_context_mask, token_iterator, weight, InputIterator, execution_state_set_impl_choice> out_fprtn_zpps(the_token_list.size(), the_token_list.begin(), the_token_list.end());
 #endif
-            typename luaw_to_fprtn_zpps_parser_impl_selector<InputIterator, token_iterator, weight, execution_state_set_impl_choice>::type()(get_luaw_grammar(), hasnt_white_at_begin, hasnt_white_at_end, out_fprtn_zpps);
+            typename luaw_to_fprtn_zpps_parser_impl_selector<InputIterator, token_iterator, weight, execution_state_set_impl_choice>::type()(get_luaw_grammar(), hasnt_white_at_begin, hasnt_white_at_end, *the_context_ref, out_fprtn_zpps);
             state_count = out_fprtn_zpps.state_count();
             transition_count = out_fprtn_zpps.transition_count();
             luaw_prune_zpps<token_iterator, weight, InputIterator, execution_state_set_impl_choice>(out_fprtn_zpps);
@@ -1636,11 +1690,11 @@ namespace grapenlp {
         std::size_t exe_my_lux_to_fprtn_zpps_parser()
         {
 #ifdef TRACE
-            typename lux_output_fprtn_zpps<token_iterator, InputIterator, execution_state_set_impl_choice>::type out_fprtn_zpps('r', 'q', the_token_list.size(), the_token_list.begin(), the_token_list.end());
+            lux_output_fprtn_zpps<u_context_mask, token_iterator, InputIterator, execution_state_set_impl_choice> out_fprtn_zpps('r', 'q', the_token_list.size(), the_token_list.begin(), the_token_list.end());
 #else
-            typename lux_output_fprtn_zpps<token_iterator, InputIterator, execution_state_set_impl_choice>::type out_fprtn_zpps(the_token_list.size(), the_token_list.begin(), the_token_list.end());
+            lux_output_fprtn_zpps<u_context_mask, token_iterator, InputIterator, execution_state_set_impl_choice> out_fprtn_zpps(the_token_list.size(), the_token_list.begin(), the_token_list.end());
 #endif
-            typename lx_to_fprtn_zpps_parser_impl_selector<InputIterator, token_iterator, unichar, execution_state_set_impl_choice>::type()(get_lux_grammar(), hasnt_white_at_begin, hasnt_white_at_end, out_fprtn_zpps);
+            typename lx_to_fprtn_zpps_parser_impl_selector<InputIterator, token_iterator, unichar, execution_state_set_impl_choice>::type()(get_lux_grammar(), hasnt_white_at_begin, hasnt_white_at_end, *the_context_ref, out_fprtn_zpps);
             lux_prune_zpps<token_iterator, InputIterator, execution_state_set_impl_choice>(out_fprtn_zpps);
             return 0;
         }
@@ -1648,11 +1702,11 @@ namespace grapenlp {
         std::size_t exe_my_lux_to_fprtn_zpps_stats(std::size_t &state_count, std::size_t &transition_count, std::size_t &pruned_state_count, std::size_t &pruned_transition_count)
         {
 #ifdef TRACE
-            typename lux_output_fprtn_zpps<token_iterator, InputIterator, execution_state_set_impl_choice>::type out_fprtn_zpps('r', 'q', the_token_list.size(), the_token_list.begin(), the_token_list.end());
+            lux_output_fprtn_zpps<u_context_mask, token_iterator, InputIterator, execution_state_set_impl_choice> out_fprtn_zpps('r', 'q', the_token_list.size(), the_token_list.begin(), the_token_list.end());
 #else
-            typename lux_output_fprtn_zpps<token_iterator, InputIterator, execution_state_set_impl_choice>::type out_fprtn_zpps(the_token_list.size(), the_token_list.begin(), the_token_list.end());
+            lux_output_fprtn_zpps<u_context_mask, token_iterator, InputIterator, execution_state_set_impl_choice> out_fprtn_zpps(the_token_list.size(), the_token_list.begin(), the_token_list.end());
 #endif
-            typename lx_to_fprtn_zpps_parser_impl_selector<InputIterator, token_iterator, unichar, execution_state_set_impl_choice>::type()(get_lux_grammar(), hasnt_white_at_begin, hasnt_white_at_end, out_fprtn_zpps);
+            typename lx_to_fprtn_zpps_parser_impl_selector<InputIterator, token_iterator, unichar, execution_state_set_impl_choice>::type()(get_lux_grammar(), hasnt_white_at_begin, hasnt_white_at_end, *the_context_ref, out_fprtn_zpps);
             state_count = out_fprtn_zpps.state_count();
             transition_count = out_fprtn_zpps.transition_count();
             lux_prune_zpps<token_iterator, InputIterator, execution_state_set_impl_choice>(out_fprtn_zpps);
@@ -1666,11 +1720,11 @@ namespace grapenlp {
         std::size_t exe_my_luxw_to_fprtn_zpps_parser()
         {
 #ifdef TRACE
-            typename luxw_output_fprtn_zpps<token_iterator, weight, InputIterator, execution_state_set_impl_choice>::type out_fprtn_zpps('r', 'q', the_token_list.size(), the_token_list.begin(), the_token_list.end());
+            luxw_output_fprtn_zpps<u_context_mask, token_iterator, weight, InputIterator, execution_state_set_impl_choice> out_fprtn_zpps('r', 'q', the_token_list.size(), the_token_list.begin(), the_token_list.end());
 #else
-            typename luxw_output_fprtn_zpps<token_iterator, weight, InputIterator, execution_state_set_impl_choice>::type out_fprtn_zpps(the_token_list.size(), the_token_list.begin(), the_token_list.end());
+            luxw_output_fprtn_zpps<u_context_mask, token_iterator, weight, InputIterator, execution_state_set_impl_choice> out_fprtn_zpps(the_token_list.size(), the_token_list.begin(), the_token_list.end());
 #endif
-            typename lxw_to_fprtn_zpps_parser_impl_selector<InputIterator, token_iterator, unichar, weight, execution_state_set_impl_choice>::type()(get_luxw_grammar(), hasnt_white_at_begin, hasnt_white_at_end, out_fprtn_zpps);
+            typename lxw_to_fprtn_zpps_parser_impl_selector<InputIterator, token_iterator, unichar, weight, execution_state_set_impl_choice>::type()(get_luxw_grammar(), hasnt_white_at_begin, hasnt_white_at_end, *the_context_ref, out_fprtn_zpps);
             luxw_prune_zpps<token_iterator, weight, InputIterator, execution_state_set_impl_choice>(out_fprtn_zpps);
             return 0;
         }
@@ -1678,11 +1732,11 @@ namespace grapenlp {
         std::size_t exe_my_luxw_to_fprtn_zpps_stats(std::size_t &state_count, std::size_t &transition_count, std::size_t &pruned_state_count, std::size_t &pruned_transition_count)
         {
 #ifdef TRACE
-            typename luxw_output_fprtn_zpps<token_iterator, weight, InputIterator, execution_state_set_impl_choice>::type out_fprtn_zpps('r', 'q', the_token_list.size(), the_token_list.begin(), the_token_list.end());
+            luxw_output_fprtn_zpps<u_context_mask, token_iterator, weight, InputIterator, execution_state_set_impl_choice> out_fprtn_zpps('r', 'q', the_token_list.size(), the_token_list.begin(), the_token_list.end());
 #else
-            typename luxw_output_fprtn_zpps<token_iterator, weight, InputIterator, execution_state_set_impl_choice>::type out_fprtn_zpps(the_token_list.size(), the_token_list.begin(), the_token_list.end());
+            luxw_output_fprtn_zpps<u_context_mask, token_iterator, weight, InputIterator, execution_state_set_impl_choice> out_fprtn_zpps(the_token_list.size(), the_token_list.begin(), the_token_list.end());
 #endif
-            typename lxw_to_fprtn_zpps_parser_impl_selector<InputIterator, token_iterator, unichar, weight, execution_state_set_impl_choice>::type()(get_luxw_grammar(), hasnt_white_at_begin, hasnt_white_at_end, out_fprtn_zpps);
+            typename lxw_to_fprtn_zpps_parser_impl_selector<InputIterator, token_iterator, unichar, weight, execution_state_set_impl_choice>::type()(get_luxw_grammar(), hasnt_white_at_begin, hasnt_white_at_end, *the_context_ref, out_fprtn_zpps);
             state_count = out_fprtn_zpps.state_count();
             transition_count = out_fprtn_zpps.transition_count();
             luxw_prune_zpps<token_iterator, weight, InputIterator, execution_state_set_impl_choice>(out_fprtn_zpps);
@@ -1699,11 +1753,11 @@ namespace grapenlp {
         std::size_t exe_my_luaw_to_fprtn_top_parser()
         {
 #ifdef TRACE
-            typename luaw_output_fprtn_top<token_iterator, weight, InputIterator, execution_state_set_impl_choice>::type out_fprtn_top('r', 'q', the_token_list.size(), the_token_list.begin(), the_token_list.end());
+            luaw_output_fprtn_top<u_context_mask, token_iterator, weight, InputIterator, execution_state_set_impl_choice> out_fprtn_top('r', 'q', the_token_list.size(), the_token_list.begin(), the_token_list.end());
 #else
-            typename luaw_output_fprtn_top<token_iterator, weight, InputIterator, execution_state_set_impl_choice>::type out_fprtn_top(the_token_list.size(), the_token_list.begin(), the_token_list.end());
+            luaw_output_fprtn_top<u_context_mask, token_iterator, weight, InputIterator, execution_state_set_impl_choice> out_fprtn_top(the_token_list.size(), the_token_list.begin(), the_token_list.end());
 #endif
-            typename luaw_to_fprtn_top_parser_impl_selector<InputIterator, token_iterator, weight, execution_state_set_impl_choice>::type()(get_luaw_grammar(), hasnt_white_at_begin, hasnt_white_at_end, out_fprtn_top, std::numeric_limits<weight>::min());
+            typename luaw_to_fprtn_top_parser_impl_selector<InputIterator, token_iterator, weight, execution_state_set_impl_choice>::type()(get_luaw_grammar(), hasnt_white_at_begin, hasnt_white_at_end, *the_context_ref, out_fprtn_top, std::numeric_limits<weight>::min());
             luaw_prune_top<token_iterator, weight, InputIterator, execution_state_set_impl_choice>(out_fprtn_top, std::numeric_limits<weight>::min());
             return 0;
         }
@@ -1711,11 +1765,11 @@ namespace grapenlp {
         std::size_t exe_my_luaw_to_fprtn_top_stats(std::size_t &state_count, std::size_t &transition_count, std::size_t &pruned_state_count, std::size_t &pruned_transition_count)
         {
 #ifdef TRACE
-            typename luaw_output_fprtn_top<token_iterator, weight, InputIterator, execution_state_set_impl_choice>::type out_fprtn_top('r', 'q', the_token_list.size(), the_token_list.begin(), the_token_list.end());
+            luaw_output_fprtn_top<u_context_mask, token_iterator, weight, InputIterator, execution_state_set_impl_choice> out_fprtn_top('r', 'q', the_token_list.size(), the_token_list.begin(), the_token_list.end());
 #else
-            typename luaw_output_fprtn_top<token_iterator, weight, InputIterator, execution_state_set_impl_choice>::type out_fprtn_top(the_token_list.size(), the_token_list.begin(), the_token_list.end());
+            luaw_output_fprtn_top<u_context_mask, token_iterator, weight, InputIterator, execution_state_set_impl_choice> out_fprtn_top(the_token_list.size(), the_token_list.begin(), the_token_list.end());
 #endif
-            typename luaw_to_fprtn_top_parser_impl_selector<InputIterator, token_iterator, weight, execution_state_set_impl_choice>::type()(get_luaw_grammar(), hasnt_white_at_begin, hasnt_white_at_end, out_fprtn_top, std::numeric_limits<weight>::min());
+            typename luaw_to_fprtn_top_parser_impl_selector<InputIterator, token_iterator, weight, execution_state_set_impl_choice>::type()(get_luaw_grammar(), hasnt_white_at_begin, hasnt_white_at_end, *the_context_ref, out_fprtn_top, std::numeric_limits<weight>::min());
             state_count = out_fprtn_top.state_count();
             transition_count = out_fprtn_top.transition_count();
             luaw_prune_top<token_iterator, weight, InputIterator, execution_state_set_impl_choice>(out_fprtn_top, std::numeric_limits<weight>::min());
@@ -1729,11 +1783,11 @@ namespace grapenlp {
         std::size_t exe_my_luxw_to_fprtn_top_parser()
         {
 #ifdef TRACE
-            typename luxw_output_fprtn_top<token_iterator, weight, InputIterator, execution_state_set_impl_choice>::type out_fprtn_top('r', 'q', the_token_list.size(), the_token_list.begin(), the_token_list.end());
+            luxw_output_fprtn_top<u_context_mask, token_iterator, weight, InputIterator, execution_state_set_impl_choice> out_fprtn_top('r', 'q', the_token_list.size(), the_token_list.begin(), the_token_list.end());
 #else
-            typename luxw_output_fprtn_top<token_iterator, weight, InputIterator, execution_state_set_impl_choice>::type out_fprtn_top(the_token_list.size(), the_token_list.begin(), the_token_list.end());
+            luxw_output_fprtn_top<u_context_mask, token_iterator, weight, InputIterator, execution_state_set_impl_choice> out_fprtn_top(the_token_list.size(), the_token_list.begin(), the_token_list.end());
 #endif
-            typename lxw_to_fprtn_top_parser_impl_selector<InputIterator, token_iterator, unichar, weight, execution_state_set_impl_choice>::type()(get_luxw_grammar(), hasnt_white_at_begin, hasnt_white_at_end, out_fprtn_top, std::numeric_limits<weight>::min());
+            typename lxw_to_fprtn_top_parser_impl_selector<InputIterator, token_iterator, unichar, weight, execution_state_set_impl_choice>::type()(get_luxw_grammar(), hasnt_white_at_begin, hasnt_white_at_end, *the_context_ref, out_fprtn_top, std::numeric_limits<weight>::min());
             luxw_prune_top<token_iterator, weight, InputIterator, execution_state_set_impl_choice>(out_fprtn_top, std::numeric_limits<weight>::min());
             return 0;
         }
@@ -1741,11 +1795,11 @@ namespace grapenlp {
         std::size_t exe_my_luxw_to_fprtn_top_stats(std::size_t &state_count, std::size_t &transition_count, std::size_t &pruned_state_count, std::size_t &pruned_transition_count)
         {
 #ifdef TRACE
-            typename luxw_output_fprtn_top<token_iterator, weight, InputIterator, execution_state_set_impl_choice>::type out_fprtn_top('r', 'q', the_token_list.size(), the_token_list.begin(), the_token_list.end());
+            luxw_output_fprtn_top<u_context_mask, token_iterator, weight, InputIterator, execution_state_set_impl_choice> out_fprtn_top('r', 'q', the_token_list.size(), the_token_list.begin(), the_token_list.end());
 #else
-            typename luxw_output_fprtn_top<token_iterator, weight, InputIterator, execution_state_set_impl_choice>::type out_fprtn_top(the_token_list.size(), the_token_list.begin(), the_token_list.end());
+            luxw_output_fprtn_top<u_context_mask, token_iterator, weight, InputIterator, execution_state_set_impl_choice> out_fprtn_top(the_token_list.size(), the_token_list.begin(), the_token_list.end());
 #endif
-            typename lxw_to_fprtn_top_parser_impl_selector<InputIterator, token_iterator, unichar, weight, execution_state_set_impl_choice>::type()(get_luxw_grammar(), hasnt_white_at_begin, hasnt_white_at_end, out_fprtn_top, std::numeric_limits<weight>::min());
+            typename lxw_to_fprtn_top_parser_impl_selector<InputIterator, token_iterator, unichar, weight, execution_state_set_impl_choice>::type()(get_luxw_grammar(), hasnt_white_at_begin, hasnt_white_at_end, *the_context_ref, out_fprtn_top, std::numeric_limits<weight>::min());
             state_count = out_fprtn_top.state_count();
             transition_count = out_fprtn_top.transition_count();
             luxw_prune_top<token_iterator, weight, InputIterator, execution_state_set_impl_choice>(out_fprtn_top, std::numeric_limits<weight>::min());
@@ -1763,12 +1817,12 @@ namespace grapenlp {
         std::size_t exe_my_lua_to_fprtn_parser_and_breadth_first_expander_with_trie_stacks_and_output()
         {
 #ifdef TRACE
-            typename lua_output_fprtn<token_iterator, InputIterator, execution_state_set_impl_choice>::type out_fprtn('r', 'q', the_token_list.size(), the_token_list.begin(), the_token_list.end());
+            lua_output_fprtn<u_context_mask, token_iterator, InputIterator, execution_state_set_impl_choice> out_fprtn('r', 'q', the_token_list.size(), the_token_list.begin(), the_token_list.end());
 #else
-            typename lua_output_fprtn<token_iterator, InputIterator, execution_state_set_impl_choice>::type out_fprtn(the_token_list.size(), the_token_list.begin(), the_token_list.end());
+            lua_output_fprtn<u_context_mask, token_iterator, InputIterator, execution_state_set_impl_choice> out_fprtn(the_token_list.size(), the_token_list.begin(), the_token_list.end());
 #endif
             clear_output_u_array_set<output_set_impl_choice>();
-            typename lua_to_fprtn_parser_impl_selector<InputIterator, token_iterator, execution_state_set_impl_choice>::type()(get_lua_grammar(), hasnt_white_at_begin, hasnt_white_at_end, out_fprtn);
+            typename lua_to_fprtn_parser_impl_selector<InputIterator, token_iterator, execution_state_set_impl_choice>::type()(get_lua_grammar(), hasnt_white_at_begin, hasnt_white_at_end, *the_context_ref, out_fprtn);
             if (prune(out_fprtn))
             {
                 typename set_impl_selector<output_set_impl_choice, u_trie_string_ref>::type utsrs;
@@ -1782,12 +1836,12 @@ namespace grapenlp {
         std::size_t exe_my_lua_to_fprtn_stats_and_breadth_first_expander_with_trie_stacks_and_output(std::size_t &state_count, std::size_t &transition_count, std::size_t &pruned_state_count, std::size_t &pruned_transition_count)
         {
 #ifdef TRACE
-            typename lua_output_fprtn<token_iterator, InputIterator, execution_state_set_impl_choice>::type out_fprtn('r', 'q', the_token_list.size(), the_token_list.begin(), the_token_list.end());
+            lua_output_fprtn<u_context_mask, token_iterator, InputIterator, execution_state_set_impl_choice> out_fprtn('r', 'q', the_token_list.size(), the_token_list.begin(), the_token_list.end());
 #else
-            typename lua_output_fprtn<token_iterator, InputIterator, execution_state_set_impl_choice>::type out_fprtn(the_token_list.size(), the_token_list.begin(), the_token_list.end());
+            lua_output_fprtn<u_context_mask, token_iterator, InputIterator, execution_state_set_impl_choice> out_fprtn(the_token_list.size(), the_token_list.begin(), the_token_list.end());
 #endif
             clear_output_u_array_set<output_set_impl_choice>();
-            typename lua_to_fprtn_parser_impl_selector<InputIterator, token_iterator, execution_state_set_impl_choice>::type()(get_lua_grammar(), hasnt_white_at_begin, hasnt_white_at_end, out_fprtn);
+            typename lua_to_fprtn_parser_impl_selector<InputIterator, token_iterator, execution_state_set_impl_choice>::type()(get_lua_grammar(), hasnt_white_at_begin, hasnt_white_at_end, *the_context_ref, out_fprtn);
             state_count = out_fprtn.state_count();
             transition_count = out_fprtn.transition_count();
             bool accept(prune(out_fprtn));
@@ -1808,12 +1862,12 @@ namespace grapenlp {
         std::size_t exe_my_lua_to_fprtn_parser_and_breadth_first_expander_with_array_stacks_and_output()
         {
 #ifdef TRACE
-            typename lua_output_fprtn<token_iterator, InputIterator, execution_state_set_impl_choice>::type out_fprtn('r', 'q', the_token_list.size(), the_token_list.begin(), the_token_list.end());
+            lua_output_fprtn<u_context_mask, token_iterator, InputIterator, execution_state_set_impl_choice> out_fprtn('r', 'q', the_token_list.size(), the_token_list.begin(), the_token_list.end());
 #else
-            typename lua_output_fprtn<token_iterator, InputIterator, execution_state_set_impl_choice>::type out_fprtn(the_token_list.size(), the_token_list.begin(), the_token_list.end());
+            lua_output_fprtn<u_context_mask, token_iterator, InputIterator, execution_state_set_impl_choice> out_fprtn(the_token_list.size(), the_token_list.begin(), the_token_list.end());
 #endif
             clear_output_u_array_set<output_set_impl_choice>();
-            typename lua_to_fprtn_parser_impl_selector<InputIterator, token_iterator, execution_state_set_impl_choice>::type()(get_lua_grammar(), hasnt_white_at_begin, hasnt_white_at_end, out_fprtn);
+            typename lua_to_fprtn_parser_impl_selector<InputIterator, token_iterator, execution_state_set_impl_choice>::type()(get_lua_grammar(), hasnt_white_at_begin, hasnt_white_at_end, *the_context_ref, out_fprtn);
             if (prune(out_fprtn))
             {
                 typename lua_fprtn_breadth_first_expander_impl_selector<token_iterator, InputIterator, ARRAYS, execution_state_set_impl_choice, output_set_impl_choice>::type()(out_fprtn, get_output_u_array_set<output_set_impl_choice>());
@@ -1824,12 +1878,12 @@ namespace grapenlp {
         std::size_t exe_my_lua_to_fprtn_stats_and_breadth_first_expander_with_array_stacks_and_output(std::size_t &state_count, std::size_t &transition_count, std::size_t &pruned_state_count, std::size_t &pruned_transition_count)
         {
 #ifdef TRACE
-            typename lua_output_fprtn<token_iterator, InputIterator, execution_state_set_impl_choice>::type out_fprtn('r', 'q', the_token_list.size(), the_token_list.begin(), the_token_list.end());
+            lua_output_fprtn<u_context_mask, token_iterator, InputIterator, execution_state_set_impl_choice> out_fprtn('r', 'q', the_token_list.size(), the_token_list.begin(), the_token_list.end());
 #else
-            typename lua_output_fprtn<token_iterator, InputIterator, execution_state_set_impl_choice>::type out_fprtn(the_token_list.size(), the_token_list.begin(), the_token_list.end());
+            lua_output_fprtn<u_context_mask, token_iterator, InputIterator, execution_state_set_impl_choice> out_fprtn(the_token_list.size(), the_token_list.begin(), the_token_list.end());
 #endif
             clear_output_u_array_set<output_set_impl_choice>();
-            typename lua_to_fprtn_parser_impl_selector<InputIterator, token_iterator, execution_state_set_impl_choice>::type()(get_lua_grammar(), hasnt_white_at_begin, hasnt_white_at_end, out_fprtn);
+            typename lua_to_fprtn_parser_impl_selector<InputIterator, token_iterator, execution_state_set_impl_choice>::type()(get_lua_grammar(), hasnt_white_at_begin, hasnt_white_at_end, *the_context_ref, out_fprtn);
             state_count = out_fprtn.state_count();
             transition_count = out_fprtn.transition_count();
             bool accept(prune(out_fprtn));
@@ -1849,12 +1903,12 @@ namespace grapenlp {
         std::size_t exe_my_luaw_to_fprtn_parser_and_breadth_first_expander_with_trie_stacks_and_output()
         {
 #ifdef TRACE
-            typename luaw_output_fprtn<token_iterator, weight, InputIterator, execution_state_set_impl_choice>::type out_fprtn('r', 'q', the_token_list.size(), the_token_list.begin(), the_token_list.end());
+            luaw_output_fprtn<u_context_mask, token_iterator, weight, InputIterator, execution_state_set_impl_choice> out_fprtn('r', 'q', the_token_list.size(), the_token_list.begin(), the_token_list.end());
 #else
-            typename luaw_output_fprtn<token_iterator, weight, InputIterator, execution_state_set_impl_choice>::type out_fprtn(the_token_list.size(), the_token_list.begin(), the_token_list.end());
+            luaw_output_fprtn<u_context_mask, token_iterator, weight, InputIterator, execution_state_set_impl_choice> out_fprtn(the_token_list.size(), the_token_list.begin(), the_token_list.end());
 #endif
             clear_output_u_array_set<output_set_impl_choice>();
-            typename luaw_to_fprtn_parser_impl_selector<InputIterator, token_iterator, weight, execution_state_set_impl_choice>::type()(get_luaw_grammar(), hasnt_white_at_begin, hasnt_white_at_end, out_fprtn);
+            typename luaw_to_fprtn_parser_impl_selector<InputIterator, token_iterator, weight, execution_state_set_impl_choice>::type()(get_luaw_grammar(), hasnt_white_at_begin, hasnt_white_at_end, *the_context_ref, out_fprtn);
             if (prune(out_fprtn))
             {
                 trie_string_ref_pool<unichar> tsrp;
@@ -1869,12 +1923,12 @@ namespace grapenlp {
         std::size_t exe_my_luaw_to_fprtn_stats_and_breadth_first_expander_with_trie_stacks_and_output(std::size_t &state_count, std::size_t &transition_count, std::size_t &pruned_state_count, std::size_t &pruned_transition_count)
         {
 #ifdef TRACE
-            typename luaw_output_fprtn<token_iterator, weight, InputIterator, execution_state_set_impl_choice>::type out_fprtn('r', 'q', the_token_list.size(), the_token_list.begin(), the_token_list.end());
+            luaw_output_fprtn<u_context_mask, token_iterator, weight, InputIterator, execution_state_set_impl_choice> out_fprtn('r', 'q', the_token_list.size(), the_token_list.begin(), the_token_list.end());
 #else
-            typename luaw_output_fprtn<token_iterator, weight, InputIterator, execution_state_set_impl_choice>::type out_fprtn(the_token_list.size(), the_token_list.begin(), the_token_list.end());
+            luaw_output_fprtn<u_context_mask, token_iterator, weight, InputIterator, execution_state_set_impl_choice> out_fprtn(the_token_list.size(), the_token_list.begin(), the_token_list.end());
 #endif
             clear_output_u_array_set<output_set_impl_choice>();
-            typename luaw_to_fprtn_parser_impl_selector<InputIterator, token_iterator, weight, execution_state_set_impl_choice>::type()(get_luaw_grammar(), hasnt_white_at_begin, hasnt_white_at_end, out_fprtn);
+            typename luaw_to_fprtn_parser_impl_selector<InputIterator, token_iterator, weight, execution_state_set_impl_choice>::type()(get_luaw_grammar(), hasnt_white_at_begin, hasnt_white_at_end, *the_context_ref, out_fprtn);
             state_count = out_fprtn.state_count();
             transition_count = out_fprtn.transition_count();
             bool accept(prune(out_fprtn));
@@ -1896,12 +1950,12 @@ namespace grapenlp {
         std::size_t exe_my_luaw_to_fprtn_parser_and_breadth_first_expander_with_array_stacks_and_output()
         {
 #ifdef TRACE
-            typename luaw_output_fprtn<token_iterator, weight, InputIterator, execution_state_set_impl_choice>::type out_fprtn('r', 'q', the_token_list.size(), the_token_list.begin(), the_token_list.end());
+            luaw_output_fprtn<u_context_mask, token_iterator, weight, InputIterator, execution_state_set_impl_choice> out_fprtn('r', 'q', the_token_list.size(), the_token_list.begin(), the_token_list.end());
 #else
-            typename luaw_output_fprtn<token_iterator, weight, InputIterator, execution_state_set_impl_choice>::type out_fprtn(the_token_list.size(), the_token_list.begin(), the_token_list.end());
+            luaw_output_fprtn<u_context_mask, token_iterator, weight, InputIterator, execution_state_set_impl_choice> out_fprtn(the_token_list.size(), the_token_list.begin(), the_token_list.end());
 #endif
             clear_output_u_array_set<output_set_impl_choice>();
-            typename luaw_to_fprtn_parser_impl_selector<InputIterator, token_iterator, weight, execution_state_set_impl_choice>::type()(get_luaw_grammar(), hasnt_white_at_begin, hasnt_white_at_end, out_fprtn);
+            typename luaw_to_fprtn_parser_impl_selector<InputIterator, token_iterator, weight, execution_state_set_impl_choice>::type()(get_luaw_grammar(), hasnt_white_at_begin, hasnt_white_at_end, *the_context_ref, out_fprtn);
             if (prune(out_fprtn))
             {
                 typename set_impl_selector<output_set_impl_choice, fake_pool_u_array_x_weight>::type psxws;
@@ -1914,12 +1968,12 @@ namespace grapenlp {
         std::size_t exe_my_luaw_to_fprtn_stats_and_breadth_first_expander_with_array_stacks_and_output(std::size_t &state_count, std::size_t &transition_count, std::size_t &pruned_state_count, std::size_t &pruned_transition_count)
         {
 #ifdef TRACE
-            typename luaw_output_fprtn<token_iterator, weight, InputIterator, execution_state_set_impl_choice>::type out_fprtn('r', 'q', the_token_list.size(), the_token_list.begin(), the_token_list.end());
+            luaw_output_fprtn<u_context_mask, token_iterator, weight, InputIterator, execution_state_set_impl_choice> out_fprtn('r', 'q', the_token_list.size(), the_token_list.begin(), the_token_list.end());
 #else
-            typename luaw_output_fprtn<token_iterator, weight, InputIterator, execution_state_set_impl_choice>::type out_fprtn(the_token_list.size(), the_token_list.begin(), the_token_list.end());
+            luaw_output_fprtn<u_context_mask, token_iterator, weight, InputIterator, execution_state_set_impl_choice> out_fprtn(the_token_list.size(), the_token_list.begin(), the_token_list.end());
 #endif
             clear_output_u_array_set<output_set_impl_choice>();
-            typename luaw_to_fprtn_parser_impl_selector<InputIterator, token_iterator, weight, execution_state_set_impl_choice>::type()(get_luaw_grammar(), hasnt_white_at_begin, hasnt_white_at_end, out_fprtn);
+            typename luaw_to_fprtn_parser_impl_selector<InputIterator, token_iterator, weight, execution_state_set_impl_choice>::type()(get_luaw_grammar(), hasnt_white_at_begin, hasnt_white_at_end, *the_context_ref, out_fprtn);
             state_count = out_fprtn.state_count();
             transition_count = out_fprtn.transition_count();
             bool accept(prune(out_fprtn));
@@ -1940,12 +1994,12 @@ namespace grapenlp {
         std::size_t exe_my_lux_to_fprtn_parser_and_breadth_first_expander()
         {
 #ifdef TRACE
-            typename lux_output_fprtn<token_iterator, InputIterator, execution_state_set_impl_choice>::type out_fprtn('r', 'q', the_token_list.size(), the_token_list.begin(), the_token_list.end());
+            lux_output_fprtn<u_context_mask, token_iterator, InputIterator, execution_state_set_impl_choice> out_fprtn('r', 'q', the_token_list.size(), the_token_list.begin(), the_token_list.end());
 #else
-            typename lux_output_fprtn<token_iterator, InputIterator, execution_state_set_impl_choice>::type out_fprtn(the_token_list.size(), the_token_list.begin(), the_token_list.end());
+            lux_output_fprtn<u_context_mask, token_iterator, InputIterator, execution_state_set_impl_choice> out_fprtn(the_token_list.size(), the_token_list.begin(), the_token_list.end());
 #endif
             clear_output_segment_map_set<output_set_impl_choice>();
-            typename lx_to_fprtn_parser_impl_selector<InputIterator, token_iterator, unichar, execution_state_set_impl_choice>::type()(get_lux_grammar(), hasnt_white_at_begin, hasnt_white_at_end, out_fprtn);
+            typename lx_to_fprtn_parser_impl_selector<InputIterator, token_iterator, unichar, execution_state_set_impl_choice>::type()(get_lux_grammar(), hasnt_white_at_begin, hasnt_white_at_end, *the_context_ref, out_fprtn);
             if (prune(out_fprtn))
                 typename lux_fprtn_breadth_first_expander_impl_selector<token_iterator, InputIterator, sic, execution_state_set_impl_choice, output_set_impl_choice>::type()(out_fprtn, the_token_list.begin(), the_token_list.end(), get_output_segment_map_set<output_set_impl_choice>());
             return get_output_segment_map_set<output_set_impl_choice>().size();
@@ -1954,12 +2008,12 @@ namespace grapenlp {
         std::size_t exe_my_lux_to_fprtn_stats_and_breadth_first_expander(std::size_t &state_count, std::size_t &transition_count, std::size_t &pruned_state_count, std::size_t &pruned_transition_count)
         {
 #ifdef TRACE
-            typename lux_output_fprtn<token_iterator, InputIterator, execution_state_set_impl_choice>::type out_fprtn('r', 'q', the_token_list.size(), the_token_list.begin(), the_token_list.end());
+            lux_output_fprtn<u_context_mask, token_iterator, InputIterator, execution_state_set_impl_choice> out_fprtn('r', 'q', the_token_list.size(), the_token_list.begin(), the_token_list.end());
 #else
-            typename lux_output_fprtn<token_iterator, InputIterator, execution_state_set_impl_choice>::type out_fprtn(the_token_list.size(), the_token_list.begin(), the_token_list.end());
+            lux_output_fprtn<u_context_mask, token_iterator, InputIterator, execution_state_set_impl_choice> out_fprtn(the_token_list.size(), the_token_list.begin(), the_token_list.end());
 #endif
             clear_output_segment_map_set<output_set_impl_choice>();
-            typename lx_to_fprtn_parser_impl_selector<InputIterator, token_iterator, unichar, execution_state_set_impl_choice>::type()(get_lux_grammar(), hasnt_white_at_begin, hasnt_white_at_end, out_fprtn);
+            typename lx_to_fprtn_parser_impl_selector<InputIterator, token_iterator, unichar, execution_state_set_impl_choice>::type()(get_lux_grammar(), hasnt_white_at_begin, hasnt_white_at_end, *the_context_ref, out_fprtn);
             state_count = out_fprtn.state_count();
             transition_count = out_fprtn.transition_count();
             bool accept(prune(out_fprtn));
@@ -1975,12 +2029,12 @@ namespace grapenlp {
         std::size_t exe_my_luxw_to_fprtn_parser_and_breadth_first_expander()
         {
 #ifdef TRACE
-            typename luxw_output_fprtn<token_iterator, weight, InputIterator, execution_state_set_impl_choice>::type out_fprtn('r', 'q', the_token_list.size(), the_token_list.begin(), the_token_list.end());
+            luxw_output_fprtn<u_context_mask, token_iterator, weight, InputIterator, execution_state_set_impl_choice> out_fprtn('r', 'q', the_token_list.size(), the_token_list.begin(), the_token_list.end());
 #else
-            typename luxw_output_fprtn<token_iterator, weight, InputIterator, execution_state_set_impl_choice>::type out_fprtn(the_token_list.size(), the_token_list.begin(), the_token_list.end());
+            luxw_output_fprtn<u_context_mask, token_iterator, weight, InputIterator, execution_state_set_impl_choice> out_fprtn(the_token_list.size(), the_token_list.begin(), the_token_list.end());
 #endif
             clear_output_segment_map_x_weight_set<output_set_impl_choice>();
-            typename lxw_to_fprtn_parser_impl_selector<InputIterator, token_iterator, unichar, weight, execution_state_set_impl_choice>::type()(get_luxw_grammar(), hasnt_white_at_begin, hasnt_white_at_end, out_fprtn);
+            typename lxw_to_fprtn_parser_impl_selector<InputIterator, token_iterator, unichar, weight, execution_state_set_impl_choice>::type()(get_luxw_grammar(), hasnt_white_at_begin, hasnt_white_at_end, *the_context_ref, out_fprtn);
             if (prune(out_fprtn))
                 typename luxw_fprtn_breadth_first_expander_impl_selector<token_iterator, weight_transformer, InputIterator, sic, execution_state_set_impl_choice, output_set_impl_choice>::type()(out_fprtn, the_token_list.begin(), the_token_list.end(), get_output_segment_map_x_weight_set<output_set_impl_choice>());
             return get_output_segment_map_x_weight_set<output_set_impl_choice>().size();
@@ -1989,12 +2043,12 @@ namespace grapenlp {
         std::size_t exe_my_luxw_to_fprtn_stats_and_breadth_first_expander(std::size_t &state_count, std::size_t &transition_count, std::size_t &pruned_state_count, std::size_t &pruned_transition_count)
         {
 #ifdef TRACE
-            typename luxw_output_fprtn<token_iterator, weight, InputIterator, execution_state_set_impl_choice>::type out_fprtn('r', 'q', the_token_list.size(), the_token_list.begin(), the_token_list.end());
+            luxw_output_fprtn<u_context_mask, token_iterator, weight, InputIterator, execution_state_set_impl_choice> out_fprtn('r', 'q', the_token_list.size(), the_token_list.begin(), the_token_list.end());
 #else
-            typename luxw_output_fprtn<token_iterator, weight, InputIterator, execution_state_set_impl_choice>::type out_fprtn(the_token_list.size(), the_token_list.begin(), the_token_list.end());
+            luxw_output_fprtn<u_context_mask, token_iterator, weight, InputIterator, execution_state_set_impl_choice> out_fprtn(the_token_list.size(), the_token_list.begin(), the_token_list.end());
 #endif
             clear_output_segment_map_x_weight_set<output_set_impl_choice>();
-            typename lxw_to_fprtn_parser_impl_selector<InputIterator, token_iterator, unichar, weight, execution_state_set_impl_choice>::type()(get_luxw_grammar(), hasnt_white_at_begin, hasnt_white_at_end, out_fprtn);
+            typename lxw_to_fprtn_parser_impl_selector<InputIterator, token_iterator, unichar, weight, execution_state_set_impl_choice>::type()(get_luxw_grammar(), hasnt_white_at_begin, hasnt_white_at_end, *the_context_ref, out_fprtn);
             state_count = out_fprtn.state_count();
             transition_count = out_fprtn.transition_count();
             bool accept(prune(out_fprtn));
@@ -2014,13 +2068,13 @@ namespace grapenlp {
         std::size_t exe_my_lua_to_fprtn_parser_and_blackboard_set_expander_with_trie_output()
         {
 #ifdef TRACE
-            typename lua_output_fprtn_zpps<token_iterator, InputIterator, execution_state_set_impl_choice>::type out_fprtn_zpps('r', 'q', the_token_list.size(), the_token_list.begin(), the_token_list.end());
+            lua_output_fprtn_zpps<u_context_mask, token_iterator, InputIterator, execution_state_set_impl_choice> out_fprtn_zpps('r', 'q', the_token_list.size(), the_token_list.begin(), the_token_list.end());
 #else
-            typename lua_output_fprtn_zpps<token_iterator, InputIterator, execution_state_set_impl_choice>::type out_fprtn_zpps(the_token_list.size(), the_token_list.begin(), the_token_list.end());
+            lua_output_fprtn_zpps<u_context_mask, token_iterator, InputIterator, execution_state_set_impl_choice> out_fprtn_zpps(the_token_list.size(), the_token_list.begin(), the_token_list.end());
 #endif
             std::size_t useful_state_count;
             clear_output_u_array_set<output_set_impl_choice>();
-            typename lua_to_fprtn_zpps_parser_impl_selector<InputIterator, token_iterator, execution_state_set_impl_choice>::type()(get_lua_grammar(), hasnt_white_at_begin, hasnt_white_at_end, out_fprtn_zpps);
+            typename lua_to_fprtn_zpps_parser_impl_selector<InputIterator, token_iterator, execution_state_set_impl_choice>::type()(get_lua_grammar(), hasnt_white_at_begin, hasnt_white_at_end, *the_context_ref, out_fprtn_zpps);
             if ((useful_state_count = lua_prune_zpps<token_iterator, InputIterator, execution_state_set_impl_choice>(out_fprtn_zpps)))
             {
                 trie_string_ref_pool<unichar> utsrp;
@@ -2034,12 +2088,12 @@ namespace grapenlp {
         std::size_t exe_my_lua_to_fprtn_stats_and_blackboard_set_expander_with_trie_output(std::size_t &state_count, std::size_t &transition_count, std::size_t &pruned_state_count, std::size_t &pruned_transition_count)
         {
 #ifdef TRACE
-            typename lua_output_fprtn_zpps<token_iterator, InputIterator, execution_state_set_impl_choice>::type out_fprtn_zpps('r', 'q', the_token_list.size(), the_token_list.begin(), the_token_list.end());
+            lua_output_fprtn_zpps<u_context_mask, token_iterator, InputIterator, execution_state_set_impl_choice> out_fprtn_zpps('r', 'q', the_token_list.size(), the_token_list.begin(), the_token_list.end());
 #else
-            typename lua_output_fprtn_zpps<token_iterator, InputIterator, execution_state_set_impl_choice>::type out_fprtn_zpps(the_token_list.size(), the_token_list.begin(), the_token_list.end());
+            lua_output_fprtn_zpps<u_context_mask, token_iterator, InputIterator, execution_state_set_impl_choice> out_fprtn_zpps(the_token_list.size(), the_token_list.begin(), the_token_list.end());
 #endif
             clear_output_u_array_set<output_set_impl_choice>();
-            typename lua_to_fprtn_zpps_parser_impl_selector<InputIterator, token_iterator, execution_state_set_impl_choice>::type()(get_lua_grammar(), hasnt_white_at_begin, hasnt_white_at_end, out_fprtn_zpps);
+            typename lua_to_fprtn_zpps_parser_impl_selector<InputIterator, token_iterator, execution_state_set_impl_choice>::type()(get_lua_grammar(), hasnt_white_at_begin, hasnt_white_at_end, *the_context_ref, out_fprtn_zpps);
             state_count = out_fprtn_zpps.state_count();
             transition_count = out_fprtn_zpps.transition_count();
             std::size_t useful_state_count(lua_prune_zpps<token_iterator, InputIterator, execution_state_set_impl_choice>(out_fprtn_zpps));
@@ -2060,13 +2114,13 @@ namespace grapenlp {
         std::size_t exe_my_lua_to_fprtn_parser_and_blackboard_set_expander_with_array_output()
         {
 #ifdef TRACE
-            typename lua_output_fprtn_zpps<token_iterator, InputIterator, execution_state_set_impl_choice>::type out_fprtn_zpps('r', 'q', the_token_list.size(), the_token_list.begin(), the_token_list.end());
+            lua_output_fprtn_zpps<u_context_mask, token_iterator, InputIterator, execution_state_set_impl_choice> out_fprtn_zpps('r', 'q', the_token_list.size(), the_token_list.begin(), the_token_list.end());
 #else
-            typename lua_output_fprtn_zpps<token_iterator, InputIterator, execution_state_set_impl_choice>::type out_fprtn_zpps(the_token_list.size(), the_token_list.begin(), the_token_list.end());
+            lua_output_fprtn_zpps<u_context_mask, token_iterator, InputIterator, execution_state_set_impl_choice> out_fprtn_zpps(the_token_list.size(), the_token_list.begin(), the_token_list.end());
 #endif
             std::size_t useful_state_count;
             clear_output_u_array_set<output_set_impl_choice>();
-            typename lua_to_fprtn_zpps_parser_impl_selector<InputIterator, token_iterator, execution_state_set_impl_choice>::type()(get_lua_grammar(), hasnt_white_at_begin, hasnt_white_at_end, out_fprtn_zpps);
+            typename lua_to_fprtn_zpps_parser_impl_selector<InputIterator, token_iterator, execution_state_set_impl_choice>::type()(get_lua_grammar(), hasnt_white_at_begin, hasnt_white_at_end, *the_context_ref, out_fprtn_zpps);
             if ((useful_state_count = lua_prune_zpps<token_iterator, InputIterator, execution_state_set_impl_choice>(out_fprtn_zpps)))
                 typename lua_fprtn_blackboard_set_expander_impl_selector<token_iterator, InputIterator, ARRAYS, execution_state_set_impl_choice, output_set_impl_choice>::type()(out_fprtn_zpps, useful_state_count, get_output_u_array_set<output_set_impl_choice>());
             return get_output_u_array_set<output_set_impl_choice>().size();
@@ -2075,12 +2129,12 @@ namespace grapenlp {
         std::size_t exe_my_lua_to_fprtn_stats_and_blackboard_set_expander_with_array_output(std::size_t &state_count, std::size_t &transition_count, std::size_t &pruned_state_count, std::size_t &pruned_transition_count)
         {
 #ifdef TRACE
-            typename lua_output_fprtn_zpps<token_iterator, InputIterator, execution_state_set_impl_choice>::type out_fprtn_zpps('r', 'q', the_token_list.size(), the_token_list.begin(), the_token_list.end());
+            lua_output_fprtn_zpps<u_context_mask, token_iterator, InputIterator, execution_state_set_impl_choice> out_fprtn_zpps('r', 'q', the_token_list.size(), the_token_list.begin(), the_token_list.end());
 #else
-            typename lua_output_fprtn_zpps<token_iterator, InputIterator, execution_state_set_impl_choice>::type out_fprtn_zpps(the_token_list.size(), the_token_list.begin(), the_token_list.end());
+            lua_output_fprtn_zpps<u_context_mask, token_iterator, InputIterator, execution_state_set_impl_choice> out_fprtn_zpps(the_token_list.size(), the_token_list.begin(), the_token_list.end());
 #endif
             clear_output_u_array_set<output_set_impl_choice>();
-            typename lua_to_fprtn_zpps_parser_impl_selector<InputIterator, token_iterator, execution_state_set_impl_choice>::type()(get_lua_grammar(), hasnt_white_at_begin, hasnt_white_at_end, out_fprtn_zpps);
+            typename lua_to_fprtn_zpps_parser_impl_selector<InputIterator, token_iterator, execution_state_set_impl_choice>::type()(get_lua_grammar(), hasnt_white_at_begin, hasnt_white_at_end, *the_context_ref, out_fprtn_zpps);
             state_count = out_fprtn_zpps.state_count();
             transition_count = out_fprtn_zpps.transition_count();
             std::size_t useful_state_count(lua_prune_zpps<token_iterator, InputIterator, execution_state_set_impl_choice>(out_fprtn_zpps));
@@ -2098,13 +2152,13 @@ namespace grapenlp {
         std::size_t exe_my_luaw_to_fprtn_parser_and_blackboard_set_expander_with_trie_output()
         {
 #ifdef TRACE
-            typename luaw_output_fprtn_zpps<token_iterator, weight, InputIterator, execution_state_set_impl_choice>::type out_fprtn_zpps('r', 'q', the_token_list.size(), the_token_list.begin(), the_token_list.end());
+            luaw_output_fprtn_zpps<u_context_mask, token_iterator, weight, InputIterator, execution_state_set_impl_choice> out_fprtn_zpps('r', 'q', the_token_list.size(), the_token_list.begin(), the_token_list.end());
 #else
-            typename luaw_output_fprtn_zpps<token_iterator, weight, InputIterator, execution_state_set_impl_choice>::type out_fprtn_zpps(the_token_list.size(), the_token_list.begin(), the_token_list.end());
+            luaw_output_fprtn_zpps<u_context_mask, token_iterator, weight, InputIterator, execution_state_set_impl_choice> out_fprtn_zpps(the_token_list.size(), the_token_list.begin(), the_token_list.end());
 #endif
             std::size_t useful_state_count;
             clear_output_u_array_set<output_set_impl_choice>();
-            typename luaw_to_fprtn_zpps_parser_impl_selector<InputIterator, token_iterator, weight, execution_state_set_impl_choice>::type()(get_luaw_grammar(), hasnt_white_at_begin, hasnt_white_at_end, out_fprtn_zpps);
+            typename luaw_to_fprtn_zpps_parser_impl_selector<InputIterator, token_iterator, weight, execution_state_set_impl_choice>::type()(get_luaw_grammar(), hasnt_white_at_begin, hasnt_white_at_end, *the_context_ref, out_fprtn_zpps);
             if ((useful_state_count = luaw_prune_zpps<token_iterator, weight, InputIterator, execution_state_set_impl_choice>(out_fprtn_zpps)))
             {
                 trie_string_ref_pool<unichar> tsrp;
@@ -2119,12 +2173,12 @@ namespace grapenlp {
         std::size_t exe_my_luaw_to_fprtn_stats_and_blackboard_set_expander_with_trie_output(std::size_t &state_count, std::size_t &transition_count, std::size_t &pruned_state_count, std::size_t &pruned_transition_count)
         {
 #ifdef TRACE
-            typename luaw_output_fprtn_zpps<token_iterator, weight, InputIterator, execution_state_set_impl_choice>::type out_fprtn_zpps('r', 'q', the_token_list.size(), the_token_list.begin(), the_token_list.end());
+            luaw_output_fprtn_zpps<u_context_mask, token_iterator, weight, InputIterator, execution_state_set_impl_choice> out_fprtn_zpps('r', 'q', the_token_list.size(), the_token_list.begin(), the_token_list.end());
 #else
-            typename luaw_output_fprtn_zpps<token_iterator, weight, InputIterator, execution_state_set_impl_choice>::type out_fprtn_zpps(the_token_list.size(), the_token_list.begin(), the_token_list.end());
+            luaw_output_fprtn_zpps<u_context_mask, token_iterator, weight, InputIterator, execution_state_set_impl_choice> out_fprtn_zpps(the_token_list.size(), the_token_list.begin(), the_token_list.end());
 #endif
             clear_output_u_array_set<output_set_impl_choice>();
-            typename luaw_to_fprtn_zpps_parser_impl_selector<InputIterator, token_iterator, weight, execution_state_set_impl_choice>::type()(get_luaw_grammar(), hasnt_white_at_begin, hasnt_white_at_end, out_fprtn_zpps);
+            typename luaw_to_fprtn_zpps_parser_impl_selector<InputIterator, token_iterator, weight, execution_state_set_impl_choice>::type()(get_luaw_grammar(), hasnt_white_at_begin, hasnt_white_at_end, *the_context_ref, out_fprtn_zpps);
             state_count = out_fprtn_zpps.state_count();
             transition_count = out_fprtn_zpps.transition_count();
             std::size_t useful_state_count(luaw_prune_zpps<token_iterator, weight, InputIterator, execution_state_set_impl_choice>(out_fprtn_zpps));
@@ -2146,13 +2200,13 @@ namespace grapenlp {
         std::size_t exe_my_luaw_to_fprtn_parser_and_blackboard_set_expander_with_array_output()
         {
 #ifdef TRACE
-            typename luaw_output_fprtn_zpps<token_iterator, weight, InputIterator, execution_state_set_impl_choice>::type out_fprtn_zpps('r', 'q', the_token_list.size(), the_token_list.begin(), the_token_list.end());
+            luaw_output_fprtn_zpps<u_context_mask, token_iterator, weight, InputIterator, execution_state_set_impl_choice> out_fprtn_zpps('r', 'q', the_token_list.size(), the_token_list.begin(), the_token_list.end());
 #else
-            typename luaw_output_fprtn_zpps<token_iterator, weight, InputIterator, execution_state_set_impl_choice>::type out_fprtn_zpps(the_token_list.size(), the_token_list.begin(), the_token_list.end());
+            luaw_output_fprtn_zpps<u_context_mask, token_iterator, weight, InputIterator, execution_state_set_impl_choice> out_fprtn_zpps(the_token_list.size(), the_token_list.begin(), the_token_list.end());
 #endif
             std::size_t useful_state_count;
             clear_output_u_array_set<output_set_impl_choice>();
-            typename luaw_to_fprtn_zpps_parser_impl_selector<InputIterator, token_iterator, weight, execution_state_set_impl_choice>::type()(get_luaw_grammar(), hasnt_white_at_begin, hasnt_white_at_end, out_fprtn_zpps);
+            typename luaw_to_fprtn_zpps_parser_impl_selector<InputIterator, token_iterator, weight, execution_state_set_impl_choice>::type()(get_luaw_grammar(), hasnt_white_at_begin, hasnt_white_at_end, *the_context_ref, out_fprtn_zpps);
             if ((useful_state_count = luaw_prune_zpps<token_iterator, weight, InputIterator, execution_state_set_impl_choice>(out_fprtn_zpps)))
             {
                 typename set_impl_selector<output_set_impl_choice, fake_pool_u_array_x_weight>::type psxws;
@@ -2165,12 +2219,12 @@ namespace grapenlp {
         std::size_t exe_my_luaw_to_fprtn_stats_and_blackboard_set_expander_with_array_output(std::size_t &state_count, std::size_t &transition_count, std::size_t &pruned_state_count, std::size_t &pruned_transition_count)
         {
 #ifdef TRACE
-            typename luaw_output_fprtn_zpps<token_iterator, weight, InputIterator, execution_state_set_impl_choice>::type out_fprtn_zpps('r', 'q', the_token_list.size(), the_token_list.begin(), the_token_list.end());
+            luaw_output_fprtn_zpps<u_context_mask, token_iterator, weight, InputIterator, execution_state_set_impl_choice> out_fprtn_zpps('r', 'q', the_token_list.size(), the_token_list.begin(), the_token_list.end());
 #else
-            typename luaw_output_fprtn_zpps<token_iterator, weight, InputIterator, execution_state_set_impl_choice>::type out_fprtn_zpps(the_token_list.size(), the_token_list.begin(), the_token_list.end());
+            luaw_output_fprtn_zpps<u_context_mask, token_iterator, weight, InputIterator, execution_state_set_impl_choice> out_fprtn_zpps(the_token_list.size(), the_token_list.begin(), the_token_list.end());
 #endif
             clear_output_u_array_set<output_set_impl_choice>();
-            typename luaw_to_fprtn_zpps_parser_impl_selector<InputIterator, token_iterator, weight, execution_state_set_impl_choice>::type()(get_luaw_grammar(), hasnt_white_at_begin, hasnt_white_at_end, out_fprtn_zpps);
+            typename luaw_to_fprtn_zpps_parser_impl_selector<InputIterator, token_iterator, weight, execution_state_set_impl_choice>::type()(get_luaw_grammar(), hasnt_white_at_begin, hasnt_white_at_end, *the_context_ref, out_fprtn_zpps);
             state_count = out_fprtn_zpps.state_count();
             transition_count = out_fprtn_zpps.transition_count();
             std::size_t useful_state_count(luaw_prune_zpps<token_iterator, weight, InputIterator, execution_state_set_impl_choice>(out_fprtn_zpps));
@@ -2191,13 +2245,13 @@ namespace grapenlp {
         std::size_t exe_my_lux_to_fprtn_parser_and_blackboard_set_expander()
         {
 #ifdef TRACE
-            typename lux_output_fprtn_zpps<token_iterator, InputIterator, execution_state_set_impl_choice>::type out_fprtn_zpps('r', 'q', the_token_list.size(), the_token_list.begin(), the_token_list.end());
+            lux_output_fprtn_zpps<u_context_mask, token_iterator, InputIterator, execution_state_set_impl_choice> out_fprtn_zpps('r', 'q', the_token_list.size(), the_token_list.begin(), the_token_list.end());
 #else
-            typename lux_output_fprtn_zpps<token_iterator, InputIterator, execution_state_set_impl_choice>::type out_fprtn_zpps(the_token_list.size(), the_token_list.begin(), the_token_list.end());
+            lux_output_fprtn_zpps<u_context_mask, token_iterator, InputIterator, execution_state_set_impl_choice> out_fprtn_zpps(the_token_list.size(), the_token_list.begin(), the_token_list.end());
 #endif
             std::size_t useful_state_count;
             clear_output_segment_map_set<output_set_impl_choice>();
-            typename lx_to_fprtn_zpps_parser_impl_selector<InputIterator, token_iterator, unichar, execution_state_set_impl_choice>::type()(get_lux_grammar(), hasnt_white_at_begin, hasnt_white_at_end, out_fprtn_zpps);
+            typename lx_to_fprtn_zpps_parser_impl_selector<InputIterator, token_iterator, unichar, execution_state_set_impl_choice>::type()(get_lux_grammar(), hasnt_white_at_begin, hasnt_white_at_end, *the_context_ref, out_fprtn_zpps);
             if ((useful_state_count = lux_prune_zpps<token_iterator, InputIterator, execution_state_set_impl_choice>(out_fprtn_zpps)))
                 typename lux_fprtn_blackboard_set_expander_impl_selector<token_iterator, InputIterator, sic, execution_state_set_impl_choice, output_set_impl_choice>::type()(out_fprtn_zpps, useful_state_count, the_token_list.begin(), the_token_list.end(), get_output_segment_map_set<output_set_impl_choice>());
             return get_output_segment_map_set<output_set_impl_choice>().size();
@@ -2206,12 +2260,12 @@ namespace grapenlp {
         std::size_t exe_my_lux_to_fprtn_stats_and_blackboard_set_expander(std::size_t &state_count, std::size_t &transition_count, std::size_t &pruned_state_count, std::size_t &pruned_transition_count)
         {
 #ifdef TRACE
-            typename lux_output_fprtn_zpps<token_iterator, InputIterator, execution_state_set_impl_choice>::type out_fprtn_zpps('r', 'q', the_token_list.size(), the_token_list.begin(), the_token_list.end());
+            lux_output_fprtn_zpps<u_context_mask, token_iterator, InputIterator, execution_state_set_impl_choice> out_fprtn_zpps('r', 'q', the_token_list.size(), the_token_list.begin(), the_token_list.end());
 #else
-            typename lux_output_fprtn_zpps<token_iterator, InputIterator, execution_state_set_impl_choice>::type out_fprtn_zpps(the_token_list.size(), the_token_list.begin(), the_token_list.end());
+            lux_output_fprtn_zpps<u_context_mask, token_iterator, InputIterator, execution_state_set_impl_choice> out_fprtn_zpps(the_token_list.size(), the_token_list.begin(), the_token_list.end());
 #endif
             clear_output_segment_map_set<output_set_impl_choice>();
-            typename lx_to_fprtn_zpps_parser_impl_selector<InputIterator, token_iterator, unichar, execution_state_set_impl_choice>::type()(get_lux_grammar(), hasnt_white_at_begin, hasnt_white_at_end, out_fprtn_zpps);
+            typename lx_to_fprtn_zpps_parser_impl_selector<InputIterator, token_iterator, unichar, execution_state_set_impl_choice>::type()(get_lux_grammar(), hasnt_white_at_begin, hasnt_white_at_end, *the_context_ref, out_fprtn_zpps);
             state_count = out_fprtn_zpps.state_count();
             transition_count = out_fprtn_zpps.transition_count();
             std::size_t useful_state_count(lux_prune_zpps<token_iterator, InputIterator, execution_state_set_impl_choice>(out_fprtn_zpps));
@@ -2227,13 +2281,13 @@ namespace grapenlp {
         std::size_t exe_my_luxw_to_fprtn_parser_and_blackboard_set_expander()
         {
 #ifdef TRACE
-            typename luxw_output_fprtn_zpps<token_iterator, weight, InputIterator, execution_state_set_impl_choice>::type out_fprtn_zpps('r', 'q', the_token_list.size(), the_token_list.begin(), the_token_list.end());
+            luxw_output_fprtn_zpps<u_context_mask, token_iterator, weight, InputIterator, execution_state_set_impl_choice> out_fprtn_zpps('r', 'q', the_token_list.size(), the_token_list.begin(), the_token_list.end());
 #else
-            typename luxw_output_fprtn_zpps<token_iterator, weight, InputIterator, execution_state_set_impl_choice>::type out_fprtn_zpps(the_token_list.size(), the_token_list.begin(), the_token_list.end());
+            luxw_output_fprtn_zpps<u_context_mask, token_iterator, weight, InputIterator, execution_state_set_impl_choice> out_fprtn_zpps(the_token_list.size(), the_token_list.begin(), the_token_list.end());
 #endif
             std::size_t useful_state_count;
             clear_output_segment_map_x_weight_set<output_set_impl_choice>();
-            typename lxw_to_fprtn_zpps_parser_impl_selector<InputIterator, token_iterator, unichar, weight, execution_state_set_impl_choice>::type()(get_luxw_grammar(), hasnt_white_at_begin, hasnt_white_at_end, out_fprtn_zpps);
+            typename lxw_to_fprtn_zpps_parser_impl_selector<InputIterator, token_iterator, unichar, weight, execution_state_set_impl_choice>::type()(get_luxw_grammar(), hasnt_white_at_begin, hasnt_white_at_end, *the_context_ref, out_fprtn_zpps);
             if ((useful_state_count = luxw_prune_zpps<token_iterator, weight, InputIterator, execution_state_set_impl_choice>(out_fprtn_zpps)))
                 typename luxw_fprtn_blackboard_set_expander_impl_selector<token_iterator, weight_transformer, InputIterator, sic, execution_state_set_impl_choice, output_set_impl_choice>::type()(out_fprtn_zpps, useful_state_count, the_token_list.begin(), the_token_list.end(), get_output_segment_map_x_weight_set<output_set_impl_choice>());
             return get_output_segment_map_x_weight_set<output_set_impl_choice>().size();
@@ -2242,12 +2296,12 @@ namespace grapenlp {
         std::size_t exe_my_luxw_to_fprtn_stats_and_blackboard_set_expander(std::size_t &state_count, std::size_t &transition_count, std::size_t &pruned_state_count, std::size_t &pruned_transition_count)
         {
 #ifdef TRACE
-            typename luxw_output_fprtn_zpps<token_iterator, weight, InputIterator, execution_state_set_impl_choice>::type out_fprtn_zpps('r', 'q', the_token_list.size(), the_token_list.begin(), the_token_list.end());
+            luxw_output_fprtn_zpps<u_context_mask, token_iterator, weight, InputIterator, execution_state_set_impl_choice> out_fprtn_zpps('r', 'q', the_token_list.size(), the_token_list.begin(), the_token_list.end());
 #else
-            typename luxw_output_fprtn_zpps<token_iterator, weight, InputIterator, execution_state_set_impl_choice>::type out_fprtn_zpps(the_token_list.size(), the_token_list.begin(), the_token_list.end());
+            luxw_output_fprtn_zpps<u_context_mask, token_iterator, weight, InputIterator, execution_state_set_impl_choice> out_fprtn_zpps(the_token_list.size(), the_token_list.begin(), the_token_list.end());
 #endif
             clear_output_segment_map_x_weight_set<output_set_impl_choice>();
-            typename lxw_to_fprtn_zpps_parser_impl_selector<InputIterator, token_iterator, unichar, weight, execution_state_set_impl_choice>::type()(get_luxw_grammar(), hasnt_white_at_begin, hasnt_white_at_end, out_fprtn_zpps);
+            typename lxw_to_fprtn_zpps_parser_impl_selector<InputIterator, token_iterator, unichar, weight, execution_state_set_impl_choice>::type()(get_luxw_grammar(), hasnt_white_at_begin, hasnt_white_at_end, *the_context_ref, out_fprtn_zpps);
             state_count = out_fprtn_zpps.state_count();
             transition_count = out_fprtn_zpps.transition_count();
             std::size_t useful_state_count(luxw_prune_zpps<token_iterator, weight, InputIterator, execution_state_set_impl_choice>(out_fprtn_zpps));
@@ -2267,12 +2321,12 @@ namespace grapenlp {
         std::size_t exe_my_luaw_to_fprtn_parser_and_top_blackboard_extractor_with_trie_output()
         {
 #ifdef TRACE
-            typename luaw_output_fprtn_top<token_iterator, weight, InputIterator, execution_state_set_impl_choice>::type out_fprtn_top('r', 'q', the_token_list.size(), the_token_list.begin(), the_token_list.end());
+            luaw_output_fprtn_top<u_context_mask, token_iterator, weight, InputIterator, execution_state_set_impl_choice> out_fprtn_top('r', 'q', the_token_list.size(), the_token_list.begin(), the_token_list.end());
 #else
-            typename luaw_output_fprtn_top<token_iterator, weight, InputIterator, execution_state_set_impl_choice>::type out_fprtn_top(the_token_list.size(), the_token_list.begin(), the_token_list.end());
+            luaw_output_fprtn_top<u_context_mask, token_iterator, weight, InputIterator, execution_state_set_impl_choice> out_fprtn_top(the_token_list.size(), the_token_list.begin(), the_token_list.end());
 #endif
             clear_output_u_array_set<STD>();
-            typename luaw_to_fprtn_top_parser_impl_selector<InputIterator, token_iterator, weight, execution_state_set_impl_choice>::type()(get_luaw_grammar(), hasnt_white_at_begin, hasnt_white_at_end, out_fprtn_top, std::numeric_limits<weight>::min());
+            typename luaw_to_fprtn_top_parser_impl_selector<InputIterator, token_iterator, weight, execution_state_set_impl_choice>::type()(get_luaw_grammar(), hasnt_white_at_begin, hasnt_white_at_end, *the_context_ref, out_fprtn_top, std::numeric_limits<weight>::min());
             if (luaw_prune_top<token_iterator, weight, InputIterator, execution_state_set_impl_choice>(out_fprtn_top, std::numeric_limits<weight>::min()))
             {
                 trie_string_ref_pool<unichar> tsrp;
@@ -2287,12 +2341,12 @@ namespace grapenlp {
         std::size_t exe_my_luaw_to_fprtn_stats_and_top_blackboard_extractor_with_trie_output(std::size_t &state_count, std::size_t &transition_count, std::size_t &pruned_state_count, std::size_t &pruned_transition_count)
         {
 #ifdef TRACE
-            typename luaw_output_fprtn_top<token_iterator, weight, InputIterator, execution_state_set_impl_choice>::type out_fprtn_top('r', 'q', the_token_list.size(), the_token_list.begin(), the_token_list.end());
+            luaw_output_fprtn_top<u_context_mask, token_iterator, weight, InputIterator, execution_state_set_impl_choice> out_fprtn_top('r', 'q', the_token_list.size(), the_token_list.begin(), the_token_list.end());
 #else
-            typename luaw_output_fprtn_top<token_iterator, weight, InputIterator, execution_state_set_impl_choice>::type out_fprtn_top(the_token_list.size(), the_token_list.begin(), the_token_list.end());
+            luaw_output_fprtn_top<u_context_mask, token_iterator, weight, InputIterator, execution_state_set_impl_choice> out_fprtn_top(the_token_list.size(), the_token_list.begin(), the_token_list.end());
 #endif
             clear_output_u_array_set<STD>();
-            typename luaw_to_fprtn_top_parser_impl_selector<InputIterator, token_iterator, weight, execution_state_set_impl_choice>::type()(get_luaw_grammar(), hasnt_white_at_begin, hasnt_white_at_end, out_fprtn_top, std::numeric_limits<weight>::min());
+            typename luaw_to_fprtn_top_parser_impl_selector<InputIterator, token_iterator, weight, execution_state_set_impl_choice>::type()(get_luaw_grammar(), hasnt_white_at_begin, hasnt_white_at_end, *the_context_ref, out_fprtn_top, std::numeric_limits<weight>::min());
             state_count = out_fprtn_top.state_count();
             transition_count = out_fprtn_top.transition_count();
             bool accept(luaw_prune_top<token_iterator, weight, InputIterator, execution_state_set_impl_choice>(out_fprtn_top, std::numeric_limits<weight>::min()));
@@ -2314,12 +2368,12 @@ namespace grapenlp {
         std::size_t exe_my_luaw_to_fprtn_parser_and_top_blackboard_extractor_with_array_output()
         {
 #ifdef TRACE
-            typename luaw_output_fprtn_top<token_iterator, weight, InputIterator, execution_state_set_impl_choice>::type out_fprtn_top('r', 'q', the_token_list.size(), the_token_list.begin(), the_token_list.end());
+            luaw_output_fprtn_top<u_context_mask, token_iterator, weight, InputIterator, execution_state_set_impl_choice> out_fprtn_top('r', 'q', the_token_list.size(), the_token_list.begin(), the_token_list.end());
 #else
-            typename luaw_output_fprtn_top<token_iterator, weight, InputIterator, execution_state_set_impl_choice>::type out_fprtn_top(the_token_list.size(), the_token_list.begin(), the_token_list.end());
+            luaw_output_fprtn_top<u_context_mask, token_iterator, weight, InputIterator, execution_state_set_impl_choice> out_fprtn_top(the_token_list.size(), the_token_list.begin(), the_token_list.end());
 #endif
             clear_output_u_array_set<STD>();
-            typename luaw_to_fprtn_top_parser_impl_selector<InputIterator, token_iterator, weight, execution_state_set_impl_choice>::type()(get_luaw_grammar(), hasnt_white_at_begin, hasnt_white_at_end, out_fprtn_top, std::numeric_limits<weight>::min());
+            typename luaw_to_fprtn_top_parser_impl_selector<InputIterator, token_iterator, weight, execution_state_set_impl_choice>::type()(get_luaw_grammar(), hasnt_white_at_begin, hasnt_white_at_end, *the_context_ref, out_fprtn_top, std::numeric_limits<weight>::min());
             if (luaw_prune_top<token_iterator, weight, InputIterator, execution_state_set_impl_choice>(out_fprtn_top, std::numeric_limits<weight>::min()))
             {
                 typename set_impl_selector<STD, fake_pool_u_array_x_weight>::type psxws;
@@ -2332,12 +2386,12 @@ namespace grapenlp {
         std::size_t exe_my_luaw_to_fprtn_stats_and_top_blackboard_extractor_with_array_output(std::size_t &state_count, std::size_t &transition_count, std::size_t &pruned_state_count, std::size_t &pruned_transition_count)
         {
 #ifdef TRACE
-            typename luaw_output_fprtn_top<token_iterator, weight, InputIterator, execution_state_set_impl_choice>::type out_fprtn_top('r', 'q', the_token_list.size(), the_token_list.begin(), the_token_list.end());
+            luaw_output_fprtn_top<u_context_mask, token_iterator, weight, InputIterator, execution_state_set_impl_choice> out_fprtn_top('r', 'q', the_token_list.size(), the_token_list.begin(), the_token_list.end());
 #else
-            typename luaw_output_fprtn_top<token_iterator, weight, InputIterator, execution_state_set_impl_choice>::type out_fprtn_top(the_token_list.size(), the_token_list.begin(), the_token_list.end());
+            luaw_output_fprtn_top<u_context_mask, token_iterator, weight, InputIterator, execution_state_set_impl_choice> out_fprtn_top(the_token_list.size(), the_token_list.begin(), the_token_list.end());
 #endif
             clear_output_u_array_set<STD>();
-            typename luaw_to_fprtn_top_parser_impl_selector<InputIterator, token_iterator, weight, execution_state_set_impl_choice>::type()(get_luaw_grammar(), hasnt_white_at_begin, hasnt_white_at_end, out_fprtn_top, std::numeric_limits<weight>::min());
+            typename luaw_to_fprtn_top_parser_impl_selector<InputIterator, token_iterator, weight, execution_state_set_impl_choice>::type()(get_luaw_grammar(), hasnt_white_at_begin, hasnt_white_at_end, *the_context_ref, out_fprtn_top, std::numeric_limits<weight>::min());
             state_count = out_fprtn_top.state_count();
             transition_count = out_fprtn_top.transition_count();
             bool accept(luaw_prune_top<token_iterator, weight, InputIterator, execution_state_set_impl_choice>(out_fprtn_top, std::numeric_limits<weight>::min()));
@@ -2358,14 +2412,14 @@ namespace grapenlp {
         template<sequence_impl_choice sic, assoc_container_impl_choice execution_state_set_impl_choice, assoc_container_impl_choice output_set_impl_choice>
         std::size_t exe_my_luxw_to_fprtn_parser_and_top_blackboard_extractor() {
 #ifdef TRACE
-            typename luxw_output_fprtn_top<token_iterator, weight, InputIterator, execution_state_set_impl_choice>::type out_fprtn_top(
+            luxw_output_fprtn_top<u_context_mask, token_iterator, weight, InputIterator, execution_state_set_impl_choice> out_fprtn_top(
                     'r', 'q', the_token_list.size(), the_token_list.begin(), the_token_list.end());
 #else
-            typename luxw_output_fprtn_top<token_iterator, weight, InputIterator, execution_state_set_impl_choice>::type out_fprtn_top(the_token_list.size(), the_token_list.begin(), the_token_list.end());
+            luxw_output_fprtn_top<u_context_mask, token_iterator, weight, InputIterator, execution_state_set_impl_choice> out_fprtn_top(the_token_list.size(), the_token_list.begin(), the_token_list.end());
 #endif
             clear_output_segment_map_x_weight_set<output_set_impl_choice>();
             typename lxw_to_fprtn_top_parser_impl_selector<InputIterator, token_iterator, unichar, weight, execution_state_set_impl_choice>::type()(
-                    get_luxw_grammar(), hasnt_white_at_begin, hasnt_white_at_end, out_fprtn_top,
+                    get_luxw_grammar(), hasnt_white_at_begin, hasnt_white_at_end, *the_context_ref, out_fprtn_top,
                     std::numeric_limits<weight>::min());
             if (luxw_prune_top<token_iterator, weight, InputIterator, execution_state_set_impl_choice>(out_fprtn_top,
                                                                                                        std::numeric_limits<weight>::min()))
@@ -2381,14 +2435,14 @@ namespace grapenlp {
                                                                 std::size_t &pruned_state_count,
                                                                 std::size_t &pruned_transition_count) {
 #ifdef TRACE
-            typename luxw_output_fprtn_top<token_iterator, weight, InputIterator, execution_state_set_impl_choice>::type out_fprtn_top(
+            luxw_output_fprtn_top<u_context_mask, token_iterator, weight, InputIterator, execution_state_set_impl_choice> out_fprtn_top(
                     'r', 'q', the_token_list.size(), the_token_list.begin(), the_token_list.end());
 #else
-            typename luxw_output_fprtn_top<token_iterator, weight, InputIterator, execution_state_set_impl_choice>::type out_fprtn_top(the_token_list.size(), the_token_list.begin(), the_token_list.end());
+            luxw_output_fprtn_top<u_context_mask, token_iterator, weight, InputIterator, execution_state_set_impl_choice> out_fprtn_top(the_token_list.size(), the_token_list.begin(), the_token_list.end());
 #endif
             clear_output_segment_map_x_weight_set<output_set_impl_choice>();
             typename lxw_to_fprtn_top_parser_impl_selector<InputIterator, token_iterator, unichar, weight, execution_state_set_impl_choice>::type()(
-                    get_luxw_grammar(), hasnt_white_at_begin, hasnt_white_at_end, out_fprtn_top,
+                    get_luxw_grammar(), hasnt_white_at_begin, hasnt_white_at_end, *the_context_ref, out_fprtn_top,
                     std::numeric_limits<weight>::min());
             state_count = out_fprtn_top.state_count();
             transition_count = out_fprtn_top.transition_count();
@@ -2458,7 +2512,9 @@ namespace grapenlp {
                                     the_parse_func_ref = &ul_manager::template exe_my_lua_depth_first_parser_with_trie_stacks_and_output<LRB_TREE_3W>;
                                     return;
 #endif
-                                default: fatal_error("Unsupported output set implementation\n");
+                                default:
+                                    fatal_error("Unsupported output set implementation\n");
+                                    return;
                                 }
 #endif //DISABLE_TRIE_STRING_PARSERS
 #ifndef DISABLE_ARRAY_PARSERS
@@ -2479,7 +2535,9 @@ namespace grapenlp {
                                 the_parse_func_ref = &ul_manager::template exe_my_lua_depth_first_parser_with_array_stacks_and_output<LRB_TREE_3W>;
                                 return;
 #endif
-                            default: fatal_error("Unsupported output set implementation\n");
+                            default:
+                                fatal_error("Unsupported output set implementation\n");
+                                return;
                             }
 #endif //DISABLE_ARRAY_PARSERS
 #endif //DISABLE_PARSERS_WITH_OUTPUT
@@ -2524,7 +2582,9 @@ namespace grapenlp {
                                     the_parse_func_ref = &ul_manager::template exe_my_luaw_depth_first_parser_with_trie_stacks_and_output<LRB_TREE_3W>;
                                     return;
 #endif
-                                default: fatal_error("Unsupported output set implementation\n");
+                                default:
+                                    fatal_error("Unsupported output set implementation\n");
+                                    return;
                                 }
 #endif //DISABLE_TRIE_STRING_PARSERS
 #ifndef DISABLE_ARRAY_PARSERS
@@ -2545,7 +2605,9 @@ namespace grapenlp {
                                 the_parse_func_ref = &ul_manager::template exe_my_luaw_depth_first_parser_with_array_stacks_and_output<LRB_TREE_3W>;
                                 return;
 #endif
-                            default: fatal_error("Unsupported output set implementation\n");
+                            default:
+                                fatal_error("Unsupported output set implementation\n");
+                                return;
                             }
 #endif //DISABLE_ARRAY_PARSERS
 #endif //DISABLE_PARSERS_WITH_OUTPUT
@@ -2590,7 +2652,9 @@ namespace grapenlp {
                                     the_parse_func_ref = &ul_manager::template exe_my_lux_depth_first_parser<TRIE_STRINGS, LRB_TREE_3W>;
                                     return;
 #endif
-                                default: fatal_error("Unsupported output set implementation\n");
+                                default:
+                                    fatal_error("Unsupported output set implementation\n");
+                                    return;
                                 }
 #endif //DISABLE_TRIE_STRING_PARSERS
 #ifndef DISABLE_ARRAY_PARSERS
@@ -2611,7 +2675,9 @@ namespace grapenlp {
                                 the_parse_func_ref = &ul_manager::template exe_my_lux_depth_first_parser<ARRAYS, LRB_TREE_3W>;
                                 return;
 #endif
-                            default: fatal_error("Unsupported output set implementation\n");
+                            default:
+                                fatal_error("Unsupported output set implementation\n");
+                                return;
                             }
 #endif //DISABLE_ARRAY_PARSERS
 #endif //DISABLE_PARSERS_WITH_OUTPUT
@@ -2656,7 +2722,9 @@ namespace grapenlp {
                                     the_parse_func_ref = &ul_manager::template exe_my_luxw_depth_first_parser<TRIE_STRINGS, LRB_TREE_3W>;
                                     return;
 #endif
-                                default: fatal_error("Unsupported output set implementation\n");
+                                default:
+                                    fatal_error("Unsupported output set implementation\n");
+                                    return;
                                 }
 #endif //DISABLE_TRIE_STRING_PARSERS
 #ifndef DISABLE_ARRAY_PARSERS
@@ -2677,13 +2745,17 @@ namespace grapenlp {
                                 the_parse_func_ref = &ul_manager::template exe_my_luxw_depth_first_parser<ARRAYS, LRB_TREE_3W>;
                                 return;
 #endif
-                            default: fatal_error("Unsupported output set implementation\n");
+                            default:
+                                fatal_error("Unsupported output set implementation\n");
+                                return;
                             }
 #endif //DISABLE_ARRAY_PARSERS
 #endif //DISABLE_PARSERS_WITH_OUTPUT
                         }
 #endif //DISABLE_LUXW_GRAMMAR
-                        default: fatal_error("Unsupported grammar type (compute depth-first parsing func)\n");
+                        default:
+                            fatal_error("Unsupported grammar type (compute depth-first parsing func)\n");
+                            return;
                     }
                 }
 #endif //DISABLE_DEPTH_FIRST_PARSER
@@ -2718,7 +2790,9 @@ namespace grapenlp {
                                         the_parse_func_ref = &ul_manager::template exe_my_lua_breadth_first_parser_no_output<TRIE_STRINGS, LRB_TREE_3W>;
                                         return;
 #endif
-                                    default: fatal_error("Unsupported execution state set implementation\n");
+                                    default:
+                                        fatal_error("Unsupported execution state set implementation\n");
+                                        return;
                                     }
 #endif //DISABLE_TRIE_STRING_PARSERS
 #ifndef DISABLE_ARRAY_PARSERS
@@ -2739,7 +2813,9 @@ namespace grapenlp {
                                     the_parse_func_ref = &ul_manager::template exe_my_lua_breadth_first_parser_no_output<ARRAYS, LRB_TREE_3W>;
                                     return;
 #endif
-                                default: fatal_error("Unsupported execution state set implementation\n");
+                                default:
+                                    fatal_error("Unsupported execution state set implementation\n");
+                                    return;
                                 }
 #endif //DISABLE_ARRAY_PARSERS
                             }
@@ -2768,7 +2844,9 @@ namespace grapenlp {
                                         the_parse_func_ref = &ul_manager::template exe_my_lua_breadth_first_parser_with_trie_stacks_and_output<STD, LRB_TREE_3W>;
                                         return;
 #endif
-                                    default: fatal_error("Unsupported output set implementation\n");
+                                    default:
+                                        fatal_error("Unsupported output set implementation\n");
+                                        return;
                                     }
 #endif //DISABLE_STD_SES
 #ifndef DISABLE_LRB_TREE_SES
@@ -2790,7 +2868,9 @@ namespace grapenlp {
                                         the_parse_func_ref = &ul_manager::template exe_my_lua_breadth_first_parser_with_trie_stacks_and_output<LRB_TREE, LRB_TREE_3W>;
                                         return;
 #endif
-                                    default: fatal_error("Unsupported output set implementation\n");
+                                    default:
+                                        fatal_error("Unsupported output set implementation\n");
+                                        return;
                                     }
 #endif //DISABLE_LRB_TREE_SES
 #ifndef DISABLE_LRB_TREE_3W_SES
@@ -2812,10 +2892,14 @@ namespace grapenlp {
                                         the_parse_func_ref = &ul_manager::template exe_my_lua_breadth_first_parser_with_trie_stacks_and_output<LRB_TREE_3W, LRB_TREE_3W>;
                                         return;
 #endif
-                                    default: fatal_error("Unsupported output set implementation\n");
+                                    default:
+                                        fatal_error("Unsupported output set implementation\n");
+                                        return;
                                     }
 #endif //DISABLE_LRB_TREE_3W_SES
-                                default: fatal_error("Unsupported execution state set implementation\n");
+                                default:
+                                    fatal_error("Unsupported execution state set implementation\n");
+                                    return;
                                 }
 #endif //DISABLE_TRIE_STRING_PARSERS
 #ifndef DISABLE_ARRAY_PARSERS
@@ -2840,7 +2924,9 @@ namespace grapenlp {
                                     the_parse_func_ref = &ul_manager::template exe_my_lua_breadth_first_parser_with_array_stacks_and_output<STD, LRB_TREE_3W>;
                                     return;
 #endif
-                                default: fatal_error("Unsupported output set implementation\n");
+                                default:
+                                    fatal_error("Unsupported output set implementation\n");
+                                    return;
                                 }
 #endif //DISABLE_STD_SES
 #ifndef DISABLE_LRB_TREE_SES
@@ -2862,7 +2948,9 @@ namespace grapenlp {
                                     the_parse_func_ref = &ul_manager::template exe_my_lua_breadth_first_parser_with_array_stacks_and_output<LRB_TREE, LRB_TREE_3W>;
                                     return;
 #endif
-                                default: fatal_error("Unsupported output set implementation\n");
+                                default:
+                                    fatal_error("Unsupported output set implementation\n");
+                                    return;
                                 }
 #endif //DISABLE_LRB_TREE_SES
 #ifndef DISABLE_LRB_TREE_3W_SES
@@ -2884,10 +2972,14 @@ namespace grapenlp {
                                     the_parse_func_ref = &ul_manager::template exe_my_lua_breadth_first_parser_with_array_stacks_and_output<LRB_TREE_3W, LRB_TREE_3W>;
                                     return;
 #endif
-                                default: fatal_error("Unsupported output set implementation\n");
+                                default:
+                                    fatal_error("Unsupported output set implementation\n");
+                                    return;
                                 }
 #endif //DISABLE_LRB_TREE_3W_SES
-                            default: fatal_error("Unsupported execution state set implementation\n");
+                            default:
+                                fatal_error("Unsupported execution state set implementation\n");
+                                return;
                             }
 #endif //DISABLE_ARRAY_PARSERS
 #endif //DISABLE_PARSERS_WITH_OUTPUT
@@ -2918,7 +3010,9 @@ namespace grapenlp {
                                         the_parse_func_ref = &ul_manager::template exe_my_luaw_breadth_first_parser_no_output<TRIE_STRINGS, LRB_TREE_3W>;
                                         return;
 #endif
-                                    default: fatal_error("Unsupported execution state set implementation\n");
+                                    default:
+                                        fatal_error("Unsupported execution state set implementation\n");
+                                        return;
                                     }
 #endif //DISABLE_TRIE_STRING_PARSERS
 #ifndef DISABLE_ARRAY_PARSERS
@@ -2939,7 +3033,9 @@ namespace grapenlp {
                                     the_parse_func_ref = &ul_manager::template exe_my_luaw_breadth_first_parser_no_output<ARRAYS, LRB_TREE_3W>;
                                     return;
 #endif
-                                default: fatal_error("Unsupported execution state set implementation\n");
+                                default:
+                                    fatal_error("Unsupported execution state set implementation\n");
+                                    return;
                                 }
 #endif //DISABLE_ARRAY_PARSERS
                             }
@@ -2968,7 +3064,9 @@ namespace grapenlp {
                                         the_parse_func_ref = &ul_manager::template exe_my_luaw_breadth_first_parser_with_trie_stacks_and_output<STD, LRB_TREE_3W>;
                                         return;
 #endif
-                                    default: fatal_error("Unsupported output set implementation\n");
+                                    default:
+                                        fatal_error("Unsupported output set implementation\n");
+                                        return;
                                     }
 #endif //DISABLE_STD_SES
 #ifndef DISABLE_LRB_TREE_SES
@@ -2990,7 +3088,9 @@ namespace grapenlp {
                                         the_parse_func_ref = &ul_manager::template exe_my_luaw_breadth_first_parser_with_trie_stacks_and_output<LRB_TREE, LRB_TREE_3W>;
                                         return;
 #endif
-                                    default: fatal_error("Unsupported output set implementation\n");
+                                    default:
+                                        fatal_error("Unsupported output set implementation\n");
+                                        return;
                                     }
 #endif //DISABLE_LRB_TREE_SES
 #ifndef DISABLE_LRB_TREE_3W_SES
@@ -3012,10 +3112,14 @@ namespace grapenlp {
                                         the_parse_func_ref = &ul_manager::template exe_my_luaw_breadth_first_parser_with_trie_stacks_and_output<LRB_TREE_3W, LRB_TREE_3W>;
                                         return;
 #endif
-                                    default: fatal_error("Unsupported output set implementation\n");
+                                    default:
+                                        fatal_error("Unsupported output set implementation\n");
+                                        return;
                                     }
 #endif //DISABLE_LRB_TREE_3W_SES
-                                default: fatal_error("Unsupported execution state set implementation\n");
+                                default:
+                                    fatal_error("Unsupported execution state set implementation\n");
+                                    return;
                                 }
 #endif //DISABLE_TRIE_STRING_PARSERS
 #ifndef DISABLE_ARRAY_PARSERS
@@ -3040,7 +3144,9 @@ namespace grapenlp {
                                     the_parse_func_ref = &ul_manager::template exe_my_luaw_breadth_first_parser_with_array_stacks_and_output<STD, LRB_TREE_3W>;
                                     return;
 #endif
-                                default: fatal_error("Unsupported output set implementation\n");
+                                default:
+                                    fatal_error("Unsupported output set implementation\n");
+                                    return;
                                 }
 #endif //DISABLE_STD_SES
 #ifndef DISABLE_LRB_TREE_SES
@@ -3062,7 +3168,9 @@ namespace grapenlp {
                                     the_parse_func_ref = &ul_manager::template exe_my_luaw_breadth_first_parser_with_array_stacks_and_output<LRB_TREE, LRB_TREE_3W>;
                                     return;
 #endif
-                                default: fatal_error("Unsupported output set implementation\n");
+                                default:
+                                    fatal_error("Unsupported output set implementation\n");
+                                    return;
                                 }
 #endif //DISABLE_LRB_TREE_SES
 #ifndef DISABLE_LRB_TREE_3W_SES
@@ -3084,10 +3192,14 @@ namespace grapenlp {
                                     the_parse_func_ref = &ul_manager::template exe_my_luaw_breadth_first_parser_with_array_stacks_and_output<LRB_TREE_3W, LRB_TREE_3W>;
                                     return;
 #endif
-                                default: fatal_error("Unsupported output set implementation\n");
+                                default:
+                                    fatal_error("Unsupported output set implementation\n");
+                                    return;
                                 }
 #endif //DISABLE_LRB_TREE_3W_SES
-                            default: fatal_error("Unsupported execution state set implementation\n");
+                            default:
+                                fatal_error("Unsupported execution state set implementation\n");
+                                return;
                             }
 #endif //DISABLE_ARRAY_PARSERS
 #endif //DISABLE_PARSERS_WITH_OUTPUT
@@ -3118,7 +3230,9 @@ namespace grapenlp {
                                         the_parse_func_ref = &ul_manager::template exe_my_lux_breadth_first_parser_no_output<TRIE_STRINGS, LRB_TREE_3W>;
                                         return;
 #endif
-                                    default: fatal_error("Unsupported execution state set implementation\n");
+                                    default:
+                                        fatal_error("Unsupported execution state set implementation\n");
+                                        return;
                                     }
 #endif //DISABLE_TRIE_STRING_PARSERS
 #ifndef DISABLE_ARRAY_PARSERS
@@ -3139,7 +3253,9 @@ namespace grapenlp {
                                     the_parse_func_ref = &ul_manager::template exe_my_lux_breadth_first_parser_no_output<ARRAYS, LRB_TREE_3W>;
                                     return;
 #endif
-                                default: fatal_error("Unsupported execution state set implementation\n");
+                                default:
+                                    fatal_error("Unsupported execution state set implementation\n");
+                                    return;
                                 }
 #endif //DISABLE_ARRAY_PARSERS
                             }
@@ -3168,7 +3284,9 @@ namespace grapenlp {
                                         the_parse_func_ref = &ul_manager::template exe_my_lux_breadth_first_parser<TRIE_STRINGS, STD, LRB_TREE_3W>;
                                         return;
 #endif
-                                    default: fatal_error("Unsupported output set implementation\n");
+                                    default:
+                                        fatal_error("Unsupported output set implementation\n");
+                                        return;
                                     }
 #endif //DISABLE_STD_SES
 #ifndef DISABLE_LRB_TREE_SES
@@ -3190,7 +3308,9 @@ namespace grapenlp {
                                         the_parse_func_ref = &ul_manager::template exe_my_lux_breadth_first_parser<TRIE_STRINGS, LRB_TREE, LRB_TREE_3W>;
                                         return;
 #endif
-                                    default: fatal_error("Unsupported output set implementation\n");
+                                    default:
+                                        fatal_error("Unsupported output set implementation\n");
+                                        return;
                                     }
 #endif //DISABLE_LRB_TREE_SES
 #ifndef DISABLE_LRB_TREE_3W_SES
@@ -3212,10 +3332,14 @@ namespace grapenlp {
                                         the_parse_func_ref = &ul_manager::template exe_my_lux_breadth_first_parser<TRIE_STRINGS, LRB_TREE_3W, LRB_TREE_3W>;
                                         return;
 #endif
-                                    default: fatal_error("Unsupported output set implementation\n");
+                                    default:
+                                        fatal_error("Unsupported output set implementation\n");
+                                        return;
                                     }
 #endif //DISABLE_LRB_TREE_3W_SES
-                                default: fatal_error("Unsupported execution state set implementation\n");
+                                default:
+                                    fatal_error("Unsupported execution state set implementation\n");
+                                    return;
                                 }
 #endif //DISABLE_TRIE_STRING_PARSERS
 #ifndef DISABLE_ARRAY_PARSERS
@@ -3240,7 +3364,9 @@ namespace grapenlp {
                                     the_parse_func_ref = &ul_manager::template exe_my_lux_breadth_first_parser<ARRAYS, STD, LRB_TREE_3W>;
                                     return;
 #endif
-                                default: fatal_error("Unsupported output set implementation\n");
+                                default:
+                                    fatal_error("Unsupported output set implementation\n");
+                                    return;
                                 }
 #endif //DISABLE_STD_SES
 #ifndef DISABLE_LRB_TREE_SES
@@ -3262,7 +3388,9 @@ namespace grapenlp {
                                     the_parse_func_ref = &ul_manager::template exe_my_lux_breadth_first_parser<ARRAYS, LRB_TREE, LRB_TREE_3W>;
                                     return;
 #endif
-                                default: fatal_error("Unsupported output set implementation\n");
+                                default:
+                                    fatal_error("Unsupported output set implementation\n");
+                                    return;
                                 }
 #endif //DISABLE_LRB_TREE_SES
 #ifndef DISABLE_LRB_TREE_3W_SES
@@ -3284,10 +3412,14 @@ namespace grapenlp {
                                     the_parse_func_ref = &ul_manager::template exe_my_lux_breadth_first_parser<ARRAYS, LRB_TREE_3W, LRB_TREE_3W>;
                                     return;
 #endif
-                                default: fatal_error("Unsupported output set implementation\n");
+                                default:
+                                    fatal_error("Unsupported output set implementation\n");
+                                    return;
                                 }
 #endif //DISABLE_LRB_TREE_3W_SES
-                            default: fatal_error("Unsupported execution state set implementation\n");
+                            default:
+                                fatal_error("Unsupported execution state set implementation\n");
+                                return;
                             }
 #endif //DISABLE_ARRAY_PARSERS
 #endif //DISABLE_PARSERS_WITH_OUTPUT
@@ -3318,7 +3450,9 @@ namespace grapenlp {
                                         the_parse_func_ref = &ul_manager::template exe_my_luxw_breadth_first_parser_no_output<TRIE_STRINGS, LRB_TREE_3W>;
                                         return;
 #endif
-                                    default: fatal_error("Unsupported execution state set implementation\n");
+                                    default:
+                                        fatal_error("Unsupported execution state set implementation\n");
+                                        return;
                                     }
 #endif //DISABLE_TRIE_STRING_PARSERS
 #ifndef DISABLE_ARRAY_PARSERS
@@ -3339,7 +3473,9 @@ namespace grapenlp {
                                     the_parse_func_ref = &ul_manager::template exe_my_luxw_breadth_first_parser_no_output<ARRAYS, LRB_TREE_3W>;
                                     return;
 #endif
-                                default: fatal_error("Unsupported execution state set implementation\n");
+                                default:
+                                    fatal_error("Unsupported execution state set implementation\n");
+                                    return;
                                 }
 #endif //DISABLE_ARRAY_PARSERS
                             }
@@ -3368,7 +3504,9 @@ namespace grapenlp {
                                         the_parse_func_ref = &ul_manager::template exe_my_luxw_breadth_first_parser<TRIE_STRINGS, STD, LRB_TREE_3W>;
                                         return;
 #endif
-                                    default: fatal_error("Unsupported output set implementation\n");
+                                    default:
+                                        fatal_error("Unsupported output set implementation\n");
+                                        return;
                                     }
 #endif //DISABLE_STD_SES
 #ifndef DISABLE_LRB_TREE_SES
@@ -3390,7 +3528,9 @@ namespace grapenlp {
                                         the_parse_func_ref = &ul_manager::template exe_my_luxw_breadth_first_parser<TRIE_STRINGS, LRB_TREE, LRB_TREE_3W>;
                                         return;
 #endif
-                                    default: fatal_error("Unsupported output set implementation\n");
+                                    default:
+                                        fatal_error("Unsupported output set implementation\n");
+                                        return;
                                     }
 #endif //DISABLE_LRB_TREE_SES
 #ifndef DISABLE_LRB_TREE_3W_SES
@@ -3412,10 +3552,14 @@ namespace grapenlp {
                                         the_parse_func_ref = &ul_manager::template exe_my_luxw_breadth_first_parser<TRIE_STRINGS, LRB_TREE_3W, LRB_TREE_3W>;
                                         return;
 #endif
-                                    default: fatal_error("Unsupported output set implementation\n");
+                                    default:
+                                        fatal_error("Unsupported output set implementation\n");
+                                        return;
                                     }
 #endif //DISABLE_LRB_TREE_3W_SES
-                                default: fatal_error("Unsupported execution state set implementation\n");
+                                default:
+                                    fatal_error("Unsupported execution state set implementation\n");
+                                    return;
                                 }
 #endif //DISABLE_TRIE_STRING_PARSERS
 #ifndef DISABLE_ARRAY_PARSERS
@@ -3440,7 +3584,9 @@ namespace grapenlp {
                                     the_parse_func_ref = &ul_manager::template exe_my_luxw_breadth_first_parser<ARRAYS, STD, LRB_TREE_3W>;
                                     return;
 #endif
-                                default: fatal_error("Unsupported output set implementation\n");
+                                default:
+                                    fatal_error("Unsupported output set implementation\n");
+                                    return;
                                 }
 #endif //DISABLE_STD_SES
 #ifndef DISABLE_LRB_TREE_SES
@@ -3462,7 +3608,9 @@ namespace grapenlp {
                                     the_parse_func_ref = &ul_manager::template exe_my_luxw_breadth_first_parser<ARRAYS, LRB_TREE, LRB_TREE_3W>;
                                     return;
 #endif
-                                default: fatal_error("Unsupported output set implementation\n");
+                                default:
+                                    fatal_error("Unsupported output set implementation\n");
+                                    return;
                                 }
 #endif //DISABLE_LRB_TREE_SES
 #ifndef DISABLE_LRB_TREE_3W_SES
@@ -3484,16 +3632,22 @@ namespace grapenlp {
                                     the_parse_func_ref = &ul_manager::template exe_my_luxw_breadth_first_parser<ARRAYS, LRB_TREE_3W, LRB_TREE_3W>;
                                     return;
 #endif
-                                default: fatal_error("Unsupported output set implementation\n");
+                                default:
+                                    fatal_error("Unsupported output set implementation\n");
+                                    return;
                                 }
 #endif //DISABLE_LRB_TREE_3W_SES
-                            default: fatal_error("Unsupported execution state set implementation\n");
+                            default:
+                                fatal_error("Unsupported execution state set implementation\n");
+                                return;
                             }
 #endif //DISABLE_ARRAY_PARSERS
 #endif //DISABLE_PARSERS_WITH_OUTPUT
                         }
 #endif //DISABLE_LUXW_GRAMMAR
-                        default: fatal_error("Unsupported grammar type (compute breadth-first parsing func)\n");
+                        default:
+                            fatal_error("Unsupported grammar type (compute breadth-first parsing func)\n");
+                            return;
                     }
                 }
 #endif //DISABLE_BREADTH_FIRST_PARSER
@@ -3526,7 +3680,9 @@ namespace grapenlp {
                                     the_parse_func_ref = &ul_manager::template exe_my_lua_earley_parser_no_output<LRB_TREE_3W>;
                                     return;
 #endif
-                                default: fatal_error("Unsupported execution state set implementation\n");
+                                default:
+                                    fatal_error("Unsupported execution state set implementation\n");
+                                    return;
                                 }
 #endif //DISABLE_PARSERS_WITHOUT_OUTPUT
 #ifndef DISABLE_PARSERS_WITH_OUTPUT
@@ -3553,7 +3709,9 @@ namespace grapenlp {
                                         the_parse_func_ref = &ul_manager::template exe_my_lua_earley_parser_with_trie_output<STD, LRB_TREE_3W>;
                                         return;
 #endif
-                                    default: fatal_error("Unsupported output set implementation\n");
+                                    default:
+                                        fatal_error("Unsupported output set implementation\n");
+                                        return;
                                     }
 #endif //DISABLE_STD_SES
 #ifndef DISABLE_LRB_TREE_SES
@@ -3575,7 +3733,9 @@ namespace grapenlp {
                                         the_parse_func_ref = &ul_manager::template exe_my_lua_earley_parser_with_trie_output<LRB_TREE, LRB_TREE_3W>;
                                         return;
 #endif
-                                    default: fatal_error("Unsupported output set implementation\n");
+                                    default:
+                                        fatal_error("Unsupported output set implementation\n");
+                                        return;
                                     }
 #endif //DISABLE_LRB_TREE_SES
 #ifndef DISABLE_LRB_TREE_3W_SES
@@ -3597,10 +3757,14 @@ namespace grapenlp {
                                         the_parse_func_ref = &ul_manager::template exe_my_lua_earley_parser_with_trie_output<LRB_TREE_3W, LRB_TREE_3W>;
                                         return;
 #endif
-                                    default: fatal_error("Unsupported output set implementation\n");
+                                    default:
+                                        fatal_error("Unsupported output set implementation\n");
+                                        return;
                                     }
 #endif //DISABLE_LRB_TREE_3W_SES
-                                default: fatal_error("Unsupported execution state set implementation\n");
+                                default:
+                                    fatal_error("Unsupported execution state set implementation\n");
+                                    return;
                                 }
 #endif //DISABLE_TRIE_STRING_PARSERS
 #ifndef DISABLE_ARRAY_PARSERS
@@ -3625,7 +3789,9 @@ namespace grapenlp {
                                     the_parse_func_ref = &ul_manager::template exe_my_lua_earley_parser_with_array_output<STD, LRB_TREE_3W>;
                                     return;
 #endif
-                                default: fatal_error("Unsupported output set implementation\n");
+                                default:
+                                    fatal_error("Unsupported output set implementation\n");
+                                    return;
                                 }
 #endif //DISABLE_STD_SES
 #ifndef DISABLE_LRB_TREE_SES
@@ -3647,7 +3813,9 @@ namespace grapenlp {
                                     the_parse_func_ref = &ul_manager::template exe_my_lua_earley_parser_with_array_output<LRB_TREE, LRB_TREE_3W>;
                                     return;
 #endif
-                                default: fatal_error("Unsupported output set implementation\n");
+                                default:
+                                    fatal_error("Unsupported output set implementation\n");
+                                    return;
                                 }
 #endif //DISABLE_LRB_TREE_SES
 #ifndef DISABLE_LRB_TREE_3W_SES
@@ -3669,10 +3837,14 @@ namespace grapenlp {
                                     the_parse_func_ref = &ul_manager::template exe_my_lua_earley_parser_with_array_output<LRB_TREE_3W, LRB_TREE_3W>;
                                     return;
 #endif
-                                default: fatal_error("Unsupported output set implementation\n");
+                                default:
+                                    fatal_error("Unsupported output set implementation\n");
+                                    return;
                                 }
 #endif //DISABLE_LRB_TREE_3W_SES
-                            default: fatal_error("Unsupported execution state set implementation\n");
+                            default:
+                                fatal_error("Unsupported execution state set implementation\n");
+                                return;
                             }
 #endif //DISABLE_ARRAY_PARSERS
 #endif //DISABLE_PARSERS_WITH_OUTPUT
@@ -3701,7 +3873,9 @@ namespace grapenlp {
                                     the_parse_func_ref = &ul_manager::template exe_my_luaw_earley_parser_no_output<LRB_TREE_3W>;
                                     return;
 #endif
-                                default: fatal_error("Unsupported execution state set implementation\n");
+                                default:
+                                    fatal_error("Unsupported execution state set implementation\n");
+                                    return;
                                 }
 #endif //DISABLE_PARSERS_WITHOUT_OUTPUT
 #ifndef DISABLE_PARSERS_WITH_OUTPUT
@@ -3728,7 +3902,9 @@ namespace grapenlp {
                                         the_parse_func_ref = &ul_manager::template exe_my_luaw_earley_parser_with_trie_output<STD, LRB_TREE_3W>;
                                         return;
 #endif
-                                    default: fatal_error("Unsupported output set implementation\n");
+                                    default:
+                                        fatal_error("Unsupported output set implementation\n");
+                                        return;
                                     }
 #endif //DISABLE_STD_SES
 #ifndef DISABLE_LRB_TREE_SES
@@ -3750,7 +3926,9 @@ namespace grapenlp {
                                         the_parse_func_ref = &ul_manager::template exe_my_luaw_earley_parser_with_trie_output<LRB_TREE, LRB_TREE_3W>;
                                         return;
 #endif
-                                    default: fatal_error("Unsupported output set implementation\n");
+                                    default:
+                                        fatal_error("Unsupported output set implementation\n");
+                                        return;
                                     }
 #endif //DISABLE_LRB_TREE_SES
 #ifndef DISABLE_LRB_TREE_3W_SES
@@ -3772,10 +3950,14 @@ namespace grapenlp {
                                         the_parse_func_ref = &ul_manager::template exe_my_luaw_earley_parser_with_trie_output<LRB_TREE_3W, LRB_TREE_3W>;
                                         return;
 #endif
-                                    default: fatal_error("Unsupported output set implementation\n");
+                                    default:
+                                        fatal_error("Unsupported output set implementation\n");
+                                        return;
                                     }
 #endif //DISABLE_LRB_TREE_3W_SES
-                                default: fatal_error("Unsupported execution state set implementation\n");
+                                default:
+                                    fatal_error("Unsupported execution state set implementation\n");
+                                    return;
                                 }
 #endif //DISABLE_TRIE_STRING_PARSERS
 #ifndef DISABLE_ARRAY_PARSERS
@@ -3800,7 +3982,9 @@ namespace grapenlp {
                                     the_parse_func_ref = &ul_manager::template exe_my_luaw_earley_parser_with_array_output<STD, LRB_TREE_3W>;
                                     return;
 #endif
-                                default: fatal_error("Unsupported output set implementation\n");
+                                default:
+                                    fatal_error("Unsupported output set implementation\n");
+                                    return;
                                 }
 #endif //DISABLE_STD_SES
 #ifndef DISABLE_LRB_TREE_SES
@@ -3822,7 +4006,9 @@ namespace grapenlp {
                                     the_parse_func_ref = &ul_manager::template exe_my_luaw_earley_parser_with_array_output<LRB_TREE, LRB_TREE_3W>;
                                     return;
 #endif
-                                default: fatal_error("Unsupported output set implementation\n");
+                                default:
+                                    fatal_error("Unsupported output set implementation\n");
+                                    return;
                                 }
 #endif //DISABLE_LRB_TREE_SES
 #ifndef DISABLE_LRB_TREE_3W_SES
@@ -3844,10 +4030,14 @@ namespace grapenlp {
                                     the_parse_func_ref = &ul_manager::template exe_my_luaw_earley_parser_with_array_output<LRB_TREE_3W, LRB_TREE_3W>;
                                     return;
 #endif
-                                default: fatal_error("Unsupported output set implementation\n");
+                                default:
+                                    fatal_error("Unsupported output set implementation\n");
+                                    return;
                                 }
 #endif //DISABLE_LRB_TREE_3W_SES
-                            default: fatal_error("Unsupported execution state set implementation\n");
+                            default:
+                                fatal_error("Unsupported execution state set implementation\n");
+                                return;
                             }
 #endif //DISABLE_ARRAY_PARSERS
 #endif //DISABLE_PARSERS_WITH_OUTPUT
@@ -3875,7 +4065,9 @@ namespace grapenlp {
                                     the_parse_func_ref = &ul_manager::template exe_my_lux_earley_parser_no_output<LRB_TREE_3W>;
                                     return;
 #endif
-                                default: fatal_error("Unsupported execution state set implementation\n");
+                                default:
+                                    fatal_error("Unsupported execution state set implementation\n");
+                                    return;
                                 }
 #endif //DISABLE_PARSERS_WITHOUT_OUTPUT
 #ifndef DISABLE_PARSERS_WITH_OUTPUT
@@ -3900,7 +4092,9 @@ namespace grapenlp {
                                     the_parse_func_ref = &ul_manager::template exe_my_lux_earley_parser<STD, LRB_TREE_3W>;
                                     return;
 #endif
-                                default: fatal_error("Unsupported output set implementation\n");
+                                default:
+                                    fatal_error("Unsupported output set implementation\n");
+                                    return;
                                 }
 #endif //DISABLE_STD_SES
 #ifndef DISABLE_LRB_TREE_SES
@@ -3922,7 +4116,9 @@ namespace grapenlp {
                                     the_parse_func_ref = &ul_manager::template exe_my_lux_earley_parser<LRB_TREE, LRB_TREE_3W>;
                                     return;
 #endif
-                                default: fatal_error("Unsupported output set implementation\n");
+                                default:
+                                    fatal_error("Unsupported output set implementation\n");
+                                    return;
                                 }
 #endif //DISABLE_LRB_TREE_SES
 #ifndef DISABLE_LRB_TREE_3W_SES
@@ -3944,10 +4140,14 @@ namespace grapenlp {
                                     the_parse_func_ref = &ul_manager::template exe_my_lux_earley_parser<LRB_TREE_3W, LRB_TREE_3W>;
                                     return;
 #endif
-                                default: fatal_error("Unsupported output set implementation\n");
+                                default:
+                                    fatal_error("Unsupported output set implementation\n");
+                                    return;
                                 }
 #endif //DISABLE_LRB_TREE_3W_SES
-                            default: fatal_error("Unsupported execution state set implementation\n");
+                            default:
+                                fatal_error("Unsupported execution state set implementation\n");
+                                return;
                             }
 #endif //DISABLE_PARSERS_WITH_OUTPUT
                         }
@@ -3974,7 +4174,9 @@ namespace grapenlp {
                                     the_parse_func_ref = &ul_manager::template exe_my_luxw_earley_parser_no_output<LRB_TREE_3W>;
                                     return;
 #endif
-                                default: fatal_error("Unsupported execution state set implementation\n");
+                                default:
+                                    fatal_error("Unsupported execution state set implementation\n");
+                                    return;
                                 }
 #endif //DISABLE_PARSERS_WITHOUT_OUTPUT
 #ifndef DISABLE_PARSERS_WITH_OUTPUT
@@ -3999,7 +4201,9 @@ namespace grapenlp {
                                     the_parse_func_ref = &ul_manager::template exe_my_luxw_earley_parser<STD, LRB_TREE_3W>;
                                     return;
 #endif
-                                default: fatal_error("Unsupported output set implementation\n");
+                                default:
+                                    fatal_error("Unsupported output set implementation\n");
+                                    return;
                                 }
 #endif //DISABLE_STD_SES
 #ifndef DISABLE_LRB_TREE_SES
@@ -4021,7 +4225,9 @@ namespace grapenlp {
                                     the_parse_func_ref = &ul_manager::template exe_my_luxw_earley_parser<LRB_TREE, LRB_TREE_3W>;
                                     return;
 #endif
-                                default: fatal_error("Unsupported output set implementation\n");
+                                default:
+                                    fatal_error("Unsupported output set implementation\n");
+                                    return;
                                 }
 #endif //DISABLE_LRB_TREE_SES
 #ifndef DISABLE_LRB_TREE_3W_SES
@@ -4043,15 +4249,21 @@ namespace grapenlp {
                                     the_parse_func_ref = &ul_manager::template exe_my_luxw_earley_parser<LRB_TREE_3W, LRB_TREE_3W>;
                                     return;
 #endif
-                                default: fatal_error("Unsupported output set implementation\n");
+                                default:
+                                    fatal_error("Unsupported output set implementation\n");
+                                    return;
                                 }
 #endif //DISABLE_LRB_TREE_3W_SES
-                            default: fatal_error("Unsupported execution state set implementation\n");
+                            default:
+                                fatal_error("Unsupported execution state set implementation\n");
+                                return;
                             }
 #endif //DISABLE_PARSERS_WITH_OUTPUT
                         }
 #endif //DISABLE_LUXW_GRAMMAR
-                        default: fatal_error("Unsupported grammar type (compute Earley parsing func)\n");
+                        default:
+                            fatal_error("Unsupported grammar type (compute Earley parsing func)\n");
+                            return;
                     }
                 }
 #endif //DISABLE_EARLEY_PARSER
@@ -4084,7 +4296,9 @@ namespace grapenlp {
                                 the_parse_and_get_fprtn_stats_func_ref = &ul_manager::template exe_my_lua_to_fprtn_stats<LRB_TREE_3W>;
                                 return;
 #endif
-                            default: fatal_error("Unsupported execution state set implementation\n");
+                            default:
+                                fatal_error("Unsupported execution state set implementation\n");
+                                return;
                             }
                         }
 #endif //DISABLE_LUA_GRAMMAR
@@ -4111,7 +4325,9 @@ namespace grapenlp {
                                 the_parse_and_get_fprtn_stats_func_ref = &ul_manager::template exe_my_luaw_to_fprtn_stats<LRB_TREE_3W>;
                                 return;
 #endif
-                            default: fatal_error("Unsupported execution state set implementation\n");
+                            default:
+                                fatal_error("Unsupported execution state set implementation\n");
+                                return;
                             }
                         }
 #endif //DISABLE_LUAW_GRAMMAR
@@ -4138,7 +4354,9 @@ namespace grapenlp {
                                 the_parse_and_get_fprtn_stats_func_ref = &ul_manager::template exe_my_lux_to_fprtn_stats<LRB_TREE_3W>;
                                 return;
 #endif
-                            default: fatal_error("Unsupported execution state set implementation\n");
+                            default:
+                                fatal_error("Unsupported execution state set implementation\n");
+                                return;
                             }
                         }
 #endif //DISABLE_LUX_GRAMMAR
@@ -4165,11 +4383,15 @@ namespace grapenlp {
                                 the_parse_and_get_fprtn_stats_func_ref = &ul_manager::template exe_my_luxw_to_fprtn_stats<LRB_TREE_3W>;
                                 return;
 #endif
-                            default: fatal_error("Unsupported execution state set implementation\n");
+                            default:
+                                fatal_error("Unsupported execution state set implementation\n");
+                                return;
                             }
                         }
 #endif //DISABLE_LUXW_GRAMMAR
-                        default: fatal_error("Unsupported grammar type (compute to-fprtn parsing func)\n");
+                        default:
+                            fatal_error("Unsupported grammar type (compute to-fprtn parsing func)\n");
+                            return;
                     }
                 }
 #endif //DISABLE_TO_FPRTN_PARSER
@@ -4202,7 +4424,9 @@ namespace grapenlp {
                                 the_parse_and_get_fprtn_stats_func_ref = &ul_manager::template exe_my_lua_to_fprtn_zpps_stats<LRB_TREE_3W>;
                                 return;
 #endif
-                            default: fatal_error("Unsupported execution state set implementation\n");
+                            default:
+                                fatal_error("Unsupported execution state set implementation\n");
+                                return;
                             }
                         }
 #endif //DISABLE_LUA_GRAMMAR
@@ -4229,7 +4453,9 @@ namespace grapenlp {
                                 the_parse_and_get_fprtn_stats_func_ref = &ul_manager::template exe_my_luaw_to_fprtn_zpps_stats<LRB_TREE_3W>;
                                 return;
 #endif
-                            default: fatal_error("Unsupported execution state set implementation\n");
+                            default:
+                                fatal_error("Unsupported execution state set implementation\n");
+                                return;
                             }
                         }
 #endif //DISABLE_LUAW_GRAMMAR
@@ -4256,7 +4482,9 @@ namespace grapenlp {
                                 the_parse_and_get_fprtn_stats_func_ref = &ul_manager::template exe_my_lux_to_fprtn_zpps_stats<LRB_TREE_3W>;
                                 return;
 #endif
-                            default: fatal_error("Unsupported execution state set implementation\n");
+                            default:
+                                fatal_error("Unsupported execution state set implementation\n");
+                                return;
                             }
                         }
 #endif //DISABLE_LUX_GRAMMAR
@@ -4283,11 +4511,15 @@ namespace grapenlp {
                                 the_parse_and_get_fprtn_stats_func_ref = &ul_manager::template exe_my_luxw_to_fprtn_zpps_stats<LRB_TREE_3W>;
                                 return;
 #endif
-                            default: fatal_error("Unsupported execution state set implementation\n");
+                            default:
+                                fatal_error("Unsupported execution state set implementation\n");
+                                return;
                             }
                         }
 #endif //DISABLE_LUXW_GRAMMAR
-                        default: fatal_error("Unsupported grammar type (compute to-fprtn-zpps parsing func)\n");
+                        default:
+                            fatal_error("Unsupported grammar type (compute to-fprtn-zpps parsing func)\n");
+                            return;
                     }
                 }
 #endif //DISABLE_TO_FPRTN_ZPPS_PARSER
@@ -4320,7 +4552,9 @@ namespace grapenlp {
                                 the_parse_and_get_fprtn_stats_func_ref = &ul_manager::template exe_my_luaw_to_fprtn_top_stats<LRB_TREE_3W>;
                                 return;
 #endif
-                            default: fatal_error("Unsupported execution state set implementation\n");
+                            default:
+                                fatal_error("Unsupported execution state set implementation\n");
+                                return;
                             }
                         }
 #endif //DISABLE_LUAW_GRAMMAR
@@ -4347,11 +4581,15 @@ namespace grapenlp {
                                 the_parse_and_get_fprtn_stats_func_ref = &ul_manager::template exe_my_luxw_to_fprtn_top_stats<LRB_TREE_3W>;
                                 return;
 #endif
-                            default: fatal_error("Unsupported execution state set implementation\n");
+                            default:
+                                fatal_error("Unsupported execution state set implementation\n");
+                                return;
                             }
                         }
 #endif //DISABLE_LUXW_GRAMMAR
-                        default: fatal_error("Unsupported grammar type (compute to-fprtn-top parsing func)\n");
+                        default:
+                            fatal_error("Unsupported grammar type (compute to-fprtn-top parsing func)\n");
+                            return;
                     }
                 }
 #endif //DISABLE_TO_FPRTN_TOP_PARSER
@@ -4390,7 +4628,9 @@ namespace grapenlp {
                                         the_parse_and_get_fprtn_stats_func_ref = &ul_manager::template exe_my_lua_to_fprtn_stats_and_breadth_first_expander_with_trie_stacks_and_output<STD, LRB_TREE_3W>;
                                         return;
 #endif
-                                    default: fatal_error("Unsupported output set implementation\n");
+                                    default:
+                                        fatal_error("Unsupported output set implementation\n");
+                                        return;
                                     }
 #endif //DISABLE_STD_SES
 #ifndef DISABLE_LRB_TREE_SES
@@ -4415,7 +4655,9 @@ namespace grapenlp {
                                         the_parse_and_get_fprtn_stats_func_ref = &ul_manager::template exe_my_lua_to_fprtn_stats_and_breadth_first_expander_with_trie_stacks_and_output<LRB_TREE, LRB_TREE_3W>;
                                         return;
 #endif
-                                    default: fatal_error("Unsupported output set implementation\n");
+                                    default:
+                                        fatal_error("Unsupported output set implementation\n");
+                                        return;
                                     }
 #endif //DISABLE_LRB_TREE_SES
 #ifndef DISABLE_LRB_TREE_3W_SES
@@ -4440,10 +4682,14 @@ namespace grapenlp {
                                         the_parse_and_get_fprtn_stats_func_ref = &ul_manager::template exe_my_lua_to_fprtn_stats_and_breadth_first_expander_with_trie_stacks_and_output<LRB_TREE_3W, LRB_TREE_3W>;
                                         return;
 #endif
-                                    default: fatal_error("Unsupported output set implementation\n");
+                                    default:
+                                        fatal_error("Unsupported output set implementation\n");
+                                        return;
                                     }
 #endif //DISABLE_LRB_TREE_3W_SES
-                                default: fatal_error("Unsupported execution state set implementation\n");
+                                default:
+                                    fatal_error("Unsupported execution state set implementation\n");
+                                    return;
                                 }
 #endif //DISABLE_TRIE_STRING_PARSERS
 #ifndef DISABLE_ARRAY_PARSERS
@@ -4471,7 +4717,9 @@ namespace grapenlp {
                                     the_parse_and_get_fprtn_stats_func_ref = &ul_manager::template exe_my_lua_to_fprtn_stats_and_breadth_first_expander_with_array_stacks_and_output<STD, LRB_TREE_3W>;
                                     return;
 #endif
-                                default: fatal_error("Unsupported output set implementation\n");
+                                default:
+                                    fatal_error("Unsupported output set implementation\n");
+                                    return;
                                 }
 #endif
 #ifndef DISABLE_LRB_TREE_SES
@@ -4496,7 +4744,9 @@ namespace grapenlp {
                                     the_parse_and_get_fprtn_stats_func_ref = &ul_manager::template exe_my_lua_to_fprtn_stats_and_breadth_first_expander_with_array_stacks_and_output<LRB_TREE, LRB_TREE_3W>;
                                     return;
 #endif
-                                default: fatal_error("Unsupported output set implementation\n");
+                                default:
+                                    fatal_error("Unsupported output set implementation\n");
+                                    return;
                                 }
 #endif //DISABLE_LRB_TREE_SES
 #ifndef DISABLE_LRB_TREE_3W_SES
@@ -4521,10 +4771,14 @@ namespace grapenlp {
                                     the_parse_and_get_fprtn_stats_func_ref = &ul_manager::template exe_my_lua_to_fprtn_stats_and_breadth_first_expander_with_array_stacks_and_output<LRB_TREE_3W, LRB_TREE_3W>;
                                     return;
 #endif
-                                default: fatal_error("Unsupported output set implementation\n");
+                                default:
+                                    fatal_error("Unsupported output set implementation\n");
+                                    return;
                                 }
 #endif //DISABLE_LRB_TREE_3W_SES
-                            default: fatal_error("Unsupported execution state set implementation\n");
+                            default:
+                                fatal_error("Unsupported execution state set implementation\n");
+                                return;
                             }
 #endif //DISABLE_ARRAY_PARSERS
                         }
@@ -4558,7 +4812,9 @@ namespace grapenlp {
                                         the_parse_and_get_fprtn_stats_func_ref = &ul_manager::template exe_my_luaw_to_fprtn_stats_and_breadth_first_expander_with_trie_stacks_and_output<STD, LRB_TREE_3W>;
                                         return;
 #endif
-                                    default: fatal_error("Unsupported output set implementation\n");
+                                    default:
+                                        fatal_error("Unsupported output set implementation\n");
+                                        return;
                                     }
 #endif //DISABLE_STD_SES
 #ifndef DISABLE_LRB_TREE_SES
@@ -4583,7 +4839,9 @@ namespace grapenlp {
                                         the_parse_and_get_fprtn_stats_func_ref = &ul_manager::template exe_my_luaw_to_fprtn_stats_and_breadth_first_expander_with_trie_stacks_and_output<LRB_TREE, LRB_TREE_3W>;
                                         return;
 #endif
-                                    default: fatal_error("Unsupported output set implementation\n");
+                                    default:
+                                        fatal_error("Unsupported output set implementation\n");
+                                        return;
                                     }
 #endif //DISABLE_LRB_TREE_SES
 #ifndef DISABLE_LRB_TREE_3W_SES
@@ -4608,10 +4866,14 @@ namespace grapenlp {
                                         the_parse_and_get_fprtn_stats_func_ref = &ul_manager::template exe_my_luaw_to_fprtn_stats_and_breadth_first_expander_with_trie_stacks_and_output<LRB_TREE_3W, LRB_TREE_3W>;
                                         return;
 #endif
-                                    default: fatal_error("Unsupported output set implementation\n");
+                                    default:
+                                        fatal_error("Unsupported output set implementation\n");
+                                        return;
                                     }
 #endif //DISABLE_LRB_TREE_3W_SES
-                                default: fatal_error("Unsupported execution state set implementation\n");
+                                default:
+                                    fatal_error("Unsupported execution state set implementation\n");
+                                    return;
                                 }
 #endif //DISABLE_TRIE_STRING_PARSERS
 #ifndef DISABLE_ARRAY_PARSERS
@@ -4639,7 +4901,9 @@ namespace grapenlp {
                                     the_parse_and_get_fprtn_stats_func_ref = &ul_manager::template exe_my_luaw_to_fprtn_stats_and_breadth_first_expander_with_array_stacks_and_output<STD, LRB_TREE_3W>;
                                     return;
 #endif
-                                default: fatal_error("Unsupported output set implementation\n");
+                                default:
+                                    fatal_error("Unsupported output set implementation\n");
+                                    return;
                                 }
 #endif //DISABLE_STD_SES
 #ifndef DISABLE_LRB_TREE_SES
@@ -4664,7 +4928,9 @@ namespace grapenlp {
                                     the_parse_and_get_fprtn_stats_func_ref = &ul_manager::template exe_my_luaw_to_fprtn_stats_and_breadth_first_expander_with_array_stacks_and_output<LRB_TREE, LRB_TREE_3W>;
                                     return;
 #endif
-                                default: fatal_error("Unsupported output set implementation\n");
+                                default:
+                                    fatal_error("Unsupported output set implementation\n");
+                                    return;
                                 }
 #endif //DISABLE_LRB_TREE_SES
 #ifndef DISABLE_LRB_TREE_3W_SES
@@ -4689,10 +4955,14 @@ namespace grapenlp {
                                     the_parse_and_get_fprtn_stats_func_ref = &ul_manager::template exe_my_luaw_to_fprtn_stats_and_breadth_first_expander_with_array_stacks_and_output<LRB_TREE_3W, LRB_TREE_3W>;
                                     return;
 #endif
-                                default: fatal_error("Unsupported output set implementation\n");
+                                default:
+                                    fatal_error("Unsupported output set implementation\n");
+                                    return;
                                 }
 #endif //DISABLE_LRB_TREE_3W_SES
-                            default: fatal_error("Unsupported execution state set implementation\n");
+                            default:
+                                fatal_error("Unsupported execution state set implementation\n");
+                                return;
                             }
 #endif //DISABLE_ARRAY_PARSERS
                         }
@@ -4726,7 +4996,9 @@ namespace grapenlp {
                                         the_parse_and_get_fprtn_stats_func_ref = &ul_manager::template exe_my_lux_to_fprtn_stats_and_breadth_first_expander<TRIE_STRINGS, STD, LRB_TREE_3W>;
                                         return;
 #endif
-                                    default: fatal_error("Unsupported output set implementation\n");
+                                    default:
+                                        fatal_error("Unsupported output set implementation\n");
+                                        return;
                                     }
 #endif //DISABLE_STD_SES
 #ifndef DISABLE_LRB_TREE_SES
@@ -4751,7 +5023,9 @@ namespace grapenlp {
                                         the_parse_and_get_fprtn_stats_func_ref = &ul_manager::template exe_my_lux_to_fprtn_stats_and_breadth_first_expander<TRIE_STRINGS, LRB_TREE, LRB_TREE_3W>;
                                         return;
 #endif
-                                    default: fatal_error("Unsupported output set implementation\n");
+                                    default:
+                                        fatal_error("Unsupported output set implementation\n");
+                                        return;
                                     }
 #endif //DISABLE_LRB_TREE_SES
 #ifndef DISABLE_LRB_TREE_3W_SES
@@ -4776,10 +5050,14 @@ namespace grapenlp {
                                         the_parse_and_get_fprtn_stats_func_ref = &ul_manager::template exe_my_lux_to_fprtn_stats_and_breadth_first_expander<TRIE_STRINGS, LRB_TREE_3W, LRB_TREE_3W>;
                                         return;
 #endif
-                                    default: fatal_error("Unsupported output set implementation\n");
+                                    default:
+                                        fatal_error("Unsupported output set implementation\n");
+                                        return;
                                     }
 #endif //DISABLE_LRB_TREE_3W_SES
-                                default: fatal_error("Unsupported execution state set implementation\n");
+                                default:
+                                    fatal_error("Unsupported execution state set implementation\n");
+                                    return;
                                 }
 #endif //DISABLE_TRIE_STRING_PARSERS
 #ifndef DISABLE_ARRAY_PARSERS
@@ -4807,7 +5085,9 @@ namespace grapenlp {
                                     the_parse_and_get_fprtn_stats_func_ref = &ul_manager::template exe_my_lux_to_fprtn_stats_and_breadth_first_expander<ARRAYS, STD, LRB_TREE_3W>;
                                     return;
 #endif
-                                default: fatal_error("Unsupported output set implementation\n");
+                                default:
+                                    fatal_error("Unsupported output set implementation\n");
+                                    return;
                                 }
 #endif //DISABLE_STD_SES
 #ifndef DISABLE_LRB_TREE_SES
@@ -4832,7 +5112,9 @@ namespace grapenlp {
                                     the_parse_and_get_fprtn_stats_func_ref = &ul_manager::template exe_my_lux_to_fprtn_stats_and_breadth_first_expander<ARRAYS, LRB_TREE, LRB_TREE_3W>;
                                     return;
 #endif
-                                default: fatal_error("Unsupported output set implementation\n");
+                                default:
+                                    fatal_error("Unsupported output set implementation\n");
+                                    return;
                                 }
 #endif //DISABLE_LRB_TREE_SES
 #ifndef DISABLE_LRB_TREE_3W_SES
@@ -4857,10 +5139,14 @@ namespace grapenlp {
                                     the_parse_and_get_fprtn_stats_func_ref = &ul_manager::template exe_my_lux_to_fprtn_stats_and_breadth_first_expander<ARRAYS, LRB_TREE_3W, LRB_TREE_3W>;
                                     return;
 #endif
-                                default: fatal_error("Unsupported output set implementation\n");
+                                default:
+                                    fatal_error("Unsupported output set implementation\n");
+                                    return;
                                 }
 #endif //DISABLE_LRB_TREE_3W_SES
-                            default: fatal_error("Unsupported execution state set implementation\n");
+                            default:
+                                fatal_error("Unsupported execution state set implementation\n");
+                                return;
                             }
 #endif //DISABLE_ARRAY_PARSERS
                         }
@@ -4894,7 +5180,9 @@ namespace grapenlp {
                                         the_parse_and_get_fprtn_stats_func_ref = &ul_manager::template exe_my_luxw_to_fprtn_stats_and_breadth_first_expander<TRIE_STRINGS, STD, LRB_TREE_3W>;
                                         return;
 #endif
-                                    default: fatal_error("Unsupported output set implementation\n");
+                                    default:
+                                        fatal_error("Unsupported output set implementation\n");
+                                        return;
                                     }
 #endif //DISABLE_STD_SES
 #ifndef DISABLE_LRB_TREE_SES
@@ -4919,7 +5207,9 @@ namespace grapenlp {
                                         the_parse_and_get_fprtn_stats_func_ref = &ul_manager::template exe_my_luxw_to_fprtn_stats_and_breadth_first_expander<TRIE_STRINGS, LRB_TREE, LRB_TREE_3W>;
                                         return;
 #endif
-                                    default: fatal_error("Unsupported output set implementation\n");
+                                    default:
+                                        fatal_error("Unsupported output set implementation\n");
+                                        return;
                                     }
 #endif //DISABLE_LRB_TREE_SES
 #ifndef DISABLE_LRB_TREE_3W_SES
@@ -4944,10 +5234,14 @@ namespace grapenlp {
                                         the_parse_and_get_fprtn_stats_func_ref = &ul_manager::template exe_my_luxw_to_fprtn_stats_and_breadth_first_expander<TRIE_STRINGS, LRB_TREE_3W, LRB_TREE_3W>;
                                         return;
 #endif
-                                    default: fatal_error("Unsupported output set implementation\n");
+                                    default:
+                                        fatal_error("Unsupported output set implementation\n");
+                                        return;
                                     }
 #endif //DISABLE_LRB_TREE_3W_SES
-                                default: fatal_error("Unsupported execution state set implementation\n");
+                                default:
+                                    fatal_error("Unsupported execution state set implementation\n");
+                                    return;
                                 }
 #endif //DISABLE_TRIE_STRING_PARSERS
 #ifndef DISABLE_ARRAY_PARSERS
@@ -4975,7 +5269,9 @@ namespace grapenlp {
                                     the_parse_and_get_fprtn_stats_func_ref = &ul_manager::template exe_my_luxw_to_fprtn_stats_and_breadth_first_expander<ARRAYS, STD, LRB_TREE_3W>;
                                     return;
 #endif
-                                default: fatal_error("Unsupported output set implementation\n");
+                                default:
+                                    fatal_error("Unsupported output set implementation\n");
+                                    return;
                                 }
 #endif //DISABLE_STD_SES
 #ifndef DISABLE_LRB_TREE_SES
@@ -5000,7 +5296,9 @@ namespace grapenlp {
                                     the_parse_and_get_fprtn_stats_func_ref = &ul_manager::template exe_my_luxw_to_fprtn_stats_and_breadth_first_expander<ARRAYS, LRB_TREE, LRB_TREE_3W>;
                                     return;
 #endif
-                                default: fatal_error("Unsupported output set implementation\n");
+                                default:
+                                    fatal_error("Unsupported output set implementation\n");
+                                    return;
                                 }
 #endif //DISABLE_LRB_TREE_SES
 #ifndef DISABLE_LRB_TREE_3W_SES
@@ -5025,15 +5323,21 @@ namespace grapenlp {
                                     the_parse_and_get_fprtn_stats_func_ref = &ul_manager::template exe_my_luxw_to_fprtn_stats_and_breadth_first_expander<ARRAYS, LRB_TREE_3W, LRB_TREE_3W>;
                                     return;
 #endif
-                                default: fatal_error("Unsupported output set implementation\n");
+                                default:
+                                    fatal_error("Unsupported output set implementation\n");
+                                    return;
                                 }
 #endif //DISABLE_LRB_TREE_3W_SES
-                            default: fatal_error("Unsupported execution state set implementation\n");
+                            default:
+                                fatal_error("Unsupported execution state set implementation\n");
+                                return;
                             }
 #endif //DISABLE_ARRAY_PARSERS
                         }
 #endif //DISABLE_LUXW_GRAMMAR
-                        default: fatal_error("Unsupported grammar type (compute to fprtn parser and breadth-first expand func)\n");
+                        default:
+                            fatal_error("Unsupported grammar type (compute to fprtn parser and breadth-first expand func)\n");
+                            return;
                     }
                 }
 #endif //DISABLE_TO_FPRTN_PARSER_AND_BREADTH_FIRST_EXPANDER
@@ -5072,7 +5376,9 @@ namespace grapenlp {
                                         the_parse_and_get_fprtn_stats_func_ref = &ul_manager::template exe_my_lua_to_fprtn_stats_and_blackboard_set_expander_with_trie_output<STD, LRB_TREE_3W>;
                                         return;
 #endif
-                                    default: fatal_error("Unsupported output set implementation\n");
+                                    default:
+                                        fatal_error("Unsupported output set implementation\n");
+                                        return;
                                     }
 #endif //DISABLE_STD_SES
 #ifndef DISABLE_LRB_TREE_SES
@@ -5097,7 +5403,9 @@ namespace grapenlp {
                                         the_parse_and_get_fprtn_stats_func_ref = &ul_manager::template exe_my_lua_to_fprtn_stats_and_blackboard_set_expander_with_trie_output<LRB_TREE, LRB_TREE_3W>;
                                         return;
 #endif
-                                    default: fatal_error("Unsupported output set implementation\n");
+                                    default:
+                                        fatal_error("Unsupported output set implementation\n");
+                                        return;
                                     }
 #endif //DISABLE_LRB_TREE_SES
 #ifndef DISABLE_LRB_TREE_3W_SES
@@ -5122,10 +5430,14 @@ namespace grapenlp {
                                         the_parse_and_get_fprtn_stats_func_ref = &ul_manager::template exe_my_lua_to_fprtn_stats_and_blackboard_set_expander_with_trie_output<LRB_TREE_3W, LRB_TREE_3W>;
                                         return;
 #endif
-                                    default: fatal_error("Unsupported output set implementation\n");
+                                    default:
+                                        fatal_error("Unsupported output set implementation\n");
+                                        return;
                                     }
 #endif //DISABLE_LRB_TREE_3W_SES
-                                default: fatal_error("Unsupported execution state set implementation\n");
+                                default:
+                                    fatal_error("Unsupported execution state set implementation\n");
+                                    return;
                                 }
 #endif //DISABLE_TRIE_STRING_PARSERS
 #ifndef DISABLE_ARRAY_PARSERS
@@ -5153,7 +5465,9 @@ namespace grapenlp {
                                     the_parse_and_get_fprtn_stats_func_ref = &ul_manager::template exe_my_lua_to_fprtn_stats_and_blackboard_set_expander_with_array_output<STD, LRB_TREE_3W>;
                                     return;
 #endif
-                                default: fatal_error("Unsupported output set implementation\n");
+                                default:
+                                    fatal_error("Unsupported output set implementation\n");
+                                    return;
                                 }
 #endif
 #ifndef DISABLE_LRB_TREE_SES
@@ -5178,7 +5492,9 @@ namespace grapenlp {
                                     the_parse_and_get_fprtn_stats_func_ref = &ul_manager::template exe_my_lua_to_fprtn_stats_and_blackboard_set_expander_with_array_output<LRB_TREE, LRB_TREE_3W>;
                                     return;
 #endif
-                                default: fatal_error("Unsupported output set implementation\n");
+                                default:
+                                    fatal_error("Unsupported output set implementation\n");
+                                    return;
                                 }
 #endif //DISABLE_LRB_TREE_SES
 #ifndef DISABLE_LRB_TREE_3W_SES
@@ -5203,10 +5519,14 @@ namespace grapenlp {
                                     the_parse_and_get_fprtn_stats_func_ref = &ul_manager::template exe_my_lua_to_fprtn_stats_and_blackboard_set_expander_with_array_output<LRB_TREE_3W, LRB_TREE_3W>;
                                     return;
 #endif
-                                default: fatal_error("Unsupported output set implementation\n");
+                                default:
+                                    fatal_error("Unsupported output set implementation\n");
+                                    return;
                                 }
 #endif //DISABLE_LRB_TREE_3W_SES
-                            default: fatal_error("Unsupported execution state set implementation\n");
+                            default:
+                                fatal_error("Unsupported execution state set implementation\n");
+                                return;
                             }
 #endif //DISABLE_ARRAY_PARSERS
                         }
@@ -5240,7 +5560,9 @@ namespace grapenlp {
                                         the_parse_and_get_fprtn_stats_func_ref = &ul_manager::template exe_my_luaw_to_fprtn_stats_and_blackboard_set_expander_with_trie_output<STD, LRB_TREE_3W>;
                                         return;
 #endif
-                                    default: fatal_error("Unsupported output set implementation\n");
+                                    default:
+                                        fatal_error("Unsupported output set implementation\n");
+                                        return;
                                     }
 #endif //DISABLE_STD_SES
 #ifndef DISABLE_LRB_TREE_SES
@@ -5265,7 +5587,9 @@ namespace grapenlp {
                                         the_parse_and_get_fprtn_stats_func_ref = &ul_manager::template exe_my_luaw_to_fprtn_stats_and_blackboard_set_expander_with_trie_output<LRB_TREE, LRB_TREE_3W>;
                                         return;
 #endif
-                                    default: fatal_error("Unsupported output set implementation\n");
+                                    default:
+                                        fatal_error("Unsupported output set implementation\n");
+                                        return;
                                     }
 #endif //DISABLE_LRB_TREE_SES
 #ifndef DISABLE_LRB_TREE_3W_SES
@@ -5290,10 +5614,14 @@ namespace grapenlp {
                                         the_parse_and_get_fprtn_stats_func_ref = &ul_manager::template exe_my_luaw_to_fprtn_stats_and_blackboard_set_expander_with_trie_output<LRB_TREE_3W, LRB_TREE_3W>;
                                         return;
 #endif
-                                    default: fatal_error("Unsupported output set implementation\n");
+                                    default:
+                                        fatal_error("Unsupported output set implementation\n");
+                                        return;
                                     }
 #endif //DISABLE_LRB_TREE_3W_SES
-                                default: fatal_error("Unsupported execution state set implementation\n");
+                                default:
+                                    fatal_error("Unsupported execution state set implementation\n");
+                                    return;
                                 }
 #endif //DISABLE_TRIE_STRING_PARSERS
 #ifndef DISABLE_ARRAY_PARSERS
@@ -5321,7 +5649,9 @@ namespace grapenlp {
                                     the_parse_and_get_fprtn_stats_func_ref = &ul_manager::template exe_my_luaw_to_fprtn_stats_and_blackboard_set_expander_with_array_output<STD, LRB_TREE_3W>;
                                     return;
 #endif
-                                default: fatal_error("Unsupported output set implementation\n");
+                                default:
+                                    fatal_error("Unsupported output set implementation\n");
+                                    return;
                                 }
 #endif //DISABLE_STD_SES
 #ifndef DISABLE_LRB_TREE_SES
@@ -5346,7 +5676,9 @@ namespace grapenlp {
                                     the_parse_and_get_fprtn_stats_func_ref = &ul_manager::template exe_my_luaw_to_fprtn_stats_and_blackboard_set_expander_with_array_output<LRB_TREE, LRB_TREE_3W>;
                                     return;
 #endif
-                                default: fatal_error("Unsupported output set implementation\n");
+                                default:
+                                    fatal_error("Unsupported output set implementation\n");
+                                    return;
                                 }
 #endif //DISABLE_LRB_TREE_SES
 #ifndef DISABLE_LRB_TREE_3W_SES
@@ -5371,10 +5703,14 @@ namespace grapenlp {
                                     the_parse_and_get_fprtn_stats_func_ref = &ul_manager::template exe_my_luaw_to_fprtn_stats_and_blackboard_set_expander_with_array_output<LRB_TREE_3W, LRB_TREE_3W>;
                                     return;
 #endif
-                                default: fatal_error("Unsupported output set implementation\n");
+                                default:
+                                    fatal_error("Unsupported output set implementation\n");
+                                    return;
                                 }
 #endif //DISABLE_LRB_TREE_3W_SES
-                            default: fatal_error("Unsupported execution state set implementation\n");
+                            default:
+                                fatal_error("Unsupported execution state set implementation\n");
+                                return;
                             }
 #endif //DISABLE_ARRAY_PARSERS
                         }
@@ -5408,7 +5744,9 @@ namespace grapenlp {
                                         the_parse_and_get_fprtn_stats_func_ref = &ul_manager::template exe_my_lux_to_fprtn_stats_and_blackboard_set_expander<TRIE_STRINGS, STD, LRB_TREE_3W>;
                                         return;
 #endif
-                                    default: fatal_error("Unsupported output set implementation\n");
+                                    default:
+                                        fatal_error("Unsupported output set implementation\n");
+                                        return;
                                     }
 #endif //DISABLE_STD_SES
 #ifndef DISABLE_LRB_TREE_SES
@@ -5433,7 +5771,9 @@ namespace grapenlp {
                                         the_parse_and_get_fprtn_stats_func_ref = &ul_manager::template exe_my_lux_to_fprtn_stats_and_blackboard_set_expander<TRIE_STRINGS, LRB_TREE, LRB_TREE_3W>;
                                         return;
 #endif
-                                    default: fatal_error("Unsupported output set implementation\n");
+                                    default:
+                                        fatal_error("Unsupported output set implementation\n");
+                                        return;
                                     }
 #endif //DISABLE_LRB_TREE_SES
 #ifndef DISABLE_LRB_TREE_3W_SES
@@ -5458,10 +5798,14 @@ namespace grapenlp {
                                         the_parse_and_get_fprtn_stats_func_ref = &ul_manager::template exe_my_lux_to_fprtn_stats_and_blackboard_set_expander<TRIE_STRINGS, LRB_TREE_3W, LRB_TREE_3W>;
                                         return;
 #endif
-                                    default: fatal_error("Unsupported output set implementation\n");
+                                    default:
+                                        fatal_error("Unsupported output set implementation\n");
+                                        return;
                                     }
 #endif //DISABLE_LRB_TREE_3W_SES
-                                default: fatal_error("Unsupported execution state set implementation\n");
+                                default:
+                                    fatal_error("Unsupported execution state set implementation\n");
+                                    return;
                                 }
 #endif //DISABLE_TRIE_STRING_PARSERS
 #ifndef DISABLE_ARRAY_PARSERS
@@ -5489,7 +5833,9 @@ namespace grapenlp {
                                     the_parse_and_get_fprtn_stats_func_ref = &ul_manager::template exe_my_lux_to_fprtn_stats_and_blackboard_set_expander<ARRAYS, STD, LRB_TREE_3W>;
                                     return;
 #endif
-                                default: fatal_error("Unsupported output set implementation\n");
+                                default:
+                                    fatal_error("Unsupported output set implementation\n");
+                                    return;
                                 }
 #endif //DISABLE_STD_SES
 #ifndef DISABLE_LRB_TREE_SES
@@ -5514,7 +5860,9 @@ namespace grapenlp {
                                     the_parse_and_get_fprtn_stats_func_ref = &ul_manager::template exe_my_lux_to_fprtn_stats_and_blackboard_set_expander<ARRAYS, LRB_TREE, LRB_TREE_3W>;
                                     return;
 #endif
-                                default: fatal_error("Unsupported output set implementation\n");
+                                default:
+                                    fatal_error("Unsupported output set implementation\n");
+                                    return;
                                 }
 #endif //DISABLE_LRB_TREE_SES
 #ifndef DISABLE_LRB_TREE_3W_SES
@@ -5539,10 +5887,14 @@ namespace grapenlp {
                                     the_parse_and_get_fprtn_stats_func_ref = &ul_manager::template exe_my_lux_to_fprtn_stats_and_blackboard_set_expander<ARRAYS, LRB_TREE_3W, LRB_TREE_3W>;
                                     return;
 #endif
-                                default: fatal_error("Unsupported output set implementation\n");
+                                default:
+                                    fatal_error("Unsupported output set implementation\n");
+                                    return;
                                 }
 #endif //DISABLE_LRB_TREE_3W_SES
-                            default: fatal_error("Unsupported execution state set implementation\n");
+                            default:
+                                fatal_error("Unsupported execution state set implementation\n");
+                                return;
                             }
 #endif //DISABLE_ARRAY_PARSERS
                         }
@@ -5576,7 +5928,9 @@ namespace grapenlp {
                                         the_parse_and_get_fprtn_stats_func_ref = &ul_manager::template exe_my_luxw_to_fprtn_stats_and_blackboard_set_expander<TRIE_STRINGS, STD, LRB_TREE_3W>;
                                         return;
 #endif
-                                    default: fatal_error("Unsupported output set implementation\n");
+                                    default:
+                                        fatal_error("Unsupported output set implementation\n");
+                                        return;
                                     }
 #endif //DISABLE_STD_SES
 #ifndef DISABLE_LRB_TREE_SES
@@ -5601,7 +5955,9 @@ namespace grapenlp {
                                         the_parse_and_get_fprtn_stats_func_ref = &ul_manager::template exe_my_luxw_to_fprtn_stats_and_blackboard_set_expander<TRIE_STRINGS, LRB_TREE, LRB_TREE_3W>;
                                         return;
 #endif
-                                    default: fatal_error("Unsupported output set implementation\n");
+                                    default:
+                                        fatal_error("Unsupported output set implementation\n");
+                                        return;
                                     }
 #endif //DISABLE_LRB_TREE_SES
 #ifndef DISABLE_LRB_TREE_3W_SES
@@ -5626,10 +5982,14 @@ namespace grapenlp {
                                         the_parse_and_get_fprtn_stats_func_ref = &ul_manager::template exe_my_luxw_to_fprtn_stats_and_blackboard_set_expander<TRIE_STRINGS, LRB_TREE_3W, LRB_TREE_3W>;
                                         return;
 #endif
-                                    default: fatal_error("Unsupported output set implementation\n");
+                                    default:
+                                        fatal_error("Unsupported output set implementation\n");
+                                        return;
                                     }
 #endif //DISABLE_LRB_TREE_3W_SES
-                                default: fatal_error("Unsupported execution state set implementation\n");
+                                default:
+                                    fatal_error("Unsupported execution state set implementation\n");
+                                    return;
                                 }
 #endif //DISABLE_TRIE_STRING_PARSERS
 #ifndef DISABLE_ARRAY_PARSERS
@@ -5657,7 +6017,9 @@ namespace grapenlp {
                                     the_parse_and_get_fprtn_stats_func_ref = &ul_manager::template exe_my_luxw_to_fprtn_stats_and_blackboard_set_expander<ARRAYS, STD, LRB_TREE_3W>;
                                     return;
 #endif
-                                default: fatal_error("Unsupported output set implementation\n");
+                                default:
+                                    fatal_error("Unsupported output set implementation\n");
+                                    return;
                                 }
 #endif //DISABLE_STD_SES
 #ifndef DISABLE_LRB_TREE_SES
@@ -5682,7 +6044,9 @@ namespace grapenlp {
                                     the_parse_and_get_fprtn_stats_func_ref = &ul_manager::template exe_my_luxw_to_fprtn_stats_and_blackboard_set_expander<ARRAYS, LRB_TREE, LRB_TREE_3W>;
                                     return;
 #endif
-                                default: fatal_error("Unsupported output set implementation\n");
+                                default:
+                                    fatal_error("Unsupported output set implementation\n");
+                                    return;
                                 }
 #endif //DISABLE_LRB_TREE_SES
 #ifndef DISABLE_LRB_TREE_3W_SES
@@ -5707,15 +6071,21 @@ namespace grapenlp {
                                     the_parse_and_get_fprtn_stats_func_ref = &ul_manager::template exe_my_luxw_to_fprtn_stats_and_blackboard_set_expander<ARRAYS, LRB_TREE_3W, LRB_TREE_3W>;
                                     return;
 #endif
-                                default: fatal_error("Unsupported output set implementation\n");
+                                default:
+                                    fatal_error("Unsupported output set implementation\n");
+                                    return;
                                 }
 #endif //DISABLE_LRB_TREE_3W_SES
-                            default: fatal_error("Unsupported execution state set implementation\n");
+                            default:
+                                fatal_error("Unsupported execution state set implementation\n");
+                                return;
                             }
 #endif //DISABLE_ARRAY_PARSERS
                         }
 #endif //DISABLE_LUXW_GRAMMAR
-                        default: fatal_error("Unsupported grammar type (compute to fprtn parser and blackboard set expand func)\n");
+                        default:
+                            fatal_error("Unsupported grammar type (compute to fprtn parser and blackboard set expand func)\n");
+                            return;
                     }
                 }
 #endif //DISABLE_TO_FPRTN_PARSER_AND_BLACKBOARD_SET_EXPANDER
@@ -5748,7 +6118,9 @@ namespace grapenlp {
                                     the_parse_and_get_fprtn_stats_func_ref = &ul_manager::template exe_my_luaw_to_fprtn_stats_and_top_blackboard_extractor_with_trie_output<LRB_TREE_3W>;
                                     return;
 #endif //DISABLE_LRB_TREE_3W_SES
-                                default: fatal_error("Unsupported execution state set implementation\n");
+                                default:
+                                    fatal_error("Unsupported execution state set implementation\n");
+                                    return;
                                 }
 #endif //DISABLE_TRIE_STRING_PARSERS
 #ifndef DISABLE_ARRAY_PARSERS
@@ -5772,7 +6144,9 @@ namespace grapenlp {
                                     the_parse_and_get_fprtn_stats_func_ref = &ul_manager::template exe_my_luaw_to_fprtn_stats_and_top_blackboard_extractor_with_array_output<LRB_TREE_3W>;
                                     return;
 #endif //DISABLE_LRB_TREE_3W_SES
-                            default: fatal_error("Unsupported execution state set implementation\n");
+                            default:
+                                fatal_error("Unsupported execution state set implementation\n");
+                                return;
                             }
 #endif //DISABLE_ARRAY_PARSERS
                         }
@@ -5804,7 +6178,9 @@ namespace grapenlp {
                                             the_parse_and_get_fprtn_stats_func_ref = &ul_manager::template exe_my_luxw_to_fprtn_stats_and_top_blackboard_extractor<TRIE_STRINGS, STD, LRB_TREE_3W>;
                                             return;
 #endif
-                                        default: fatal_error("Unsupported output set implementation\n");
+                                        default:
+                                            fatal_error("Unsupported output set implementation\n");
+                                            return;
                                         }
 #endif //DISABLE_STD_SES
 #ifndef DISABLE_LRB_TREE_SES
@@ -5830,6 +6206,7 @@ namespace grapenlp {
 #endif
                                             default:
                                                 fatal_error("Unsupported output set implementation\n");
+                                                return;
                                         }
 #endif //DISABLE_LRB_TREE_SES
 #ifndef DISABLE_LRB_TREE_3W_SES
@@ -5854,11 +6231,14 @@ namespace grapenlp {
                                             the_parse_and_get_fprtn_stats_func_ref = &ul_manager::template exe_my_luxw_to_fprtn_stats_and_top_blackboard_extractor<TRIE_STRINGS, LRB_TREE_3W, LRB_TREE_3W>;
                                             return;
 #endif
-                                        default: fatal_error("Unsupported output set implementation\n");
+                                        default:
+                                            fatal_error("Unsupported output set implementation\n");
+                                            return;
                                         }
 #endif //DISABLE_LRB_TREE_3W_SES
                                     default:
                                         fatal_error("Unsupported execution state set implementation\n");
+                                        return;
                                 }
 #endif //DISABLE_TRIE_STRING_PARSERS
 #ifndef DISABLE_ARRAY_PARSERS
@@ -5885,7 +6265,9 @@ namespace grapenlp {
                                         the_parse_and_get_fprtn_stats_func_ref = &ul_manager::template exe_my_luxw_to_fprtn_stats_and_top_blackboard_extractor<ARRAYS, STD, LRB_TREE_3W>;
                                         return;
 #endif
-                                    default: fatal_error("Unsupported output set implementation\n");
+                                    default:
+                                        fatal_error("Unsupported output set implementation\n");
+                                        return;
                                     }
 #endif //DISABLE_STD_SES
 #ifndef DISABLE_LRB_TREE_SES
@@ -5911,6 +6293,7 @@ namespace grapenlp {
 #endif
                                         default:
                                             fatal_error("Unsupported output set implementation\n");
+                                            return;
                                     }
 #endif //DISABLE_LRB_TREE_SES
 #ifndef DISABLE_LRB_TREE_3W_SES
@@ -5935,23 +6318,27 @@ namespace grapenlp {
                                         the_parse_and_get_fprtn_stats_func_ref = &ul_manager::template exe_my_luxw_to_fprtn_stats_and_top_blackboard_extractor<ARRAYS, LRB_TREE_3W, LRB_TREE_3W>;
                                         return;
 #endif
-                                    default: fatal_error("Unsupported output set implementation\n");
+                                    default:
+                                        fatal_error("Unsupported output set implementation\n");
+                                        return;
                                     }
 #endif //DISABLE_LRB_TREE_3W_SES
                                 default:
                                     fatal_error("Unsupported execution state set implementation\n");
+                                    return;
                             }
 #endif //DISABLE_ARRAY_PARSERS
                         }
 #endif //DISABLE_LUXW_GRAMMAR
                         default:
-                            fatal_error(
-                                    "Unsupported grammar type (compute to fprtn parser and breadth-first expand func)\n");
+                            fatal_error("Unsupported grammar type (compute to fprtn parser and breadth-first expand func)\n");
+                            return;
                     }
                 }
 #endif //DISABLE_TO_FPRTN_PARSER_AND_TOP_BLACKBOARD_EXTRACTOR
                 default:
                     fatal_error("Unsupported parser\n");
+                    return;
             }
         }
 
@@ -5990,6 +6377,7 @@ namespace grapenlp {
 #endif
                 default:
                     fatal_error("Unsupported output set implementation\n");
+                    break;
             }
 #endif //SIMPLIFIED_OUTPUT
         }
@@ -6014,7 +6402,9 @@ namespace grapenlp {
 #ifndef DISABLE_LRB_TREE_3W_BS
                 case LRB_TREE_3W: sentence_was_recognized = movistarbot_out_serializer<InputIterator, LRB_TREE_3W>()(get_output_segment_map_set<LRB_TREE_3W>(), *td_ref, ua); break;
 #endif
-                default: fatal_error("Unsupported output set implementation\n");
+                default:
+                    fatal_error("Unsupported output set implementation\n");
+                    break;
                 }
                 break;
 #endif //DISABLE_LUX_GRAMMAR
@@ -6031,11 +6421,15 @@ namespace grapenlp {
 #ifndef DISABLE_LRB_TREE_3W_BS
                 case LRB_TREE_3W: sentence_was_recognized = movistarbot_weighted_out_serializer<InputIterator, weight, LRB_TREE_3W>()(get_output_segment_map_x_weight_set<LRB_TREE_3W>(), *td_ref, ua); break;
 #endif
-                default: fatal_error("Unsupported output set implementation\n");
+                default:
+                    fatal_error("Unsupported output set implementation\n");
+                    break;
                 }
                 break;
 #endif //DISABLE_LUXW_GRAMMAR
-            default: fatal_error("Unsupported grammar type (out serializer)\n");
+            default:
+                fatal_error("Unsupported grammar type (out serializer)\n");
+                break;
             }
 
             if (!sentence_was_recognized)
@@ -6055,11 +6449,12 @@ namespace grapenlp {
 #endif //defined(SERIALIZED_OUTPUT) && !(defined(DISABLE_LUX_GRAMMAR) && defined(DISABLE_LUXW_GRAMMAR))
 
         template<typename ToCanonicalFormMarkIterator>
-        void process(InputIterator input_begin, InputIterator input_end,
+        void process(InputIterator input_begin, InputIterator input_end, const u_context &ctx,
                      ToCanonicalFormMarkIterator to_canonical_form_mark_begin,
                      ToCanonicalFormMarkIterator to_canonical_form_mark_end, rtno_parser_type the_rtno_parser_type,
                      bool trie_strings, bool no_output, assoc_container_impl_choice the_execution_state_set_impl_choice,
                      assoc_container_impl_choice the_output_set_impl_choice) {
+            set_context(ctx);
             tokenize(input_begin, input_end);
             set_parser(the_rtno_parser_type, trie_strings, no_output, the_execution_state_set_impl_choice,
                        the_output_set_impl_choice);
@@ -6076,10 +6471,19 @@ namespace grapenlp {
 #endif //!(defined(DISABLE_LUX_GRAMMAR) && defined(DISABLE_LUXW_GRAMMAR))
         }
 
+        void process(InputIterator input_begin, InputIterator input_end, const u_context &ctx, rtno_parser_type the_rtno_parser_type,
+                     bool trie_strings, bool no_output, assoc_container_impl_choice the_execution_state_set_impl_choice,
+                     assoc_container_impl_choice the_output_set_impl_choice) {
+            process(input_begin, input_end, ctx, to_canonical_form_mark.begin(), to_canonical_form_mark.end(),
+                    the_rtno_parser_type, trie_strings, no_output, the_execution_state_set_impl_choice,
+                    the_output_set_impl_choice);
+        }
+
         void process(InputIterator input_begin, InputIterator input_end, rtno_parser_type the_rtno_parser_type,
                      bool trie_strings, bool no_output, assoc_container_impl_choice the_execution_state_set_impl_choice,
                      assoc_container_impl_choice the_output_set_impl_choice) {
-            process(input_begin, input_end, to_canonical_form_mark.begin(), to_canonical_form_mark.end(),
+            u_context ctx(the_context_key_value_hasher);
+            process(input_begin, input_end, ctx, to_canonical_form_mark.begin(), to_canonical_form_mark.end(),
                     the_rtno_parser_type, trie_strings, no_output, the_execution_state_set_impl_choice,
                     the_output_set_impl_choice);
         }

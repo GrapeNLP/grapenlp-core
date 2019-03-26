@@ -32,22 +32,12 @@
 namespace grapenlp
 {
 	//RTNO having lexical mask/unicode output bound as input/output transition tags
-	template<typename InputIterator>
-	struct lux_rtno
-	{
-		typedef typename l_rtno<InputIterator, u_out_bound::const_ref>::type type;
-	private:
-		lux_rtno(){}
-	};
+	template<typename InputIterator, typename ContextMask>
+	using lux_rtno = l_rtno<InputIterator, u_out_bound::const_ref, ContextMask>;
 
 	//RTNO having lexical mask/unicode output bound as input/output transition tags
-	template<typename InputIterator>
-	struct luxns_rtno
-	{
-		typedef typename lns_rtno<InputIterator, u_out_bound::const_ref>::type type;
-	private:
-		luxns_rtno(){}
-	};
+	template<typename InputIterator, typename ContextMask>
+	using luxns_rtno = lns_rtno<InputIterator, u_out_bound::const_ref, ContextMask>;
 } //namespace grapenlp
 
 #endif /*GRAPENLP_LUX_RTNO_H*/

@@ -42,7 +42,11 @@ typedef u_array::const_iterator ua_input_iterator;
 typedef token<ua_input_iterator> ua_token;
 typedef ua_token::ref_list::const_iterator ua_token_iterator;
 typedef l_trie<unichar, ua_input_iterator> ual_trie;
-typedef luxw_rtno<ua_input_iterator, int>::type ualuxiw_rtno;
+#ifdef TRACE
+typedef luxwns_rtno<ua_input_iterator, int, u_context_mask> ualuxiw_rtno;
+#else
+typedef luxw_rtno<ua_input_iterator, int, u_context_mask> ualuxiw_rtno;
+#endif
 typedef ulxw_fst2_reader<ua_input_iterator, std::plus<int> > ualxiw_fst2_reader;
 
 void u_read_compressed_dico(compressed_delaf &dico)
@@ -58,40 +62,45 @@ void u_read_compressed_dico(compressed_delaf &dico)
 	fclose(inf_delaf_file);
 }
 
-void u_read_grammar(ualuxiw_rtno &grammar, ual_trie &ualt, u_out_bound::trie &uobt, compressed_delaf &dico)
+void u_read_grammar(ualuxiw_rtno &grammar, ual_trie &ualt, u_out_bound::trie &uobt, compressed_delaf &dico, u_context &ctx)
 {
 	FILE *f(u_fopen("../Data/Unitex/Spanish/Graphs/dico_test.fst2", U_READ));
 	if (f == NULL)
 		fatal_error("Unable to open grammar file to read\n");
-	ualxiw_fst2_reader()(f, grammar, ualt, uobt, dico);
+	ualxiw_fst2_reader()(f, grammar, ualt, uobt, dico, ctx);
 	u_fclose(f);
 }
 
 int main(int argc, char **argv)
 {
-#ifndef MTRACE
-	setlocale(LC_CTYPE,"");
-#endif
+    ualuxiw_rtno grammar;
+    ual_trie ualt;
+    u_out_bound::trie uobt;
+    u_context ctx;
+    compressed_delaf dico;
+
+    wcout << L"Reading dico" << std::endl;
+    u_read_compressed_dico(dico);
+    wcout << L"Reading grammar" << std::endl;
+    u_read_grammar(grammar, ualt, uobt, dico, ctx);
+    wcout << L"Number of states: " << grammar.state_count() << std::endl;
+    wcout << L"Number of transitions: " << grammar.transition_count() << std::endl;
+    wcout << L"Number of states: " << grammar.state_count() << std::endl;
+    wcout << L"Number of transitions: " << grammar.transition_count() << std::endl;
+    wcout << L"Setting default weights" << std::endl;
+    lw_rtno_weight_tag<ua_input_iterator, ualuxiw_rtno::tag_output, u_contex_mask>(grammar);
+
 #ifdef TRACE
-	ualuxiw_rtno grammar('q');
-#else
-	ualuxiw_rtno grammar;
+    wcout << L"Converting grammar to dot" << std::endl;
+    const locale l(setlocale(LC_CTYPE,""));
+    wofstream fout("../grammar.dot");
+    fout.imbue(l);
+    if (fout)
+    {
+        rtno_to_dot_serialize(fout, "axioma", L'q', grammar);
+        fout.close();
+    }
+    else wcerr << L"Unable to open file \"grammar.dot\" for writing" << std::endl;
 #endif
-	ual_trie ualt;
-	u_out_bound::trie uobt;
-	compressed_delaf dico;
-
-	std::wcout << "Reading dico" << std::endl;
-	u_read_compressed_dico(dico);
-	std::wcout << "Reading grammar" << std::endl;
-	u_read_grammar(grammar, ualt, uobt, dico);
-	std::wcout << "Setting default weights" << std::endl;
-	lw_rtno_weight_tag<ua_input_iterator, ualuxiw_rtno::tag_output>(grammar);
-	std::wcout << "Converting grammar to dot" << std::endl;
-
-	wofstream fout("../grammar.dot");
-	if (fout)
-		rtno_to_dot_serialize(fout, "axioma", grammar);
-	else wcerr << L"Unable to open file \"grammar.dot\" for writing" << std::endl;
 	return 0;
 }

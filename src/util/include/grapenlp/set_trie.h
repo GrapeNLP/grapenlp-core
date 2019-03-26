@@ -26,7 +26,7 @@
 #ifndef GRAPENLP_SET_TRIE_H
 #define GRAPENLP_SET_TRIE_H
 
-#include <grapenlp/trie.h>
+#include <grapenlp/trie_with_def_data.h>
 
 namespace grapenlp
 {
@@ -97,8 +97,8 @@ namespace grapenlp
 		string& add(const T& elem)
 		{
 			string &s = base_trie_with_def_data::epsilon().concat(elem);
+			elem_count += !s.data;
 			s.data = true;
-            ++elem_count;
 			return s;
 		}
 
@@ -106,8 +106,8 @@ namespace grapenlp
 		string& add(Iterator begin, Iterator end)
 		{
 			string &s(base_trie_with_def_data::epsilon().concat(begin, end));
+			elem_count += !s.data;
 			s.data = true;
-            ++elem_count;
 			return s;
 		}
 

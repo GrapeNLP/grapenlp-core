@@ -2,4 +2,4 @@
 cd `dirname $0`
 . paths
 
-$DEBUG_NLP $@
+$DEBUG_GRAPENLP $@

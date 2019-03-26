@@ -232,11 +232,11 @@ int main(__attribute__((unused)) int argc, __attribute__((unused)) char **argv)
 	u_printf("Symbol meta mask: ");
 	smm.wserialize(std::wcout) << endl;
 
-	ualc_case_insensitive_word_mask ciwm(hola);
+	ualc_case_insensitive_word_mask ciwm(hola.begin(), hola.end());
 	u_printf("Case insensitive word mask \"HoLa\": ");
 	ciwm.wserialize(std::wcout) << endl;
 
-	ua_case_sensitive_word_mask cswm(adios);
+	ua_case_sensitive_word_mask cswm(adios.begin(), adios.end());
 	u_printf("Case sensitive word mask \"aDioS\": ");
 	cswm.wserialize(std::wcout) << endl;
 

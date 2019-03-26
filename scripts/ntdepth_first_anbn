@@ -4,7 +4,7 @@ cd `dirname $0`
 
 if [ $# -gt 1 ]
 then
-$DEBUG_NLP --desc-parser -stn -a$1 -pdepth-first -r$2 -o$OUTPUT $ANBN_GRAMMAR $COMPRESSED_DICO
+$DEBUG_GRAPENLP --desc-parser -stn -a$1 -pdepth-first -r$2 -o$OUTPUT $ANBN_GRAMMAR $COMPRESSED_DICO
 else
-$DEBUG_NLP --desc-parser -stn -a$1 -pdepth-first -o$OUTPUT $ANBN_GRAMMAR $COMPRESSED_DICO
+$DEBUG_GRAPENLP --desc-parser -stn -a$1 -pdepth-first -o$OUTPUT $ANBN_GRAMMAR $COMPRESSED_DICO
 fi

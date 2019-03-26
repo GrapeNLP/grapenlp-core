@@ -36,6 +36,7 @@
 
 #include <grapenlp/array.h>
 #include <grapenlp/output_fprtn_zpps.h>
+#include <grapenlp/u_context_mask.h>
 
 namespace grapenlp
 {
@@ -53,8 +54,8 @@ namespace grapenlp
 		typedef Blackboard blackboard;
 #ifdef TRACE
 		typedef BlackboardSerializer blackboard_serializer;
-		typedef typename tag_serializer<input>::type input_serializer;
-		typedef typename tag_serializer<tag_input>::type tag_input_serializer;
+		typedef typename tag_serializer_traits<input>::type input_serializer;
+		typedef typename tag_serializer_traits<tag_input>::type tag_input_serializer;
 #endif
 		typedef typename set_impl_selector<output_set_impl_choice, blackboard>::type blackboard_set;
 		typedef typename blackboard_set::iterator blackboard_set_iterator;
@@ -62,7 +63,7 @@ namespace grapenlp
 		typedef Transformer transformer;
 		typedef Composer composer;
 
-		typedef typename output_fprtn_zpps<source_ref, tag_input, RTNOTagInput, execution_state_set_impl_choice>::type machine;
+		typedef output_fprtn_zpps<u_context_mask, source_ref, tag_input, RTNOTagInput, execution_state_set_impl_choice> machine;
 		typedef typename machine::state state;
 		typedef typename machine::state_ref state_ref;
 		typedef typename machine::state_const_ref state_const_ref;
@@ -113,7 +114,7 @@ namespace grapenlp
 				r_s = e.front();
 				e.pop();
 #ifdef TRACE
-				std::wcout << "Pop " << r_s->second.wlabel() << std::endl;
+				std::wcout << L"Pop " << r_s->second.wlabel() << std::endl;
 #endif
 				/**************************/
 				/* Blackboard composition */

@@ -39,14 +39,34 @@ namespace grapenlp
 {
 #ifdef TRACE
 	template<typename SourceRef, typename WeightTransformer, typename RTNOTagInput, typename OutputArrayPool, typename OutputArraySerializer, assoc_container_impl_choice execution_state_set_impl_choice, assoc_container_impl_choice output_set_impl_choice>
-	struct aw_fprtn_blackboard_set_expander: public fprtn_blackboard_set_expander<SourceRef, typename aw_output_fprtn_zpps<SourceRef, typename OutputArrayPool::char_type, typename WeightTransformer::result_type, RTNOTagInput, execution_state_set_impl_choice>::type::tag_input, RTNOTagInput,  pool_sequence_x_weight<OutputArrayPool, typename WeightTransformer::result_type>, pool_sequence_x_weight_serializer<OutputArrayPool, typename WeightTransformer::result_type, OutputArraySerializer>, pool_sequence_x_weight_and_array_const_ref_x_weight_concatenator<OutputArrayPool, WeightTransformer>, pool_sequence_x_weight_and_array_const_ref_x_weight_concatenator2<OutputArrayPool, WeightTransformer>, execution_state_set_impl_choice, output_set_impl_choice>
+	struct aw_fprtn_blackboard_set_expander: public fprtn_blackboard_set_expander<
+        SourceRef,
+        typename aw_output_fprtn_zpps<u_context_mask, SourceRef, typename OutputArrayPool::char_type, typename WeightTransformer::result_type, RTNOTagInput, execution_state_set_impl_choice>::tag_input,
+        RTNOTagInput,
+        pool_sequence_x_weight<OutputArrayPool, typename WeightTransformer::result_type>,
+        pool_sequence_x_weight_serializer<OutputArrayPool, typename WeightTransformer::result_type, OutputArraySerializer>,
+        pool_sequence_x_weight_and_array_const_ref_x_weight_concatenator<OutputArrayPool, WeightTransformer>,
+        pool_sequence_x_weight_and_array_const_ref_x_weight_concatenator2<OutputArrayPool, WeightTransformer>,
+        execution_state_set_impl_choice,
+        output_set_impl_choice
+        >
 	{
-		typedef fprtn_blackboard_set_expander<SourceRef, typename aw_output_fprtn_zpps<SourceRef, typename OutputArrayPool::char_type, typename WeightTransformer::result_type, RTNOTagInput, execution_state_set_impl_choice>::type::tag_input, RTNOTagInput, pool_sequence_x_weight<OutputArrayPool, typename WeightTransformer::result_type>, pool_sequence_x_weight_serializer<OutputArrayPool, typename WeightTransformer::result_type, OutputArraySerializer>, pool_sequence_x_weight_and_array_const_ref_x_weight_concatenator<OutputArrayPool, WeightTransformer>, pool_sequence_x_weight_and_array_const_ref_x_weight_concatenator2<OutputArrayPool, WeightTransformer>, execution_state_set_impl_choice, output_set_impl_choice> base_type;
+		typedef fprtn_blackboard_set_expander<
+			SourceRef,
+			typename aw_output_fprtn_zpps<u_context_mask, SourceRef, typename OutputArrayPool::char_type, typename WeightTransformer::result_type, RTNOTagInput, execution_state_set_impl_choice>::tag_input,
+			RTNOTagInput,
+			pool_sequence_x_weight<OutputArrayPool, typename WeightTransformer::result_type>,
+			pool_sequence_x_weight_serializer<OutputArrayPool, typename WeightTransformer::result_type, OutputArraySerializer>,
+			pool_sequence_x_weight_and_array_const_ref_x_weight_concatenator<OutputArrayPool, WeightTransformer>,
+			pool_sequence_x_weight_and_array_const_ref_x_weight_concatenator2<OutputArrayPool, WeightTransformer>,
+			execution_state_set_impl_choice,
+			output_set_impl_choice
+		    > base_type;
 #else
 	template<typename SourceRef, typename WeightTransformer, typename RTNOTagInput, typename OutputArrayPool, assoc_container_impl_choice execution_state_set_impl_choice, assoc_container_impl_choice output_set_impl_choice>
-	struct aw_fprtn_blackboard_set_expander: public fprtn_blackboard_set_expander<SourceRef, typename aw_output_fprtn_zpps<SourceRef, typename OutputArrayPool::char_type, typename WeightTransformer::result_type, RTNOTagInput, execution_state_set_impl_choice>::type::tag_input, RTNOTagInput,  pool_sequence_x_weight<OutputArrayPool, typename WeightTransformer::result_type>, pool_sequence_x_weight_and_array_const_ref_x_weight_concatenator<OutputArrayPool, WeightTransformer>, pool_sequence_x_weight_and_array_const_ref_x_weight_concatenator2<OutputArrayPool, WeightTransformer>, execution_state_set_impl_choice, output_set_impl_choice>
+	struct aw_fprtn_blackboard_set_expander: public fprtn_blackboard_set_expander<SourceRef, typename aw_output_fprtn_zpps<u_context_mask, SourceRef, typename OutputArrayPool::char_type, typename WeightTransformer::result_type, RTNOTagInput, execution_state_set_impl_choice>::tag_input, RTNOTagInput,  pool_sequence_x_weight<OutputArrayPool, typename WeightTransformer::result_type>, pool_sequence_x_weight_and_array_const_ref_x_weight_concatenator<OutputArrayPool, WeightTransformer>, pool_sequence_x_weight_and_array_const_ref_x_weight_concatenator2<OutputArrayPool, WeightTransformer>, execution_state_set_impl_choice, output_set_impl_choice>
 	{
-		typedef fprtn_blackboard_set_expander<SourceRef, typename aw_output_fprtn_zpps<SourceRef, typename OutputArrayPool::char_type, typename WeightTransformer::result_type, RTNOTagInput, execution_state_set_impl_choice>::type::tag_input, RTNOTagInput, pool_sequence_x_weight<OutputArrayPool, typename WeightTransformer::result_type>, pool_sequence_x_weight_and_array_const_ref_x_weight_concatenator<OutputArrayPool, WeightTransformer>, pool_sequence_x_weight_and_array_const_ref_x_weight_concatenator2<OutputArrayPool, WeightTransformer>, execution_state_set_impl_choice, output_set_impl_choice> base_type;
+		typedef fprtn_blackboard_set_expander<SourceRef, typename aw_output_fprtn_zpps<u_context_mask, SourceRef, typename OutputArrayPool::char_type, typename WeightTransformer::result_type, RTNOTagInput, execution_state_set_impl_choice>::tag_input, RTNOTagInput, pool_sequence_x_weight<OutputArrayPool, typename WeightTransformer::result_type>, pool_sequence_x_weight_and_array_const_ref_x_weight_concatenator<OutputArrayPool, WeightTransformer>, pool_sequence_x_weight_and_array_const_ref_x_weight_concatenator2<OutputArrayPool, WeightTransformer>, execution_state_set_impl_choice, output_set_impl_choice> base_type;
 #endif
 		typedef typename base_type::machine machine;
 		typedef typename base_type::tag_input tag_input;

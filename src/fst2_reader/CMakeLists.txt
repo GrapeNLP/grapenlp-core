@@ -26,6 +26,8 @@
 project(fst2_reader VERSION ${CHANGELOG_VERSION} LANGUAGES CXX)
 
 add_library(fst2_reader STATIC
+        src/ul_tag_input.cpp
+        src/ul_tag_input_factory.cpp
         src/ul_fst2_reader.cpp
         src/ulua_fst2_reader.cpp
         src/uluaw_fst2_reader.cpp
@@ -51,6 +53,7 @@ target_include_directories(fst2_reader PUBLIC
 target_link_libraries(fst2_reader
         machine
         rtno
+        context_mask
         fst2_constants
         )
 

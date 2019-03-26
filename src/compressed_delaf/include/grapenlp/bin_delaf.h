@@ -138,7 +138,7 @@ namespace grapenlp
 					middle_transition_index = (lower_transition_index + upper_transition_index) / 2;
 					current_transition_ref = &get_outgoing_transition(middle_transition_index);
 					current_unichar = current_transition_ref->get_label();
-//					std::wcout << "Transition char, lbound, cbound, ubound, offset: " << current_unichar << L" " << lower_transition_index << L" " << middle_transition_index << L" " << upper_transition_index << L" " << ((std::size_t)current_transition_ref) - ((std::size_t)this) << std::endl;
+//					std::wcout << L"Transition char, lbound, cbound, ubound, offset: " << current_unichar << L" " << lower_transition_index << L" " << middle_transition_index << L" " << upper_transition_index << L" " << ((std::size_t)current_transition_ref) - ((std::size_t)this) << std::endl;
 					//If the current transition has a less unichar, increase the lower transition bound
 					if (current_unichar < c)
 						lower_transition_index = middle_transition_index + 1;
@@ -189,7 +189,7 @@ namespace grapenlp
 				//If inner state has transitions, push its first transition and we are done
 				if (in_state.get_outgoing_transition_count())
 				{
-//					std::wcout << "Goin" << std::endl;
+//					std::wcout << L"Goin" << std::endl;
 					bs.push_back(const_outgoing_transition_iterator_pair(in_state.outgoing_transition_begin(), in_state.outgoing_transition_end()));
 					return *this;
 				}
@@ -199,14 +199,14 @@ namespace grapenlp
 				{
 					//Increment top transition iterator
 					++bs.back().first;
-//					std::wcout << "Inctop" << std::endl;
+//					std::wcout << L"Inctop" << std::endl;
 					//If it is not an end iterator, we are done
 					if (bs.back().first != bs.back().second)
 						return *this;
 					//Otherwise pop it and go for the next one in the top of the backtracking stack,
 					//or if there are no more return the end iterator
 					bs.pop_back();
-//					std::wcout << "Poptop" << std::endl;
+//					std::wcout << L"Poptop" << std::endl;
 				} while (!is_end());
 				return *this;
 			}

@@ -46,6 +46,7 @@ target_include_directories(output_fprtn_breadth_first_expander PUBLIC
         PRIVATE src)
 target_link_libraries(output_fprtn_breadth_first_expander
         util
+        context_mask
         machine
         output_fprtn
         )

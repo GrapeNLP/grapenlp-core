@@ -85,10 +85,9 @@ endmacro()
 find_package(Doxygen)
 
 if(DOXYGEN_FOUND)
-    find_file(DOXYFILE_IN "Doxyfile.in"
-            PATHS "${CMAKE_CURRENT_SOURCE_DIR}" "${CMAKE_ROOT}/Modules/"
-            NO_DEFAULT_PATH
-            DOC "Path to the doxygen configuration template file")
+    if(NOT DEFINED DOXYFILE_IN)
+        set(DOXYFILE_IN "${CMAKE_CURRENT_SOURCE_DIR}/Doxyfile.in")
+    endif()
     set(DOXYFILE "${CMAKE_CURRENT_BINARY_DIR}/Doxyfile")
     include(FindPackageHandleStandardArgs)
     find_package_handle_standard_args(DOXYFILE_IN DEFAULT_MSG "DOXYFILE_IN")

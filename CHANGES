@@ -1,6 +1,7 @@
-grapenlp-core (2.8.0) UNRELEASED; urgency=medium
+grapenlp-core (2.8.0) stable; urgency=medium
 
-  * Added efficient data structure to ul_manager to store context variables
+  * Added possibility to pass a context key/value map, apart from the sentence to analyze, to condition the sentence interpretation upon context variables of a dialogue system (e.g. conversation_domain=asking_for_pizza); in the Unitex grammar one can use a meta code <@key=value> to require a context key/value mapping
+  * Adapted Python and Java SWIG interfaces to be able to pass a context key/value map along with the sentence to analyze
   * License info about third party software used in GrapeNLP has been moved to file LICENSE
 
  -- Javier Sastre <javier.sastre@telefonica.net>  Tue, 26 Feb 2019 10:42:21 +0100

@@ -67,6 +67,7 @@ cd "${BUILD_FOLDER}"
 # Create build subfolders and compilation scripts
 log_info_banner "Configuring"
 ${ANDROID_SDK_CMAKE} \
+ -Wno-dev \
  -DANDROID_ABI=${ANDROID_ABI} \
  -DANDROID_STL="c++_static" \
  -DANDROID_CPP_FEATURES="rtti exceptions" \
@@ -81,6 +82,7 @@ ${ANDROID_SDK_CMAKE} \
  -DBoost_INCLUDE_DIR="${BOOSTFORANDROID_INCLUDES}" \
  -DBoost_PROGRAM_OPTIONS_LIBRARY="${BOOSTFORANDROID_LIBPROGRAMOPTIONS}" \
  ../..
+success_or_exit
 
 # Compile
 log_info_banner "Compiling"

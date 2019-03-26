@@ -518,7 +518,7 @@ namespace grapenlp {
 
         void delete_compressed_delaf() { delete static_cast<compressed_delaf *>(dico_ref); }
 
-        u_context_key_value_hasher& get_context_key_value_hasher()
+        const u_context_key_value_hasher& get_context_key_value_hasher()
         {
             return the_context_key_value_hasher;
         }

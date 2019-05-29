@@ -3,6 +3,7 @@
 export ANDROID_SDK_ROOT=/opt/android-sdk
 export NDK_ROOT=/opt/android-sdk/ndk-bundle
 export JAVA_HOME=/usr/lib/jvm/java-8-openjdk-amd64
+export BOOSTFORANDROID_ROOT=/opt/Boost-for-Android
 
 
 SCRIPTFOLDER="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )"

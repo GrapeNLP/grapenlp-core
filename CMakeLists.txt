@@ -1,8 +1,3 @@
-
-set(GRAPENLP_VERSION_MAJOR 2)
-set(GRAPENLP_VERSION_MINOR 5)
-set(GRAPENLP_VERSION_PATCH 0)
-
 # At LEAST 2.8 but newer is better
 cmake_minimum_required(VERSION 3.6 FATAL_ERROR)
 project(grape VERSION 0.1 LANGUAGES CXX)

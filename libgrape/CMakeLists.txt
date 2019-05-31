@@ -1,4 +1,4 @@
-project(libgrape VERSION $ENV{VERSION} LANGUAGES CXX)
+project(libgrape VERSION $ENV{PRODUCT_VERSION} LANGUAGES CXX)
 
 add_library(grape SHARED src/ualxiw_manager.cpp)
 

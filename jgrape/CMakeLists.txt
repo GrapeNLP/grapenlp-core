@@ -19,5 +19,3 @@ install(DIRECTORY "${CMAKE_CURRENT_BINARY_DIR}/jgrape"
         COMPONENT libgrapedev
         FILES_MATCHING PATTERN "*.java")
 export(TARGETS jgrape FILE jgrapeConfig.cmake)
-
-set(CPACK_PACKAGE_FILE_NAME "grape-${PROJECT_VERSION}")

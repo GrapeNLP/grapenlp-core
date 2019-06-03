@@ -20,6 +20,8 @@ MESSAGE(STATUS "BUILD_TYPE:" ${CMAKE_BUILD_TYPE})
 MESSAGE(STATUS "CXX_FLAGS:" ${CMAKE_CXX_FLAGS})
 set(CMAKE_LIBRARY_OUTPUT_DIRECTORY "${CMAKE_BINARY_DIR}/libs")
 set(CPACK_DEBIAN_GRAPE_FILE_NAME "grape-${PROJECT_VERSION}")
+set(CPACK_PACKAGE_FILE_NAME "grape-${PROJECT_VERSION}")
+
 
 # Must use GNUInstallDirs to install libraries into correct
 # locations on all platforms.

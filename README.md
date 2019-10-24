@@ -1,4 +1,4 @@
-﻿# GRAPE: Grammar Annotation Pattern Engine
+# GRAPE: Grammar Annotation Pattern Engine
 
 GRAPE-core is an efficent engine for the application of local grammars, based on the algorithms described in http://igm.univ-mlv.fr/~sastre/publications/sastre11t.zip. GRAPE can be used as a sentence recognizer in chatbots (see http://igm.univ-mlv.fr/~sastre/publications/sastre09ip.pdf). In this case, grammar outputs are XML tags that either delimit the entities to extract or simply identify the intent the sentences belong to. The supported grammars are those written with the Unitex software (http://unitexgramlab.org/). These grammars are equivalent to CFGs with output but have a more readable graphical representation similar to flowcharts. Grammar boxes contain possible words to recognize and/or calls to subgrammars, and can also define an output. The sentences recognized by a Unitex grammar can be identified by following the flowchart, provided that subgrammar names are descriptive enough or proper comments are added to the grammar boxes. 
 
@@ -87,3 +87,4 @@ respecting the Java package folder structure (com/grapenlp/core).
 This program is licensed under the GNU Lesser General Public License version 2.1. Contact javier.sastre@telefonica.net for further inquiries.
 
 Some files for the implementation of Unicode management have been borrowed from the Unitex project, which is licensed under the same license. These can be distinguished by their license headers.
+

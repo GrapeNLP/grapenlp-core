@@ -87,4 +87,3 @@ respecting the Java package folder structure (com/grapenlp/core).
 This program is licensed under the GNU Lesser General Public License version 2.1. Contact javier.sastre@telefonica.net for further inquiries.
 
 Some files for the implementation of Unicode management have been borrowed from the Unitex project, which is licensed under the same license. These can be distinguished by their license headers.
-

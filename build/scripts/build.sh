@@ -55,3 +55,4 @@ fi
 cd $1
 $SCRIPTFOLDER/cmake$1
 make
+

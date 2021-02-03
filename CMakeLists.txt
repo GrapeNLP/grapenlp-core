@@ -1,7 +1,7 @@
 #
 # GRAPENLP
 #
-# Copyright (C) 2004-2019 Javier Miguel Sastre Martínez <javier.sastre@telefonica.net>
+# Copyright (C) 2004-2021 Javier Miguel Sastre Martínez <javier.sastre@gmail.com>
 #
 # This library is free software; you can redistribute it and/or
 # modify it under the terms of the GNU Lesser General Public
@@ -37,7 +37,7 @@ set(CPACK_PACKAGE_DESCRIPTION_SUMMARY "GRAPENLP")
 set(CPACK_PACKAGE_DESCRIPTION_FILE "${CMAKE_HOME_DIRECTORY}/description.txt")
 set(CPACK_PACKAGE_VERSION "${CHANGELOG_VERSION}")
 set(CPACK_PACKAGE_VENDOR "GrapeNLP")
-set(CPACK_PACKAGE_CONTACT "Javier Sastre <javier.sastre@telefonica.net>")
+set(CPACK_PACKAGE_CONTACT "Javier Sastre <javier.sastre@gmail.com>")
 # Every file to install in this project belongs to a component; third party project files (e.g. GoogleTest) are to be
 # used as build tools but are not to be packed along with this project files, so they are to be put in a "trash"
 # component whose packaging is to be ommited

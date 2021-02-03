@@ -1,7 +1,7 @@
 #
 # GRAPENLP
 #
-# Copyright (C) 2004-2019 Javier Miguel Sastre Martínez <javier.sastre@telefonica.net>
+# Copyright (C) 2004-2021 Javier Miguel Sastre Martínez <javier.sastre@gmail.com>
 #
 # This library is free software; you can redistribute it and/or
 # modify it under the terms of the GNU Lesser General Public
@@ -35,6 +35,17 @@ configure_file (
 include_directories(${PROJECT_BINARY_DIR}/config/include)
 
 include(MTraceBuildType)
+
+#if (UNIX AND NOT APPLE)
+find_program(LSB_RELEASE_EXEC lsb_release)
+execute_process(COMMAND ${LSB_RELEASE_EXEC} -is
+    OUTPUT_VARIABLE LSB_RELEASE_ID_SHORT
+    OUTPUT_STRIP_TRAILING_WHITESPACE
+    )
+MESSAGE(STATUS "JARL: ${LSB_RELEASE_ID_SHORT}")
+#else (UNIX AND NOT APPLE)
+#    set(LSB_RELEASE_ID_SHORT "NOT_LINUX")
+#endif (UNIX AND NOT APPLE)
 
 set(CMAKE_CXX_STANDARD 11)
 set(CMAKE_VERBOSE_MAKEFILE ON)

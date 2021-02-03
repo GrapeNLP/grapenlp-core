@@ -67,12 +67,12 @@ if (${CMAKE_VERSION} VERSION_LESS "3.8.0")
             DESTINATION ${CMAKE_INSTALL_LIBDIR} COMPONENT libjgrapenlp)
 endif (${CMAKE_VERSION} VERSION_LESS "3.8.0")
 install(EXPORT jgrapenlpConfig DESTINATION share/grapenlp/jgrapenlp/cmake COMPONENT libjgrapenlp)
-if (UNIX AND NOT APPLE AND NOT ANDROID_NDK_TOOLCHAIN_INCLUDED)
+if (LSB_RELEASE_ID_SHORT STREQUAL "Ubuntu")
 install(FILES "${CMAKE_BINARY_DIR}/debian/copyright"
         "${CMAKE_BINARY_DIR}/debian/changelog.Debian.gz"
         DESTINATION "${CMAKE_INSTALL_DOCDIR}/libjgrapenlp"
         COMPONENT libjgrapenlp)
-endif (UNIX AND NOT APPLE AND NOT ANDROID_NDK_TOOLCHAIN_INCLUDED)
+endif (LSB_RELEASE_ID_SHORT STREQUAL "Ubuntu")
 install(DIRECTORY "${CMAKE_BINARY_DIR}/java"
         DESTINATION "src/grapenlp"
         COMPONENT libgrapenlpdev

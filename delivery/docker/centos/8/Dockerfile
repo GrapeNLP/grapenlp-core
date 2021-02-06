@@ -31,9 +31,6 @@ LABEL grapenlp.centos.8.docker.version="1.0"
 # System update
 RUN yum -y update
 
-# Install lsb_release command (used by cmake to know it's running under CentOS)
-RUN yum install -y redhat-lsb-core
-
 # Install tools
 RUN yum install -y gcc-c++ make wget
 

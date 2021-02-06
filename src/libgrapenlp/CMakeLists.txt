@@ -42,7 +42,7 @@ set_target_properties (grapenlp PROPERTIES
 install(TARGETS grapenlp EXPORT grapenlpConfig
         LIBRARY DESTINATION ${CMAKE_INSTALL_LIBDIR} COMPONENT libgrapenlp)
 install(DIRECTORY include/ DESTINATION ${CMAKE_INSTALL_INCLUDEDIR} COMPONENT libgrapenlpdev)
-if (LSB_RELEASE_ID_SHORT STREQUAL "Ubuntu")
+if (DISTRO_ID STREQUAL "ubuntu" AND NOT ANDROID_NDK_TOOLCHAIN_INCLUDED)
 install(FILES "${CMAKE_BINARY_DIR}/debian/copyright"
         "${CMAKE_BINARY_DIR}/debian/changelog.Debian.gz"
         DESTINATION "${CMAKE_INSTALL_DOCDIR}/libgrapenlp"
@@ -51,6 +51,6 @@ install(FILES "${CMAKE_BINARY_DIR}/debian/copyright"
         "${CMAKE_BINARY_DIR}/debian/changelog.Debian.gz"
         DESTINATION "${CMAKE_INSTALL_DOCDIR}/libgrapenlp-dev"
         COMPONENT libgrapenlpdev)
-endif (LSB_RELEASE_ID_SHORT STREQUAL "Ubuntu")
+endif (DISTRO_ID STREQUAL "ubuntu" AND NOT ANDROID_NDK_TOOLCHAIN_INCLUDED)
 install(EXPORT grapenlpConfig DESTINATION share/grapenlp/grapenlp/cmake COMPONENT libgrapenlpdev)
 export(TARGETS grapenlp FILE grapenlpConfig.cmake)

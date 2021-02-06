@@ -34,11 +34,11 @@ target_link_libraries(cgrapenlp
 
 install(TARGETS cgrapenlp EXPORT cgrapenlpConfig
         RUNTIME DESTINATION ${CMAKE_INSTALL_BINDIR} COMPONENT cgrapenlp)
-if (LSB_RELEASE_ID_SHORT STREQUAL "Ubuntu")
+if (DISTRO_ID STREQUAL "ubuntu" AND NOT ANDROID_NDK_TOOLCHAIN_INCLUDED)
 install(FILES "${CMAKE_BINARY_DIR}/debian/copyright"
         "${CMAKE_BINARY_DIR}/debian/changelog.Debian.gz"
         DESTINATION "${CMAKE_INSTALL_DOCDIR}/grapenlp"
         COMPONENT cgrapenlp)
-endif (LSB_RELEASE_ID_SHORT STREQUAL "Ubuntu")
+endif (DISTRO_ID STREQUAL "ubuntu" AND NOT ANDROID_NDK_TOOLCHAIN_INCLUDED)
 install(EXPORT cgrapenlpConfig DESTINATION share/grapenlp/grapenlp/cmake COMPONENT libgrapenlpdev)
 export(TARGETS cgrapenlp FILE cgrapenlpConfig.cmake)

@@ -35,18 +35,7 @@ configure_file (
 include_directories(${PROJECT_BINARY_DIR}/config/include)
 
 include(MTraceBuildType)
-
-if (UNIX AND NOT APPLE)
-find_program(LSB_RELEASE_EXEC lsb_release)
-execute_process(COMMAND ${LSB_RELEASE_EXEC} -is
-    OUTPUT_VARIABLE LSB_RELEASE_ID_SHORT
-    OUTPUT_STRIP_TRAILING_WHITESPACE
-    )
-MESSAGE(STATUS "Unix/Linux platform detected: ${LSB_RELEASE_ID_SHORT}")
-else (UNIX AND NOT APPLE)
-    set(LSB_RELEASE_ID_SHORT "NOT_LINUX")
-    MESSAGE(STATUS "Non-Unix/Linux platform detected")
-endif (UNIX AND NOT APPLE)
+include(DistroId)
 
 set(CMAKE_CXX_STANDARD 11)
 set(CMAKE_VERBOSE_MAKEFILE ON)
@@ -179,7 +168,7 @@ add_subdirectory(util)
 add_subdirectory(unicode)
 
 # Packaging stuff
-if (LSB_RELEASE_ID_SHORT STREQUAL "Ubuntu")
+if (DISTRO_ID STREQUAL "ubuntu" AND NOT ANDROID_NDK_TOOLCHAIN_INCLUDED)
     get_cmake_property(CPACK_COMPONENTS_ALL COMPONENTS)
     # Remove the "trash" component from the list of components to install; this avoids 3rd party components (e.g.
     # GoogleTest) to be packaged along with the files of this project
@@ -189,4 +178,4 @@ if (LSB_RELEASE_ID_SHORT STREQUAL "Ubuntu")
     include(DebianPackaging)
     include(CPack)
     include(UploadPPA)
-endif (LSB_RELEASE_ID_SHORT STREQUAL "Ubuntu")
+endif (DISTRO_ID STREQUAL "ubuntu" AND NOT ANDROID_NDK_TOOLCHAIN_INCLUDED)

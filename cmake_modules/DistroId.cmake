@@ -1,0 +1,18 @@
+if (EXISTS "/etc/os-release")
+    set(OS_RELEASE_PATHNAME "/etc/os-release")
+elseif (EXISTS "/usr/lib/os-release")
+    set(OS_RELEASE_PATHNAME "/usr/lib/os-release")
+endif (EXISTS "/etc/os-release")
+
+if (OS_RELEASE_PATHNAME)
+    file (STRINGS ${OS_RELEASE_PATHNAME} OS_RELEASE_LINES REGEX "^(ID)=")
+    foreach (OS_RELEASE_LINE ${OS_RELEASE_LINES})
+        if ("${OS_RELEASE_LINE}" MATCHES "^ID=(.*)$")
+            set(DISTRO_ID "${CMAKE_MATCH_1}")
+        endif ("${OS_RELEASE_LINE}" MATCHES "^ID=(.*)$")
+    endforeach (OS_RELEASE_LINE ${OS_RELEASE_LINES})
+else (OS_RELEASE_PATHNAME)
+    set(DISTRO_ID "NOT_LINUX")
+endif (OS_RELEASE_PATHNAME)
+
+MESSAGE(STATUS "Distro ID: ${DISTRO_ID}")

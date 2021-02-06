@@ -6,47 +6,63 @@ matrix:
   include:
   - env:
     - 'PLATFORM="Alpine 3.10"'
-    - 'SH="docker exec -t build-image bash -c"'
+    - 'ROOT_SH="docker exec -t build-image bash -c"'
+    - 'BUILD_SH="docker exec -u build -t build-image bash -c"'
     services: docker
     before_install:
     - mkdir build
     - sudo chown 100:101 build
-    - docker run -d --name build-image -u build -v $(pwd):/home/build/grapenlp-core -w /home/build/grapenlp-core grapenlp/core-build-alpine:3.10 tail -f /dev/null
+    - echo "$DOCKER_PASSWORD" | docker login -u "$DOCKER_USERNAME" --password-stdin
+    - docker run -d --name build-image -v $(pwd):/home/build/grapenlp-core -w /home/build/grapenlp-core grapenlp/core-build-alpine:3.10 tail -f /dev/null
     - docker ps -a
-    script: $SH "delivery/scripts/build.sh release && make -C build/release install"
+    script:
+      - $BUILD_SH "delivery/scripts/build.sh release"
+      - $ROOT_SH "make -C build/release install"
 
   - env:
     - 'PLATFORM="Alpine 3.11"'
-    - 'SH="docker exec -t build-image bash -c"'
+    - 'ROOT_SH="docker exec -t build-image bash -c"'
+    - 'BUILD_SH="docker exec -u build -t build-image bash -c"'
     services: docker
     before_install:
     - mkdir build
     - sudo chown 100:101 build
-    - docker run -d --name build-image -u build -v $(pwd):/home/build/grapenlp-core -w /home/build/grapenlp-core grapenlp/core-build-alpine:3.11 tail -f /dev/null
+    - echo "$DOCKER_PASSWORD" | docker login -u "$DOCKER_USERNAME" --password-stdin
+    - docker run -d --name build-image -v $(pwd):/home/build/grapenlp-core -w /home/build/grapenlp-core grapenlp/core-build-alpine:3.11 tail -f /dev/null
     - docker ps -a
-    script: $SH "delivery/scripts/build.sh release && make -C build/release install"
+    script:
+      - $BUILD_SH "delivery/scripts/build.sh release"
+      - $ROOT_SH "make -C build/release install"
 
   - env:
     - 'PLATFORM="Alpine 3.12"'
-    - 'SH="docker exec -t build-image bash -c"'
+    - 'ROOT_SH="docker exec -t build-image bash -c"'
+    - 'BUILD_SH="docker exec -u build -t build-image bash -c"'
     services: docker
     before_install:
     - mkdir build
     - sudo chown 100:101 build
-    - docker run -d --name build-image -u build -v $(pwd):/home/build/grapenlp-core -w /home/build/grapenlp-core grapenlp/core-build-alpine:3.12 tail -f /dev/null
+    - echo "$DOCKER_PASSWORD" | docker login -u "$DOCKER_USERNAME" --password-stdin
+    - docker run -d --name build-image -v $(pwd):/home/build/grapenlp-core -w /home/build/grapenlp-core grapenlp/core-build-alpine:3.12 tail -f /dev/null
     - docker ps -a
-    script: $SH "delivery/scripts/build.sh release && make -C build/release install"
+    script:
+      - $BUILD_SH "delivery/scripts/build.sh release"
+      - $ROOT_SH "make -C build/release install"
 
   - env:
     - 'PLATFORM="Alpine 3.13"'
-    - 'SH="docker exec -t build-image bash -c"'
+    - 'ROOT_SH="docker exec -t build-image bash -c"'
+    - 'BUILD_SH="docker exec -u build -t build-image bash -c"'
     services: docker
     before_install:
     - mkdir build
     - sudo chown 100:101 build
-    - docker run -d --name build-image -u build -v $(pwd):/home/build/grapenlp-core -w /home/build/grapenlp-core grapenlp/core-build-alpine:3.13 tail -f /dev/null
+    - echo "$DOCKER_PASSWORD" | docker login -u "$DOCKER_USERNAME" --password-stdin
+    - docker run -d --name build-image -v $(pwd):/home/build/grapenlp-core -w /home/build/grapenlp-core grapenlp/core-build-alpine:3.13 tail -f /dev/null
     - docker ps -a
-    script: $SH "delivery/scripts/build.sh release && make -C build/release install"
+    script:
+    - $BUILD_SH "delivery/scripts/build.sh release"
+    - $ROOT_SH "make -C build/release install"
 
   - env:
     - 'PLATFORM="Android 14 armeabi"'
@@ -55,6 +71,7 @@ matrix:
     before_install:
     - mkdir build
     - sudo chown 1000:1000 build
+    - echo "$DOCKER_PASSWORD" | docker login -u "$DOCKER_USERNAME" --password-stdin
     - docker run -d --name build-image -u build -v $(pwd):/home/build/grapenlp-core -w /home/build/grapenlp-core grapenlp/core-build-android-sdk:14 tail -f /dev/null
     - docker ps -a
     script: $SH "delivery/scripts/buildforandroid.sh release armeabi 14"
@@ -66,6 +83,7 @@ matrix:
     before_install:
     - mkdir build
     - sudo chown 1000:1000 build
+    - echo "$DOCKER_PASSWORD" | docker login -u "$DOCKER_USERNAME" --password-stdin
     - docker run -d --name build-image -u build -v $(pwd):/home/build/grapenlp-core -w /home/build/grapenlp-core grapenlp/core-build-android-sdk:14 tail -f /dev/null
     - docker ps -a
     script: $SH "delivery/scripts/buildforandroid.sh release arm64-v8a 14"
@@ -77,6 +95,7 @@ matrix:
     before_install:
     - mkdir build
     - sudo chown 1000:1000 build
+    - echo "$DOCKER_PASSWORD" | docker login -u "$DOCKER_USERNAME" --password-stdin
     - docker run -d --name build-image -u build -v $(pwd):/home/build/grapenlp-core -w /home/build/grapenlp-core grapenlp/core-build-android-sdk:14 tail -f /dev/null
     - docker ps -a
     script: $SH "delivery/scripts/buildforandroid.sh release armeabi-v7a 14"
@@ -88,6 +107,7 @@ matrix:
     before_install:
     - mkdir build
     - sudo chown 1000:1000 build
+    - echo "$DOCKER_PASSWORD" | docker login -u "$DOCKER_USERNAME" --password-stdin
     - docker run -d --name build-image -u build -v $(pwd):/home/build/grapenlp-core -w /home/build/grapenlp-core grapenlp/core-build-android-sdk:14 tail -f /dev/null
     - docker ps -a
     script: $SH "delivery/scripts/buildforandroid.sh release mips 14"
@@ -99,6 +119,7 @@ matrix:
     before_install:
     - mkdir build
     - sudo chown 1000:1000 build
+    - echo "$DOCKER_PASSWORD" | docker login -u "$DOCKER_USERNAME" --password-stdin
     - docker run -d --name build-image -u build -v $(pwd):/home/build/grapenlp-core -w /home/build/grapenlp-core grapenlp/core-build-android-sdk:14 tail -f /dev/null
     - docker ps -a
     script: $SH "delivery/scripts/buildforandroid.sh release mips64 14"
@@ -110,6 +131,7 @@ matrix:
     before_install:
     - mkdir build
     - sudo chown 1000:1000 build
+    - echo "$DOCKER_PASSWORD" | docker login -u "$DOCKER_USERNAME" --password-stdin
     - docker run -d --name build-image -u build -v $(pwd):/home/build/grapenlp-core -w /home/build/grapenlp-core grapenlp/core-build-android-sdk:14 tail -f /dev/null
     - docker ps -a
     script: $SH "delivery/scripts/buildforandroid.sh release x86 14"
@@ -121,28 +143,37 @@ matrix:
     before_install:
     - mkdir build
     - sudo chown 1000:1000 build
-    - docker run -d --name build-image -u build -v $(pwd):/home/build/grapenlp-core -w /home/build/grapenlp-core grapenlp/core-build-android-sdk:14 tail -f /dev/null
+    - echo "$DOCKER_PASSWORD" | docker login -u "$DOCKER_USERNAME" --password-stdin
+    - docker run -d --name build-image -v $(pwd):/home/build/grapenlp-core -w /home/build/grapenlp-core grapenlp/core-build-android-sdk:14 tail -f /dev/null
     - docker ps -a
-    script: $SH "delivery/scripts/buildforandroid.sh release x86_64 14"
+    script:
+    - $BUILD_SH "delivery/scripts/build.sh release"
+    - $ROOT_SH "make -C build/release install"
 
   - env:
     - 'PLATFORM="CentOS 7"'
-    - 'SH="docker exec -t build-image bash -c"'
+    - 'ROOT_SH="docker exec -t build-image bash -c"'
+    - 'BUILD_SH="docker exec -u build -t build-image bash -c"'
     services: docker
     before_install:
     - mkdir build
     - sudo chown 1000:1000 build
-    - docker run -d --name build-image -u build -v $(pwd):/home/build/grapenlp-core -w /home/build/grapenlp-core grapenlp/core-build-centos:7 tail -f /dev/null
+    - echo "$DOCKER_PASSWORD" | docker login -u "$DOCKER_USERNAME" --password-stdin
+    - docker run -d --name build-image -v $(pwd):/home/build/grapenlp-core -w /home/build/grapenlp-core grapenlp/core-build-centos:7 tail -f /dev/null
     - docker ps -a
-    script: $SH "delivery/scripts/build.sh release && make -C build/release install"
+    script:
+    - $BUILD_SH "delivery/scripts/build.sh release"
+    - $ROOT_SH "make -C build/release install"
 
   - env:
     - 'PLATFORM="CentOS 8"'
-    - 'SH="docker exec -t build-image bash -c"'
+    - 'ROOT_SH="docker exec -t build-image bash -c"'
+    - 'BUILD_SH="docker exec -u build -t build-image bash -c"'
     services: docker
     before_install:
     - mkdir build
     - sudo chown 1000:1000 build
+    - echo "$DOCKER_PASSWORD" | docker login -u "$DOCKER_USERNAME" --password-stdin
     - docker run -d --name build-image -u build -v $(pwd):/home/build/grapenlp-core -w /home/build/grapenlp-core grapenlp/core-build-centos:8 tail -f /dev/null
     - docker ps -a
     script: $SH "delivery/scripts/build.sh release && make -C build/release install"
@@ -162,40 +193,54 @@ matrix:
         - doxygen
         - graphviz
         update: true
-    script: delivery/scripts/build.sh release && make -C build/release install
+    script:
+    - delivery/scripts/build.sh release
+    - sudo make -C build/release install
 
   - env:
     - 'PLATFORM="Ubuntu 16.04"'
-    - 'SH="docker exec -t build-image bash -c"'
+    - 'ROOT_SH="docker exec -t build-image bash -c"'
+    - 'BUILD_SH="docker exec -u build -t build-image bash -c"'
     services: docker
     before_install:
     - mkdir build
     - sudo chown 1000:1000 build
-    - docker run -d --name build-image -u build -v $(pwd):/home/build/grapenlp-core -w /home/build/grapenlp-core grapenlp/core-build-ubuntu:16.04 tail -f /dev/null
+    - echo "$DOCKER_PASSWORD" | docker login -u "$DOCKER_USERNAME" --password-stdin
+    - docker run -d --name build-image -v $(pwd):/home/build/grapenlp-core -w /home/build/grapenlp-core grapenlp/core-build-ubuntu:16.04 tail -f /dev/null
     - docker ps -a
-    script: $SH "delivery/scripts/build.sh release && dpkg -i build/release/package/*.deb"
+    script:
+    - $BUILD_SH "delivery/scripts/build.sh release"
+    - $ROOT_SH "dpkg -i build/release/package/*.deb"
 
   - env:
     - 'PLATFORM="Ubuntu 18.04"'
-    - 'SH="docker exec -t build-image bash -c"'
+    - 'ROOT_SH="docker exec -t build-image bash -c"'
+    - 'BUILD_SH="docker exec -u build -t build-image bash -c"'
     services: docker
     before_install:
     - mkdir build
     - sudo chown 1000:1000 build
-    - docker run -d --name build-image -u build -v $(pwd):/home/build/grapenlp-core -w /home/build/grapenlp-core grapenlp/core-build-ubuntu:18.04 tail -f /dev/null
+    - echo "$DOCKER_PASSWORD" | docker login -u "$DOCKER_USERNAME" --password-stdin
+    - docker run -d --name build-image -v $(pwd):/home/build/grapenlp-core -w /home/build/grapenlp-core grapenlp/core-build-ubuntu:18.04 tail -f /dev/null
     - docker ps -a
-    script: $SH "delivery/scripts/build.sh release && dpkg -i build/release/package/*.deb"
+    script:
+    - $BUILD_SH "delivery/scripts/build.sh release"
+    - $ROOT_SH "dpkg -i build/release/package/*.deb"
 
   - env:
-      - 'PLATFORM="Ubuntu 20.04"'
-      - 'SH="docker exec -t build-image bash -c"'
+    - 'PLATFORM="Ubuntu 20.04"'
+    - 'ROOT_SH="docker exec -t build-image bash -c"'
+    - 'BUILD_SH="docker exec -u build -t build-image bash -c"'
     services: docker
     before_install:
-      - mkdir build
-      - sudo chown 1000:1000 build
-      - docker run -d --name build-image -u build -v $(pwd):/home/build/grapenlp-core -w /home/build/grapenlp-core grapenlp/core-build-ubuntu:20.04 tail -f /dev/null
-      - docker ps -a
-    script: $SH "delivery/scripts/build.sh release && dpkg -i build/release/package/*.deb"
+    - mkdir build
+    - sudo chown 1000:1000 build
+    - echo "$DOCKER_PASSWORD" | docker login -u "$DOCKER_USERNAME" --password-stdin
+    - docker run -d --name build-image -v $(pwd):/home/build/grapenlp-core -w /home/build/grapenlp-core grapenlp/core-build-ubuntu:20.04 tail -f /dev/null
+    - docker ps -a
+    script:
+    - $BUILD_SH "delivery/scripts/build.sh release"
+    - $ROOT_SH "dpkg -i build/release/package/*.deb"
 
 notifications:
   email: true

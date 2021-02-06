@@ -148,9 +148,9 @@ matrix:
     script: $SH "delivery/scripts/build.sh release && make -C build/release install"
 
   - env:
-    - 'PLATFORM="MacOS 10.13"'
+    - 'PLATFORM="MacOS 10.14.6"'
     os: osx
-    osx_image: xcode9.3
+    osx_image: xcode11.3
     addons:
       homebrew:
         packages:

@@ -45,7 +45,11 @@ set(CPACK_DEBIAN_PACKAGE_MAINTAINER "Javier Sastre <javier.sastre@gmail.com>")
 set(CPACK_DEBIAN_PACKAGE_HOMEPAGE "https://github.com/GrapeNLP/grapenlp-core")
 set(CPACK_DEBIAN_PACKAGE_SNAPSHOT_HOMEPAGE "https://github.com/GrapeNLP/grapenlp-core")
 if (NOT CPACK_DEBIAN_PACKAGE_DISTRIBUTION)
-    set(CPACK_DEBIAN_PACKAGE_DISTRIBUTION "xenial")
+    find_program(LSB_RELEASE_EXEC lsb_release)
+    execute_process(COMMAND ${LSB_RELEASE_EXEC} -cs
+            OUTPUT_VARIABLE CPACK_DEBIAN_PACKAGE_DISTRIBUTION
+            OUTPUT_STRIP_TRAILING_WHITESPACE
+            )
 endif (NOT CPACK_DEBIAN_PACKAGE_DISTRIBUTION)
 if (CPACK_DEBIAN_PACKAGE_DISTRIBUTION STREQUAL "xenial")
     set(GOOGLETEST_BUILD_DEPENDENCY "libgtest-dev")

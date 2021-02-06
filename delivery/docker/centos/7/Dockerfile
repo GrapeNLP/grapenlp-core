@@ -26,16 +26,16 @@
 FROM centos:7
 
 # Version label to force docker image rebuild
-LABEL grapenlp.centos.7.docker.version="2.0"
+LABEL grapenlp.centos.7.docker.version="1.0"
 
 # System update
 RUN yum -y update
 
-# Install lsb_release command (used by cmake to know it's running under CentOS)
-RUN yum install -y redhat-lsb-core
-
 # Install tools
-RUN yum install -y gcc-c++ make wget
+RUN yum install -y centos-release-scl make wget
+RUN yum install -y devtoolset-7-gcc devtoolset-7-gcc-c++
+RUN echo "source scl_source enable devtoolset-7" >> /etc/bashrc
+#RUN /bin/bash -c "source /etc/bashrc"
 
 # Install native libs needed by some module dependencies
 RUN yum install -y boost-devel boost-program-options
@@ -57,9 +57,7 @@ RUN wget https://github.com/Kitware/CMake/releases/download/v3.19.4/cmake-3.19.4
 RUN tar -zxvf cmake-3.19.4.tar.gz
 RUN rm cmake-3.19.4.tar.gz
 WORKDIR /cmake-3.19.4
-RUN ./bootstrap
-RUN make
-RUN make install
+RUN source scl_source enable devtoolset-7 && ./bootstrap && make && make install
 WORKDIR /
 RUN rm -Rf cmake-3.19.4
 

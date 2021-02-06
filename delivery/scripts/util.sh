@@ -12,7 +12,7 @@ function get_distro_id
   fi
 
   if [[ -n "$os_release_pathname" ]]; then
-    distro_id=`cat "os_release_pathname" | grep "^ID=" | sed -E "s/^ID=\"? *//" | sed -E "s/ *\"?$//"`
+    distro_id=`cat "${os_release_pathname}" | grep "^ID=" | sed -E "s/^ID=\"? *//" | sed -E "s/ *\"?$//"`
   else
     distro_id='not_linux'
   fi

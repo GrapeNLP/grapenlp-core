@@ -13,7 +13,7 @@ matrix:
     - sudo chown 100:101 build
     - docker run -d --name build-image -u build -v $(pwd):/home/build/grapenlp-core -w /home/build/grapenlp-core grapenlp/core-build-alpine:3.10 tail -f /dev/null
     - docker ps -a
-    script: $SH "delivery/scripts/build.sh release & make -C build/release install"
+    script: $SH "delivery/scripts/build.sh release && make -C build/release install"
 
   - env:
     - 'PLATFORM="Alpine 3.11"'
@@ -24,7 +24,7 @@ matrix:
     - sudo chown 100:101 build
     - docker run -d --name build-image -u build -v $(pwd):/home/build/grapenlp-core -w /home/build/grapenlp-core grapenlp/core-build-alpine:3.11 tail -f /dev/null
     - docker ps -a
-    script: $SH "delivery/scripts/build.sh release & make -C build/release install"
+    script: $SH "delivery/scripts/build.sh release && make -C build/release install"
 
   - env:
     - 'PLATFORM="Alpine 3.12"'
@@ -35,7 +35,7 @@ matrix:
     - sudo chown 100:101 build
     - docker run -d --name build-image -u build -v $(pwd):/home/build/grapenlp-core -w /home/build/grapenlp-core grapenlp/core-build-alpine:3.12 tail -f /dev/null
     - docker ps -a
-    script: $SH "delivery/scripts/build.sh release & make -C build/release install"
+    script: $SH "delivery/scripts/build.sh release && make -C build/release install"
 
   - env:
     - 'PLATFORM="Alpine 3.13"'
@@ -46,7 +46,7 @@ matrix:
     - sudo chown 100:101 build
     - docker run -d --name build-image -u build -v $(pwd):/home/build/grapenlp-core -w /home/build/grapenlp-core grapenlp/core-build-alpine:3.13 tail -f /dev/null
     - docker ps -a
-    script: $SH "delivery/scripts/build.sh release & make -C build/release install"
+    script: $SH "delivery/scripts/build.sh release && make -C build/release install"
 
   - env:
     - 'PLATFORM="Android 14 armeabi"'
@@ -134,7 +134,7 @@ matrix:
     - sudo chown 1000:1000 build
     - docker run -d --name build-image -u build -v $(pwd):/home/build/grapenlp-core -w /home/build/grapenlp-core grapenlp/core-build-centos:7 tail -f /dev/null
     - docker ps -a
-    script: $SH "delivery/scripts/build.sh release & make -C build/release install"
+    script: $SH "delivery/scripts/build.sh release && make -C build/release install"
 
   - env:
     - 'PLATFORM="CentOS 8"'
@@ -145,7 +145,7 @@ matrix:
     - sudo chown 1000:1000 build
     - docker run -d --name build-image -u build -v $(pwd):/home/build/grapenlp-core -w /home/build/grapenlp-core grapenlp/core-build-centos:8 tail -f /dev/null
     - docker ps -a
-    script: $SH "delivery/scripts/build.sh release & make -C build/release install"
+    script: $SH "delivery/scripts/build.sh release && make -C build/release install"
 
   - env:
     - 'PLATFORM="MacOS 10.13"'
@@ -162,7 +162,7 @@ matrix:
         - doxygen
         - graphviz
         update: true
-    script: delivery/scripts/build.sh release & make -C build/release install
+    script: delivery/scripts/build.sh release && make -C build/release install
 
   - env:
     - 'PLATFORM="Ubuntu 16.04"'
@@ -173,7 +173,7 @@ matrix:
     - sudo chown 1000:1000 build
     - docker run -d --name build-image -u build -v $(pwd):/home/build/grapenlp-core -w /home/build/grapenlp-core grapenlp/core-build-ubuntu:16.04 tail -f /dev/null
     - docker ps -a
-    script: $SH "delivery/scripts/build.sh release & dpkg -i build/release/package/*.deb"
+    script: $SH "delivery/scripts/build.sh release && dpkg -i build/release/package/*.deb"
 
   - env:
     - 'PLATFORM="Ubuntu 18.04"'
@@ -184,7 +184,7 @@ matrix:
     - sudo chown 1000:1000 build
     - docker run -d --name build-image -u build -v $(pwd):/home/build/grapenlp-core -w /home/build/grapenlp-core grapenlp/core-build-ubuntu:18.04 tail -f /dev/null
     - docker ps -a
-    script: $SH "delivery/scripts/build.sh release & dpkg -i build/release/package/*.deb"
+    script: $SH "delivery/scripts/build.sh release && dpkg -i build/release/package/*.deb"
 
   - env:
       - 'PLATFORM="Ubuntu 20.04"'
@@ -195,7 +195,7 @@ matrix:
       - sudo chown 1000:1000 build
       - docker run -d --name build-image -u build -v $(pwd):/home/build/grapenlp-core -w /home/build/grapenlp-core grapenlp/core-build-ubuntu:20.04 tail -f /dev/null
       - docker ps -a
-    script: $SH "delivery/scripts/build.sh release & dpkg -i build/release/package/*.deb"
+    script: $SH "delivery/scripts/build.sh release && dpkg -i build/release/package/*.deb"
 
 notifications:
   email: true

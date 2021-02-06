@@ -64,6 +64,8 @@ WORKDIR /
 RUN rm -Rf /cmake-3.19.4 
 
 # Install Doxygen along with its optional dependencies
+RUN yum install -y dnf-plugins-core
+RUN yum config-manager --set-enabled powertools
 RUN yum install -y doxygen graphviz
 
 # Install GIT

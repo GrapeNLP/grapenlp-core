@@ -146,9 +146,7 @@ matrix:
     - echo "$DOCKER_PASSWORD" | docker login -u "$DOCKER_USERNAME" --password-stdin
     - docker run -d --name build-image -v $(pwd):/home/build/grapenlp-core -w /home/build/grapenlp-core grapenlp/core-build-android-sdk:14 tail -f /dev/null
     - docker ps -a
-    script:
-    - $BUILD_SH "delivery/scripts/build.sh release"
-    - $ROOT_SH "make -C build/release install"
+    script: $SH "delivery/scripts/buildforandroid.sh release x86_64 14"
 
   - env:
     - 'PLATFORM="CentOS 7"'
@@ -176,7 +174,9 @@ matrix:
     - echo "$DOCKER_PASSWORD" | docker login -u "$DOCKER_USERNAME" --password-stdin
     - docker run -d --name build-image -u build -v $(pwd):/home/build/grapenlp-core -w /home/build/grapenlp-core grapenlp/core-build-centos:8 tail -f /dev/null
     - docker ps -a
-    script: $SH "delivery/scripts/build.sh release && make -C build/release install"
+    script:
+      - $BUILD_SH "delivery/scripts/build.sh release"
+      - $ROOT_SH "make -C build/release install"
 
   - env:
     - 'PLATFORM="MacOS 10.14.6"'

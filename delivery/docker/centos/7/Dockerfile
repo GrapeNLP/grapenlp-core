@@ -35,7 +35,7 @@ RUN yum -y update
 RUN yum install -y centos-release-scl make wget
 RUN yum install -y devtoolset-7-gcc devtoolset-7-gcc-c++
 RUN echo "source scl_source enable devtoolset-7" >> /etc/bashrc
-#RUN /bin/bash -c "source /etc/bashrc"
+RUN /bin/bash -c "source /etc/bashrc"
 
 # Install native libs needed by some module dependencies
 RUN yum install -y boost-devel boost-program-options

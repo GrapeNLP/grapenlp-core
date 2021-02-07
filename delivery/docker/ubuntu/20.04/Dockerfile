@@ -55,9 +55,9 @@ RUN apt-get install -y openjdk-8-jdk
 WORKDIR /usr/lib/jvm/java-8-openjdk-amd64/include
 ENV JAVA_HOME=/usr/lib/jvm/java-8-openjdk-amd64
 
-# Install python 3.8
-RUN apt-get install -y python3.8
-RUN apt-get install -y python3.8-dev
+# Install python 3
+RUN apt-get install -y python3
+RUN apt-get install -y python3-dev
 RUN apt-get install -y virtualenv
 
 # Install SWIG

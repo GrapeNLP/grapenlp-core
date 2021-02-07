@@ -160,8 +160,8 @@ matrix:
     - docker run -d --name build-image -v $(pwd):/home/build/grapenlp-core -w /home/build/grapenlp-core grapenlp/core-build-centos:7 tail -f /dev/null
     - docker ps -a
     script:
-    - $BUILD_SH "delivery/scripts/build.sh release"
-    - $ROOT_SH "make -C build/release install"
+    - $BUILD_SH "source scl_source enable devtoolset-7 && delivery/scripts/build.sh release"
+    - $ROOT_SH "source scl_source enable devtoolset-7 && make -C build/release install"
 
   - env:
     - 'PLATFORM="CentOS 8"'
@@ -172,11 +172,11 @@ matrix:
     - mkdir build
     - sudo chown 1000:1000 build
     - echo "$DOCKER_PASSWORD" | docker login -u "$DOCKER_USERNAME" --password-stdin
-    - docker run -d --name build-image -u build -v $(pwd):/home/build/grapenlp-core -w /home/build/grapenlp-core grapenlp/core-build-centos:8 tail -f /dev/null
+    - docker run -d --name build-image -v $(pwd):/home/build/grapenlp-core -w /home/build/grapenlp-core grapenlp/core-build-centos:8 tail -f /dev/null
     - docker ps -a
     script:
-      - $BUILD_SH "delivery/scripts/build.sh release"
-      - $ROOT_SH "make -C build/release install"
+    - $BUILD_SH "delivery/scripts/build.sh release"
+    - $ROOT_SH "make -C build/release install"
 
   - env:
     - 'PLATFORM="MacOS 10.14.6"'

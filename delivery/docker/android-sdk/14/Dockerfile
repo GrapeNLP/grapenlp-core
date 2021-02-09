@@ -62,7 +62,6 @@ RUN apt-get install -y unzip
 
 # Install JDK 8
 RUN apt-get install -y openjdk-8-jdk
-WORKDIR /usr/lib/jvm/java-8-openjdk-amd64/include
 ENV JAVA_HOME=/usr/lib/jvm/java-8-openjdk-amd64
 
 # Install SWIG

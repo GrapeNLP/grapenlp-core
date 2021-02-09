@@ -56,7 +56,7 @@ if (CPACK_DEBIAN_PACKAGE_DISTRIBUTION STREQUAL "xenial")
 else (CPACK_DEBIAN_PACKAGE_DISTRIBUTION STREQUAL "xenial")
     set (GOOGLETEST_BUILD_DEPENDENCY "googletest")
 endif (CPACK_DEBIAN_PACKAGE_DISTRIBUTION STREQUAL "xenial")
-set(CPACK_DEBIAN_BUILD_DEPENDS "debhelper (>=9), ${GOOGLETEST_BUILD_DEPENDENCY}, openjdk-8-jdk, python3-dev (>= 3.5.0), python3-dev (<< 4.0.0), swig (>= 3.0.0), libboost-program-options-dev (>= 1.58.0), libboost-program-options-dev (<< 2.0.0), doxygen (>= 1.8.11), graphviz (>= 2.38.0)")
+set(CPACK_DEBIAN_BUILD_DEPENDS "debhelper (>=9), ${GOOGLETEST_BUILD_DEPENDENCY}, openjdk-8-jdk | openjdk-9-jdk | openjdk-10-jdk | openjdk-11-jdk | openjdk-12-jdk | openjdk-13-jdk | openjdk-14-jdk, python3-dev (>= 3.5.0), python3-dev (<< 4.0.0), swig (>= 3.0.0), libboost-program-options-dev (>= 1.58.0), libboost-program-options-dev (<< 2.0.0), doxygen (>= 1.8.11), graphviz (>= 2.38.0)")
 
 set(CPACK_DEBIAN_PACKAGE_UPSTREAM_AUTHOR_NAME "${CPACK_DEBIAN_PACKAGE_MAINTAINER}")
 set(CPACK_DEBIAN_PACKAGE_LICENSE "lgpl2_1")

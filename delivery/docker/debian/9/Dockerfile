@@ -23,41 +23,37 @@
 # @author Javier Sastre
 #
  
-FROM ubuntu:20.04
+FROM debian:9-slim
 
 # Version label to force docker image rebuild
-LABEL grapenlp.ubuntu.20_04.docker.version="1.0"
+LABEL grapenlp.debian.9.docker.version="1.0"
 
 # This avoids some warning messages due to running in a headless environment
-RUN echo 'debconf debconf/frontend select Noninteractive' | debconf-set-selections
+#RUN echo 'debconf debconf/frontend select Noninteractive' | debconf-set-selections
 
 # System update
 RUN apt-get update
-RUN apt-get upgrade -y
 RUN apt-get dist-upgrade -y
 
 # Set locale
 RUN apt-get install -y locales
-RUN locale-gen en_US.UTF-8
-ENV LANG en_US.UTF-8
-ENV LANGUAGE en_US:en
+RUN sed -i '/en_US.UTF-8/s/^# //g' /etc/locale.gen && locale-gen
+ENV LANG en_US.UTF-8  
+ENV LANGUAGE en_US:en  
 ENV LC_ALL en_US.UTF-8
 
 # Install tools
-RUN apt-get install -y software-properties-common
 RUN apt-get install -y build-essential
 
 # Install native libs needed by some module dependencies
-RUN apt-get install -y libboost-dev libboost-program-options-dev
+RUN apt-get install -y libboost-program-options-dev
 
 # Install JDK 8 from tar.gz
-RUN apt-get install -y openjdk-8-jdk
+RUN mkdir -p /usr/share/man/man1 && apt-get install -y openjdk-8-jdk
 ENV JAVA_HOME=/usr/lib/jvm/java-8-openjdk-amd64
 
 # Install python 3
-RUN apt-get install -y python3
-RUN apt-get install -y python3-dev
-RUN apt-get install -y virtualenv
+RUN apt-get install -y python3 python3-dev virtualenv
 
 # Install SWIG
 RUN apt-get install -y swig

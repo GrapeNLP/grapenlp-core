@@ -179,6 +179,36 @@ matrix:
     - $ROOT_SH "make -C build/release install"
 
   - env:
+      - 'PLATFORM="Debian 9"'
+      - 'ROOT_SH="docker exec -t build-image bash -c"'
+      - 'BUILD_SH="docker exec -u build -t build-image bash -c"'
+    services: docker
+    before_install:
+      - mkdir build
+      - sudo chown 1000:1000 build
+      - echo "$DOCKER_PASSWORD" | docker login -u "$DOCKER_USERNAME" --password-stdin
+      - docker run -d --name build-image -v $(pwd):/home/build/grapenlp-core -w /home/build/grapenlp-core grapenlp/core-build-debian:9 tail -f /dev/null
+      - docker ps -a
+    script:
+      - $BUILD_SH "delivery/scripts/build.sh release"
+      - $ROOT_SH "dpkg -i build/release/package/*.deb"
+
+  - env:
+      - 'PLATFORM="Debian 10"'
+      - 'ROOT_SH="docker exec -t build-image bash -c"'
+      - 'BUILD_SH="docker exec -u build -t build-image bash -c"'
+    services: docker
+    before_install:
+      - mkdir build
+      - sudo chown 1000:1000 build
+      - echo "$DOCKER_PASSWORD" | docker login -u "$DOCKER_USERNAME" --password-stdin
+      - docker run -d --name build-image -v $(pwd):/home/build/grapenlp-core -w /home/build/grapenlp-core grapenlp/core-build-debian:10 tail -f /dev/null
+      - docker ps -a
+    script:
+      - $BUILD_SH "delivery/scripts/build.sh release"
+      - $ROOT_SH "dpkg -i build/release/package/*.deb"
+
+  - env:
     - 'PLATFORM="MacOS 10.14.6"'
     os: osx
     osx_image: xcode11.3

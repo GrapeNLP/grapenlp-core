@@ -168,7 +168,7 @@ add_subdirectory(util)
 add_subdirectory(unicode)
 
 # Packaging stuff
-if (DISTRO_ID STREQUAL "ubuntu" AND NOT ANDROID_NDK_TOOLCHAIN_INCLUDED)
+if (NOT ANDROID_NDK_TOOLCHAIN_INCLUDED AND (DISTRO_ID STREQUAL "debian" OR DISTRO_ID STREQUAL "ubuntu"))
     get_cmake_property(CPACK_COMPONENTS_ALL COMPONENTS)
     # Remove the "trash" component from the list of components to install; this avoids 3rd party components (e.g.
     # GoogleTest) to be packaged along with the files of this project
@@ -177,5 +177,7 @@ if (DISTRO_ID STREQUAL "ubuntu" AND NOT ANDROID_NDK_TOOLCHAIN_INCLUDED)
     set(CPACK_OUTPUT_FILE_PREFIX package)
     include(DebianPackaging)
     include(CPack)
-    include(UploadPPA)
-endif (DISTRO_ID STREQUAL "ubuntu" AND NOT ANDROID_NDK_TOOLCHAIN_INCLUDED)
+    if (DISTRO_ID STREQUAL "ubuntu")
+        include(UploadPPA)
+    endif (DISTRO_ID STREQUAL "ubuntu")
+endif (NOT ANDROID_NDK_TOOLCHAIN_INCLUDED AND (DISTRO_ID STREQUAL "debian" OR DISTRO_ID STREQUAL "ubuntu"))

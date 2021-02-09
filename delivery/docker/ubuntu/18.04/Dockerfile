@@ -52,7 +52,6 @@ RUN apt-get install -y libboost-dev libboost-program-options-dev
 
 # Install JDK 8 from tar.gz
 RUN apt-get install -y openjdk-8-jdk
-WORKDIR /usr/lib/jvm/java-8-openjdk-amd64/include
 ENV JAVA_HOME=/usr/lib/jvm/java-8-openjdk-amd64
 
 # Install python 3.6

@@ -50,7 +50,7 @@ RUN apt-get install -y libboost-program-options-dev
 
 # Install JDK 8 from tar.gz
 RUN mkdir -p /usr/share/man/man1 && apt-get install -y openjdk-11-jdk
-ENV JAVA_HOME=/usr/lib/jvm/java-8-openjdk-amd64
+ENV JAVA_HOME=/usr/lib/jvm/java-11-openjdk-amd64
 
 # Install python 3
 RUN apt-get install -y python3 python3-dev virtualenv

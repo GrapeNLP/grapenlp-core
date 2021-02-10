@@ -48,10 +48,15 @@ fi
 # Report success
 log_info_banner "Build completed"
 
-# On Debian or Ubuntu, inform about the location of the resulting Debian packages
+# Inform how to install the library
 if [[ "$DISTRO_ID" = "debian" ]] || [[ "$DISTRO_ID" = "ubuntu" ]]; then
   echo "You may now install the packages at ${BUILD_FOLDER}/package:"
   echo
-  echo "sudo dpkg -i \"${BUILD_FOLDER}/package/*.deb\""
+  echo "sudo dpkg -i \"${BUILD_FOLDER}/package/\"*.deb"
+  echo
+else
+  echo "You may now install the compiled files at ${BUILD_FOLDER}:"
+  echo
+  echo "sudo make -C \"${BUILD_FOLDER}\" install"
   echo
 fi

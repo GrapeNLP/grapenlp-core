@@ -39,7 +39,7 @@ make test
 success_or_exit
 
 # On Ubuntu, make the Debian packages
-if [ "$DISTRO_ID" == "debian" ] || ["$DISTRO_ID" == "ubuntu" ]; then
+if [[ "$DISTRO_ID" = "debian" ]] || [[ "$DISTRO_ID" = "ubuntu" ]]; then
   log_info_banner "Packaging"
   make package
   success_or_exit
@@ -49,7 +49,7 @@ fi
 log_info_banner "Build completed"
 
 # On Debian or Ubuntu, inform about the location of the resulting Debian packages
-if [ "$DISTRO_ID" == "debian" ] || ["$DISTRO_ID" == "ubuntu" ]; then
+if [[ "$DISTRO_ID" = "debian" ]] || [[ "$DISTRO_ID" = "ubuntu" ]]; then
   echo "You may now install the packages at ${BUILD_FOLDER}/package:"
   echo
   echo "sudo dpkg -i \"${BUILD_FOLDER}/package/*.deb\""

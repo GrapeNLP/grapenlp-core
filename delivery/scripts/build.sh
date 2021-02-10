@@ -38,7 +38,7 @@ log_info_banner "Testing"
 make test
 success_or_exit
 
-# On Ubuntu, make the Debian packages
+# On either Debian or Ubuntu, make the Debian packages
 if [[ "$DISTRO_ID" = "debian" ]] || [[ "$DISTRO_ID" = "ubuntu" ]]; then
   log_info_banner "Packaging"
   make package

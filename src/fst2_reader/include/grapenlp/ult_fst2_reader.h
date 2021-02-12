@@ -1,7 +1,7 @@
 /*
  * GRAPENLP
  *
- * Copyright (C) 2011-2012 Universidad de Alicante <javier.sastre@telefonica.net>
+ * Copyright (C) 2004-2021 Javier Miguel Sastre Martínez <javier.sastre@gmail.com>
  *
  * This library is free software; you can redistribute it and/or
  * modify it under the terms of the GNU Lesser General Public

@@ -1,4 +1,4 @@
-#Trace files
+# Trace files
 /test.txt
 /trace.txt
 /result.txt
@@ -11,16 +11,16 @@
 /parses.dot
 /parses.svg
 
-#Data folder
+# Data folder
 /Data/
 
-#Binary folders
+# Binary folders
 build/
 classes/
 pkg/
 rel/
 
-#Eclipse metadata
+# Eclipse metadata
 .classpath
 .cproject
 .cdtproject
@@ -28,11 +28,16 @@ rel/
 .settings
 /.metadata/
 
-#IntelliJ IDEA metadata
+# IntelliJ IDEA metadata
 *.iml
 .idea/
 
-#Default CLion cmake build folders
+# Default CLion cmake build folders
 cmake-build-debug/
 cmake-build-release/
 
+# MacOS files
+.DS_Store
+
+# Temp files
+*.swp

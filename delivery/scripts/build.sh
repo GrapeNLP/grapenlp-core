@@ -16,6 +16,9 @@ validate_argument_count_or_exit "${USAGE}" $# 1
 check_argument_in_range_or_exit "${USAGE}" "target" "${TARGET}" "${TARGETS[@]}"
 CMAKE_TARGET="$(to_proper_noun "${TARGET}")"
 
+# Get distro ID
+DISTRO_ID="$(get_distro_id)"
+
 # Create build root folder
 BUILD_FOLDER="$(make_build_folder "${SCRIPTFOLDER}" "${TARGET}")"
 cd "${BUILD_FOLDER}"
@@ -35,8 +38,8 @@ log_info_banner "Testing"
 make test
 success_or_exit
 
-# On Linux, make the Debian packages
-if [[ "$OSTYPE" == "linux-gnu" ]]; then
+# On either Debian or Ubuntu, make the Debian packages
+if [[ "$DISTRO_ID" = "debian" ]] || [[ "$DISTRO_ID" = "ubuntu" ]]; then
   log_info_banner "Packaging"
   make package
   success_or_exit
@@ -45,10 +48,15 @@ fi
 # Report success
 log_info_banner "Build completed"
 
-# On Linux, inform about the location of the resulting Debian packages
-if [[ "$OSTYPE" == "linux-gnu" ]]; then
+# Inform how to install the library
+if [[ "$DISTRO_ID" = "debian" ]] || [[ "$DISTRO_ID" = "ubuntu" ]]; then
   echo "You may now install the packages at ${BUILD_FOLDER}/package:"
   echo
-  echo "sudo dpkg -i \"${BUILD_FOLDER}/package/*.deb\""
+  echo "sudo dpkg -i \"${BUILD_FOLDER}/package/\"*.deb"
+  echo
+else
+  echo "You may now install the compiled files at ${BUILD_FOLDER}:"
+  echo
+  echo "sudo make -C \"${BUILD_FOLDER}\" install"
   echo
 fi

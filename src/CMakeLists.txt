@@ -1,7 +1,7 @@
 #
 # GRAPENLP
 #
-# Copyright (C) 2004-2019 Javier Miguel Sastre Martínez <javier.sastre@telefonica.net>
+# Copyright (C) 2004-2021 Javier Miguel Sastre Martínez <javier.sastre@gmail.com>
 #
 # This library is free software; you can redistribute it and/or
 # modify it under the terms of the GNU Lesser General Public
@@ -35,10 +35,11 @@ configure_file (
 include_directories(${PROJECT_BINARY_DIR}/config/include)
 
 include(MTraceBuildType)
+include(DistroId)
 
 set(CMAKE_CXX_STANDARD 11)
 set(CMAKE_VERBOSE_MAKEFILE ON)
-set(CMAKE_CXX_FLAGS  "${CMAKE_CXX_FLAGS} -fPIC -pedantic -ansi -fno-strict-aliasing -DSIMPLIFIED_OUTPUT")
+set(CMAKE_CXX_FLAGS  "${CMAKE_CXX_FLAGS} -fPIC -fno-strict-aliasing -DSIMPLIFIED_OUTPUT")
 if (ANDROID_NDK_TOOLCHAIN_INCLUDED)
     set(CMAKE_CXX_FLAGS  "${CMAKE_CXX_FLAGS} -DDISABLE_TEXT_DICO -DDISABLE_LUA_GRAMMAR -DDISABLE_LUAW_GRAMMAR -DDISABLE_LUT_GRAMMAR -DDISABLE_LUX_GRAMMAR -DDISABLE_DEPTH_FIRST_PARSER -DDISABLE_BREADTH_FIRST_PARSER -DDISABLE_EARLEY_PARSER -DDISABLE_TO_FPRTN_PARSER -DDISABLE_TO_FPRTN_TOP_PARSER -DDISABLE_TO_FPRTN_ZPPS_PARSER -DDISABLE_TO_FPRTN_PARSER_AND_BREADTH_FIRST_EXPANDER -DDISABLE_TO_FPRTN_PARSER_AND_BLACKBOARD_SET_EXPANDER -DDISABLE_STD_SES -DDISABLE_LRB_TREE_3W_SES -DDISABLE_LRB_TREE_BS -DDISABLE_LRB_TREE_3W_BS")
     if (CMAKE_BUILD_TYPE STREQUAL "Release")
@@ -167,7 +168,7 @@ add_subdirectory(util)
 add_subdirectory(unicode)
 
 # Packaging stuff
-if (UNIX AND NOT APPLE AND NOT ANDROID_NDK_TOOLCHAIN_INCLUDED)
+if (NOT ANDROID_NDK_TOOLCHAIN_INCLUDED AND (DISTRO_ID STREQUAL "debian" OR DISTRO_ID STREQUAL "ubuntu"))
     get_cmake_property(CPACK_COMPONENTS_ALL COMPONENTS)
     # Remove the "trash" component from the list of components to install; this avoids 3rd party components (e.g.
     # GoogleTest) to be packaged along with the files of this project
@@ -176,5 +177,7 @@ if (UNIX AND NOT APPLE AND NOT ANDROID_NDK_TOOLCHAIN_INCLUDED)
     set(CPACK_OUTPUT_FILE_PREFIX package)
     include(DebianPackaging)
     include(CPack)
-    include(UploadPPA)
-endif (UNIX AND NOT APPLE AND NOT ANDROID_NDK_TOOLCHAIN_INCLUDED)
+    if (DISTRO_ID STREQUAL "ubuntu")
+        include(UploadPPA)
+    endif (DISTRO_ID STREQUAL "ubuntu")
+endif (NOT ANDROID_NDK_TOOLCHAIN_INCLUDED AND (DISTRO_ID STREQUAL "debian" OR DISTRO_ID STREQUAL "ubuntu"))

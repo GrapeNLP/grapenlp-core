@@ -2,6 +2,23 @@
 
 HELP_TARGETS=("help" "h" "-help" "--help" "-h" "?")
 
+function get_distro_id
+{
+  os_release_pathname=""
+  if [[ -f "/etc/os-release" ]]; then
+    os_release_pathname="/etc/os-release"
+  elif [[ -f "/usr/lib/os-release" ]]; then
+    os_release_pathname="/usr/lib/os-release"
+  fi
+
+  if [[ -n "$os_release_pathname" ]]; then
+    distro_id=`cat "${os_release_pathname}" | grep "^ID=" | sed -E "s/^ID=\"? *//" | sed -E "s/ *\"?$//"`
+  else
+    distro_id='not_linux'
+  fi
+  echo "${distro_id}"
+}
+
 function if_help_flag_show_usage_and_exit
 {
   local usage="$1"

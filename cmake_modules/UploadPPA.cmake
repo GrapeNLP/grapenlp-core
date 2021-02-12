@@ -1,7 +1,7 @@
 ##
 # Copyright (c) 2010 Daniel Pfeifer <daniel@pfeifer-mail.de>
 # Changes Copyright (c) 2011 2012 Rüdiger Sonderfeld <ruediger@c-plusplus.de>
-# Changes Copyright (c) 2019 Javier Sastre <javier.sastre@telefonica.net>
+# Changes Copyright (c) 2019 Javier Sastre <javier.sastre@gmail.com>
 #
 # This script builds an Ubuntu/Debian source package with "make package_ubuntu". It also offers a convenient way to upload it by dput to Launchpad.
 # It assumes a working install and package_source configuration (CPACK_PACKAGE_* variables in CMakeLists.txt.in CMake configuration file) with all files in place.

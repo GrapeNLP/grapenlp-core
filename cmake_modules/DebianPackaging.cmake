@@ -1,7 +1,7 @@
 #
 # GRAPENLP
 #
-# Copyright (C) 2004-2019 Javier Miguel Sastre Martínez <javier.sastre@telefonica.net>
+# Copyright (C) 2004-2021 Javier Miguel Sastre Martínez <javier.sastre@gmail.com>
 #
 # This library is free software; you can redistribute it and/or
 # modify it under the terms of the GNU Lesser General Public
@@ -41,18 +41,22 @@ endif()
 set(CPACK_DEBIAN_PACKAGE_NAME "grapenlp-core")
 set(CPACK_DEBIAN_PACKAGE_PRIORITY "optional")
 set(CPACK_DEBIAN_PACKAGE_SECTION "science")
-set(CPACK_DEBIAN_PACKAGE_MAINTAINER "Javier Sastre <javier.sastre@telefonica.net>")
+set(CPACK_DEBIAN_PACKAGE_MAINTAINER "Javier Sastre <javier.sastre@gmail.com>")
 set(CPACK_DEBIAN_PACKAGE_HOMEPAGE "https://github.com/GrapeNLP/grapenlp-core")
 set(CPACK_DEBIAN_PACKAGE_SNAPSHOT_HOMEPAGE "https://github.com/GrapeNLP/grapenlp-core")
 if (NOT CPACK_DEBIAN_PACKAGE_DISTRIBUTION)
-    set(CPACK_DEBIAN_PACKAGE_DISTRIBUTION "xenial")
+    find_program(LSB_RELEASE_EXEC lsb_release)
+    execute_process(COMMAND ${LSB_RELEASE_EXEC} -cs
+            OUTPUT_VARIABLE CPACK_DEBIAN_PACKAGE_DISTRIBUTION
+            OUTPUT_STRIP_TRAILING_WHITESPACE
+            )
 endif (NOT CPACK_DEBIAN_PACKAGE_DISTRIBUTION)
 if (CPACK_DEBIAN_PACKAGE_DISTRIBUTION STREQUAL "xenial")
     set(GOOGLETEST_BUILD_DEPENDENCY "libgtest-dev")
 else (CPACK_DEBIAN_PACKAGE_DISTRIBUTION STREQUAL "xenial")
     set (GOOGLETEST_BUILD_DEPENDENCY "googletest")
 endif (CPACK_DEBIAN_PACKAGE_DISTRIBUTION STREQUAL "xenial")
-set(CPACK_DEBIAN_BUILD_DEPENDS "debhelper (>=9), ${GOOGLETEST_BUILD_DEPENDENCY}, openjdk-8-jdk, python3-dev (>= 3.5.0), python3-dev (<< 4.0.0), swig (>= 3.0.0), swig (<< 4.0.0), libboost-program-options-dev (>= 1.58.0), libboost-program-options-dev (<< 2.0.0), doxygen (>= 1.8.11), graphviz (>= 2.38.0)")
+set(CPACK_DEBIAN_BUILD_DEPENDS "debhelper (>=9), ${GOOGLETEST_BUILD_DEPENDENCY}, openjdk-8-jdk | openjdk-9-jdk | openjdk-10-jdk | openjdk-11-jdk | openjdk-12-jdk | openjdk-13-jdk | openjdk-14-jdk, python3-dev (>= 3.5.0), python3-dev (<< 4.0.0), swig (>= 3.0.0), libboost-program-options-dev (>= 1.58.0), libboost-program-options-dev (<< 2.0.0), doxygen (>= 1.8.11), graphviz (>= 2.38.0)")
 
 set(CPACK_DEBIAN_PACKAGE_UPSTREAM_AUTHOR_NAME "${CPACK_DEBIAN_PACKAGE_MAINTAINER}")
 set(CPACK_DEBIAN_PACKAGE_LICENSE "lgpl2_1")

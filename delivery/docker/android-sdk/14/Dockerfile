@@ -1,7 +1,7 @@
 #
 # GRAPENLP
 #
-# Copyright (C) 2004-2019 Javier Miguel Sastre Martínez <javier.sastre@telefonica.net>
+# Copyright (C) 2004-2021 Javier Miguel Sastre Martínez <javier.sastre@gmail.com>
 #
 # This library is free software; you can redistribute it and/or
 # modify it under the terms of the GNU Lesser General Public
@@ -62,7 +62,6 @@ RUN apt-get install -y unzip
 
 # Install JDK 8
 RUN apt-get install -y openjdk-8-jdk
-WORKDIR /usr/lib/jvm/java-8-openjdk-amd64/include
 ENV JAVA_HOME=/usr/lib/jvm/java-8-openjdk-amd64
 
 # Install SWIG
@@ -140,6 +139,6 @@ WORKDIR /home/build
 
 # This is what you will have to run inside the docker in order to clone and build grapenlp-core, replacing $ANDROID_ABI by the target ABI (e.g. armeabi-v7a)
 # su build
-# git clone git://github.com/GrapeNLP/grapenlp-core.git
+# git clone https://github.com/GrapeNLP/grapenlp-core.git
 # cd grapenlp-core
 # delivery/scripts/buildforandroid.sh release $ANDROID_ABI $ANDROID_PLATFORM_VERSION

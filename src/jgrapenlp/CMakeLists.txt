@@ -1,7 +1,7 @@
 #
 # GRAPENLP
 #
-# Copyright (C) 2004-2019 Javier Miguel Sastre Martínez <javier.sastre@telefonica.net>
+# Copyright (C) 2004-2021 Javier Miguel Sastre Martínez <javier.sastre@gmail.com>
 #
 # This library is free software; you can redistribute it and/or
 # modify it under the terms of the GNU Lesser General Public
@@ -67,10 +67,12 @@ if (${CMAKE_VERSION} VERSION_LESS "3.8.0")
             DESTINATION ${CMAKE_INSTALL_LIBDIR} COMPONENT libjgrapenlp)
 endif (${CMAKE_VERSION} VERSION_LESS "3.8.0")
 install(EXPORT jgrapenlpConfig DESTINATION share/grapenlp/jgrapenlp/cmake COMPONENT libjgrapenlp)
+if (DISTRO_ID STREQUAL "ubuntu" AND NOT ANDROID_NDK_TOOLCHAIN_INCLUDED)
 install(FILES "${CMAKE_BINARY_DIR}/debian/copyright"
         "${CMAKE_BINARY_DIR}/debian/changelog.Debian.gz"
         DESTINATION "${CMAKE_INSTALL_DOCDIR}/libjgrapenlp"
         COMPONENT libjgrapenlp)
+endif (DISTRO_ID STREQUAL "ubuntu" AND NOT ANDROID_NDK_TOOLCHAIN_INCLUDED)
 install(DIRECTORY "${CMAKE_BINARY_DIR}/java"
         DESTINATION "src/grapenlp"
         COMPONENT libgrapenlpdev
